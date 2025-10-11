@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="../../public/css/student_dashboard.css"> <!-- Replace with actual CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../../../public/css/student/student.css">
 </head>
 <body>
-    <?php include './partials/sidebar.php'; ?>
+    <?php include '../partials/sidebar.php'; ?>
     <div class="main-content">
         <div class="header">Welcome back, Mohamed!</div>
         <div class="card-container">
@@ -33,6 +33,5 @@
             </div>
         </div>
     </div>
-    
 </body>
 </html>

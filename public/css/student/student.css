@@ -3,40 +3,38 @@
     --button-primary-background-hover: #016a5e;
     --button-primary-background-active: #014c43;
 }
-
 body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
     background-color: #ffffff;
     color: #333;
     display: grid;
-    grid-template-columns: 250px auto; /* Sidebar and main content */
-    grid-template-rows: 1fr; /* Ensures both sidebar and content take full height */
-    height: 100vh; /* Full viewport height */
+    grid-template-columns: 250px auto;
+    grid-template-rows: 1fr;
+    height: 100vh;
 }
-
 .main-content {
-    grid-column: 2 / 3; /* Main content occupies the second column */
-    grid-row: 1 / 2; /* Main content spans the entire row */
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
     padding: 30px;
     padding-top: 50px;
-    box-sizing: border-box; /* Prevents content from overlapping */
-    overflow-y: auto; /* Allows scrolling if content overflows */
+    box-sizing: border-box;
+    overflow-y: auto;
 }
 .header {
     font-size: 28px;
     font-weight: bold;
     margin-bottom: 20px;
-    color: var(--button-primary-background-default); /* Use primary color for header text */
+    color: var(--button-primary-background-default);
 }
 .card-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjusted min width for smaller screens */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
 }
 .card {
     background: #fff;
-    border: 1px solid var(--button-primary-background-default); /* Add border with primary color */
+    border: 1px solid var(--button-primary-background-default);
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
@@ -52,9 +50,9 @@ body {
     height: 20px;
 }
 .progress-bar .progress {
-    background-color: var(--button-primary-background-default); /* Use primary color for progress bar */
+    background-color: var(--button-primary-background-default);
     height: 100%;
-    width: 70%; /* Example progress */
+    width: 70%;
 }
 footer {
     position: relative;
@@ -64,11 +62,6 @@ footer {
     padding: 10px;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
-
-#sidebar-nav {
-    height: 100%;
-}
-
 .button-primary {
     background-color: var(--button-primary-background-default);
     color: #fff;
@@ -86,10 +79,14 @@ footer {
     background-color: var(--button-primary-background-active);
 }
 .button-primary.active {
-    background-color: #e0e0e0; /* Light gray for highlighting active button */
-    color: #333; /* Default text color */
-    font-weight: bold; /* Emphasize active button */
+    background-color: #e0e0e0;
+    color: #333;
+    font-weight: bold;
 }
 .card button {
-    margin: 10px 5px; /* Added vertical spacing */
+    margin: 10px 5px;
+    display: inline-block;
+}
+#sidebar-nav {
+    height: 100%;
 }
