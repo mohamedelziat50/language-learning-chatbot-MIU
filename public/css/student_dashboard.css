@@ -1,0 +1,146 @@
+:root {
+    --button-primary-background-default: #027e6f;
+    --button-primary-background-hover: #016a5e;
+    --button-primary-background-active: #014c43;
+}
+
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #ffffff;
+    color: #333;
+    display: grid;
+    grid-template-columns: 250px auto; /* Sidebar and main content */
+    grid-template-rows: 1fr; /* Ensures both sidebar and content take full height */
+    height: 100vh; /* Full viewport height */
+}
+.sidebar {
+    grid-column: 1 / 2; /* Sidebar occupies the first column */
+    grid-row: 1 / 2; /* Sidebar spans the entire row */
+    padding: 20px;
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #d9d9d9;
+}
+.sidebar .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--button-primary-background-default); /* Use primary color for logo */
+    margin-bottom: 30px;
+    text-align: center;
+}
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ensures full height for proper alignment */
+    justify-content: space-between; /* Separates top and bottom links */
+}
+.sidebar nav .top-links {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+.sidebar nav .bottom-links {
+    border-top: 2px solid #e0e0e0; /* Adds a separator line */
+    margin-top: auto; /* Pushes bottom links to the end */
+}
+.sidebar nav a {
+    display: flex;
+    align-items: center;
+    color: #333;
+    text-decoration: none;
+    margin: 10px 0;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+.sidebar nav a:hover {
+    background-color: #EBEBEB;
+}
+.sidebar nav a.active {
+    background-color: #EBEBEB; /* Light gray for highlighting entire button */
+    border-left: 4px solid var(--button-primary-background-default); /* Green border */
+    color: #333; /* Default text color */
+    font-weight: bold; /* Emphasize active link */
+}
+.sidebar nav a i {
+    margin-right: 10px;
+}
+.main-content {
+    grid-column: 2 / 3; /* Main content occupies the second column */
+    grid-row: 1 / 2; /* Main content spans the entire row */
+    padding: 30px;
+    padding-top: 50px;
+    box-sizing: border-box; /* Prevents content from overlapping */
+    overflow-y: auto; /* Allows scrolling if content overflows */
+}
+.header {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: var(--button-primary-background-default); /* Use primary color for header text */
+}
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+.card {
+    background: #fff;
+    border: 1px solid var(--button-primary-background-default); /* Add border with primary color */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.3s;
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+.progress-bar {
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+    height: 20px;
+}
+.progress-bar .progress {
+    background-color: var(--button-primary-background-default); /* Use primary color for progress bar */
+    height: 100%;
+    width: 70%; /* Example progress */
+}
+footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666;
+}
+
+#sidebar-nav {
+    height: 100%;
+}
+
+.button-primary {
+    background-color: var(--button-primary-background-default);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.button-primary:hover {
+    background-color: var(--button-primary-background-hover);
+}
+.button-primary:active {
+    background-color: var(--button-primary-background-active);
+}
+.button-primary.active {
+    background-color: #e0e0e0; /* Light gray for highlighting active button */
+    color: #333; /* Default text color */
+    font-weight: bold; /* Emphasize active button */
+}
+.card button {
+    margin: 5px;
+    display: inline-block;
+}
