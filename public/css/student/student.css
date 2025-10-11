@@ -1,0 +1,94 @@
+/* THIS FILE IS FOR THE STRUCTURE OF ANY STUDENT DASHBOARD PAGE, CREATE DIFF. CSS FILES FOR NEW PAGES */
+
+:root {
+    --button-primary-background-default: #027e6f;
+    --button-primary-background-hover: #016a5e;
+    --button-primary-background-active: #014c43;
+}
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #ffffff;
+    color: #333;
+    display: grid;
+    grid-template-columns: 250px auto;
+    grid-template-rows: 1fr;
+    height: 100vh;
+}
+.main-content {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    padding: 30px;
+    padding-top: 50px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+.header {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: var(--button-primary-background-default);
+}
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+.card {
+    background: #fff;
+    border: 1px solid var(--button-primary-background-default);
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.3s;
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+.progress-bar {
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+    height: 20px;
+}
+.progress-bar .progress {
+    background-color: var(--button-primary-background-default);
+    height: 100%;
+    width: 70%;
+}
+footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    background-color: #f9f9f9;
+    padding: 10px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+.button-primary {
+    background-color: var(--button-primary-background-default);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.button-primary:hover {
+    background-color: var(--button-primary-background-hover);
+}
+.button-primary:active {
+    background-color: var(--button-primary-background-active);
+}
+.button-primary.active {
+    background-color: #e0e0e0;
+    color: #333;
+    font-weight: bold;
+}
+.card button {
+    margin: 10px 5px;
+    display: inline-block;
+}
+#sidebar-nav {
+    height: 100%;
+}
