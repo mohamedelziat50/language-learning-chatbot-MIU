@@ -1,0 +1,367 @@
+/* Import Inter font for modern look */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Docs Page Styles - Grammarly-inspired design */
+
+:root {
+    --primary-green: #027e6f;
+    --primary-green-hover: #016a5e;
+    --primary-green-active: #014c43;
+    --text-primary: #1a1a1a;
+    --text-secondary: #666666;
+    --text-muted: #999999;
+    --border-light: #e5e5e5;
+    --background-white: #ffffff;
+    --background-light: #f8f9fa;
+    --shadow-soft: 0 2px 6px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
+    --border-radius: 8px;
+    --border-radius-small: 4px;
+}
+
+/* Docs-specific content styling */
+
+/* Header section */
+.docs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.docs-title {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.docs-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Buttons */
+.btn-new-doc {
+    background-color: var(--primary-green);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius-small);
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-new-doc:hover {
+    background-color: var(--primary-green-hover);
+    transform: translateY(-1px);
+}
+
+.btn-new-doc:active {
+    background-color: var(--primary-green-active);
+    transform: translateY(0);
+}
+
+.btn-upload {
+    background-color: var(--background-white);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--border-radius-small);
+    padding: 10px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-upload:hover {
+    background-color: var(--background-light);
+    border-color: var(--primary-green);
+    color: var(--primary-green);
+}
+
+/* Search bar */
+.docs-search {
+    position: relative;
+}
+
+.docs-search input {
+    padding: 10px 16px 10px 40px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    background-color: var(--background-white);
+    transition: all 0.2s ease;
+}
+
+.docs-search input:focus {
+    outline: none;
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(2, 126, 111, 0.1);
+}
+
+.docs-search .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 16px;
+}
+
+/* Documents section - scoped to docs page */
+.docs-section {
+    margin-bottom: 40px;
+}
+
+.docs-section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    padding-left: 4px;
+}
+
+.docs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+/* Document card - scoped to docs page */
+.doc-card {
+    background: var(--background-white);
+    border: 1px solid var(--border-light);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    box-shadow: var(--shadow-soft);
+}
+
+.doc-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--primary-green);
+}
+
+.doc-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.doc-tag {
+    background-color: var(--background-light);
+    color: var(--text-secondary);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.doc-menu {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    font-size: 16px;
+}
+
+.doc-menu:hover {
+    background-color: var(--background-light);
+    color: var(--text-primary);
+}
+
+.doc-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+}
+
+.doc-preview {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0 0 12px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.doc-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.doc-date {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Empty state - scoped to docs page */
+.docs-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+}
+
+.docs-empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+.docs-empty-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+}
+
+.docs-empty-text {
+    font-size: 14px;
+    margin-bottom: 24px;
+}
+
+/* Responsive design - docs-specific only */
+@media (max-width: 768px) {
+.docs-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    
+.docs-header-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+.docs-search {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+.docs-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+.docs-title {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+.docs-header-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+    
+.btn-new-doc,
+.btn-upload {
+        justify-content: center;
+    }
+    
+.docs-search {
+        max-width: none;
+    }
+}
+
+/* Loading state - scoped to docs page */
+.docs-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+}
+
+.docs-loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--border-light);
+    border-top: 3px solid var(--primary-green);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Search results highlighting - scoped to docs page */
+.search-highlight {
+    background-color: #fff3cd;
+    padding: 1px 2px;
+    border-radius: 2px;
+}
+
+/* Animation for card entrance - scoped to docs page */
+.doc-card {
+    animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Document menu dropdown */
+.doc-menu-dropdown {
+    position: fixed;
+    z-index: 1000;
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 8px 0;
+    min-width: 160px;
+}
+
+.doc-menu-dropdown div {
+    padding: 8px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #333;
+    transition: background-color 0.2s ease;
+}
+
+.doc-menu-dropdown div:hover {
+    background-color: #f8f9fa;
+}
