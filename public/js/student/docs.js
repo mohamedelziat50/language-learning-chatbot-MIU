@@ -430,48 +430,21 @@ class DocsManager {
     }
 
     showNotification(message, type = 'info') {
-        const notification = document.createElement('div');
-        notification.style.cssText = `
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: ${type === 'error' ? '#dc3545' : '#027e6f'};
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            z-index: 10000;
-            font-size: 14px;
-            font-weight: 500;
-            animation: slideInRight 0.3s ease-out;
-        `;
-        notification.textContent = message;
-        
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-            notification.style.animation = 'slideOutRight 0.3s ease-out';
-            setTimeout(() => notification.remove(), 300);
-        }, 3000);
+        // Use the global notification system
+        if (window.NotificationManager) {
+            window.NotificationManager.show(message, type);
+        } else {
+            console.warn('NotificationManager not available');
+        }
     }
 }
 
-// Add CSS animations
+// Add CSS animations for document cards only
 const style = document.createElement('style');
 style.textContent = `
     @keyframes fadeOut {
         from { opacity: 1; transform: scale(1); }
         to { opacity: 0; transform: scale(0.95); }
-    }
-    
-    @keyframes slideInRight {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    
-    @keyframes slideOutRight {
-        from { transform: translateX(0); opacity: 1; }
-        to { transform: translateX(100%); opacity: 0; }
     }
 `;
 document.head.appendChild(style);
