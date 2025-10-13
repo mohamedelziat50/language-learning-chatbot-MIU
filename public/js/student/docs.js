@@ -237,7 +237,7 @@ class DocsManager {
         // Simulate API call
         setTimeout(() => {
             this.hideLoadingState();
-            this.showNotification('New document created successfully!', 'success');
+            window.NotificationManager.showNotification('New document created successfully!', 'success');
             
             // In a real implementation, you would redirect to the document editor
             // window.location.href = '/editor.php?new=true';
@@ -267,7 +267,7 @@ class DocsManager {
         // Simulate file processing
         setTimeout(() => {
             this.hideLoadingState();
-            this.showNotification(`${files.length} file(s) uploaded successfully!`, 'success');
+            window.NotificationManager.showNotification(`${files.length} file(s) uploaded successfully!`, 'success');
         }, 1500);
     }
 
@@ -279,7 +279,7 @@ class DocsManager {
         // window.location.href = `/editor.php?id=${docId}`;
         
         // Show notification for opening document
-        this.showNotification('Opening document...', 'info');
+        window.NotificationManager.showNotification('Opening document...', 'info');
     }
 
     toggleDocumentMenu(menuBtn) {
@@ -374,18 +374,18 @@ class DocsManager {
         const newTitle = prompt('Enter new document name:', currentTitle);
         if (newTitle && newTitle !== currentTitle) {
             titleElement.textContent = newTitle;
-            this.showNotification('Document renamed successfully!', 'success');
+            window.NotificationManager.showNotification('Document renamed successfully!', 'success');
         }
     }
 
     duplicateDocument(card) {
         console.log('Duplicating document...');
-        this.showNotification('Document duplicated successfully!', 'success');
+        window.NotificationManager.showNotification('Document duplicated successfully!', 'success');
     }
 
     shareDocument(card) {
         console.log('Sharing document...');
-        this.showNotification('Share link copied to clipboard!', 'success');
+        window.NotificationManager.showNotification('Share link copied to clipboard!', 'success');
     }
 
     deleteDocument(card) {
@@ -393,7 +393,7 @@ class DocsManager {
             card.style.animation = 'fadeOut 0.3s ease-out';
             setTimeout(() => {
                 card.remove();
-                this.showNotification('Document deleted successfully!', 'success');
+                window.NotificationManager.showNotification('Document deleted successfully!', 'success');
             }, 300);
         }
     }
@@ -429,14 +429,6 @@ class DocsManager {
         }
     }
 
-    showNotification(message, type = 'info') {
-        // Use the global notification system
-        if (window.NotificationManager) {
-            window.NotificationManager.show(message, type);
-        } else {
-            console.warn('NotificationManager not available');
-        }
-    }
 }
 
 // Add CSS animations for document cards only

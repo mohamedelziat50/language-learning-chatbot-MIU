@@ -207,12 +207,12 @@ class NotificationManager {
      */
     getIcon(type) {
         const icons = {
-            success: '✓',
-            error: '✕',
-            warning: '⚠',
-            info: 'ℹ'
+            success: '<i class="fas fa-check-circle"></i>',
+            error: '<i class="fas fa-exclamation-circle"></i>',
+            warning: '<i class="fas fa-exclamation-triangle"></i>',
+            info: '<i class="fas fa-info-circle"></i>'
         };
-        return icons[type] || 'ℹ';
+        return icons[type] || '<i class="fas fa-info-circle"></i>';
     }
 
     /**
@@ -246,6 +246,22 @@ class NotificationManager {
 
     info(message, options = {}) {
         return this.show(message, 'info', options);
+    }
+
+    // Convenient showNotification function for direct use
+    showNotification(message, type = 'info') {
+        // Error checking
+        if (!message || typeof message !== 'string') {
+            console.warn('NotificationManager: Invalid message provided');
+            return null;
+        }
+        
+        if (!this.container) {
+            console.warn('NotificationManager: Container not initialized');
+            return null;
+        }
+        
+        return this.show(message, type);
     }
 }
 
