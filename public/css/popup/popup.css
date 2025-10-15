@@ -1,0 +1,193 @@
+.modal-dialog {
+    max-width: 850px;
+}
+
+.modal-content {
+    border-radius: 25px;
+    border: none;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+    background: #ffffff;
+}
+
+/* Right image area */
+.image-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #b7e8d8, #4ab7a5);
+    opacity: 0.3;
+}
+
+.modal-illustration {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 2rem;
+    z-index: 2;
+}
+
+/* Tabs styling */
+.nav-tabs {
+    border: none;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    color: #666;
+    font-weight: 500;
+    padding: 0.5rem 1.5rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #4ab7a5;
+    color: white;
+    box-shadow: 0 3px 8px rgba(74, 183, 165, 0.4);
+}
+
+/* Form fields */
+.form-control {
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    padding: 0.75rem 1rem;
+}
+
+.form-control:focus {
+    border-color: #4ab7a5;
+    box-shadow: 0 0 0 0.25rem rgba(74, 183, 165, 0.25);
+}
+
+/* Buttons */
+.btn {
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background-color: #4ab7a5;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #3a9c8d;
+}
+
+.btn-success {
+    background-color: #4ab7a5;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #3a9c8d;
+}
+
+.btn-outline-danger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Close button */
+.btn-close {
+    filter: brightness(0);
+    opacity: 0.7;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 50;
+}
+
+.btn-close:hover {
+    opacity: 1;
+}
+
+/* Right side with layered half circles */
+.half-circles-bg {
+    position: relative;
+    background: #e9f8f4;
+    /* subtle base tone */
+    overflow: hidden;
+}
+
+/* three right-aligned half-circles */
+.half-circles-bg::before,
+.half-circles-bg::after,
+.half-circles-bg span {
+    content: "";
+    position: absolute;
+    right: -30%;
+    top: 50%;
+    transform: translateY(-70%);
+    border-radius: 50%;
+}
+
+/* Largest circle (darkest shade) */
+.half-circles-bg::before {
+    width: 550px;
+    height: 550px;
+    background: #7ccbbf;
+    opacity: 1;
+}
+
+/* Middle circle (medium tone) */
+.half-circles-bg::after {
+    width: 450px;
+    height: 450px;
+    background: #4ab7a5;
+    opacity: 1;
+}
+
+/* Smallest circle (lightest shade) */
+.half-circles-bg span {
+    width: 350px;
+    height: 350px;
+    background: #b7e8d8;
+    opacity: 1;
+}
+
+/* Center image styling */
+.center-image {
+    position: relative;
+    z-index: 2;
+    width: auto;
+    height: auto;
+    opacity: 0.95;
+    transform: translateX(10px);
+}
+
+
+/*shadow*/
+.center-image {
+    filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.15));
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+.center-image {
+    animation: float 3s ease-in-out infinite;
+}
+
+.half-circles-bg {
+    background: linear-gradient(135deg, #b7e8d8, #4ab7a5);
+    position: relative;
+    overflow: hidden;
+}
+
+.center-image {
+    width: 80%;
+    z-index: 2;
+}
