@@ -16,7 +16,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         </div>
         <div class="bottom-links">
             <a href="#"<?php if ($currentPage == 'profile.php') echo ' class="active"'; ?>><i class="fas fa-user"></i> Profile</a>
-            <a href="#"<?php if ($currentPage == 'logout.php') echo ' class="active"'; ?>><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <a href="/language-learning-chatbot-MIU/app/controllers/logout.php"><i class="fas fa-sign-out-alt"></i> Logout </a>
         </div>
     </nav>
 </div>

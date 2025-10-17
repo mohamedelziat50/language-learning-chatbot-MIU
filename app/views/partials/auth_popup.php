@@ -31,7 +31,7 @@
           <div class="tab-content">
             <!-- Login Form -->
             <div class="tab-pane fade show active" id="loginTab" role="tabpanel">
-              <form action="login.php" method="POST">
+              <form action="/language-learning-chatbot-MIU/app/controllers/login.php" method="POST">
                 <div class="mb-3 text-start">
                   <label for="loginEmail" class="form-label">Email address</label>
                   <input type="email" class="form-control" id="loginEmail" name="email" required>
@@ -50,7 +50,7 @@
 
             <!-- Sign Up Form -->
             <div class="tab-pane fade" id="signupTab" role="tabpanel">
-              <form action="signup.php" method="POST">
+              <form action="/language-learning-chatbot-MIU/app/controllers/signup.php" method="POST">
                 <div class="mb-3 text-start">
                   <label for="signupName" class="form-label">Full Name</label>
                   <input type="text" class="form-control" id="signupName" name="name" required>
