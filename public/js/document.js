@@ -33,8 +33,6 @@ class DocumentEditor {
             stats: document.getElementById('ls-stats'),
             versions: document.getElementById('ls-versions')
         };
-        this.docMenuBtn = document.getElementById('doc-menu-btn');
-        this.docMenu = document.getElementById('doc-menu');
         
         // AI elements
         this.aiInput = document.getElementById('ai-text-input');
@@ -144,14 +142,6 @@ class DocumentEditor {
                 this.switchLeftSidebarView(view);
             });
         });
-
-        // Doc menu toggle
-        this.docMenuBtn.addEventListener('click', () => {
-            const isOpen = this.docMenu.classList.toggle('open');
-            if (isOpen) {
-                document.addEventListener('click', this.closeMenuOnOutside, { once: true });
-            }
-        });
     }
 
     switchLeftSidebarView(view) {
@@ -166,46 +156,6 @@ class DocumentEditor {
                 this.lsViews.versions.style.display = 'block';
                 break;
         }
-    }
-
-    renderOutline() {
-        const text = this.documentEditor.value;
-        const lines = text.split(/\n/);
-        const items = [];
-        lines.forEach((line, idx) => {
-            const trimmed = line.trim();
-            if (!trimmed) return;
-            // Treat lines starting with #, ##, ### or ALL CAPS as headings
-            let level = 2;
-            if (/^#{1,3}\s+/.test(trimmed)) level = trimmed.match(/^#{1,3}/)[0].length;
-            else if (/^[A-Z][A-Z\s\-:,]{3,}$/.test(trimmed)) level = 1;
-            else return;
-            items.push({ level, text: trimmed.replace(/^#{1,3}\s+/, ''), index: idx });
-        });
-        if (items.length === 0) {
-            this.lsViews.outline.innerHTML = '<p class="muted">No headings found. Add lines starting with #, ##, or ###.</p>';
-            return;
-        }
-        this.lsViews.outline.innerHTML = items.map(i => `
-            <div class="outline-item">
-                <span class="lvl-${i.level}">${i.text}</span>
-            </div>
-        `).join('');
-        // Click to scroll (approximate by counting newlines)
-        Array.from(this.lsViews.outline.children).forEach((el, i) => {
-            el.addEventListener('click', () => {
-                this.scrollEditorToLine(items[i].index);
-            });
-        });
-    }
-
-    scrollEditorToLine(lineIndex) {
-        const text = this.documentEditor.value;
-        const lines = text.split(/\n/);
-        let caretPos = 0;
-        for (let i = 0; i < lineIndex; i++) caretPos += lines[i].length + 1;
-        this.documentEditor.focus();
-        this.documentEditor.setSelectionRange(caretPos, caretPos);
     }
 
     renderStats() {
@@ -519,6 +469,12 @@ class DocumentEditor {
     }
 
     addAIMessage(message, sender) {
+        // Hide empty state on first message
+        const emptyState = document.getElementById('ai-empty-state');
+        if (emptyState) {
+            emptyState.style.display = 'none';
+        }
+
         const messageDiv = document.createElement('div');
         messageDiv.className = `ai-message ${sender}`;
         
@@ -585,7 +541,16 @@ class DocumentEditor {
     }
 
     clearAIChat() {
-        this.aiMessages.innerHTML = '';
+        // Clear all messages but keep the header and empty state
+        const messages = this.aiMessages.querySelectorAll('.ai-message, .typing-indicator');
+        messages.forEach(msg => msg.remove());
+        
+        // Show empty state again
+        const emptyState = document.getElementById('ai-empty-state');
+        if (emptyState) {
+            emptyState.style.display = 'flex';
+        }
+        
         this.showNotification('Chat cleared', 'info');
     }
 
@@ -680,10 +645,13 @@ class DocumentEditor {
         }
     }
 
-    closeMenuOnOutside = (e) => {
-        if (!this.docMenu.contains(e.target) && e.target !== this.docMenuBtn) {
-            this.docMenu.classList.remove('open');
-        }
+    loadMockSuggestions() {
+        // Load initial mock suggestions for demo
+        setTimeout(() => {
+            if (this.documentEditor.value.length > 0) {
+                this.analyzeContent();
+            }
+        }, 1000);
     }
 }
 
