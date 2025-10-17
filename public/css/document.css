@@ -40,6 +40,71 @@ body {
     overflow: hidden;
 }
 
+/* ========== Page Load Animations ========== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 /* ========== Document Container ========== */
 .document-container {
     display: grid;
@@ -71,6 +136,7 @@ body {
     border-right: 1px solid var(--border-color);
     background: var(--background-white);
     overflow-y: auto;
+    animation: fadeInLeft 0.8s ease-out;
 }
 
 .ls-account {
@@ -160,7 +226,13 @@ body {
     border-radius: clamp(6px, 0.8vw, 8px);
     padding: clamp(9px, 1vw, 10px) clamp(10px, 1.2vw, 12px);
     margin-bottom: clamp(7px, 0.8vw, 8px);
+    animation: fadeInUp 0.6s ease-out;
+    animation-fill-mode: both;
 }
+
+.stat-card:nth-child(1) { animation-delay: 0.15s; }
+.stat-card:nth-child(2) { animation-delay: 0.25s; }
+.stat-card:nth-child(3) { animation-delay: 0.35s; }
 
 .stat-icon {
     width: clamp(30px, 3.2vw, 32px);
@@ -269,6 +341,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    animation: fadeIn 0.9s ease-out;
 }
 
 .editor-container {
@@ -294,6 +367,7 @@ body {
     top: 0;
     z-index: 2;
     padding: 12px 0 16px;
+    animation: fadeInDown 0.7s ease-out;
 }
 
 .doc-header-actions {
@@ -524,6 +598,7 @@ body {
     transform: translateX(0);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow-x: hidden;
+    animation: fadeInRight 0.8s ease-out;
 }
 
 .right-sidebar.hidden {
@@ -795,6 +870,7 @@ body {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
+    animation: scaleIn 0.6s ease-out;
 }
 
 .ai-banner h4 {
@@ -861,11 +937,21 @@ body {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
+    animation: fadeInUp 0.5s ease-out;
+    animation-fill-mode: both;
+    transition: all 0.2s ease;
 }
+
+.idea-btn:nth-child(1) { animation-delay: 0.15s; }
+.idea-btn:nth-child(2) { animation-delay: 0.25s; }
+.idea-btn:nth-child(3) { animation-delay: 0.35s; }
+.idea-btn:nth-child(4) { animation-delay: 0.45s; }
 
 .idea-btn:hover {
     background: var(--border-light);
     border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .ai-chat-container {
