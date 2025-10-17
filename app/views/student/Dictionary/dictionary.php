@@ -11,7 +11,7 @@ $referrerLanguage = $_GET['lang'] ?? $_GET['language'] ?? '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Complete Dictionary - Language Learning Bot</title>
-    <link rel="stylesheet" href="../../../public/css/Dictionary/dictionary.css">
+    <link rel="stylesheet" href="../../../../public/css/Dictionary/dictionary.css">
 </head>
 <body>
     <div class="container">
@@ -37,18 +37,18 @@ $referrerLanguage = $_GET['lang'] ?? $_GET['language'] ?? '';
             <div class="stats">
                 <h3>Dictionary Statistics</h3>
                 <p>Total Languages: <?php echo count($dictionaryData); ?> | 
-                   Total Topics: <?php 
-                       $totalTopics = 0;
-                       $totalWords = 0;
-                       foreach ($dictionaryData as $language => $topics) {
-                           $totalTopics += count($topics);
-                           foreach ($topics as $words) {
-                               $totalWords += count($words);
-                           }
-                       }
-                       echo $totalTopics;
-                   ?> | 
-                   Total Words: <?php echo $totalWords; ?>
+                    Total Topics: <?php 
+                        $totalTopics = 0;
+                        $totalWords = 0;
+                        foreach ($dictionaryData as $language => $topics) {
+                            $totalTopics += count($topics);
+                            foreach ($topics as $words) {
+                                $totalWords += count($words);
+                            }
+                        }
+                        echo $totalTopics;
+                    ?> | 
+                    Total Words: <?php echo $totalWords; ?>
                 </p>
             </div>
 
@@ -114,6 +114,6 @@ $referrerLanguage = $_GET['lang'] ?? $_GET['language'] ?? '';
         </div>
     </div>
 
-    <script src="../../../public/css/Dictionary/dictionary.js"></script>
+    <script src="../../../../public/js/Dictionary/dictionary.js"></script>
 </body>
 </html>

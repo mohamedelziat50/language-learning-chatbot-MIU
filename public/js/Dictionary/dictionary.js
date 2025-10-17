@@ -49,8 +49,8 @@ class DictionaryManager {
             const language = row.dataset.language;
             
             const matches = english.includes(searchTerm) || 
-                           translation.includes(searchTerm) || 
-                           topic.includes(searchTerm);
+                            translation.includes(searchTerm) || 
+                            topic.includes(searchTerm);
             
             if (matches) {
                 row.classList.remove('hidden');

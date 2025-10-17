@@ -22,11 +22,10 @@ $languages = [
 <head>
     <meta charset="UTF-8">
     <title>Select Language - LinguaLearn</title>
-    <link rel="stylesheet" href="../../../public/css/Languages/language.css">
+    <link rel="stylesheet" href="../../../../public/css/Languages/language.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<?php include '../partials/sidebar.php'; ?>
 <!-- ✅ Enhanced Navbar -->
 <nav class="navbar">
     <div class="nav-container">
@@ -78,6 +77,6 @@ $languages = [
     </div>
 </footer>
 
-<script src="../../../public/js/Languages/language.js"></script>
+<script src="../../../../public/js/Languages/language.js"></script>
 </body>
 </html>
