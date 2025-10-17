@@ -2,7 +2,7 @@
 
 class DocumentEditor {
     constructor() {
-        this.currentTab = 'review';
+        this.currentTab = 'ai';
         this.isAutoSaving = false;
         this.saveTimeout = null;
         this.suggestions = [];
@@ -12,6 +12,8 @@ class DocumentEditor {
         this.bindEvents();
         this.initializeEditor();
         this.loadMockSuggestions();
+        // Default active tab: AI panel
+        this.switchTab('ai');
     }
 
     initializeElements() {
@@ -25,13 +27,14 @@ class DocumentEditor {
         this.tabPanels = document.querySelectorAll('.tab-panel');
         
         // AI elements
-        this.aiInput = document.getElementById('ai-input');
+        this.aiInput = document.getElementById('ai-text-input');
         this.aiSendBtn = document.getElementById('ai-send-btn');
         this.aiMessages = document.getElementById('ai-messages');
+        this.clearChatBtn = document.getElementById('clear-chat-btn');
         
         // Plagiarism elements
         this.checkPlagiarismBtn = document.getElementById('check-plagiarism-btn');
-        this.plagiarismResults = document.getElementById('plagiarism-results');
+        this.plagiarismPlaceholder = document.querySelector('.plag-placeholder');
         
         // Toolbar elements
         this.toolbarBtns = document.querySelectorAll('.toolbar-btn');
@@ -62,11 +65,41 @@ class DocumentEditor {
             this.sendAIMessage();
         });
 
+        // Idea buttons -> prefill prompt and generate
+        document.querySelectorAll('.idea-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const action = btn.dataset.action;
+                const seed = this.documentEditor.value || 'the current text';
+                let prompt = '';
+                switch (action) {
+                    case 'improve':
+                        prompt = `Improve it: ${seed}`;
+                        break;
+                    case 'persuasive':
+                        prompt = `Make it persuasive: ${seed}`;
+                        break;
+                    case 'assertive':
+                        prompt = `Make it assertive: ${seed}`;
+                        break;
+                    case 'ideas':
+                        prompt = `Give me more ideas based on: ${seed}`;
+                        break;
+                }
+                this.aiInput.value = prompt;
+                this.sendAIMessage();
+            });
+        });
+
         this.aiInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 this.sendAIMessage();
             }
+        });
+
+        // Clear chat
+        this.clearChatBtn.addEventListener('click', () => {
+            this.clearAIChat();
         });
 
         // Plagiarism check
@@ -248,21 +281,16 @@ class DocumentEditor {
         // Clear existing suggestions
         this.clearSuggestions();
 
-        // Group suggestions by category
-        const categories = {
-            correctness: document.getElementById('correctness-suggestions'),
-            clarity: document.getElementById('clarity-suggestions'),
-            engagement: document.getElementById('engagement-suggestions'),
-            delivery: document.getElementById('delivery-suggestions')
-        };
-
+        // Flat list for refined UI
+        const listContainer = document.getElementById('review-suggestions');
+        let proCount = 0;
         suggestions.forEach(suggestion => {
-            const categoryContainer = categories[suggestion.category];
-            if (categoryContainer) {
-                const suggestionElement = this.createSuggestionElement(suggestion);
-                categoryContainer.appendChild(suggestionElement);
-            }
+            const suggestionElement = this.createSuggestionElement(suggestion);
+            listContainer.appendChild(suggestionElement);
+            proCount++;
         });
+        const proBadge = document.getElementById('pro-count');
+        if (proBadge) proBadge.textContent = proCount.toString();
 
         // Update suggestion count
         this.updateSuggestionCount(suggestions.length);
@@ -270,18 +298,15 @@ class DocumentEditor {
 
     createSuggestionElement(suggestion) {
         const div = document.createElement('div');
-        div.className = 'suggestion-item';
-        
+        div.className = 'suggestion-card';
+        const category = suggestion.category.charAt(0).toUpperCase() + suggestion.category.slice(1);
         div.innerHTML = `
-            <div class="suggestion-text">${suggestion.text}</div>
+            <div class="meta"><i class="fas fa-shield-alt"></i> ${category} · ${suggestion.type}</div>
+            <div class="text">${suggestion.text}</div>
             <div class="suggestion-description">${suggestion.description}</div>
-            <div class="suggestion-actions">
-                <button class="suggestion-btn accept" onclick="documentEditor.acceptSuggestion(this)">
-                    Accept
-                </button>
-                <button class="suggestion-btn dismiss" onclick="documentEditor.dismissSuggestion(this)">
-                    Dismiss
-                </button>
+            <div class="actions">
+                <button class="accept" onclick="documentEditor.acceptSuggestion(this)">Accept</button>
+                <button class="dismiss" onclick="documentEditor.dismissSuggestion(this)">Dismiss</button>
             </div>
         `;
 
@@ -311,29 +336,20 @@ class DocumentEditor {
     }
 
     clearSuggestions() {
-        const containers = [
-            'correctness-suggestions',
-            'clarity-suggestions',
-            'engagement-suggestions',
-            'delivery-suggestions'
-        ];
-
-        containers.forEach(id => {
-            const container = document.getElementById(id);
-            container.innerHTML = '';
-        });
+        const container = document.getElementById('review-suggestions');
+        if (container) container.innerHTML = '';
 
         this.updateSuggestionCount(0);
     }
 
     updateSuggestionCount(count = null) {
-        const countElement = document.querySelector('.suggestion-count');
+        const countElement = document.querySelector('#review-panel .badge');
         if (count === null) {
             // Count current suggestions
-            const allSuggestions = document.querySelectorAll('.suggestion-item');
+            const allSuggestions = document.querySelectorAll('#review-suggestions .suggestion-card');
             count = allSuggestions.length;
         }
-        countElement.textContent = `${count} suggestion${count !== 1 ? 's' : ''}`;
+        if (countElement) countElement.textContent = `${count}`;
     }
 
     sendAIMessage() {
@@ -422,6 +438,11 @@ class DocumentEditor {
         return responses[Math.floor(Math.random() * responses.length)];
     }
 
+    clearAIChat() {
+        this.aiMessages.innerHTML = '';
+        this.showNotification('Chat cleared', 'info');
+    }
+
     checkPlagiarism() {
         this.checkPlagiarismBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
         this.checkPlagiarismBtn.disabled = true;
@@ -437,14 +458,19 @@ class DocumentEditor {
     }
 
     showPlagiarismResults() {
-        const results = document.getElementById('plagiarism-results');
-        results.innerHTML = `
-            <div class="no-results">
-                <i class="fas fa-shield-check"></i>
-                <p>No plagiarism detected</p>
-                <span class="result-subtitle">Your document appears to be original</span>
-            </div>
-        `;
+        const results = this.plagiarismPlaceholder;
+        if (results) {
+            results.innerHTML = `
+                <div class="shield"><i class="fas fa-shield-alt"></i></div>
+                <h4>You're a true original.<br>Ensure your work is, too.</h4>
+                <ul class="benefits">
+                    <li><i class="fas fa-arrow-right"></i> Catch accidental plagiarism</li>
+                    <li><i class="fas fa-arrow-right"></i> Detect similarities to AI text</li>
+                    <li><i class="fas fa-arrow-right"></i> Get fully formatted citations</li>
+                </ul>
+                <button class="cta-btn" id="check-plagiarism-btn"><i class="fas fa-search"></i> Check document</button>
+            `;
+        }
     }
 
     handleToolbarAction(button) {

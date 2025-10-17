@@ -60,99 +60,91 @@
             <!-- Right Sidebar (full height on the right) -->
             <div class="right-sidebar">
                 <div class="sidebar-tabs">
-                    <button class="tab-btn active" data-tab="review">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Review</span>
-                    </button>
-                    <button class="tab-btn" data-tab="ai">
+                    <button class="tab-btn active" data-tab="ai">
                         <i class="fas fa-robot"></i>
-                        <span>Write with AI</span>
+                        <span>Write with generative AI</span>
+                    </button>
+                    <button class="tab-btn" data-tab="review">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Review suggestions</span>
                     </button>
                     <button class="tab-btn" data-tab="plagiarism">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>Plagiarism</span>
+                        <i class="fas fa-quote-right"></i>
+                        <span>Check for AI
+                            <br>text & plagiarism</span>
                     </button>
                 </div>
 
                 <div class="tab-content">
                     <!-- Review Suggestions Tab -->
-                    <div class="tab-panel active" id="review-panel">
+                    <div class="tab-panel" id="review-panel">
                         <div class="suggestions-header">
-                            <h3>Review Suggestions</h3>
-                            <span class="suggestion-count">0 suggestions</span>
+                            <h3>Review suggestions <span class="badge">0</span></h3>
                         </div>
-                        
-                        <div class="suggestion-categories">
-                            <div class="category-section">
-                                <h4 class="category-title">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                    Correctness
-                                </h4>
-                                <div class="suggestions-list" id="correctness-suggestions">
-                                    <!-- Suggestions will be populated by JavaScript -->
-                                </div>
-                            </div>
 
-                            <div class="category-section">
-                                <h4 class="category-title">
-                                    <i class="fas fa-eye"></i>
-                                    Clarity
-                                </h4>
-                                <div class="suggestions-list" id="clarity-suggestions">
-                                    <!-- Suggestions will be populated by JavaScript -->
-                                </div>
-                            </div>
+                        <div class="category-chips">
+                            <button class="chip correctness active"><span class="chip-underline"></span>Correctness</button>
+                            <button class="chip clarity"><span class="chip-underline"></span>Clarity</button>
+                            <button class="chip engagement"><span class="chip-underline"></span>Engagement</button>
+                            <button class="chip delivery"><span class="chip-underline"></span>Delivery</button>
+                        </div>
 
-                            <div class="category-section">
-                                <h4 class="category-title">
-                                    <i class="fas fa-heart"></i>
-                                    Engagement
-                                </h4>
-                                <div class="suggestions-list" id="engagement-suggestions">
-                                    <!-- Suggestions will be populated by JavaScript -->
-                                </div>
-                            </div>
+                        <div class="pro-header">
+                            <span class="star">★</span>
+                            <span>Pro suggestions</span>
+                            <span class="badge" id="pro-count">0</span>
+                        </div>
 
-                            <div class="category-section">
-                                <h4 class="category-title">
-                                    <i class="fas fa-paper-plane"></i>
-                                    Delivery
-                                </h4>
-                                <div class="suggestions-list" id="delivery-suggestions">
-                                    <!-- Suggestions will be populated by JavaScript -->
-                                </div>
-                            </div>
+                        <div class="suggestions-list suggestions-list-flat" id="review-suggestions">
+                            <!-- Populated by JS with suggestion cards -->
                         </div>
                     </div>
 
                     <!-- AI Writing Assistant Tab -->
-                    <div class="tab-panel" id="ai-panel">
-                        <div class="ai-header">
-                            <h3>Write with AI</h3>
-                            <p class="ai-subtitle">Get help with your writing</p>
-                        </div>
-                        
-                        <div class="ai-chat-container">
-                            <div class="ai-messages" id="ai-messages">
-                                <div class="ai-message">
-                                    <div class="ai-avatar">
-                                        <i class="fas fa-robot"></i>
-                                    </div>
-                                    <div class="ai-content">
-                                        <p>Hi! I'm your AI writing assistant. How can I help you improve your document today?</p>
-                                    </div>
-                                </div>
+                    <div class="tab-panel active" id="ai-panel">
+                        <div class="ai-banner">
+                            <div class="banner-text">
+                                <h4>Set your voice</h4>
+                                <p>Choose how you want your generated text to sound.</p>
                             </div>
-                            
-                            <div class="ai-input-container">
-                                <textarea 
-                                    id="ai-input" 
-                                    placeholder="Ask AI for help with your writing..."
-                                    rows="3"
-                                ></textarea>
-                                <button class="ai-send-btn" id="ai-send-btn">
-                                    <i class="fas fa-paper-plane"></i>
+                            <button class="banner-btn"><i class="fas fa-sliders-h"></i> Set voice</button>
+                        </div>
+
+                        <div class="ai-ideas">
+                            <h3>What do you want to do?</h3>
+                            <p class="muted">Choose an option or type below</p>
+                            <div class="ideas-actions">
+                                <button class="idea-btn" data-action="improve">
+                                    <i class="fas fa-wand-magic-sparkles"></i>
+                                    Improve it
                                 </button>
+                                <button class="idea-btn" data-action="persuasive">
+                                    <i class="fas fa-bullhorn"></i>
+                                    Make it persuasive
+                                </button>
+                                <button class="idea-btn" data-action="assertive">
+                                    <i class="fas fa-hand-peace"></i>
+                                    Make it assertive
+                                </button>
+                                <button class="idea-btn" data-action="ideas">
+                                    <i class="fas fa-lightbulb"></i>
+                                    More ideas
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="ai-chat-container">
+                            <div class="ai-chat-header">
+                                <h4>AI Assistant</h4>
+                                <button class="clear-chat-btn" id="clear-chat-btn" title="Clear conversation">
+                                    <i class="fas fa-broom"></i>
+                                    <span>Clear</span>
+                                </button>
+                            </div>
+                            <div class="ai-messages" id="ai-messages"></div>
+                            <div class="ai-input-container">
+                                <input type="text" id="ai-text-input" placeholder="Tell us to...">
+                                <button class="ai-send-btn" id="ai-send-btn"><i class="fas fa-paper-plane"></i></button>
                             </div>
                         </div>
                     </div>
@@ -160,18 +152,24 @@
                     <!-- Plagiarism Check Tab -->
                     <div class="tab-panel" id="plagiarism-panel">
                         <div class="plagiarism-header">
-                            <h3>Plagiarism Check</h3>
-                            <button class="check-plagiarism-btn" id="check-plagiarism-btn">
-                                <i class="fas fa-search"></i>
-                                Check Document
-                            </button>
+                            <h3>Plagiarism and AI text check</h3>
+                            <div class="style-switcher">APA ▾</div>
                         </div>
-                        
-                        <div class="plagiarism-results" id="plagiarism-results">
-                            <div class="no-results">
-                                <i class="fas fa-shield-check"></i>
-                                <p>No plagiarism detected</p>
-                                <span class="result-subtitle">Your document appears to be original</span>
+
+                        <div class="plagiarism-body">
+                            <div class="plag-summary">
+                                <span class="percent">0%</span> of the text matches known sources.
+                            </div>
+
+                            <div class="plag-placeholder">
+                                <div class="shield"><i class="fas fa-shield-alt"></i></div>
+                                <h4>You're a true original.<br>Ensure your work is, too.</h4>
+                                <ul class="benefits">
+                                    <li><i class="fas fa-arrow-right"></i> Catch accidental plagiarism</li>
+                                    <li><i class="fas fa-arrow-right"></i> Detect similarities to AI text</li>
+                                    <li><i class="fas fa-arrow-right"></i> Get fully formatted citations</li>
+                                </ul>
+                                <button class="cta-btn" id="check-plagiarism-btn"><i class="fas fa-search"></i> Check document</button>
                             </div>
                         </div>
                     </div>

@@ -39,7 +39,7 @@ body {
 /* Document Container */
 .document-container {
     display: grid;
-    grid-template-columns: 1fr 360px; /* editor | right sidebar */
+    grid-template-columns: 1fr 500px; /* editor | right sidebar (even wider) */
     grid-template-rows: 1fr;
     height: 100vh;
 }
@@ -168,7 +168,7 @@ body {
     grid-column: 1 / 3;
     grid-row: 1 / 2;
     display: grid;
-    grid-template-columns: 1fr 360px; /* match right sidebar width */
+    grid-template-columns: 1fr 500px; /* match right sidebar width */
     height: 100vh;
     overflow: hidden;
 }
@@ -281,6 +281,8 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh; /* full height */
+    font-size: 16px; /* even larger base */
+    font-weight: 500; /* bolder text */
 }
 
 .sidebar-tabs {
@@ -294,16 +296,16 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
-    padding: 12px 8px;
+    gap: 10px;
+    padding: 18px 16px;
     border: none;
     background: transparent;
     color: var(--text-secondary);
-    font-size: 11px;
-    font-weight: 500;
+    font-size: 15px; /* even larger label */
+    font-weight: 700; /* much bolder */
     cursor: pointer;
     transition: all 0.2s;
-    border-bottom: 2px solid transparent;
+    border-bottom: 3px solid transparent;
 }
 
 .tab-btn:hover {
@@ -317,9 +319,7 @@ body {
     border-bottom-color: var(--primary-color);
 }
 
-.tab-btn i {
-    font-size: 16px;
-}
+.tab-btn i { font-size: 22px; }
 
 .tab-content {
     flex: 1;
@@ -332,13 +332,66 @@ body {
     display: none;
     flex: 1;
     overflow-y: auto;
-    padding: 20px;
+    padding: 28px; /* even more breathing room */
 }
 
 .tab-panel.active {
     display: flex;
     flex-direction: column;
 }
+
+/* Review suggestions refined */
+.badge { background: var(--border-light); border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 999px; font-size: 14px; font-weight: 700; color: var(--text-secondary); }
+.category-chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
+.chip { position: relative; border: none; background: transparent; padding: 12px 10px 8px; text-align: center; font-size: 14px; font-weight: 600; color: var(--text-secondary); cursor: pointer; border-radius: 8px; }
+.chip:hover { background: var(--background-gray); color: var(--text-primary); }
+.chip.active { color: var(--text-primary); font-weight: 600; }
+.chip-underline { position: absolute; left: 50%; transform: translateX(-50%); bottom: 4px; width: 60%; height: 2px; background: var(--border-color); border-radius: 2px; }
+.chip.correctness .chip-underline { background: #ef4444; }
+.chip.clarity .chip-underline { background: #3b82f6; }
+.chip.engagement .chip-underline { background: #10b981; }
+.chip.delivery .chip-underline { background: #8b5cf6; }
+
+.suggestions-list-flat { display: flex; flex-direction: column; gap: 16px; }
+.pro-header { display: flex; align-items: center; gap: 8px; margin: 8px 0 10px; color: var(--text-primary); font-weight: 600; }
+.pro-header .star { color: #f59e0b; font-size: 14px; }
+.suggestion-card { background: var(--background-white); border: 1px solid var(--border-light); border-radius: 12px; padding: 18px; box-shadow: var(--shadow-sm); }
+.suggestion-card .meta { display: flex; align-items: center; gap: 8px; color: var(--text-secondary); font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+.suggestion-card .text { font-size: 16px; font-weight: 500; color: var(--text-primary); margin-bottom: 12px; }
+.suggestion-card .actions { display: flex; gap: 8px; }
+.suggestion-card .actions .accept { background: var(--success-color); color: #fff; border: none; padding: 6px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+.suggestion-card .actions .dismiss { background: var(--border-light); color: var(--text-secondary); border: none; padding: 6px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+
+/* Generative AI panel refined */
+.ai-banner { display: flex; align-items: center; justify-content: space-between; background: linear-gradient(90deg, #e6f4f2, #f4fbf9); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px 16px; margin-bottom: 18px; }
+.ai-banner h4 { margin: 0 0 4px 0; font-size: 14px; }
+.ai-banner p { margin: 0; font-size: 12px; color: var(--text-secondary); }
+.banner-btn { background: var(--background-white); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px 12px; cursor: pointer; font-size: 12px; }
+.banner-btn:hover { background: var(--border-light); border-color: var(--primary-color); }
+.ai-ideas h3 { margin: 0 0 6px 0; font-size: 18px; font-weight: 700; }
+.ai-ideas .muted { margin: 0 0 12px 0; color: var(--text-muted); font-size: 14px; }
+.ideas-actions { display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 12px; }
+.idea-btn { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--background-white); border: 1px solid var(--border-color); border-radius: 12px; font-size: 15px; font-weight: 500; cursor: pointer; text-align: left; }
+.idea-btn:hover { background: var(--border-light); border-color: var(--primary-color); }
+.ai-chat-container { margin-top: auto; }
+.ai-chat-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.ai-chat-header h4 { margin: 0; font-size: 16px; font-weight: 700; color: var(--text-primary); }
+.clear-chat-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--background-white); border: 1px solid var(--border-color); border-radius: 999px; padding: 8px 12px; color: var(--text-secondary); cursor: pointer; font-size: 12px; }
+.clear-chat-btn:hover { background: var(--border-light); border-color: var(--primary-color); color: var(--text-primary); }
+.ai-input-container { display: grid; grid-template-columns: 1fr 40px; gap: 8px; }
+#ai-text-input { border: 1px solid var(--border-color); border-radius: 12px; padding: 14px 16px; font-size: 16px; font-weight: 500; width: 100% }
+
+/* Plagiarism refined */
+.plagiarism-body { display: flex; flex-direction: column; gap: 12px; }
+.plag-summary { background: var(--background-gray); border: 1px solid var(--border-light); border-radius: 8px; padding: 10px 12px; font-size: 13px; }
+.plag-summary .percent { color: var(--primary-color); font-weight: 700; }
+.plag-placeholder { text-align: center; padding: 12px; color: var(--text-secondary); }
+.plag-placeholder .shield { font-size: 40px; color: var(--success-color); margin-bottom: 8px; }
+.plag-placeholder h4 { margin: 8px 0; color: var(--text-primary); }
+.plag-placeholder .benefits { list-style: none; padding: 0; margin: 12px 0; text-align: left; display: block; }
+.plag-placeholder .benefits li { margin: 6px 0; }
+.cta-btn { background: var(--primary-color); color: #fff; border: none; border-radius: 8px; padding: 10px 14px; cursor: pointer; margin: 1rem; }
+.cta-btn:hover { background: var(--primary-hover); }
 
 /* Review Suggestions */
 .suggestions-header {
@@ -526,7 +579,7 @@ body {
 .ai-input-container {
     display: flex;
     gap: 8px;
-    align-items: flex-end;
+    align-items: center;
 }
 
 #ai-input {
