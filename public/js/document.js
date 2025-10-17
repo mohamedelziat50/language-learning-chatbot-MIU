@@ -25,6 +25,16 @@ class DocumentEditor {
         // Tab elements
         this.tabButtons = document.querySelectorAll('.tab-btn');
         this.tabPanels = document.querySelectorAll('.tab-panel');
+        this.sidebar = document.querySelector('.right-sidebar');
+        this.sidebarToggle = document.getElementById('sidebar-toggle');
+        // Left sidebar elements
+        this.leftSidebar = document.getElementById('left-sidebar');
+        this.lsViews = {
+            stats: document.getElementById('ls-stats'),
+            versions: document.getElementById('ls-versions')
+        };
+        this.docMenuBtn = document.getElementById('doc-menu-btn');
+        this.docMenu = document.getElementById('doc-menu');
         
         // AI elements
         this.aiInput = document.getElementById('ai-text-input');
@@ -58,6 +68,7 @@ class DocumentEditor {
         this.documentEditor.addEventListener('input', () => {
             this.triggerAutoSave();
             this.analyzeContent();
+            this.renderStats(); // Update stats live
         });
 
         // AI chat
@@ -118,6 +129,134 @@ class DocumentEditor {
         document.addEventListener('keydown', (e) => {
             this.handleKeyboardShortcuts(e);
         });
+
+        // Sidebar toggle
+        this.sidebarToggle.addEventListener('click', () => {
+            this.toggleSidebar();
+        });
+
+        // Left sidebar nav switching
+        this.leftSidebar.querySelectorAll('.ls-nav-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                this.leftSidebar.querySelectorAll('.ls-nav-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const view = btn.dataset.view;
+                this.switchLeftSidebarView(view);
+            });
+        });
+
+        // Doc menu toggle
+        this.docMenuBtn.addEventListener('click', () => {
+            const isOpen = this.docMenu.classList.toggle('open');
+            if (isOpen) {
+                document.addEventListener('click', this.closeMenuOnOutside, { once: true });
+            }
+        });
+    }
+
+    switchLeftSidebarView(view) {
+        Object.keys(this.lsViews).forEach(k => this.lsViews[k].style.display = 'none');
+        switch (view) {
+            case 'stats':
+                this.renderStats();
+                this.lsViews.stats.style.display = 'block';
+                break;
+            case 'versions':
+                this.renderVersions();
+                this.lsViews.versions.style.display = 'block';
+                break;
+        }
+    }
+
+    renderOutline() {
+        const text = this.documentEditor.value;
+        const lines = text.split(/\n/);
+        const items = [];
+        lines.forEach((line, idx) => {
+            const trimmed = line.trim();
+            if (!trimmed) return;
+            // Treat lines starting with #, ##, ### or ALL CAPS as headings
+            let level = 2;
+            if (/^#{1,3}\s+/.test(trimmed)) level = trimmed.match(/^#{1,3}/)[0].length;
+            else if (/^[A-Z][A-Z\s\-:,]{3,}$/.test(trimmed)) level = 1;
+            else return;
+            items.push({ level, text: trimmed.replace(/^#{1,3}\s+/, ''), index: idx });
+        });
+        if (items.length === 0) {
+            this.lsViews.outline.innerHTML = '<p class="muted">No headings found. Add lines starting with #, ##, or ###.</p>';
+            return;
+        }
+        this.lsViews.outline.innerHTML = items.map(i => `
+            <div class="outline-item">
+                <span class="lvl-${i.level}">${i.text}</span>
+            </div>
+        `).join('');
+        // Click to scroll (approximate by counting newlines)
+        Array.from(this.lsViews.outline.children).forEach((el, i) => {
+            el.addEventListener('click', () => {
+                this.scrollEditorToLine(items[i].index);
+            });
+        });
+    }
+
+    scrollEditorToLine(lineIndex) {
+        const text = this.documentEditor.value;
+        const lines = text.split(/\n/);
+        let caretPos = 0;
+        for (let i = 0; i < lineIndex; i++) caretPos += lines[i].length + 1;
+        this.documentEditor.focus();
+        this.documentEditor.setSelectionRange(caretPos, caretPos);
+    }
+
+    renderStats() {
+        const content = this.documentEditor.value;
+        const words = content.trim().split(/\s+/).filter(Boolean).length;
+        const chars = content.replace(/\s/g, '').length;
+        const readingTime = Math.max(1, Math.round(words / 200));
+        
+        document.getElementById('stat-words').textContent = words;
+        document.getElementById('stat-chars').textContent = chars;
+        document.getElementById('stat-reading').textContent = readingTime + ' min';
+    }
+
+    renderVersions() {
+        const saved = localStorage.getItem('document_versions');
+        const versions = saved ? JSON.parse(saved) : [];
+        const listContainer = document.getElementById('version-list');
+        
+        if (versions.length === 0) {
+            listContainer.innerHTML = '<p class="muted">No versions yet. Auto-saves will appear here.</p>';
+            return;
+        }
+        
+        listContainer.innerHTML = versions.reverse().map(v => `
+            <div class="version-item">
+                <div class="version-time">${new Date(v.timestamp).toLocaleString()}</div>
+                <div class="version-preview">${v.preview || 'No preview'}</div>
+            </div>
+        `).join('');
+    }
+
+    toggleSidebar() {
+        const mainContentArea = document.querySelector('.main-content-area');
+        const isHidden = this.sidebar.classList.toggle('hidden');
+        const icon = this.sidebarToggle.querySelector('i');
+        
+        if (isHidden) {
+            // Hide sidebar and expand main content
+            mainContentArea.classList.add('sidebar-hidden');
+            this.sidebarToggle.classList.add('sidebar-hidden');
+            icon.classList.remove('fa-chevron-right');
+            icon.classList.add('fa-chevron-left');
+            this.sidebarToggle.title = 'Show Assistant';
+        } else {
+            // Show sidebar and restore two-column layout
+            mainContentArea.classList.remove('sidebar-hidden');
+            this.sidebarToggle.classList.remove('sidebar-hidden');
+            icon.classList.remove('fa-chevron-left');
+            icon.classList.add('fa-chevron-right');
+            this.sidebarToggle.title = 'Hide Assistant';
+        }
     }
 
     initializeEditor() {
@@ -186,6 +325,13 @@ class DocumentEditor {
 
         // Save to localStorage (in real app, this would be sent to server)
         localStorage.setItem('document_content', JSON.stringify(content));
+
+        // Append to versions (keep last 10)
+        const saved = localStorage.getItem('document_versions');
+        const versions = saved ? JSON.parse(saved) : [];
+        versions.push({ timestamp: Date.now(), title: content.title, preview: content.content.slice(0, 120) });
+        while (versions.length > 10) versions.shift();
+        localStorage.setItem('document_versions', JSON.stringify(versions));
     }
 
     loadSavedContent() {
@@ -574,6 +720,12 @@ class DocumentEditor {
                 document.body.removeChild(notification);
             }, 300);
         }, 3000);
+    }
+
+    closeMenuOnOutside = (e) => {
+        if (!this.docMenu.contains(e.target) && e.target !== this.docMenuBtn) {
+            this.docMenu.classList.remove('open');
+        }
     }
 }
 

@@ -13,6 +13,54 @@
     <div class="document-container">
         <!-- Main Content Area (no left sidebar) -->
         <div class="main-content-area">
+            <button class="sidebar-toggle" id="sidebar-toggle" title="Hide Assistant">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <!-- Left Sidebar -->
+            <aside class="left-sidebar" id="left-sidebar">
+                <div class="ls-account">
+                    <div class="ls-name">Mohamed Hesham</div>
+                    <div class="ls-email">mohamedelziat50@gmail.com</div>
+                    <span class="ls-badge">Free</span>
+                </div>
+                <nav class="ls-nav">
+                    <button class="ls-nav-btn active" data-view="stats"><i class="fas fa-chart-bar"></i><span>Stats</span></button>
+                    <button class="ls-nav-btn" data-view="versions"><i class="fas fa-clock-rotate-left"></i><span>Versions</span></button>
+                </nav>
+                <div class="ls-content">
+                    <div id="ls-stats" class="ls-view">
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-font"></i></div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="stat-words">0</div>
+                                <div class="stat-label">Words</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-keyboard"></i></div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="stat-chars">0</div>
+                                <div class="stat-label">Characters</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-book-open"></i></div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="stat-reading">0 min</div>
+                                <div class="stat-label">Reading time</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ls-versions" class="ls-view" style="display:none">
+                        <p class="muted">Recent saves</p>
+                        <div id="version-list"></div>
+                    </div>
+                </div>
+                <div class="ls-footer">
+                    <a href="./student/dashboard.php" class="ls-footer-btn"><i class="fas fa-arrow-left"></i><span>Back to Dashboard</span></a>
+                    <button class="ls-footer-btn" onclick="alert('Sign out')"><i class="fas fa-right-from-bracket"></i><span>Sign out</span></button>
+                </div>
+            </aside>
             <!-- Editor Section -->
             <div class="editor-section">
                 <div class="editor-container">
