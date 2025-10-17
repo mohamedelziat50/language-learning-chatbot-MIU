@@ -109,13 +109,11 @@ $topics = [
 <head>
     <meta charset="UTF-8">
     <title>Topics - <?php echo htmlspecialchars($lang); ?> | LinguaLearn</title>
-    <link rel="stylesheet" href="../../../public/css/Topics/Topics.css">
+    <link rel="stylesheet" href="../../../../public/css/Topics/Topics.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <?php include '../partials/sidebar.php'; ?>
-
     <!-- 🌍 Enhanced Navigation Bar -->
     <nav class="navbar">
         <div class="nav-container">
@@ -185,7 +183,8 @@ $topics = [
                         <div class="topic-card"
                             data-language="<?php echo $langEsc; ?>"
                             data-topic="<?php echo $tName; ?>"
-                            onclick="window.location.href='../Lesson/lesson.php?lang=<?php echo $langUrl; ?>&topic=<?php echo $topicUrl; ?>'">
+                            onclick="window.location.href='../Lessons/lesson.php?lang=<?php echo $langUrl; ?>&topic=<?php echo $topicUrl; ?>'">
+                            
                             <div class="card-icon">
                                 <img src="<?php echo $tImg; ?>" alt="<?php echo $tName; ?>">
                             </div>
@@ -237,6 +236,6 @@ $topics = [
         </div>
     </div>
 
-    <script src="../../../public/js/Topics/Topics.js"></script>
+    <script src="../../../../public/js/Topics/Topics.js"></script>
 </body>
 </html>

@@ -21,7 +21,7 @@ if (!isset($_SESSION['user_progress'][$lang][$topic])) {
     ];
 }
 
-// Real content database for all topics
+// REAL CONTENT for each topic
 function getRealLessonContent($language, $topicName) {
     $contentDatabase = [
         "Greetings" => [
@@ -76,106 +76,106 @@ function getRealLessonContent($language, $topicName) {
             ]
         ],
 
-        "Food" => [
+        "Food & Dining" => [
             "vocabulary" => [
                 ["word" => "Restaurant", "translation" => getTranslation($language, "Restaurant"), "pronunciation" => getPronunciation($language, "Restaurant")],
                 ["word" => "Menu", "translation" => getTranslation($language, "Menu"), "pronunciation" => getPronunciation($language, "Menu")],
-                ["word" => "Water", "translation" => getTranslation($language, "Water"), "pronunciation" => getPronunciation($language, "Water")],
-                ["word" => "Coffee", "translation" => getTranslation($language, "Coffee"), "pronunciation" => getPronunciation($language, "Coffee")],
-                ["word" => "Bread", "translation" => getTranslation($language, "Bread"), "pronunciation" => getPronunciation($language, "Bread")],
-                ["word" => "Cheese", "translation" => getTranslation($language, "Cheese"), "pronunciation" => getPronunciation($language, "Cheese")],
-                ["word" => "Bill", "translation" => getTranslation($language, "Bill"), "pronunciation" => getPronunciation($language, "Bill")],
+                ["word" => "Waiter/Waitress", "translation" => getTranslation($language, "Waiter"), "pronunciation" => getPronunciation($language, "Waiter")],
+                ["word" => "Table", "translation" => getTranslation($language, "Table"), "pronunciation" => getPronunciation($language, "Table")],
+                ["word" => "Order", "translation" => getTranslation($language, "Order"), "pronunciation" => getPronunciation($language, "Order")],
+                ["word" => "Bill/Check", "translation" => getTranslation($language, "Bill"), "pronunciation" => getPronunciation($language, "Bill")],
+                ["word" => "Tip", "translation" => getTranslation($language, "Tip"), "pronunciation" => getPronunciation($language, "Tip")],
                 ["word" => "Delicious", "translation" => getTranslation($language, "Delicious"), "pronunciation" => getPronunciation($language, "Delicious")]
             ],
             "phrases" => [
-                "ordering" => getTranslation($language, "I would like to order the pasta, please"),
-                "asking_menu" => getTranslation($language, "Could I see the menu, please?"),
-                "recommendation" => getTranslation($language, "What do you recommend?"),
-                "compliment" => getTranslation($language, "This food is delicious!"),
-                "asking_bill" => getTranslation($language, "Could we have the bill, please?"),
-                "dietary" => getTranslation($language, "I'm vegetarian, what options do you have?")
+                "reserving_table" => getTranslation($language, "I'd like to reserve a table for two, please"),
+                "asking_menu" => getTranslation($language, "Could we see the menu, please?"),
+                "ordering_food" => getTranslation($language, "I'll have the grilled salmon with vegetables"),
+                "asking_recommendation" => getTranslation($language, "What do you recommend today?"),
+                "dietary_restriction" => getTranslation($language, "I'm allergic to nuts"),
+                "asking_bill" => getTranslation($language, "Could we get the bill, please?")
             ],
             "grammar" => [
-                "point" => "Ordering Food Politely",
+                "point" => "Ordering Food with Modal Verbs",
                 "explanation" => getGrammarExplanation($language, "ordering_food"),
                 "examples" => [
                     getTranslation($language, "I would like...") . " (polite request)",
                     getTranslation($language, "Could I have...") . " (asking permission)", 
-                    getTranslation($language, "I'll have...") . " (direct but polite)"
+                    getTranslation($language, "I'll have...") . " (decision)"
                 ]
             ],
             "conversation" => [
                 [
                     "speaker" => "Customer",
-                    "text" => getTranslation($language, "Good evening. Could we have a table for two?"),
-                    "translation" => "Good evening. Could we have a table for two?"
+                    "text" => getTranslation($language, "Good evening. We have a reservation under Johnson."),
+                    "translation" => "Good evening. We have a reservation under Johnson."
+                ],
+                [
+                    "speaker" => "Host",
+                    "text" => getTranslation($language, "Welcome! Your table is ready. Right this way, please."),
+                    "translation" => "Welcome! Your table is ready. Right this way, please."
                 ],
                 [
                     "speaker" => "Waiter",
-                    "text" => getTranslation($language, "Of course, right this way. Here are your menus."),
-                    "translation" => "Of course, right this way. Here are your menus."
+                    "text" => getTranslation($language, "Here are your menus. Can I start you with something to drink?"),
+                    "translation" => "Here are your menus. Can I start you with something to drink?"
                 ],
                 [
                     "speaker" => "Customer",
-                    "text" => getTranslation($language, "Thank you. I'll have the grilled chicken and my friend will have the pasta."),
-                    "translation" => "Thank you. I'll have the grilled chicken and my friend will have the pasta."
-                ],
-                [
-                    "speaker" => "Waiter",
-                    "text" => getTranslation($language, "Excellent choices. Anything to drink?"),
-                    "translation" => "Excellent choices. Anything to drink?"
+                    "text" => getTranslation($language, "Yes, we'll both have water for now. We need a few minutes to decide on food."),
+                    "translation" => "Yes, we'll both have water for now. We need a few minutes to decide on food."
                 ]
             ]
         ],
 
-        "Travel" => [
+        "Travel & Transportation" => [
             "vocabulary" => [
                 ["word" => "Airport", "translation" => getTranslation($language, "Airport"), "pronunciation" => getPronunciation($language, "Airport")],
-                ["word" => "Hotel", "translation" => getTranslation($language, "Hotel"), "pronunciation" => getPronunciation($language, "Hotel")],
+                ["word" => "Train station", "translation" => getTranslation($language, "Train station"), "pronunciation" => getPronunciation($language, "Train station")],
                 ["word" => "Ticket", "translation" => getTranslation($language, "Ticket"), "pronunciation" => getPronunciation($language, "Ticket")],
                 ["word" => "Passport", "translation" => getTranslation($language, "Passport"), "pronunciation" => getPronunciation($language, "Passport")],
                 ["word" => "Luggage", "translation" => getTranslation($language, "Luggage"), "pronunciation" => getPronunciation($language, "Luggage")],
-                ["word" => "Directions", "translation" => getTranslation($language, "Directions"), "pronunciation" => getPronunciation($language, "Directions")],
-                ["word" => "Map", "translation" => getTranslation($language, "Map"), "pronunciation" => getPronunciation($language, "Map")],
-                ["word" => "Taxi", "translation" => getTranslation($language, "Taxi"), "pronunciation" => getPronunciation($language, "Taxi")]
+                ["word" => "Boarding pass", "translation" => getTranslation($language, "Boarding pass"), "pronunciation" => getPronunciation($language, "Boarding pass")],
+                ["word" => "Departure", "translation" => getTranslation($language, "Departure"), "pronunciation" => getPronunciation($language, "Departure")],
+                ["word" => "Arrival", "translation" => getTranslation($language, "Arrival"), "pronunciation" => getPronunciation($language, "Arrival")]
             ],
             "phrases" => [
-                "asking_directions" => getTranslation($language, "Excuse me, where is the train station?"),
-                "booking_hotel" => getTranslation($language, "I have a reservation under the name Smith"),
-                "at_airport" => getTranslation($language, "Which gate for the flight to Paris?"),
-                "transportation" => getTranslation($language, "How much is a ticket to the city center?"),
-                "emergency" => getTranslation($language, "I need help, I lost my passport"),
-                "shopping" => getTranslation($language, "How much does this cost?")
+                "asking_directions" => getTranslation($language, "Excuse me, where is the nearest metro station?"),
+                "buying_ticket" => getTranslation($language, "I'd like a one-way ticket to the city center, please"),
+                "checking_in" => getTranslation($language, "Here is my passport and boarding pass"),
+                "flight_information" => getTranslation($language, "What time does the flight to London depart?"),
+                "hotel_checkin" => getTranslation($language, "I have a reservation for two nights under the name Smith"),
+                "asking_help" => getTranslation($language, "Could you help me with my luggage, please?")
             ],
             "grammar" => [
-                "point" => "Asking Questions for Directions",
+                "point" => "Asking for Directions and Information",
                 "explanation" => getGrammarExplanation($language, "asking_directions"),
                 "examples" => [
-                    getTranslation($language, "Where is...?") . " (location)",
-                    getTranslation($language, "How do I get to...?") . " (directions)",
-                    getTranslation($language, "Is there... near here?") . " (existence)"
+                    getTranslation($language, "Where is...?") . " (location questions)",
+                    getTranslation($language, "How do I get to...?") . " (direction questions)",
+                    getTranslation($language, "What time does...?") . " (time questions)"
                 ]
             ],
             "conversation" => [
                 [
-                    "speaker" => "Tourist",
-                    "text" => getTranslation($language, "Excuse me, could you help me? I'm looking for the Louvre Museum."),
-                    "translation" => "Excuse me, could you help me? I'm looking for the Louvre Museum."
+                    "speaker" => "Traveler",
+                    "text" => getTranslation($language, "Excuse me, could you tell me where I can find the check-in counter for flight 245?"),
+                    "translation" => "Excuse me, could you tell me where I can find the check-in counter for flight 245?"
                 ],
                 [
-                    "speaker" => "Local",
-                    "text" => getTranslation($language, "Of course! It's about 15 minutes from here. Go straight, then turn left at the bank."),
-                    "translation" => "Of course! It's about 15 minutes from here. Go straight, then turn left at the bank."
+                    "speaker" => "Airport Staff",
+                    "text" => getTranslation($language, "Certainly. Go straight ahead and turn left at the information desk. It will be on your right."),
+                    "translation" => "Certainly. Go straight ahead and turn left at the information desk. It will be on your right."
                 ],
                 [
-                    "speaker" => "Tourist",
-                    "text" => getTranslation($language, "Thank you so much! Should I walk or take the metro?"),
-                    "translation" => "Thank you so much! Should I walk or take the metro?"
+                    "speaker" => "Traveler",
+                    "text" => getTranslation($language, "Thank you. And where is the baggage drop-off area?"),
+                    "translation" => "Thank you. And where is the baggage drop-off area?"
                 ],
                 [
-                    "speaker" => "Local",
-                    "text" => getTranslation($language, "Walking is nice, it's a beautiful day. You'll see many shops along the way."),
-                    "translation" => "Walking is nice, it's a beautiful day. You'll see many shops along the way."
+                    "speaker" => "Airport Staff",
+                    "text" => getTranslation($language, "It's right next to the check-in counters. You can't miss it."),
+                    "translation" => "It's right next to the check-in counters. You can't miss it."
                 ]
             ]
         ],
@@ -188,58 +188,230 @@ function getRealLessonContent($language, $topicName) {
                 ["word" => "Sister", "translation" => getTranslation($language, "Sister"), "pronunciation" => getPronunciation($language, "Sister")],
                 ["word" => "Parents", "translation" => getTranslation($language, "Parents"), "pronunciation" => getPronunciation($language, "Parents")],
                 ["word" => "Children", "translation" => getTranslation($language, "Children"), "pronunciation" => getPronunciation($language, "Children")],
-                ["word" => "Grandmother", "translation" => getTranslation($language, "Grandmother"), "pronunciation" => getPronunciation($language, "Grandmother")],
-                ["word" => "Grandfather", "translation" => getTranslation($language, "Grandfather"), "pronunciation" => getPronunciation($language, "Grandfather")]
+                ["word" => "Grandparents", "translation" => getTranslation($language, "Grandparents"), "pronunciation" => getPronunciation($language, "Grandparents")],
+                ["word" => "Siblings", "translation" => getTranslation($language, "Siblings"), "pronunciation" => getPronunciation($language, "Siblings")]
             ],
             "phrases" => [
-                "introducing_family" => getTranslation($language, "This is my mother, her name is Maria"),
-                "asking_about_family" => getTranslation($language, "How many brothers and sisters do you have?"),
-                "describing_family" => getTranslation($language, "I have two brothers and one sister"),
-                "family_activities" => getTranslation($language, "We like to have dinner together every Sunday"),
-                "family_relations" => getTranslation($language, "My grandmother lives with us"),
-                "family_events" => getTranslation($language, "We're visiting my cousins this weekend")
+                "introducing_family" => getTranslation($language, "This is my wife, Maria, and these are our children"),
+                "asking_about_family" => getTranslation($language, "Do you have any brothers or sisters?"),
+                "describing_family" => getTranslation($language, "I come from a large family with three brothers"),
+                "family_activities" => getTranslation($language, "We usually have family dinner together on Sundays"),
+                "talking_relationships" => getTranslation($language, "How long have you been married?"),
+                "family_events" => getTranslation($language, "We're celebrating my parents' anniversary this weekend")
             ],
             "grammar" => [
-                "point" => "Possessive Forms for Family",
+                "point" => "Possessive Forms and Family Relationships",
                 "explanation" => getGrammarExplanation($language, "family_possessive"),
                 "examples" => [
-                    getTranslation($language, "My mother") . " (possession)",
-                    getTranslation($language, "Our parents") . " (plural possession)", 
-                    getTranslation($language, "His brother") . " (gender-specific)"
+                    getTranslation($language, "My mother's house") . " (possessive 's)",
+                    getTranslation($language, "Our parents' car") . " (plural possessive)",
+                    getTranslation($language, "His brother's wedding") . " (specific possession)"
                 ]
             ],
             "conversation" => [
                 [
-                    "speaker" => "Maria",
-                    "text" => getTranslation($language, "This is a photo of my family. These are my parents."),
-                    "translation" => "This is a photo of my family. These are my parents."
+                    "speaker" => "Anna",
+                    "text" => getTranslation($language, "So, tell me about your family. Do you have any siblings?"),
+                    "translation" => "So, tell me about your family. Do you have any siblings?"
                 ],
                 [
-                    "speaker" => "John",
-                    "text" => getTranslation($language, "They look lovely! How many siblings do you have?"),
-                    "translation" => "They look lovely! How many siblings do you have?"
+                    "speaker" => "Mark",
+                    "text" => getTranslation($language, "Yes, I have an older sister and a younger brother. My sister lives in Paris now."),
+                    "translation" => "Yes, I have an older sister and a younger brother. My sister lives in Paris now."
                 ],
                 [
-                    "speaker" => "Maria", 
-                    "text" => getTranslation($language, "I have one older brother and one younger sister. My brother lives in London."),
-                    "translation" => "I have one older brother and one younger sister. My brother lives in London."
+                    "speaker" => "Anna", 
+                    "text" => getTranslation($language, "That's nice! Do you visit her often?"),
+                    "translation" => "That's nice! Do you visit her often?"
                 ],
                 [
-                    "speaker" => "John",
-                    "text" => getTranslation($language, "That's nice. Do you visit him often?"),
-                    "translation" => "That's nice. Do you visit him often?"
+                    "speaker" => "Mark",
+                    "text" => getTranslation($language, "Usually twice a year. We're actually planning a family reunion next month."),
+                    "translation" => "Usually twice a year. We're actually planning a family reunion next month."
+                ]
+            ]
+        ],
+
+        "Shopping" => [
+            "vocabulary" => [
+                ["word" => "Store/Shop", "translation" => getTranslation($language, "Store"), "pronunciation" => getPronunciation($language, "Store")],
+                ["word" => "Price", "translation" => getTranslation($language, "Price"), "pronunciation" => getPronunciation($language, "Price")],
+                ["word" => "Discount", "translation" => getTranslation($language, "Discount"), "pronunciation" => getPronunciation($language, "Discount")],
+                ["word" => "Size", "translation" => getTranslation($language, "Size"), "pronunciation" => getPronunciation($language, "Size")],
+                ["word" => "Fitting room", "translation" => getTranslation($language, "Fitting room"), "pronunciation" => getPronunciation($language, "Fitting room")],
+                ["word" => "Cashier", "translation" => getTranslation($language, "Cashier"), "pronunciation" => getPronunciation($language, "Cashier")],
+                ["word" => "Receipt", "translation" => getTranslation($language, "Receipt"), "pronunciation" => getPronunciation($language, "Receipt")],
+                ["word" => "Exchange", "translation" => getTranslation($language, "Exchange"), "pronunciation" => getPronunciation($language, "Exchange")]
+            ],
+            "phrases" => [
+                "asking_price" => getTranslation($language, "How much does this cost?"),
+                "asking_size" => getTranslation($language, "Do you have this in a larger size?"),
+                "trying_clothes" => getTranslation($language, "Where are the fitting rooms?"),
+                "asking_discount" => getTranslation($language, "Is this item on sale?"),
+                "making_payment" => getTranslation($language, "I'd like to pay by credit card, please"),
+                "returning_item" => getTranslation($language, "I'd like to exchange this, it doesn't fit")
+            ],
+            "grammar" => [
+                "point" => "Making Requests and Asking Questions",
+                "explanation" => getGrammarExplanation($language, "shopping_requests"),
+                "examples" => [
+                    getTranslation($language, "Do you have...?") . " (availability)",
+                    getTranslation($language, "Could I try...?") . " (permission)",
+                    getTranslation($language, "I'm looking for...") . " (searching)"
+                ]
+            ],
+            "conversation" => [
+                [
+                    "speaker" => "Customer",
+                    "text" => getTranslation($language, "Excuse me, I'm looking for this sweater in a medium size."),
+                    "translation" => "Excuse me, I'm looking for this sweater in a medium size."
+                ],
+                [
+                    "speaker" => "Shop Assistant",
+                    "text" => getTranslation($language, "Let me check our stock. Yes, we have medium. Would you like to try it on?"),
+                    "translation" => "Let me check our stock. Yes, we have medium. Would you like to try it on?"
+                ],
+                [
+                    "speaker" => "Customer",
+                    "text" => getTranslation($language, "Yes, please. Where are the fitting rooms?"),
+                    "translation" => "Yes, please. Where are the fitting rooms?"
+                ],
+                [
+                    "speaker" => "Shop Assistant",
+                    "text" => getTranslation($language, "Just around the corner to your left. Let me know if you need a different size."),
+                    "translation" => "Just around the corner to your left. Let me know if you need a different size."
+                ]
+            ]
+        ],
+
+        "Work & Business" => [
+            "vocabulary" => [
+                ["word" => "Meeting", "translation" => getTranslation($language, "Meeting"), "pronunciation" => getPronunciation($language, "Meeting")],
+                ["word" => "Office", "translation" => getTranslation($language, "Office"), "pronunciation" => getPronunciation($language, "Office")],
+                ["word" => "Colleague", "translation" => getTranslation($language, "Colleague"), "pronunciation" => getPronunciation($language, "Colleague")],
+                ["word" => "Schedule", "translation" => getTranslation($language, "Schedule"), "pronunciation" => getPronunciation($language, "Schedule")],
+                ["word" => "Deadline", "translation" => getTranslation($language, "Deadline"), "pronunciation" => getPronunciation($language, "Deadline")],
+                ["word" => "Presentation", "translation" => getTranslation($language, "Presentation"), "pronunciation" => getPronunciation($language, "Presentation")],
+                ["word" => "Client", "translation" => getTranslation($language, "Client"), "pronunciation" => getPronunciation($language, "Client")],
+                ["word" => "Project", "translation" => getTranslation($language, "Project"), "pronunciation" => getPronunciation($language, "Project")]
+            ],
+            "phrases" => [
+                "scheduling_meeting" => getTranslation($language, "Could we schedule a meeting for next Tuesday?"),
+                "asking_availability" => getTranslation($language, "What time works best for you?"),
+                "business_introduction" => getTranslation($language, "I'm the project manager for this account"),
+                "discussing_deadlines" => getTranslation($language, "When is the deadline for this project?"),
+                "requesting_information" => getTranslation($language, "Could you send me the report by email?"),
+                "closing_meeting" => getTranslation($language, "Thank you for your time. Let's follow up next week")
+            ],
+            "grammar" => [
+                "point" => "Professional Communication and Formal Requests",
+                "explanation" => getGrammarExplanation($language, "business_communication"),
+                "examples" => [
+                    getTranslation($language, "Could we...?") . " (polite suggestions)",
+                    getTranslation($language, "I would appreciate if...") . " (formal requests)",
+                    getTranslation($language, "Let's discuss...") . " (collaborative language)"
+                ]
+            ],
+            "conversation" => [
+                [
+                    "speaker" => "Manager",
+                    "text" => getTranslation($language, "Good morning team. Let's start with the project updates."),
+                    "translation" => "Good morning team. Let's start with the project updates."
+                ],
+                [
+                    "speaker" => "Employee",
+                    "text" => getTranslation($language, "We're on track for the Friday deadline. The design phase is complete."),
+                    "translation" => "We're on track for the Friday deadline. The design phase is complete."
+                ],
+                [
+                    "speaker" => "Manager", 
+                    "text" => getTranslation($language, "Excellent. Sarah, could you prepare a presentation for the client meeting next week?"),
+                    "translation" => "Excellent. Sarah, could you prepare a presentation for the client meeting next week?"
+                ],
+                [
+                    "speaker" => "Sarah",
+                    "text" => getTranslation($language, "Certainly. I'll have it ready by Wednesday for your review."),
+                    "translation" => "Certainly. I'll have it ready by Wednesday for your review."
+                ]
+            ]
+        ],
+
+        "Health & Emergency" => [
+            "vocabulary" => [
+                ["word" => "Hospital", "translation" => getTranslation($language, "Hospital"), "pronunciation" => getPronunciation($language, "Hospital")],
+                ["word" => "Doctor", "translation" => getTranslation($language, "Doctor"), "pronunciation" => getPronunciation($language, "Doctor")],
+                ["word" => "Medicine", "translation" => getTranslation($language, "Medicine"), "pronunciation" => getPronunciation($language, "Medicine")],
+                ["word" => "Pain", "translation" => getTranslation($language, "Pain"), "pronunciation" => getPronunciation($language, "Pain")],
+                ["word" => "Emergency", "translation" => getTranslation($language, "Emergency"), "pronunciation" => getPronunciation($language, "Emergency")],
+                ["word" => "Appointment", "translation" => getTranslation($language, "Appointment"), "pronunciation" => getPronunciation($language, "Appointment")],
+                ["word" => "Pharmacy", "translation" => getTranslation($language, "Pharmacy"), "pronunciation" => getPronunciation($language, "Pharmacy")],
+                ["word" => "Insurance", "translation" => getTranslation($language, "Insurance"), "pronunciation" => getPronunciation($language, "Insurance")]
+            ],
+            "phrases" => [
+                "describing_symptoms" => getTranslation($language, "I have a fever and headache"),
+                "making_appointment" => getTranslation($language, "I need to make an appointment with the doctor"),
+                "emergency_help" => getTranslation($language, "Help! I need a doctor!"),
+                "asking_pharmacy" => getTranslation($language, "Where is the nearest pharmacy?"),
+                "medical_history" => getTranslation($language, "I'm allergic to penicillin"),
+                "insurance_questions" => getTranslation($language, "Do you accept my insurance?")
+            ],
+            "grammar" => [
+                "point" => "Describing Symptoms and Medical Needs",
+                "explanation" => getGrammarExplanation($language, "health_descriptions"),
+                "examples" => [
+                    getTranslation($language, "I have...") . " (symptoms)",
+                    getTranslation($language, "I feel...") . " (sensations)",
+                    getTranslation($language, "My... hurts") . " (body parts)"
+                ]
+            ],
+            "conversation" => [
+                [
+                    "speaker" => "Patient",
+                    "text" => getTranslation($language, "Hello, I have an appointment with Dr. Smith at 2 PM."),
+                    "translation" => "Hello, I have an appointment with Dr. Smith at 2 PM."
+                ],
+                [
+                    "speaker" => "Receptionist",
+                    "text" => getTranslation($language, "Welcome. Please have a seat. The doctor will see you shortly."),
+                    "translation" => "Welcome. Please have a seat. The doctor will see you shortly."
+                ],
+                [
+                    "speaker" => "Doctor", 
+                    "text" => getTranslation($language, "Good afternoon. What seems to be the problem today?"),
+                    "translation" => "Good afternoon. What seems to be the problem today?"
+                ],
+                [
+                    "speaker" => "Patient",
+                    "text" => getTranslation($language, "I've had a sore throat and fever since yesterday."),
+                    "translation" => "I've had a sore throat and fever since yesterday."
                 ]
             ]
         ]
     ];
 
-    return $contentDatabase[$topicName] ?? $contentDatabase["Greetings"]; // Fallback to Greetings
+    // Return the correct topic content or empty content if topic doesn't exist
+    if (isset($contentDatabase[$topicName])) {
+        return $contentDatabase[$topicName];
+    } else {
+        // Return empty content structure instead of falling back to Greetings
+        return [
+            "vocabulary" => [],
+            "phrases" => [],
+            "grammar" => [
+                "point" => "Content Not Available",
+                "explanation" => "Lesson content for '{$topicName}' is being developed.",
+                "examples" => []
+            ],
+            "conversation" => []
+        ];
+    }
 }
 
 // Enhanced translation database with more languages
 function getTranslation($language, $english) {
     $translations = [
         "French" => [
+            // Greetings
             "Hello" => "Bonjour",
             "Goodbye" => "Au revoir",
             "Good morning" => "Bonjour", 
@@ -248,73 +420,70 @@ function getTranslation($language, $english) {
             "I'm fine" => "Je vais bien",
             "Thank you" => "Merci",
             "You're welcome" => "De rien",
-            "Good morning, how are you today?" => "Bonjour, comment allez-vous aujourd'hui?",
-            "Hey, what's up?" => "Salut, quoi de neuf?",
-            "My name is [Name], nice to meet you" => "Je m'appelle [Name], enchanté(e)",
-            "How have you been?" => "Comment allez-vous?",
-            "Good evening, how was your day?" => "Bonsoir, comment s'est passée votre journée?",
-            "I'm doing well, thank you for asking" => "Je vais bien, merci de demander",
-            "Good morning, Sarah! How are you?" => "Bonjour Sarah ! Comment ça va?",
-            "Good morning, Alex! I'm doing well, thank you. How about you?" => "Bonjour Alex ! Je vais bien, merci. Et toi?",
-            "I'm great, thanks! Have a good day!" => "Je vais très bien, merci ! Bonne journée!",
-            "You too, see you later!" => "Toi aussi, à plus tard!",
+            
+            // Food & Dining
             "Restaurant" => "Restaurant",
             "Menu" => "Menu",
-            "Water" => "Eau",
-            "Coffee" => "Café",
-            "Bread" => "Pain",
-            "Cheese" => "Fromage",
+            "Waiter" => "Serveur",
+            "Table" => "Table",
+            "Order" => "Commander",
             "Bill" => "Addition",
+            "Tip" => "Pourboire",
             "Delicious" => "Délicieux",
-            "I would like to order the pasta, please" => "Je voudrais commander les pâtes, s'il vous plaît",
-            "Could I see the menu, please?" => "Pourrais-je voir le menu, s'il vous plaît?",
-            "What do you recommend?" => "Que recommandez-vous?",
-            "This food is delicious!" => "Cette nourriture est délicieuse!",
-            "Could we have the bill, please?" => "Pourrions-nous avoir l'addition, s'il vous plaît?",
-            "I'm vegetarian, what options do you have?" => "Je suis végétarien(ne), quelles options avez-vous?",
-            "Good evening. Could we have a table for two?" => "Bonsoir. Pourrions-nous avoir une table pour deux?",
-            "Of course, right this way. Here are your menus." => "Bien sûr, par ici. Voici vos menus.",
-            "Thank you. I'll have the grilled chicken and my friend will have the pasta." => "Merci. Je prendrai le poulet grillé et mon ami prendra les pâtes.",
-            "Excellent choices. Anything to drink?" => "D'excellents choix. Quelque chose à boire?",
+            
+            // Travel & Transportation
             "Airport" => "Aéroport",
-            "Hotel" => "Hôtel", 
+            "Train station" => "Gare",
             "Ticket" => "Billet",
             "Passport" => "Passeport",
             "Luggage" => "Bagages",
-            "Directions" => "Itinéraire",
-            "Map" => "Carte",
-            "Taxi" => "Taxi",
-            "Excuse me, where is the train station?" => "Excusez-moi, où est la gare?",
-            "I have a reservation under the name Smith" => "J'ai une réservation au nom de Smith",
-            "Which gate for the flight to Paris?" => "Quelle porte pour le vol vers Paris?",
-            "How much is a ticket to the city center?" => "Combien coûte un billet pour le centre-ville?",
-            "I need help, I lost my passport" => "J'ai besoin d'aide, j'ai perdu mon passeport",
-            "How much does this cost?" => "Combien ça coûte?",
-            "Excuse me, could you help me? I'm looking for the Louvre Museum." => "Excusez-moi, pourriez-vous m'aider? Je cherche le musée du Louvre.",
-            "Of course! It's about 15 minutes from here. Go straight, then turn left at the bank." => "Bien sûr! C'est à environ 15 minutes d'ici. Allez tout droit, puis tournez à gauche à la banque.",
-            "Thank you so much! Should I walk or take the metro?" => "Merci beaucoup! Dois-je marcher ou prendre le métro?",
-            "Walking is nice, it's a beautiful day. You'll see many shops along the way." => "Marcher est agréable, c'est une belle journée. Vous verrez beaucoup de magasins en chemin.",
+            "Boarding pass" => "Carte d'embarquement",
+            "Departure" => "Départ",
+            "Arrival" => "Arrivée",
+            
+            // Family & Relationships
             "Mother" => "Mère",
             "Father" => "Père",
             "Brother" => "Frère", 
             "Sister" => "Sœur",
             "Parents" => "Parents",
             "Children" => "Enfants",
-            "Grandmother" => "Grand-mère",
-            "Grandfather" => "Grand-père",
-            "This is my mother, her name is Maria" => "Voici ma mère, elle s'appelle Maria",
-            "How many brothers and sisters do you have?" => "Combien de frères et sœurs as-tu?",
-            "I have two brothers and one sister" => "J'ai deux frères et une sœur",
-            "We like to have dinner together every Sunday" => "Nous aimons dîner ensemble tous les dimanches",
-            "My grandmother lives with us" => "Ma grand-mère vit avec nous",
-            "We're visiting my cousins this weekend" => "Nous visitons mes cousins ce week-end",
-            "This is a photo of my family. These are my parents." => "Voici une photo de ma famille. Ce sont mes parents.",
-            "They look lovely! How many siblings do you have?" => "Ils ont l'air charmants! Combien de frères et sœurs as-tu?",
-            "I have one older brother and one younger sister. My brother lives in London." => "J'ai un grand frère et une petite sœur. Mon frère vit à Londres.",
-            "That's nice. Do you visit him often?" => "C'est sympa. Tu lui rends souvent visite?"
+            "Grandparents" => "Grands-parents",
+            "Siblings" => "Frères et sœurs",
+            
+            // Shopping
+            "Store" => "Magasin",
+            "Price" => "Prix",
+            "Discount" => "Réduction",
+            "Size" => "Taille",
+            "Fitting room" => "Cabine d'essayage",
+            "Cashier" => "Caissier",
+            "Receipt" => "Reçu",
+            "Exchange" => "Échanger",
+            
+            // Work & Business
+            "Meeting" => "Réunion",
+            "Office" => "Bureau",
+            "Colleague" => "Collègue",
+            "Schedule" => "Emploi du temps",
+            "Deadline" => "Date limite",
+            "Presentation" => "Présentation",
+            "Client" => "Client",
+            "Project" => "Projet",
+            
+            // Health & Emergency
+            "Hospital" => "Hôpital",
+            "Doctor" => "Docteur",
+            "Medicine" => "Médicament",
+            "Pain" => "Douleur",
+            "Emergency" => "Urgence",
+            "Appointment" => "Rendez-vous",
+            "Pharmacy" => "Pharmacie",
+            "Insurance" => "Assurance"
         ],
         
         "Spanish" => [
+            // Greetings
             "Hello" => "Hola",
             "Goodbye" => "Adiós",
             "Good morning" => "Buenos días",
@@ -323,16 +492,70 @@ function getTranslation($language, $english) {
             "I'm fine" => "Estoy bien",
             "Thank you" => "Gracias",
             "You're welcome" => "De nada",
-            "Good morning, how are you today?" => "Buenos días, ¿cómo estás hoy?",
-            "Hey, what's up?" => "¿Oye, qué tal?",
-            "My name is [Name], nice to meet you" => "Me llamo [Name], mucho gusto",
-            "How have you been?" => "¿Cómo has estado?",
-            "Good evening, how was your day?" => "Buenas tardes, ¿cómo te fue hoy?",
-            "I'm doing well, thank you for asking" => "Estoy bien, gracias por preguntar",
-            // Add more Spanish translations following the same pattern...
+            
+            // Food & Dining
+            "Restaurant" => "Restaurante",
+            "Menu" => "Menú",
+            "Waiter" => "Camarero",
+            "Table" => "Mesa",
+            "Order" => "Pedir",
+            "Bill" => "Cuenta",
+            "Tip" => "Propina",
+            "Delicious" => "Delicioso",
+            
+            // Travel & Transportation
+            "Airport" => "Aeropuerto",
+            "Train station" => "Estación de tren",
+            "Ticket" => "Billete",
+            "Passport" => "Pasaporte",
+            "Luggage" => "Equipaje",
+            "Boarding pass" => "Tarjeta de embarque",
+            "Departure" => "Salida",
+            "Arrival" => "Llegada",
+            
+            // Family & Relationships
+            "Mother" => "Madre",
+            "Father" => "Padre",
+            "Brother" => "Hermano",
+            "Sister" => "Hermana",
+            "Parents" => "Padres",
+            "Children" => "Niños",
+            "Grandparents" => "Abuelos",
+            "Siblings" => "Hermanos",
+            
+            // Shopping
+            "Store" => "Tienda",
+            "Price" => "Precio",
+            "Discount" => "Descuento",
+            "Size" => "Talla",
+            "Fitting room" => "Probador",
+            "Cashier" => "Cajero",
+            "Receipt" => "Recibo",
+            "Exchange" => "Cambiar",
+            
+            // Work & Business
+            "Meeting" => "Reunión",
+            "Office" => "Oficina",
+            "Colleague" => "Colega",
+            "Schedule" => "Horario",
+            "Deadline" => "Fecha límite",
+            "Presentation" => "Presentación",
+            "Client" => "Cliente",
+            "Project" => "Proyecto",
+            
+            // Health & Emergency
+            "Hospital" => "Hospital",
+            "Doctor" => "Médico",
+            "Medicine" => "Medicina",
+            "Pain" => "Dolor",
+            "Emergency" => "Emergencia",
+            "Appointment" => "Cita",
+            "Pharmacy" => "Farmacia",
+            "Insurance" => "Seguro"
         ],
         
         "German" => [
+            // Greetings
             "Hello" => "Hallo",
             "Goodbye" => "Auf Wiedersehen", 
             "Good morning" => "Guten Morgen",
@@ -341,7 +564,66 @@ function getTranslation($language, $english) {
             "I'm fine" => "Mir geht es gut",
             "Thank you" => "Danke",
             "You're welcome" => "Bitte",
-            // Add more German translations...
+            
+            // Food & Dining
+            "Restaurant" => "Restaurant",
+            "Menu" => "Speisekarte",
+            "Waiter" => "Kellner",
+            "Table" => "Tisch",
+            "Order" => "Bestellen",
+            "Bill" => "Rechnung",
+            "Tip" => "Trinkgeld",
+            "Delicious" => "Köstlich",
+            
+            // Travel & Transportation
+            "Airport" => "Flughafen",
+            "Train station" => "Bahnhof",
+            "Ticket" => "Fahrkarte",
+            "Passport" => "Reisepass",
+            "Luggage" => "Gepäck",
+            "Boarding pass" => "Bordkarte",
+            "Departure" => "Abfahrt",
+            "Arrival" => "Ankunft",
+            
+            // Family & Relationships
+            "Mother" => "Mutter",
+            "Father" => "Vater",
+            "Brother" => "Bruder",
+            "Sister" => "Schwester",
+            "Parents" => "Eltern",
+            "Children" => "Kinder",
+            "Grandparents" => "Großeltern",
+            "Siblings" => "Geschwister",
+            
+            // Shopping
+            "Store" => "Geschäft",
+            "Price" => "Preis",
+            "Discount" => "Rabatt",
+            "Size" => "Größe",
+            "Fitting room" => "Umkleidekabine",
+            "Cashier" => "Kassierer",
+            "Receipt" => "Quittung",
+            "Exchange" => "Umtauschen",
+            
+            // Work & Business
+            "Meeting" => "Besprechung",
+            "Office" => "Büro",
+            "Colleague" => "Kollege",
+            "Schedule" => "Zeitplan",
+            "Deadline" => "Frist",
+            "Presentation" => "Präsentation",
+            "Client" => "Kunde",
+            "Project" => "Projekt",
+            
+            // Health & Emergency
+            "Hospital" => "Krankenhaus",
+            "Doctor" => "Arzt",
+            "Medicine" => "Medizin",
+            "Pain" => "Schmerz",
+            "Emergency" => "Notfall",
+            "Appointment" => "Termin",
+            "Pharmacy" => "Apotheke",
+            "Insurance" => "Versicherung"
         ]
     ];
     
@@ -358,14 +640,50 @@ function getPronunciation($language, $word) {
             "Je vais bien" => "zhuh vay byan",
             "Merci" => "mair-see",
             "De rien" => "duh ryan",
-            // Add more French pronunciations...
+            "Restaurant" => "res-toh-rahn",
+            "Menu" => "muh-noo",
+            "Serveur" => "ser-vuhr",
+            "Table" => "tabl",
+            "Commander" => "ko-mon-day",
+            "Addition" => "a-dee-syon",
+            "Pourboire" => "poor-bwar",
+            "Délicieux" => "day-lee-syuh",
+            "Aéroport" => "ay-eh-roh-por",
+            "Gare" => "gar",
+            "Billet" => "bee-yay",
+            "Passeport" => "pahs-por",
+            "Bagages" => "ba-gazh",
+            "Carte d'embarquement" => "kart don-bar-kuh-mon",
+            "Départ" => "day-par",
+            "Arrivée" => "a-ree-vay"
         ],
         "Spanish" => [
             "Hola" => "oh-lah",
             "Adiós" => "ah-dee-ohs",
             "Buenos días" => "bway-nos dee-ahs",
             "Gracias" => "grah-see-ahs",
-            // Add more Spanish pronunciations...
+            "Restaurante" => "res-tow-rahn-te",
+            "Menú" => "meh-noo",
+            "Camarero" => "kah-mah-reh-ro",
+            "Mesa" => "meh-sah",
+            "Pedir" => "peh-deer",
+            "Cuenta" => "kwen-tah",
+            "Propina" => "proh-pee-nah",
+            "Delicioso" => "deh-lee-see-oh-so"
+        ],
+        "German" => [
+            "Hallo" => "hah-loh",
+            "Auf Wiedersehen" => "owf vee-der-zay-en",
+            "Guten Morgen" => "goo-ten mor-gen",
+            "Danke" => "dahn-keh",
+            "Bitte" => "bit-teh",
+            "Restaurant" => "res-toh-rahnt",
+            "Speisekarte" => "shpy-zeh-kar-teh",
+            "Kellner" => "kel-ner",
+            "Tisch" => "tish",
+            "Bestellen" => "beh-shtel-len",
+            "Rechnung" => "rekh-noong",
+            "Trinkgeld" => "trink-gelt"
         ]
     ];
     
@@ -398,6 +716,24 @@ function getGrammarExplanation($language, $topic) {
             "Spanish" => "Use 'mi' for singular and 'mis' for plural: mi madre (my mother), mis hermanos (my brothers).",
             "German" => "Use 'mein/meine/mein' depending on gender: mein Vater (my father), meine Mutter (my mother).",
             "default" => "Use possessive adjectives that match the gender and number of the family member."
+        ],
+        "shopping_requests" => [
+            "French" => "Use 'Je cherche' (I'm looking for) and 'Avez-vous' (Do you have) when shopping.",
+            "Spanish" => "Use 'Estoy buscando' (I'm looking for) and '¿Tiene usted?' (Do you have).",
+            "German" => "Use 'Ich suche' (I'm looking for) and 'Haben Sie?' (Do you have).",
+            "default" => "Use polite request forms when shopping and asking for assistance."
+        ],
+        "business_communication" => [
+            "French" => "Use formal 'vous' and business vocabulary like 'réunion' (meeting) and 'projet' (project).",
+            "Spanish" => "Use formal 'usted' and professional terms like 'reunión' (meeting) and 'proyecto' (project).",
+            "German" => "Use formal 'Sie' and business terms like 'Besprechung' (meeting) and 'Projekt' (project).",
+            "default" => "Use formal language and professional vocabulary in business settings."
+        ],
+        "health_descriptions" => [
+            "French" => "Use 'J'ai' (I have) for symptoms and 'Ça fait mal' (It hurts) for pain descriptions.",
+            "Spanish" => "Use 'Tengo' (I have) for symptoms and 'Me duele' (It hurts me) for pain.",
+            "German" => "Use 'Ich habe' (I have) for symptoms and 'Es tut weh' (It hurts) for pain.",
+            "default" => "Use clear, descriptive language when discussing health issues and symptoms."
         ]
     ];
     
@@ -515,7 +851,7 @@ if (!$currentLesson) {
 <head>
     <meta charset="UTF-8">
     <title>Learn <?php echo htmlspecialchars($topic); ?> - <?php echo htmlspecialchars($lang); ?> | LinguaLearn</title>
-    <link rel="stylesheet" href="../../../public/css/Lessons/lesson.css">
+    <link rel="stylesheet" href="../../../../public/css/Lessons/lesson.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -558,10 +894,10 @@ if (!$currentLesson) {
                     <div class="vocabulary-grid">
                         <?php foreach ($currentLesson['content'] as $item): ?>
                             <div class="vocabulary-item">
-                                <div class="word"><?php echo $item['word']; ?></div>
-                                <div class="translation"><?php echo $item['translation']; ?></div>
-                                <div class="pronunciation"><?php echo $item['pronunciation']; ?></div>
-                                <button class="audio-btn" onclick="playAudio('<?php echo $item['translation']; ?>')">
+                                <div class="word"><?php echo htmlspecialchars($item['word']); ?></div>
+                                <div class="translation"><?php echo htmlspecialchars($item['translation']); ?></div>
+                                <div class="pronunciation"><?php echo htmlspecialchars($item['pronunciation']); ?></div>
+                                <button class="audio-btn" onclick="playAudio('<?php echo htmlspecialchars($item['translation']); ?>')">
                                     <i class="fas fa-volume-up"></i>
                                 </button>
                             </div>
@@ -573,7 +909,7 @@ if (!$currentLesson) {
                         <?php foreach ($currentLesson['content'] as $key => $phrase): ?>
                             <div class="phrase-item">
                                 <div class="phrase-key"><?php echo ucfirst(str_replace('_', ' ', $key)); ?>:</div>
-                                <div class="phrase-text"><?php echo $phrase; ?></div>
+                                <div class="phrase-text"><?php echo htmlspecialchars($phrase); ?></div>
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -581,14 +917,14 @@ if (!$currentLesson) {
                 <?php elseif ($currentLesson['type'] === 'grammar' && !empty($currentLesson['content'])): ?>
                     <div class="grammar-content">
                         <div class="grammar-point">
-                            <h3><?php echo $currentLesson['content']['point']; ?></h3>
-                            <p><?php echo $currentLesson['content']['explanation']; ?></p>
+                            <h3><?php echo htmlspecialchars($currentLesson['content']['point']); ?></h3>
+                            <p><?php echo htmlspecialchars($currentLesson['content']['explanation']); ?></p>
                         </div>
                         <?php if (!empty($currentLesson['content']['examples'])): ?>
                             <div class="examples">
                                 <h4>Examples:</h4>
                                 <?php foreach ($currentLesson['content']['examples'] as $example): ?>
-                                    <div class="example"><?php echo $example; ?></div>
+                                    <div class="example"><?php echo htmlspecialchars($example); ?></div>
                                 <?php endforeach; ?>
                             </div>
                         <?php endif; ?>
@@ -598,9 +934,9 @@ if (!$currentLesson) {
                     <div class="conversation-dialogue">
                         <?php foreach ($currentLesson['content'] as $line): ?>
                             <div class="dialogue-line">
-                                <span class="speaker"><?php echo $line['speaker']; ?>:</span>
-                                <span class="text"><?php echo $line['text']; ?></span>
-                                <span class="translation">(<?php echo $line['translation']; ?>)</span>
+                                <span class="speaker"><?php echo htmlspecialchars($line['speaker']); ?>:</span>
+                                <span class="text"><?php echo htmlspecialchars($line['text']); ?></span>
+                                <span class="translation">(<?php echo htmlspecialchars($line['translation']); ?>)</span>
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -616,7 +952,9 @@ if (!$currentLesson) {
             <div class="practice-section" id="practiceSection">
                 <h3><i class="fas fa-pencil-alt"></i> Practice Exercise</h3>
                 <div id="exerciseContent">
-                    <!-- Exercise content loaded by JavaScript -->
+                    <div class="loading-exercise">
+                        <i class="fas fa-spinner fa-spin"></i> Loading practice exercise...
+                    </div>
                 </div>
             </div>
 
@@ -643,12 +981,13 @@ if (!$currentLesson) {
         </div>
     </div>
 
-    <script src="../../../public/css/Lessons/lesson.js"></script>
     <script>
+        // Pass PHP data to JavaScript safely
         const lessonData = <?php echo json_encode($currentLesson); ?>;
-        const language = "<?php echo $lang; ?>";
-        const topic = "<?php echo $topic; ?>";
+        const language = "<?php echo addslashes($lang); ?>";
+        const topic = "<?php echo addslashes($topic); ?>";
         const currentLessonIndex = <?php echo $currentLessonIndex; ?>;
     </script>
+    <script src="../../../../public/js/Lessons/lesson.js"></script>
 </body>
 </html>
