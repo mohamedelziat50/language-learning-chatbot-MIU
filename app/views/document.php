@@ -58,7 +58,7 @@
                     </div>
                 </div>
                 <div class="ls-footer">
-                    <a href="./student/dashboard.php" class="ls-footer-btn"><i class="fas fa-arrow-left"></i><span>Back to Dashboard</span></a>
+                    <a href="./student/docs.php" class="ls-footer-btn"><i class="fas fa-arrow-left"></i><span>Back to Dashboard</span></a>
                     <button class="ls-footer-btn" onclick="alert('Sign out')"><i class="fas fa-right-from-bracket"></i><span>Sign out</span></button>
                 </div>
             </aside>

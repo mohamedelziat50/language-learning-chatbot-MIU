@@ -12,6 +12,7 @@ class DocumentEditor {
         this.bindEvents();
         this.initializeEditor();
         this.loadMockSuggestions();
+        this.initializeResponsive();
         // Default active tab: AI panel
         this.switchTab('ai');
     }
@@ -25,8 +26,10 @@ class DocumentEditor {
         // Tab elements
         this.tabButtons = document.querySelectorAll('.tab-btn');
         this.tabPanels = document.querySelectorAll('.tab-panel');
-        this.sidebar = document.querySelector('.right-sidebar');
+        this.rightSidebar = document.querySelector('.right-sidebar');
         this.sidebarToggle = document.getElementById('sidebar-toggle');
+        this.mainContentArea = document.querySelector('.main-content-area');
+        
         // Left sidebar elements
         this.leftSidebar = document.getElementById('left-sidebar');
         this.lsViews = {
@@ -128,7 +131,7 @@ class DocumentEditor {
             this.handleKeyboardShortcuts(e);
         });
 
-        // Sidebar toggle
+        // Sidebar toggle (handled in initializeResponsive for mobile)
         this.sidebarToggle.addEventListener('click', () => {
             this.toggleSidebar();
         });
@@ -188,8 +191,17 @@ class DocumentEditor {
     }
 
     toggleSidebar() {
+        const width = window.innerWidth;
+        
+        // Mobile behavior (768px and below)
+        if (width <= 768) {
+            this.rightSidebar.classList.toggle('active');
+            return;
+        }
+        
+        // Desktop behavior (above 768px)
         const mainContentArea = document.querySelector('.main-content-area');
-        const isHidden = this.sidebar.classList.toggle('hidden');
+        const isHidden = this.rightSidebar.classList.toggle('hidden');
         const icon = this.sidebarToggle.querySelector('i');
         
         if (isHidden) {
@@ -200,7 +212,7 @@ class DocumentEditor {
             icon.classList.add('fa-chevron-left');
             this.sidebarToggle.title = 'Show Assistant';
         } else {
-            // Show sidebar and restore two-column layout
+            // Show sidebar and restore layout
             mainContentArea.classList.remove('sidebar-hidden');
             this.sidebarToggle.classList.remove('sidebar-hidden');
             icon.classList.remove('fa-chevron-left');
@@ -419,7 +431,7 @@ class DocumentEditor {
         this.updateSuggestionCount();
         
         // Show success message
-        this.showNotification('Suggestion accepted', 'success');
+        window.NotificationManager.showNotification('Suggestion accepted', 'success');
     }
 
     dismissSuggestion(button) {
@@ -551,7 +563,7 @@ class DocumentEditor {
             emptyState.style.display = 'flex';
         }
         
-        this.showNotification('Chat cleared', 'info');
+        window.NotificationManager.showNotification('Chat cleared', 'info');
     }
 
     checkPlagiarism() {
@@ -613,7 +625,7 @@ class DocumentEditor {
     applyFormatting(type) {
         // Mock formatting implementation
         console.log(`Applying ${type} formatting`);
-        this.showNotification(`${type} formatting applied`, 'info');
+        window.NotificationManager.showNotification(`${type} formatting applied`, 'info');
     }
 
     handleKeyboardShortcuts(e) {
@@ -638,12 +650,6 @@ class DocumentEditor {
         }
     }
 
-    showNotification(message, type = 'info') {
-        // Use the global notification system
-        if (window.NotificationManager) {
-            window.NotificationManager.show(message, type);
-        }
-    }
 
     loadMockSuggestions() {
         // Load initial mock suggestions for demo
@@ -652,6 +658,50 @@ class DocumentEditor {
                 this.analyzeContent();
             }
         }, 1000);
+    }
+
+    initializeResponsive() {
+        // Handle mobile sidebar behavior
+        this.handleMobileResize();
+        window.addEventListener('resize', () => this.handleMobileResize());
+        
+        // Close right sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                if (this.rightSidebar.classList.contains('active') && 
+                    !this.rightSidebar.contains(e.target) && 
+                    !this.sidebarToggle.contains(e.target)) {
+                    this.rightSidebar.classList.remove('active');
+                }
+            }
+        });
+    }
+
+    handleMobileResize() {
+        const width = window.innerWidth;
+        
+        // Reset sidebar states on resize
+        if (width > 768) {
+            // Remove mobile classes
+            this.rightSidebar.classList.remove('active');
+            this.mainContentArea.classList.remove('sidebar-hidden');
+            
+            // Restore hidden state if it was hidden before
+            const wasHidden = this.rightSidebar.classList.contains('hidden');
+            if (wasHidden) {
+                this.mainContentArea.classList.add('sidebar-hidden');
+            }
+        } else {
+            // Mobile mode: always show as bottom sheet
+            this.rightSidebar.classList.remove('hidden');
+            this.mainContentArea.classList.remove('sidebar-hidden');
+            this.sidebarToggle.classList.remove('sidebar-hidden');
+            
+            // Reset icon
+            const icon = this.sidebarToggle.querySelector('i');
+            icon.classList.remove('fa-chevron-left');
+            icon.classList.add('fa-chevron-right');
+        }
     }
 }
 
