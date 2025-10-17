@@ -1,7 +1,7 @@
 <?php
 $currentPage = basename($_SERVER['PHP_SELF']);
 ?>
-<link rel="stylesheet" href="../../../public/css/partials/sidebar.css">
+<link rel="stylesheet" href="../../../public/css/student/sidebar.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome Icons -->
 <div class="sidebar">
     <div class="logo">Language Learning</div>
