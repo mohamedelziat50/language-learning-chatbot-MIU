@@ -1,7 +1,7 @@
 <?php
 $currentPage = basename($_SERVER['PHP_SELF']);
 ?>
-<link rel="stylesheet" href="../../../public/css/partials/sidebar.css">
+<link rel="stylesheet" href="../../../public/css/student/sidebar.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome Icons -->
 <div class="sidebar">
     <div class="logo">Language Learning</div>
@@ -15,7 +15,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             <a href="#"<?php if ($currentPage == 'discussion.php') echo ' class="active"'; ?>><i class="fas fa-comments"></i> Discussion</a>
         </div>
         <div class="bottom-links">
-            <a href="#"<?php if ($currentPage == 'profile.php') echo ' class="active"'; ?>><i class="fas fa-user"></i> Profile</a>
+            <a href="profile.php"<?php if ($currentPage == 'profile.php') echo ' class="active"'; ?>><i class="fas fa-user"></i> Profile</a>
             <a href="#"<?php if ($currentPage == 'logout.php') echo ' class="active"'; ?>><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </nav>
