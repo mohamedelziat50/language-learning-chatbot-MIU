@@ -1,3 +1,4 @@
+
 // Simple and Reliable Lesson Manager
 class SimpleLessonManager {
     constructor() {
