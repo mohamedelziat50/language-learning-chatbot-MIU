@@ -22,45 +22,53 @@ $languages = [
 <head>
     <meta charset="UTF-8">
     <title>Select Language - LinguaLearn</title>
+
+    <!-- ✅ Main Styles -->
     <link rel="stylesheet" href="../../../../public/css/Languages/language.css">
+
+    <!-- ✅ Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<?php
-// include sidebar partial (adjust path if your partials live elsewhere)
-$sidebarPath = __DIR__ . '../../partials/sidebar.php';
 
-if (file_exists($sidebarPath)) {
-    include_once $sidebarPath;
-}
-?>
+<!-- ✅ Main Layout Wrapper -->
+<div class="main-layout">
+    <!-- ✅ Main Page Content -->
+    <main class="content-area">
+    <!-- ✅ Sidebar (Loads Its Own CSS Internally) -->
+    <?php include '../../partials/sidebar.php'?>
 
-<!-- ✅ Enhanced Page Header -->
-<section class="page-header">
-    <div class="header-content">
-        <h2>Choose Your Language</h2>
-        <p>Select a language to start your learning journey with our AI chatbot</p>
-        <div class="search-container">
-            <input type="text" id="languageSearch" placeholder="Search languages..." class="search-input">
-        </div>
-    </div>
-</section>
 
-<!-- ✅ Language Grid with 5 items per row -->
-<div class="language-grid-container">
-    <div class="language-grid" id="languageGrid">
-        <?php foreach ($languages as $lang): ?>
-            <div class="language-card" data-language="<?php echo strtolower($lang['name']); ?>">
-                <div class="flag-container">
-                    <img src="<?php echo $lang['flag']; ?>" alt="<?php echo $lang['name']; ?> Flag" class="flag-image">
+        <section class="page-header">
+            <div class="header-content">
+                <h2>Choose Your Language</h2>
+                <p>Select a language to start your learning journey with our AI chatbot</p>
+                <div class="search-container">
+                    <input type="text" id="languageSearch" placeholder="Search languages..." class="search-input">
                 </div>
-                <h3 class="language-name"><?php echo $lang['name']; ?></h3>
-                <div class="select-btn">Start Learning</div>
             </div>
-        <?php endforeach; ?>
-    </div>
+        </section>
+
+        <!-- ✅ Language Grid -->
+        <div class="language-grid-container">
+            <div class="language-grid" id="languageGrid">
+                <?php foreach ($languages as $lang): ?>
+                    <div class="language-card" data-language="<?php echo strtolower($lang['name']); ?>">
+                        <div class="flag-container">
+                            <img src="<?php echo $lang['flag']; ?>" alt="<?php echo $lang['name']; ?> Flag" class="flag-image">
+                        </div>
+                        <h3 class="language-name"><?php echo $lang['name']; ?></h3>
+                        <div class="select-btn">Start Learning</div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+    </main>
 </div>
 
+<!-- ✅ Scripts -->
 <script src="../../../../public/js/Languages/language.js"></script>
+
 </body>
 </html>
