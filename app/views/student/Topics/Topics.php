@@ -1,13 +1,16 @@
 <?php
+// Include helper functions for better organization
+require_once '../Topics/helpers.php'; // Create this file with getTopicDescription() and getTopicIcon()
+
 $lang = $_GET['lang'] ?? null;
 
-// If no language selected → go back
+// Validate language parameter (basic check against JSON keys)
 if (!$lang) {
     header("Location: ../Languages/language.php");
     exit;
 }
 
-// Load topics data from JSON
+// Load topics data from JSON (path adjusted to match schema: Lesson/)
 $jsonPath = __DIR__ . '/../Lessons/lesson_data.json';
 if (!file_exists($jsonPath)) {
     die("❌ Topics data file not found!");
@@ -16,45 +19,41 @@ if (!file_exists($jsonPath)) {
 $jsonData = file_get_contents($jsonPath);
 $topicsData = json_decode($jsonData, true);
 
+// Error handling for invalid JSON
+if ($topicsData === null) {
+    die("❌ Invalid JSON data!");
+}
+
+// Validate lang exists in JSON
+if (!isset($topicsData[$lang])) {
+    die("❌ Language not found in data!");
+}
+
 // Extract topics for this language from JSON
 $languageTopics = $topicsData[$lang] ?? [];
 $topics = [];
 
 foreach ($languageTopics as $topicName => $topicContent) {
+    // Pull description from JSON if available, else fallback to helper
+    $description = $topicContent['description'] ?? getTopicDescription($topicName);
     $topics[] = [
         'name' => $topicName,
-        'description' => getTopicDescription($topicName)
+        'description' => $description
     ];
 }
 
-// Helper function to get topic descriptions
-function getTopicDescription($topicName) {
-    $descriptions = [
-        'Greetings' => 'Learn how to greet people formally and informally',
-        'Food & Dining' => 'Master restaurant vocabulary and ordering phrases',
-        'Travel' => 'Essential phrases for airports, hotels, and transportation',
-        'Family' => 'Talk about family members and relationships',
-        'Shopping' => 'Navigate stores, prices, and purchases confidently',
-        'Numbers' => 'Learn counting, prices, and basic mathematics',
-        'Weather' => 'Discuss weather conditions and forecasts',
-        'Daily Routine' => 'Describe your daily activities and schedule',
-        'Basics' => 'Essential words and phrases for beginners',
-        'Colors' => 'Learn colors and descriptive vocabulary',
-        'Food & Drinks' => 'Food items, drinks, and meal-related vocabulary',
-        'Transportation' => 'Public transport, directions, and travel',
-        'Hobbies' => 'Talk about interests and free time activities',
-        'Introductions' => 'Introduce yourself and others properly'
-    ];
-    
-    return $descriptions[$topicName] ?? 'Learn essential vocabulary and phrases for this topic';
-}
+// Prepare data for HTML rendering
+$pageTitle = htmlspecialchars($lang);
+$topicsCount = count($topics);
+$languageHighlight = htmlspecialchars($lang);
+$langUrl = urlencode($lang);
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Topics - <?php echo htmlspecialchars($lang); ?> | LinguaLearn</title>
+    <title>Topics - <?php echo $pageTitle; ?> | LinguaLearn</title>
     <link rel="stylesheet" href="../../../../public/css/Topics/Topics.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -76,8 +75,9 @@ function getTopicDescription($topicName) {
                     <div class="dropdown-content">
                         <?php
                         foreach ($topicsData as $language => $list) {
-                            $langUrl = urlencode($language);
-                            echo "<a href='../Topics/Topics.php?lang=$langUrl'><i class='fas fa-flag'></i> $language</a>";
+                            $langUrlDropdown = urlencode($language);
+                            $languageEscaped = htmlspecialchars($language);
+                            echo "<a href='../Topics/Topics.php?lang=$langUrlDropdown'><i class='fas fa-flag'></i> $languageEscaped</a>";
                         }
                         ?>
                     </div>
@@ -94,11 +94,11 @@ function getTopicDescription($topicName) {
     <div class="page-container">
         <div class="page-header">
             <div class="header-content">
-                <h1>Learn <span class="language-highlight"><?php echo htmlspecialchars($lang); ?></span></h1>
+                <h1>Learn <span class="language-highlight"><?php echo $languageHighlight; ?></span></h1>
                 <p>Choose a topic to start your learning journey. Each topic contains vocabulary, phrases, and interactive lessons.</p>
                 <div class="search-container">
                     <i class="fas fa-search"></i>
-                    <input type="text" id="topicSearch" placeholder="Search topics..." class="search-input">
+                    <input type="text" id="topicSearch" placeholder="Search topics..." class="search-input" aria-label="Search topics">
                 </div>
             </div>
         </div>
@@ -107,7 +107,7 @@ function getTopicDescription($topicName) {
             <div class="section-header">
                 <h2>Available Topics</h2>
                 <div class="topics-count">
-                    <span id="topicsCount"><?php echo count($topics); ?></span> topics available
+                    <span id="topicsCount"><?php echo $topicsCount; ?></span> topics available
                 </div>
             </div>
 
@@ -115,16 +115,18 @@ function getTopicDescription($topicName) {
                 <?php if (!empty($topics)): ?>
                     <?php foreach ($topics as $topic): ?>
                         <?php
-                            $tName   = htmlspecialchars($topic['name']);
-                            $tDesc   = htmlspecialchars($topic['description']);
-                            $langUrl = urlencode($lang);
+                            $tName = htmlspecialchars($topic['name']);
+                            $tDesc = htmlspecialchars($topic['description']);
                             $topicUrl = urlencode($topic['name']);
                             $topicIcon = getTopicIcon($tName);
                         ?>
                         <div class="topic-card"
                             data-topic="<?php echo $tName; ?>"
-                            data-language="<?php echo htmlspecialchars($lang); ?>"
-                            onclick="window.location.href='../Lessons/lesson.php?lang=<?php echo $langUrl; ?>&topic=<?php echo $topicUrl; ?>'">
+                            data-language="<?php echo $languageHighlight; ?>"
+                            onclick="window.location.href='../Lessons/lesson.php?lang=<?php echo $langUrl; ?>&topic=<?php echo $topicUrl; ?>'"
+                            tabindex="0"
+                            role="button"
+                            aria-label="Start learning <?php echo $tName; ?>">
                             
                             <div class="card-icon">
                                 <i class="<?php echo $topicIcon; ?>"></i>
@@ -178,27 +180,3 @@ function getTopicDescription($topicName) {
     <script src="../../../../public/js/Topics/Topics.js"></script>
 </body>
 </html>
-
-<?php
-// Helper function to get topic icons
-function getTopicIcon($topicName) {
-    $icons = [
-        'Greetings' => 'fas fa-handshake',
-        'Food & Dining' => 'fas fa-utensils',
-        'Travel' => 'fas fa-plane',
-        'Family' => 'fas fa-users',
-        'Shopping' => 'fas fa-shopping-cart',
-        'Numbers' => 'fas fa-sort-numeric-up',
-        'Weather' => 'fas fa-cloud-sun',
-        'Daily Routine' => 'fas fa-calendar-day',
-        'Basics' => 'fas fa-star',
-        'Colors' => 'fas fa-palette',
-        'Food & Drinks' => 'fas fa-coffee',
-        'Transportation' => 'fas fa-bus',
-        'Hobbies' => 'fas fa-gamepad',
-        'Introductions' => 'fas fa-user-plus'
-    ];
-    
-    return $icons[$topicName] ?? 'fas fa-book';
-}
-?>

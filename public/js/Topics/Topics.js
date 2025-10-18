@@ -1,112 +1,90 @@
 // Enhanced Topics Page Functionality
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
     const topicsGrid = document.getElementById('topicsGrid');
     const topicSearch = document.getElementById('topicSearch');
     const topicCards = document.querySelectorAll('.topic-card');
     const topicsCount = document.getElementById('topicsCount');
 
-    // Search functionality with enhanced features
-    topicSearch.addEventListener('input', function(e) {
-        const searchTerm = e.target.value.toLowerCase().trim();
-        let visibleCount = 0;
-        
-        topicCards.forEach(card => {
-            const topicName = card.getAttribute('data-topic').toLowerCase();
-            const language = card.getAttribute('data-language').toLowerCase();
-            const cardText = card.textContent.toLowerCase();
+    // Debounced search functionality
+    let searchTimeout;
+    const handleSearch = (e) => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            let visibleCount = 0;
             
-            if (topicName.includes(searchTerm) || 
-                language.includes(searchTerm) || 
-                cardText.includes(searchTerm)) {
-                card.classList.remove('hidden');
-                card.classList.add('fade-in');
-                visibleCount++;
-            } else {
-                card.classList.add('hidden');
-                card.classList.remove('fade-in');
+            topicCards.forEach(card => {
+                const topicName = card.getAttribute('data-topic').toLowerCase();
+                const language = card.getAttribute('data-language').toLowerCase();
+                const cardText = card.textContent.toLowerCase();
+                
+                const isVisible = topicName.includes(searchTerm) || 
+                                language.includes(searchTerm) || 
+                                cardText.includes(searchTerm);
+                
+                card.classList.toggle('hidden', !isVisible);
+                card.classList.toggle('fade-in', isVisible);
+                if (isVisible) visibleCount++;
+            });
+            
+            if (topicsCount) {
+                topicsCount.textContent = visibleCount;
             }
-        });
-        
-        // Update topics count
-        if (topicsCount) {
-            topicsCount.textContent = visibleCount;
-        }
-    });
+        }, 300); // Debounce delay
+    };
+    topicSearch.addEventListener('input', handleSearch);
 
     // Enhanced topic card interactions
-    topicCards.forEach(card => {
-        // Click handler with visual feedback
-        card.addEventListener('click', function(e) {
-            // Prevent multiple rapid clicks
-            if (this.classList.contains('clicked')) return;
-            this.classList.add('clicked');
+    const handleCardClick = (card) => {
+        // Prevent multiple rapid clicks
+        if (card.classList.contains('clicked')) return;
+        card.classList.add('clicked');
+        
+        // Add click animation
+        card.style.transform = 'scale(0.98)';
+        card.style.background = 'var(--light-green)';
+        
+        // Get topic data and redirect (simplified, no demo states)
+        const language = card.getAttribute('data-language');
+        const topic = card.getAttribute('data-topic');
+        
+        setTimeout(() => {
+            console.log(`Starting ${topic} in ${language}`);
+            // Actual redirect (uncomment when ready)
+            // window.location.href = `../Lessons/lesson.php?lang=${encodeURIComponent(language)}&topic=${encodeURIComponent(topic)}`;
             
-            // Add click animation
-            this.style.transform = 'scale(0.98)';
-            this.style.background = 'var(--light-green)';
-            
-            // Get topic data
-            const language = this.getAttribute('data-language');
-            const topic = this.getAttribute('data-topic');
-            
-            // Show loading state
-            const originalContent = this.innerHTML;
-            this.innerHTML = `
-                <div class="loading-state">
-                    <i class="fas fa-spinner fa-spin"></i>
-                    <p>Loading ${topic}...</p>
-                </div>
-            `;
-            
-            // Simulate loading and redirect
-            setTimeout(() => {
-                // In real implementation, this would redirect to the chatbot
-                console.log(`Starting ${topic} in ${language}`);
-                
-                // For now, just show a success message and redirect
-                this.innerHTML = `
-                    <div class="success-state">
-                        <i class="fas fa-check-circle"></i>
-                        <p>Starting ${topic}!</p>
-                    </div>
-                `;
-                
-                setTimeout(() => {
-                    // Redirect to chatbot (commented for now as per your note)
-                    // window.location.href = `../Chatbot/chatbot.php?lang=${encodeURIComponent(language)}&topic=${encodeURIComponent(topic)}`;
-                    
-                    // Reset card for demo purposes
-                    this.innerHTML = originalContent;
-                    this.classList.remove('clicked');
-                    this.style.transform = '';
-                    this.style.background = '';
-                }, 1000);
-                
-            }, 1500);
-        });
+            // Reset for demo
+            card.classList.remove('clicked');
+            card.style.transform = '';
+            card.style.background = '';
+        }, 500);
+    };
 
+    topicCards.forEach(card => {
+        card.addEventListener('click', () => handleCardClick(card));
+        
         // Keyboard navigation support
-        card.addEventListener('keydown', function(e) {
+        card.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                this.click();
+                handleCardClick(card);
             }
         });
-
+        
         // Enhanced hover effects
-        card.addEventListener('mouseenter', function() {
-            this.style.transition = 'all 0.3s ease';
+        card.addEventListener('mouseenter', () => {
+            card.style.transition = 'all 0.3s ease';
         });
     });
 
     // Quick language switcher
-    function createQuickLanguageSwitcher() {
+    const createQuickLanguageSwitcher = () => {
         const languageLinks = document.querySelectorAll('.dropdown-content a');
         languageLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
+            link.addEventListener('click', (e) => {
                 e.preventDefault();
-                const lang = this.textContent.trim();
-                const url = this.getAttribute('href');
+                const lang = link.textContent.trim();
+                const url = link.getAttribute('href');
                 
                 // Show loading overlay
                 const overlay = document.createElement('div');
@@ -119,17 +97,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 `;
                 document.body.appendChild(overlay);
                 
-                // Redirect after brief delay for smooth transition
+                // Redirect after brief delay
                 setTimeout(() => {
                     window.location.href = url;
                 }, 800);
             });
         });
-    }
+    };
     createQuickLanguageSwitcher();
 
     // Add loading states for better UX
-    function showLoadingState() {
+    const showLoadingState = () => {
         const loader = document.createElement('div');
         loader.className = 'page-loader';
         loader.innerHTML = `
@@ -143,10 +121,10 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             loader.remove();
         }, 1500);
-    }
+    };
 
     // Progress tracking simulation
-    function initializeProgressTracking() {
+    const initializeProgressTracking = () => {
         const statNumbers = document.querySelectorAll('.stat-number');
         statNumbers.forEach(stat => {
             const target = parseInt(stat.textContent);
@@ -162,14 +140,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }, 30);
         });
-    }
+    };
 
     // Initialize features
     showLoadingState();
     setTimeout(initializeProgressTracking, 2000);
 
     // Keyboard shortcuts
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', (e) => {
         // Focus search on Ctrl+K / Cmd+K
         if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
             e.preventDefault();
@@ -268,14 +246,13 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Error handling
-window.addEventListener('error', function(e) {
+window.addEventListener('error', (e) => {
     console.error('Error occurred:', e.error);
 });
 
 // Page visibility handling
-document.addEventListener('visibilitychange', function() {
+document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
-        // Page became visible again
         console.log('Page is now visible');
     }
 });
