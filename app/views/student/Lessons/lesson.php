@@ -1,176 +1,179 @@
 <?php
 session_start();
-$lang = $_GET['lang'] ?? 'English';
-$topic = $_GET['topic'] ?? 'Greetings';
+require_once '../Lessons/lesson_helper.php';
 
-// Initialize progress tracking
-if (!isset($_SESSION['user_progress'])) {
-    $_SESSION['user_progress'] = [];
+// CSRF Protection
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
-if (!isset($_SESSION['user_progress'][$lang])) {
-    $_SESSION['user_progress'][$lang] = [];
+// Input Validation and Sanitization
+$lang = filter_input(INPUT_GET, 'lang', FILTER_SANITIZE_STRING) ?: 'English';
+$topic = filter_input(INPUT_GET, 'topic', FILTER_SANITIZE_STRING) ?: 'Greetings';
+
+// Initialize Progress
+initializeUserProgress($lang, $topic);
+
+// Handle AJAX Progress Updates
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_progress') {
+    handleProgressUpdate();
+    exit;
 }
 
-if (!isset($_SESSION['user_progress'][$lang][$topic])) {
-    $_SESSION['user_progress'][$lang][$topic] = [
-        'completed_lessons' => [],
-        'score' => 0,
-        'words_learned' => 0,
-        'last_accessed' => date('Y-m-d H:i:s')
-    ];
-}
-
-// Load lesson data from JSON
-function loadLessonData($language, $topicName) {
-    $jsonPath = __DIR__ . '../Lessons/lesson_data.json';
-    if (!file_exists($jsonPath)) {
-        return null;
-    }
-    
-    $jsonData = file_get_contents($jsonPath);
-    $allData = json_decode($jsonData, true);
-    
-    if (isset($allData[$language][$topicName])) {
-        return $allData[$language][$topicName];
-    }
-    
-    return null;
-}
-
-// Get lesson content from JSON
-function getRealLessonContent($language, $topicName) {
-    $lessonData = loadLessonData($language, $topicName);
-    
-    if ($lessonData) {
-        return $lessonData;
-    }
-    
-    // Fallback for missing content
-        return [
-            "vocabulary" => [],
-            "phrases" => [],
-            "grammar" => [
-                "point" => "Content Not Available",
-                "explanation" => "Lesson content for '{$topicName}' is being developed.",
-                "examples" => []
-            ],
-            "conversation" => []
-        ];
-}
-
-
-// Progress tracking functions
-function updateProgress($language, $topic, $lessonType, $score = 0) {
-    if (!isset($_SESSION['user_progress'][$language][$topic]['completed_lessons'])) {
-        $_SESSION['user_progress'][$language][$topic]['completed_lessons'] = [];
-    }
-    
-    if (!in_array($lessonType, $_SESSION['user_progress'][$language][$topic]['completed_lessons'])) {
-        $_SESSION['user_progress'][$language][$topic]['completed_lessons'][] = $lessonType;
-        $_SESSION['user_progress'][$language][$topic]['score'] += $score;
-        $_SESSION['user_progress'][$language][$topic]['words_learned'] = count(getRealLessonContent($language, $topic)['vocabulary']);
-        $_SESSION['user_progress'][$language][$topic]['last_accessed'] = date('Y-m-d H:i:s');
-    }
-}
-
-function getProgressStats($language, $topic) {
-    if (!isset($_SESSION['user_progress'][$language][$topic])) {
-        return [
-            'completed' => 0,
-            'total' => 5,
-            'percentage' => 0,
-            'score' => 0,
-            'words_learned' => 0
-        ];
-    }
-    
-    $progress = $_SESSION['user_progress'][$language][$topic];
-    $completed = count($progress['completed_lessons'] ?? []);
-    $percentage = ($completed / 5) * 100;
-    
-    return [
-        'completed' => $completed,
-        'total' => 5,
-        'percentage' => $percentage,
-        'score' => $progress['score'] ?? 0,
-        'words_learned' => $progress['words_learned'] ?? 0
-    ];
-}
-
-// Handle lesson completion
+// Handle Lesson Completion (Legacy GET support)
 if (isset($_GET['complete']) && $_GET['complete'] === 'true') {
-    $lessonType = $_GET['type'] ?? '';
-    $score = $_GET['score'] ?? 10;
+    $lessonType = filter_input(INPUT_GET, 'type', FILTER_SANITIZE_STRING);
+    $score = (int)filter_input(INPUT_GET, 'score', FILTER_VALIDATE_INT, ['options' => ['default' => 10]]);
     updateProgress($lang, $topic, $lessonType, $score);
 }
 
-// Get lesson structure
-function getLessonStructure($language, $topicName) {
-    $baseStructure = [
-        "vocabulary" => [
-            "title" => "Essential Vocabulary",
-            "icon" => "fas fa-book",
-            "description" => "Learn key words and phrases for " . $topicName
-        ],
-        "phrases" => [
-            "title" => "Common Phrases", 
-            "icon" => "fas fa-comment",
-            "description" => "Useful expressions and sentences for " . $topicName
-        ],
-        "grammar" => [
-            "title" => "Grammar Basics",
-            "icon" => "fas fa-language",
-            "description" => "Important grammar rules for " . $topicName
-        ],
-        "conversation" => [
-            "title" => "Conversation Practice", 
-            "icon" => "fas fa-users",
-            "description" => "Real-life dialogue examples for " . $topicName
-        ],
-        "practice" => [
-            "title" => "Practice Exercise",
-            "icon" => "fas fa-pencil-alt", 
-            "description" => "Test your knowledge of " . $topicName
-        ]
-    ];
-    
-    $content = getRealLessonContent($language, $topicName);
-    $lessons = [];
-    $lessonTypes = array_keys($baseStructure);
-    
-    foreach ($lessonTypes as $index => $type) {
-        $lessons[] = [
-            "id" => $index + 1,
-            "type" => $type,
-            "title" => $baseStructure[$type]["title"],
-            "icon" => $baseStructure[$type]["icon"],
-            "description" => $baseStructure[$type]["description"],
-            "content" => $content[$type] ?? []
-        ];
-    }
-    
-    return $lessons;
-}
-
+// Load Lesson Data
 $lessons = getLessonStructure($lang, $topic);
-$totalLessons = count($lessons);
-$currentLessonIndex = isset($_GET['lesson']) ? (int)$_GET['lesson'] : 0;
-$currentLesson = $lessons[$currentLessonIndex] ?? $lessons[0];
-
-// Get progress stats
-$progressStats = getProgressStats($lang, $topic);
+$currentLessonIndex = isset($_GET['lesson']) ? max(0, min((int)$_GET['lesson'], count($lessons) - 1)) : 0;
+$currentLesson = $lessons[$currentLessonIndex] ?? null;
 
 if (!$currentLesson) {
     header("Location: ../Topics/Topics.php?lang=" . urlencode($lang));
     exit;
 }
+
+$progressStats = getProgressStats($lang, $topic);
+$progressPercent = ($currentLessonIndex + 1) / count($lessons) * 100;
+
+// Prepare Data for JS
+$lessonData = json_encode($currentLesson['content'] ?? [], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+/**
+ * Handle AJAX progress updates with CSRF protection
+ */
+function handleProgressUpdate() {
+    if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'] ?? '')) {
+        http_response_code(403);
+        echo json_encode(['error' => 'Invalid CSRF token']);
+        exit;
+    }
+    
+    $lang = filter_input(INPUT_POST, 'lang', FILTER_SANITIZE_STRING) ?: 'English';
+    $topic = filter_input(INPUT_POST, 'topic', FILTER_SANITIZE_STRING) ?: 'Greetings';
+    $lessonType = filter_input(INPUT_POST, 'lesson_type', FILTER_SANITIZE_STRING);
+    $score = (int)filter_input(INPUT_POST, 'score', FILTER_VALIDATE_INT, ['options' => ['default' => 0]]);
+    
+    updateProgress($lang, $topic, $lessonType, $score);
+    echo json_encode(['success' => true, 'progress' => getProgressStats($lang, $topic)]);
+}
+
+/**
+ * Render lesson content based on type
+ */
+function renderLessonContent($lesson) {
+    $type = $lesson['type'];
+    $content = $lesson['content'] ?? [];
+
+    switch ($type) {
+        case 'vocabulary':
+            renderVocabularyContent($content);
+            break;
+        case 'phrases':
+            renderPhrasesContent($content);
+            break;
+        case 'grammar':
+            renderGrammarContent($content);
+            break;
+        case 'conversation':
+            renderConversationContent($content);
+            break;
+        case 'practice':
+            renderPracticeContent();
+            break;
+        default:
+            renderDefaultContent();
+    }
+}
+
+function renderVocabularyContent($content) {
+    if (empty($content)) {
+        echo '<div class="no-content">No vocabulary data available</div>';
+        return;
+    }
+    
+    echo '<div class="vocabulary-grid">';
+    foreach ($content as $item) {
+        echo '<div class="vocabulary-item">';
+        echo '<div class="word">' . htmlspecialchars($item['word'] ?? '') . '</div>';
+        echo '<div class="translation">' . htmlspecialchars($item['translation'] ?? '') . '</div>';
+        echo '<div class="pronunciation">' . htmlspecialchars($item['pronunciation'] ?? '') . '</div>';
+        echo '<button class="audio-btn" onclick="playAudio(\'' . htmlspecialchars($item['translation'] ?? '') . '\')"><i class="fas fa-volume-up"></i></button>';
+        echo '</div>';
+    }
+    echo '</div>';
+}
+
+function renderPhrasesContent($content) {
+    if (empty($content)) {
+        echo '<div class="no-content">No phrases data available</div>';
+        return;
+    }
+    
+    echo '<div class="phrases-list">';
+    foreach ($content as $key => $phrase) {
+        echo '<div class="phrase-item">';
+        echo '<div class="phrase-key">' . htmlspecialchars(ucfirst(str_replace('_', ' ', $key))) . ':</div>';
+        echo '<div class="phrase-text">' . htmlspecialchars($phrase) . '</div>';
+        echo '</div>';
+    }
+    echo '</div>';
+}
+
+function renderGrammarContent($content) {
+    if (empty($content)) {
+        echo '<div class="no-content">No grammar data available</div>';
+        return;
+    }
+    
+    echo '<div class="grammar-content">';
+    echo '<div class="grammar-point"><h3>' . htmlspecialchars($content['point'] ?? '') . '</h3><p>' . htmlspecialchars($content['explanation'] ?? '') . '</p></div>';
+    if (!empty($content['examples'])) {
+        echo '<div class="examples"><h4>Examples:</h4>';
+        foreach ($content['examples'] as $example) {
+            echo '<div class="example">' . htmlspecialchars($example) . '</div>';
+        }
+        echo '</div>';
+    }
+    echo '</div>';
+}
+
+function renderConversationContent($content) {
+    if (empty($content)) {
+        echo '<div class="no-content">No conversation data available</div>';
+        return;
+    }
+    
+    echo '<div class="conversation-dialogue">';
+    foreach ($content as $line) {
+        echo '<div class="dialogue-line">';
+        echo '<span class="speaker">' . htmlspecialchars($line['speaker'] ?? '') . ':</span>';
+        echo '<span class="text">' . htmlspecialchars($line['text'] ?? '') . '</span>';
+        echo '<span class="translation">(' . htmlspecialchars($line['translation'] ?? '') . ')</span>';
+        echo '</div>';
+    }
+    echo '</div>';
+}
+
+function renderPracticeContent() {
+    echo '<div class="practice-intro"><p>Test your knowledge with interactive exercises!</p></div>';
+}
+
+function renderDefaultContent() {
+    echo '<div class="default-content"><p>Lesson content is being prepared.</p></div>';
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Learn <?php echo htmlspecialchars($topic); ?> - <?php echo htmlspecialchars($lang); ?> | LinguaLearn</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo htmlspecialchars("$topic - $lang | LinguaLearn"); ?></title>
     <link rel="stylesheet" href="../../../../public/css/Lessons/lesson.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -179,8 +182,7 @@ if (!$currentLesson) {
     <nav class="navbar">
         <div class="nav-container">
             <a href="../Languages/language.php" class="logo">
-                <i class="fas fa-globe-americas"></i>
-                LinguaLearn
+                <i class="fas fa-globe-americas"></i> LinguaLearn
             </a>
             <ul class="nav-menu">
                 <li><a href="../dashboard.php" class="nav-link"><i class="fas fa-home"></i> Dashboard</a></li>
@@ -191,92 +193,33 @@ if (!$currentLesson) {
 
     <div class="lesson-container">
         <div class="lesson-header">
-            <h1>Learn <?php echo htmlspecialchars($topic); ?></h1>
+            <h1><?php echo htmlspecialchars($topic); ?></h1>
             <p class="language-badge"><?php echo htmlspecialchars($lang); ?></p>
         </div>
 
-        <!-- Progress Bar -->
         <div class="lesson-progress">
-            <span>Lesson <?php echo $currentLessonIndex + 1; ?> of <?php echo $totalLessons; ?></span>
+            <span>Lesson <?php echo $currentLessonIndex + 1; ?> of <?php echo count($lessons); ?></span>
             <div class="progress-bar">
-                <div class="progress-fill" style="width: <?php echo (($currentLessonIndex + 1) / $totalLessons) * 100; ?>%"></div>
+                <div class="progress-fill" style="width: <?php echo $progressPercent; ?>%"></div>
             </div>
-            <span><?php echo $currentLesson['title']; ?></span>
+            <span><?php echo htmlspecialchars($currentLesson['title']); ?></span>
         </div>
 
-        <!-- Lesson Content -->
         <div class="lesson-content">
-            <div class="lesson-card <?php echo $currentLesson['type']; ?>">
-                <h2><i class="<?php echo $currentLesson['icon']; ?>"></i> <?php echo $currentLesson['title']; ?></h2>
-                <p class="lesson-description"><?php echo $currentLesson['description']; ?></p>
+            <div class="lesson-card <?php echo htmlspecialchars($currentLesson['type']); ?>">
+                <h2><i class="<?php echo htmlspecialchars($currentLesson['icon']); ?>"></i> <?php echo htmlspecialchars($currentLesson['title']); ?></h2>
+                <p class="lesson-description"><?php echo htmlspecialchars($currentLesson['description']); ?></p>
                 
-                <?php if ($currentLesson['type'] === 'vocabulary' && !empty($currentLesson['content'])): ?>
-                    <div class="vocabulary-grid">
-                        <?php foreach ($currentLesson['content'] as $item): ?>
-                            <div class="vocabulary-item">
-                                <div class="word"><?php echo htmlspecialchars($item['word']); ?></div>
-                                <div class="translation"><?php echo htmlspecialchars($item['translation']); ?></div>
-                                <div class="pronunciation"><?php echo htmlspecialchars($item['pronunciation']); ?></div>
-                                <button class="audio-btn" onclick="playAudio('<?php echo htmlspecialchars($item['translation']); ?>')">
-                                    <i class="fas fa-volume-up"></i>
-                                </button>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-
-                <?php elseif ($currentLesson['type'] === 'phrases' && !empty($currentLesson['content'])): ?>
-                    <div class="phrases-list">
-                        <?php foreach ($currentLesson['content'] as $key => $phrase): ?>
-                            <div class="phrase-item">
-                                <div class="phrase-key"><?php echo ucfirst(str_replace('_', ' ', $key)); ?>:</div>
-                                <div class="phrase-text"><?php echo htmlspecialchars($phrase); ?></div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-
-                <?php elseif ($currentLesson['type'] === 'grammar' && !empty($currentLesson['content'])): ?>
-                    <div class="grammar-content">
-                        <div class="grammar-point">
-                            <h3><?php echo htmlspecialchars($currentLesson['content']['point']); ?></h3>
-                            <p><?php echo htmlspecialchars($currentLesson['content']['explanation']); ?></p>
-                        </div>
-                        <?php if (!empty($currentLesson['content']['examples'])): ?>
-                            <div class="examples">
-                                <h4>Examples:</h4>
-                                <?php foreach ($currentLesson['content']['examples'] as $example): ?>
-                                    <div class="example"><?php echo htmlspecialchars($example); ?></div>
-                                <?php endforeach; ?>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-
-                <?php elseif ($currentLesson['type'] === 'conversation' && !empty($currentLesson['content'])): ?>
-                    <div class="conversation-dialogue">
-                        <?php foreach ($currentLesson['content'] as $line): ?>
-                            <div class="dialogue-line">
-                                <span class="speaker"><?php echo htmlspecialchars($line['speaker']); ?>:</span>
-                                <span class="text"><?php echo htmlspecialchars($line['text']); ?></span>
-                                <span class="translation">(<?php echo htmlspecialchars($line['translation']); ?>)</span>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-
-                <?php elseif ($currentLesson['type'] === 'practice'): ?>
-                    <div class="practice-intro">
-                        <p>Test your knowledge with interactive exercises!</p>
-                    </div>
-                <?php endif; ?>
+                <?php renderLessonContent($currentLesson); ?>
             </div>
 
-            <!-- Practice Section -->
             <div class="practice-section" id="practiceSection">
                 <h3><i class="fas fa-pencil-alt"></i> Practice Exercise</h3>
-                <div id="exerciseContent">
-                    <!-- Exercise will be loaded here by JavaScript -->
+                <div id="exerciseContent" aria-live="polite">
+                    <div class="loading-spinner">Loading exercise...</div>
                 </div>
             </div>
 
-            <!-- Navigation -->
             <div class="lesson-nav">
                 <?php if ($currentLessonIndex > 0): ?>
                     <a href="?lang=<?php echo urlencode($lang); ?>&topic=<?php echo urlencode($topic); ?>&lesson=<?php echo $currentLessonIndex - 1; ?>" class="nav-btn">
@@ -285,8 +228,7 @@ if (!$currentLesson) {
                 <?php else: ?>
                     <span></span>
                 <?php endif; ?>
-
-                <?php if ($currentLessonIndex < $totalLessons - 1): ?>
+                <?php if ($currentLessonIndex < count($lessons) - 1): ?>
                     <a href="?lang=<?php echo urlencode($lang); ?>&topic=<?php echo urlencode($topic); ?>&lesson=<?php echo $currentLessonIndex + 1; ?>" class="nav-btn primary" id="nextBtn">
                         Next Lesson <i class="fas fa-arrow-right"></i>
                     </a>
@@ -300,16 +242,13 @@ if (!$currentLesson) {
     </div>
 
     <script>
-        // Simple data passing
-        const language = "<?php echo addslashes($lang); ?>";
-        const topic = "<?php echo addslashes($topic); ?>";
-        const currentLessonType = "<?php echo addslashes($currentLesson['type'] ?? ''); ?>";
-        
-        console.log('Lesson Data:', {
-            language: language,
-            topic: topic,
-            type: currentLessonType
-        });
+        const CONFIG = {
+            language: "<?php echo addslashes($lang); ?>",
+            topic: "<?php echo addslashes($topic); ?>",
+            lessonType: "<?php echo addslashes($currentLesson['type'] ?? ''); ?>",
+            lessonData: <?php echo $lessonData; ?>,
+            csrfToken: "<?php echo $_SESSION['csrf_token']; ?>"
+        };
     </script>
     <script src="../../../../public/js/Lessons/lesson.js"></script>
 </body>
