@@ -1,10 +1,10 @@
 /* ===== CSS Variables for Enhanced Green & White Theme ===== */
 :root {
-    --primary-green: #12ac54;
-    --dark-green: #0d8a42;
+    --primary-green: #027e6f;
+    --dark-green: #027e6f;
     --light-green: #e8f5e9;
-    --accent-green: #58cc02;
-    --bright-green: #4cd964;
+    --accent-green: #027e6f;
+    --bright-green: #027e6f;
     --white: #ffffff;
     --off-white: #fafafa;
     --light-gray: #f8f9fa;
@@ -888,4 +888,43 @@ body {
 ::-moz-selection {
     background: rgba(18, 172, 84, 0.2);
     color: var(--text-dark);
+}
+
+/* Footer */
+.footer {
+    background: linear-gradient(135deg, var(--dark-green) 0%, var(--primary-green) 100%);
+    color: var(--white);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    margin-top: 4rem;
+}
+.footer-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.footer p {
+    margin: 0;
+    font-size: 1rem;
+}
+.footer a {
+    color: var(--bright-green);
+    text-decoration: none;
+    font-weight: 600;
+}
+.footer-links {
+    margin-top: 1rem;
+}
+.footer-links a {
+    margin: 0 1rem;
+    font-size: 0.95rem;
+    transition: var(--transition);
+}
+.footer-links a:hover {
+    text-decoration: underline;
+}
+.footer-copyright {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-light);
 }
