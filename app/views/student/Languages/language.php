@@ -26,18 +26,14 @@ $languages = [
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<!-- ✅ Enhanced Navbar -->
-<nav class="navbar">
-    <div class="nav-container">
-        <h1 class="logo">🌍 LinguaLearn</h1>
-        <ul class="nav-menu">
-            <li><a href="./../dashboard.php" class="nav-link">Dashboard</a></li>
-            <li><a href="../profile.php" class="nav-link">Profile</a></li>
-            <li><a href="about.php" class="nav-link">About</a></li>
-            <li><a href="contact.php" class="nav-link">Contact</a></li>
-        </ul>
-    </div>
-</nav>
+<?php
+// include sidebar partial (adjust path if your partials live elsewhere)
+$sidebarPath = __DIR__ . '../../partials/sidebar.php';
+
+if (file_exists($sidebarPath)) {
+    include_once $sidebarPath;
+}
+?>
 
 <!-- ✅ Enhanced Page Header -->
 <section class="page-header">
@@ -64,18 +60,6 @@ $languages = [
         <?php endforeach; ?>
     </div>
 </div>
-
-<!-- ✅ Enhanced Footer -->
-<footer class="footer">
-    <div class="footer-content">
-        <p>© 2025 LinguaLearn | Created by Team AI Language Learning</p>
-        <div class="footer-links">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Support</a>
-        </div>
-    </div>
-</footer>
 
 <script src="../../../../public/js/Languages/language.js"></script>
 </body>
