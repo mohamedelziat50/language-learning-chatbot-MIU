@@ -1,636 +1,705 @@
-class RealLessonManager {
+// Simple and Reliable Lesson Manager
+class SimpleLessonManager {
     constructor() {
-        this.currentExercise = null;
         this.userScore = 0;
-        this.currentLessonType = lessonData.type;
         this.init();
     }
 
     init() {
-        this.loadRealExercise();
-        this.setupEventListeners();
-        console.log('Lesson manager initialized for:', this.currentLessonType);
+        console.log('SimpleLessonManager initialized');
+        this.loadExercise();
     }
 
-    loadRealExercise() {
+    loadExercise() {
         const exerciseContent = document.getElementById('exerciseContent');
-        if (!lessonData || !exerciseContent) {
-            console.error('Exercise content not found');
+        if (!exerciseContent) {
+            console.error('Exercise content element not found');
             return;
         }
 
+        console.log('Loading exercise...');
+        console.log('Language:', typeof language !== 'undefined' ? language : 'undefined');
+        console.log('Topic:', typeof topic !== 'undefined' ? topic : 'undefined');
+        console.log('Lesson Type:', typeof currentLessonType !== 'undefined' ? currentLessonType : 'undefined');
+
+        // Load data from JSON file
+        this.loadLessonData();
+    }
+
+    async loadLessonData() {
         try {
-            switch (this.currentLessonType) {
-                case 'vocabulary':
-                    this.renderVocabularyExercise();
-                    break;
-                case 'phrases':
-                    this.renderPhrasesExercise();
-                    break;
-                case 'grammar':
-                    this.renderGrammarExercise();
-                    break;
-                case 'conversation':
-                    this.renderConversationExercise();
-                    break;
-                case 'practice':
-                    this.renderComprehensiveExercise();
-                    break;
-                default:
-                    this.renderDefaultExercise();
+            const response = await fetch('lesson_data.json');
+            const allData = await response.json();
+            
+            console.log('Loaded JSON data:', allData);
+            
+            const currentLanguage = typeof language !== 'undefined' ? language : 'French';
+            const currentTopic = typeof topic !== 'undefined' ? topic : 'Greetings';
+            
+            console.log('Looking for:', currentLanguage, currentTopic);
+            
+            if (allData[currentLanguage] && allData[currentLanguage][currentTopic]) {
+                const lessonData = allData[currentLanguage][currentTopic];
+                console.log('Found lesson data:', lessonData);
+                this.createExerciseFromData(lessonData);
+            } else {
+                console.log('No data found, using fallback');
+                this.createFallbackExercise();
             }
         } catch (error) {
-            console.error('Error loading exercise:', error);
-            this.showError('Failed to load exercise. Please refresh the page.');
+            console.error('Error loading lesson data:', error);
+            this.createFallbackExercise();
         }
     }
 
-    renderVocabularyExercise() {
-        const vocabulary = lessonData.content;
-        if (!vocabulary || !Array.isArray(vocabulary)) {
-            this.showError('Vocabulary content not available');
+    createExerciseFromData(lessonData) {
+        const exerciseContent = document.getElementById('exerciseContent');
+        
+        console.log('Creating exercise from data:', lessonData);
+        
+        // Check what type of content we have
+        if (lessonData.vocabulary && lessonData.vocabulary.length > 0) {
+            this.createVocabularyExerciseFromData(lessonData.vocabulary);
+        } else if (lessonData.phrases && Object.keys(lessonData.phrases).length > 0) {
+            this.createPhrasesExerciseFromData(lessonData.phrases);
+        } else if (lessonData.grammar) {
+            this.createGrammarExerciseFromData(lessonData.grammar);
+        } else if (lessonData.conversation && lessonData.conversation.length > 0) {
+            this.createConversationExerciseFromData(lessonData.conversation);
+        } else {
+            this.createFallbackExercise();
+        }
+    }
+
+    createVocabularyExerciseFromData(vocabulary) {
+        const exerciseContent = document.getElementById('exerciseContent');
+        
+        if (vocabulary.length < 2) {
+            this.createFallbackExercise();
             return;
         }
 
+        // Pick a random word
         const testWord = vocabulary[Math.floor(Math.random() * vocabulary.length)];
         const wrongOptions = vocabulary
             .filter(item => item.word !== testWord.word)
             .sort(() => Math.random() - 0.5)
             .slice(0, 3);
-        
+
         const allOptions = [testWord, ...wrongOptions].sort(() => Math.random() - 0.5);
 
         const exerciseHTML = `
             <div class="exercise-content">
-                <div class="question">What is the correct translation for "<strong>${this.escapeHtml(testWord.word)}</strong>" in ${language}?</div>
+                <div class="question">
+                    <h4>What is the correct translation for "<strong>${testWord.word}</strong>" in ${typeof language !== 'undefined' ? language : 'French'}?</h4>
+                </div>
                 <div class="options-grid">
                     ${allOptions.map((item, index) => `
-                        <div class="option" data-correct="${item.word === testWord.word}" onclick="realLessonManager.selectOption(this)">
-                            <strong>${this.escapeHtml(item.translation)}</strong>
-                            ${item.pronunciation ? `<div class="pronunciation-hint">${this.escapeHtml(item.pronunciation)}</div>` : ''}
+                        <div class="option" data-correct="${item.word === testWord.word}" onclick="selectOption(this)">
+                            <strong>${item.translation}</strong>
+                            <div class="pronunciation">${item.pronunciation || ''}</div>
                         </div>
                     `).join('')}
                 </div>
                 <div class="exercise-hint">
-                    <i class="fas fa-lightbulb"></i> Remember: We learned this word in the vocabulary section!
+                    <i class="fas fa-lightbulb"></i> Choose the correct translation!
                 </div>
-                <button class="submit-btn" onclick="realLessonManager.checkAnswer()" disabled>
+                <button class="submit-btn" onclick="checkAnswer()" disabled>
                     <i class="fas fa-check"></i> Check Answer
                 </button>
                 <div id="feedback"></div>
             </div>
         `;
-        
-        document.getElementById('exerciseContent').innerHTML = exerciseHTML;
+
+        exerciseContent.innerHTML = exerciseHTML;
+        this.setupEventListeners();
     }
 
-    renderPhrasesExercise() {
-        const phrases = lessonData.content;
-        if (!phrases || typeof phrases !== 'object') {
-            this.showError('Phrases content not available');
-            return;
-        }
-
+    createPhrasesExerciseFromData(phrases) {
+        const exerciseContent = document.getElementById('exerciseContent');
         const phraseEntries = Object.entries(phrases);
+        
         if (phraseEntries.length === 0) {
-            this.showError('No phrases available for this exercise');
+            this.createFallbackExercise();
             return;
         }
 
-        const testPhrase = phraseEntries[Math.floor(Math.random() * phraseEntries.length)];
-        const [situation, correctAnswer] = testPhrase;
+        const [situation, correctAnswer] = phraseEntries[Math.floor(Math.random() * phraseEntries.length)];
 
         const exerciseHTML = `
             <div class="exercise-content">
-                <div class="question">How would you say this in ${language}?</div>
+                <div class="question">
+                    <h4>How would you say this in ${typeof language !== 'undefined' ? language : 'French'}?</h4>
+                </div>
                 <div class="scenario">
                     <strong>Situation:</strong> ${this.getPhraseSituation(situation)}
                 </div>
                 <div class="fill-blank-exercise">
                     <textarea class="phrase-input" placeholder="Write your translation here..." rows="3"></textarea>
                     <div class="writing-tips">
-                        <i class="fas fa-tips"></i> Tip: Try to remember the phrases we learned earlier!
+                        <i class="fas fa-lightbulb"></i> Tip: Try to remember the phrases we learned!
                     </div>
-                    <button class="submit-btn" onclick="realLessonManager.checkPhraseAnswer('${this.escapeHtml(correctAnswer)}')">
+                    <button class="submit-btn" onclick="checkPhraseAnswer('${correctAnswer}')">
                         <i class="fas fa-check"></i> Check Translation
                     </button>
                 </div>
                 <div id="feedback"></div>
             </div>
         `;
-        
-        document.getElementById('exerciseContent').innerHTML = exerciseHTML;
+
+        exerciseContent.innerHTML = exerciseHTML;
     }
 
-    renderGrammarExercise() {
-        const grammar = lessonData.content;
-        if (!grammar || typeof grammar !== 'object') {
-            this.showError('Grammar content not available');
-            return;
-        }
+    createGrammarExerciseFromData(grammar) {
+        const exerciseContent = document.getElementById('exerciseContent');
 
         const exerciseHTML = `
             <div class="exercise-content">
-                <div class="question">Apply the grammar rule to complete the exercise:</div>
+                <div class="question">
+                    <h4>Apply the grammar rule to complete the exercise:</h4>
+                </div>
                 <div class="grammar-exercise">
                     <div class="grammar-rule">
-                        <strong>Rule:</strong> ${this.escapeHtml(grammar.explanation || 'No explanation available')}
+                        <strong>Rule:</strong> ${grammar.explanation || 'Grammar rule'}
                     </div>
-                    
                     <div class="exercise-task">
                         <p><strong>Task:</strong> Create 2 sentences using the grammar rule we just learned.</p>
-                        
                         <div class="sentence-input-group">
                             <label>Sentence 1:</label>
                             <textarea class="sentence-input" placeholder="Write your first sentence here..." rows="2"></textarea>
                         </div>
-                        
                         <div class="sentence-input-group">
                             <label>Sentence 2:</label>
                             <textarea class="sentence-input" placeholder="Write your second sentence here..." rows="2"></textarea>
                         </div>
-                        
-                        ${grammar.examples && grammar.examples.length > 0 ? `
-                            <div class="examples-reference">
-                                <strong>Examples from the lesson:</strong>
-                                ${grammar.examples.map(example => `<div class="example-item">${this.escapeHtml(example)}</div>`).join('')}
-                            </div>
-                        ` : ''}
                     </div>
-                    
-                    <button class="submit-btn" onclick="realLessonManager.checkGrammarExercise()">
+                    <button class="submit-btn" onclick="checkGrammarExercise()">
                         <i class="fas fa-check"></i> Submit Sentences
                     </button>
                 </div>
                 <div id="feedback"></div>
             </div>
         `;
-        
-        document.getElementById('exerciseContent').innerHTML = exerciseHTML;
+
+        exerciseContent.innerHTML = exerciseHTML;
     }
 
-    renderConversationExercise() {
-        const conversation = lessonData.content;
-        if (!conversation || !Array.isArray(conversation)) {
-            this.showError('Conversation content not available');
+    createConversationExerciseFromData(conversation) {
+        const exerciseContent = document.getElementById('exerciseContent');
+        
+        if (conversation.length < 2) {
+            this.createFallbackExercise();
             return;
         }
 
         const missingIndex = Math.floor(Math.random() * conversation.length);
-        const missingLine = conversation[missingIndex];
 
         const exerciseHTML = `
             <div class="exercise-content">
-                <div class="question">Complete the conversation by filling in the missing line:</div>
+                <div class="question">
+                    <h4>Complete the conversation by filling in the missing line:</h4>
+                </div>
                 <div class="conversation-exercise">
-                    <div class="conversation-context">
-                        <strong>Context:</strong> ${this.getConversationContext(topic)}
-                    </div>
-                    
                     ${conversation.map((line, index) => `
                         <div class="dialogue-line ${index === missingIndex ? 'missing-line' : ''}">
-                            <span class="speaker">${this.escapeHtml(line.speaker)}:</span>
-                            ${index === missingIndex ? 
+                            <span class="speaker">${line.speaker}:</span>
+                            ${index === missingIndex ?
                                 `<div class="missing-input-container">
-                                    <textarea class="dialogue-input" placeholder="What should ${this.escapeHtml(line.speaker)} say here?" rows="2"></textarea>
-                                    <div class="hint">Hint: This should be about "${this.escapeHtml(line.translation)}"</div>
+                                    <textarea class="dialogue-input" placeholder="What should ${line.speaker} say here?" rows="2"></textarea>
+                                    <div class="hint">Hint: This should be about "${line.translation || line.text || ''}"</div>
                                 </div>` :
-                                `<span class="text">${this.escapeHtml(line.text)}</span>
-                                <span class="translation-hint">(${this.escapeHtml(line.translation)})</span>`
+                                `<span class="text">${line.text}</span>
+                                <span class="translation-hint">(${line.translation || ''})</span>`
                             }
                         </div>
                     `).join('')}
                 </div>
-                <button class="submit-btn" onclick="realLessonManager.checkConversationAnswer(${missingIndex})">
+                <button class="submit-btn" onclick="checkConversationAnswer(${missingIndex})">
                     <i class="fas fa-check"></i> Check Your Response
                 </button>
                 <div id="feedback"></div>
             </div>
         `;
-        
-        document.getElementById('exerciseContent').innerHTML = exerciseHTML;
+
+        exerciseContent.innerHTML = exerciseHTML;
     }
 
-    renderComprehensiveExercise() {
+    createFallbackExercise() {
+        const exerciseContent = document.getElementById('exerciseContent');
+        
+        // Fallback vocabulary for different languages
+        const fallbackVocabulary = {
+            'French': [
+                { word: "Hello", translation: "Bonjour", pronunciation: "bon-zhoor" },
+                { word: "Thank you", translation: "Merci", pronunciation: "mair-see" }
+            ],
+            'Spanish': [
+                { word: "Hello", translation: "Hola", pronunciation: "oh-lah" },
+                { word: "Thank you", translation: "Gracias", pronunciation: "grah-see-ahs" }
+            ],
+            'German': [
+                { word: "Hello", translation: "Hallo", pronunciation: "hah-loh" },
+                { word: "Thank you", translation: "Danke", pronunciation: "dahn-keh" }
+            ],
+            'English': [
+                { word: "Hello", translation: "Hello", pronunciation: "heh-loh" },
+                { word: "Thank you", translation: "Thank you", pronunciation: "thangk yoo" }
+            ]
+        };
+
+        const currentLanguage = typeof language !== 'undefined' ? language : 'French';
+        const vocabulary = fallbackVocabulary[currentLanguage] || fallbackVocabulary['French'];
+
+        const testWord = vocabulary[Math.floor(Math.random() * vocabulary.length)];
+        const wrongOptions = vocabulary
+            .filter(item => item.word !== testWord.word)
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 2);
+
+        const allOptions = [testWord, ...wrongOptions].sort(() => Math.random() - 0.5);
+
         const exerciseHTML = `
             <div class="exercise-content">
-                <div class="question">Final Practice: Test Your Knowledge of ${this.escapeHtml(topic)}</div>
-                <div class="comprehensive-exercise">
-                    <div class="exercise-section">
-                        <h4>Vocabulary Recall</h4>
-                        <p>Write the ${language} translation for: <strong>"Thank you"</strong></p>
-                        <input type="text" class="quick-answer-input" placeholder="Translation...">
+                <div class="question">
+                    <h4>What is the correct translation for "<strong>${testWord.word}</strong>" in ${currentLanguage}?</h4>
                     </div>
-                    
-                    <div class="exercise-section">
-                        <h4>Phrase Construction</h4>
-                        <p>Create a sentence using vocabulary words we learned:</p>
-                        <textarea class="sentence-construction" placeholder="Your sentence..." rows="2"></textarea>
+                <div class="options-grid">
+                    ${allOptions.map((item, index) => `
+                        <div class="option" data-correct="${item.word === testWord.word}" onclick="selectOption(this)">
+                            <strong>${item.translation}</strong>
+                            <div class="pronunciation">${item.pronunciation}</div>
                     </div>
-                    
-                    <div class="exercise-section">
-                        <h4>Grammar Application</h4>
-                        <p>Use the grammar rule correctly in a new context:</p>
-                        <textarea class="grammar-application" placeholder="Your example..." rows="2"></textarea>
+                    `).join('')}
                     </div>
-                    
-                    <div class="scoring-info">
-                        <i class="fas fa-star"></i> Complete all sections to earn maximum points!
-                    </div>
+                <div class="exercise-hint">
+                    <i class="fas fa-lightbulb"></i> Choose the correct translation!
                 </div>
-                <button class="submit-btn" onclick="realLessonManager.checkComprehensiveExercise()">
-                    <i class="fas fa-check"></i> Submit Final Answers
+                <button class="submit-btn" onclick="checkAnswer()" disabled>
+                    <i class="fas fa-check"></i> Check Answer
                 </button>
                 <div id="feedback"></div>
             </div>
         `;
-        
-        document.getElementById('exerciseContent').innerHTML = exerciseHTML;
-    }
 
-    renderDefaultExercise() {
-        const exerciseHTML = `
-            <div class="exercise-content">
-                <div class="question">Practice Exercise</div>
-                <div class="default-exercise">
-                    <p>This exercise type is not yet implemented. Please try another lesson.</p>
-                </div>
-            </div>
-        `;
-        document.getElementById('exerciseContent').innerHTML = exerciseHTML;
-    }
-
-    // Helper Methods
-    escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
+        exerciseContent.innerHTML = exerciseHTML;
+        this.setupEventListeners();
     }
 
     getPhraseSituation(situationKey) {
         const situations = {
             'formal_greeting': 'You meet your professor in the morning. How do you greet them formally?',
             'informal_greeting': 'You see your friend at a cafe. How do you greet them casually?',
-            'ordering': 'You\'re at a restaurant and want to order pasta politely.',
+            'ordering': 'You\'re at a restaurant and want to order politely.',
             'asking_directions': 'You\'re lost and need to find the train station.',
             'introducing_family': 'You\'re showing a photo and introducing your mother.',
             'asking_about_family': 'You want to know how many siblings someone has.',
             'default': 'Translate this phrase for daily conversation'
         };
-        
         return situations[situationKey] || situations.default;
     }
 
-    getConversationContext(topicName) {
-        const contexts = {
-            'Greetings': 'Two friends meeting in the morning',
-            'Food': 'A customer ordering at a restaurant', 
-            'Travel': 'A tourist asking for directions',
-            'Family': 'Two people talking about their families',
-            'default': 'Daily conversation practice'
-        };
-        return contexts[topicName] || contexts.default;
+    setupEventListeners() {
+        // Add click handlers for options
+        const options = document.querySelectorAll('.option');
+        options.forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove previous selection
+                options.forEach(opt => opt.classList.remove('selected'));
+                // Add selection to clicked option
+                this.classList.add('selected');
+                // Enable submit button
+                document.querySelector('.submit-btn').disabled = false;
+            });
+        });
     }
 
-    // Exercise Methods
-    selectOption(optionElement) {
+    selectOption(element) {
         const options = document.querySelectorAll('.option');
-        options.forEach(opt => {
-            opt.classList.remove('selected');
-        });
-        optionElement.classList.add('selected');
-        
-        const submitBtn = document.querySelector('.submit-btn');
-        if (submitBtn) {
-            submitBtn.disabled = false;
-        }
+        options.forEach(opt => opt.classList.remove('selected'));
+        element.classList.add('selected');
+        document.querySelector('.submit-btn').disabled = false;
     }
 
     checkAnswer() {
         const selectedOption = document.querySelector('.option.selected');
         if (!selectedOption) {
-            this.showFeedback('Please select an answer first.', 'incorrect');
+            this.showFeedback('Please select an answer first!', 'error');
             return;
         }
 
-        const isCorrect = selectedOption.dataset.correct === 'true';
-        
+        const isCorrect = selectedOption.getAttribute('data-correct') === 'true';
+        const options = document.querySelectorAll('.option');
+
         if (isCorrect) {
             selectedOption.classList.add('correct');
             this.userScore += 10;
-            this.showFeedback('✅ Correct! Excellent job remembering the vocabulary!', 'correct');
-            this.markLessonComplete(10);
+            this.showFeedback('✅ Correct! Excellent job!', 'success');
+            this.enableNextButton();
         } else {
             selectedOption.classList.add('incorrect');
-            this.showFeedback('❌ Not quite. Let\'s review the correct answer.', 'incorrect');
-            
-            const options = document.querySelectorAll('.option');
+            // Show correct answer
             options.forEach(opt => {
-                if (opt.dataset.correct === 'true') {
+                if (opt.getAttribute('data-correct') === 'true') {
                     opt.classList.add('correct');
                 }
             });
+            this.showFeedback('❌ Not quite right. The correct answer is highlighted.', 'error');
         }
-        
-        const submitBtn = document.querySelector('.submit-btn');
-        if (submitBtn) {
-            submitBtn.disabled = true;
-        }
+
+        document.querySelector('.submit-btn').disabled = true;
     }
 
-    checkPhraseAnswer(correctAnswer) {
-        const phraseInput = document.querySelector('.phrase-input');
-        if (!phraseInput) {
-            this.showFeedback('Exercise element not found.', 'error');
-            return;
+    showFeedback(message, type) {
+        const feedbackDiv = document.getElementById('feedback');
+        if (feedbackDiv) {
+            feedbackDiv.innerHTML = `
+                <div class="feedback ${type}">
+                    ${message}
+                    ${type === 'success' ? `<div class="score">+10 points! Total: ${this.userScore}</div>` : ''}
+                </div>
+            `;
         }
-
-        const userAnswer = phraseInput.value.trim();
-        
-        if (!userAnswer) {
-            this.showFeedback('Please write your translation before checking.', 'incorrect');
-            return;
-        }
-
-        // Simple validation - in real app, use more sophisticated checking
-        const normalizedCorrect = correctAnswer.toLowerCase().replace(/[.,!?]/g, '').trim();
-        const normalizedUser = userAnswer.toLowerCase().replace(/[.,!?]/g, '').trim();
-
-        if (normalizedUser === normalizedCorrect) {
-            phraseInput.style.borderColor = 'var(--primary-green)';
-            phraseInput.style.background = 'var(--light-green)';
-            this.userScore += 15;
-            this.showFeedback('✅ Excellent! Your translation is correct!', 'correct');
-            this.markLessonComplete(15);
-        } else {
-            phraseInput.style.borderColor = '#ef4444';
-            phraseInput.style.background = '#fef2f2';
-            this.showFeedback(`Almost! The correct phrase is: "${correctAnswer}"`, 'incorrect');
-        }
-    }
-
-    checkGrammarExercise() {
-        const inputs = document.querySelectorAll('.sentence-input');
-        let filledCount = 0;
-        
-        inputs.forEach(input => {
-            if (input.value.trim().length > 5) {
-                filledCount++;
-                input.style.borderColor = 'var(--primary-green)';
-                input.style.background = 'var(--light-green)';
-            } else {
-                input.style.borderColor = '#ef4444';
-                input.style.background = '#fef2f2';
-            }
-        });
-        
-        if (filledCount === inputs.length) {
-            this.userScore += 20;
-            this.showFeedback('✅ Great work! You successfully applied the grammar rules!', 'correct');
-            this.markLessonComplete(20);
-        } else {
-            this.showFeedback('❌ Please complete both sentences with meaningful examples.', 'incorrect');
-        }
-    }
-
-    checkConversationAnswer(missingIndex) {
-        const dialogueInput = document.querySelector('.dialogue-input');
-        if (!dialogueInput) {
-            this.showFeedback('Exercise element not found.', 'error');
-            return;
-        }
-
-        const userInput = dialogueInput.value.trim();
-        
-        if (!userInput) {
-            this.showFeedback('Please write your response before checking.', 'incorrect');
-            return;
-        }
-
-        if (userInput.length > 10) {
-            dialogueInput.style.borderColor = 'var(--primary-green)';
-            dialogueInput.style.background = 'var(--light-green)';
-            this.userScore += 15;
-            this.showFeedback('✅ Perfect! Your response makes the conversation flow naturally!', 'correct');
-            this.markLessonComplete(15);
-        } else {
-            this.showFeedback('❌ Try to write a more complete response that continues the conversation.', 'incorrect');
-        }
-    }
-
-    checkComprehensiveExercise() {
-        let score = 0;
-        let feedback = [];
-        
-        // Check vocabulary
-        const vocabInput = document.querySelector('.quick-answer-input');
-        if (vocabInput) {
-            const thankYouTranslation = this.getThankYouTranslation();
-            if (vocabInput.value.trim().toLowerCase() === thankYouTranslation.toLowerCase()) {
-                score += 10;
-                feedback.push('✅ Vocabulary: Correct!');
-                vocabInput.style.borderColor = 'var(--primary-green)';
-            } else {
-                feedback.push('❌ Vocabulary: The translation for "Thank you" is "' + thankYouTranslation + '"');
-                vocabInput.style.borderColor = '#ef4444';
-            }
-        }
-        
-        // Check sentence construction
-        const sentenceInput = document.querySelector('.sentence-construction');
-        if (sentenceInput && sentenceInput.value.trim().length > 10) {
-            score += 10;
-            feedback.push('✅ Sentence: Good construction!');
-            sentenceInput.style.borderColor = 'var(--primary-green)';
-        } else {
-            feedback.push('❌ Sentence: Please write a complete sentence');
-            if (sentenceInput) sentenceInput.style.borderColor = '#ef4444';
-        }
-        
-        // Check grammar application
-        const grammarInput = document.querySelector('.grammar-application');
-        if (grammarInput && grammarInput.value.trim().length > 8) {
-            score += 10;
-            feedback.push('✅ Grammar: Well applied!');
-            grammarInput.style.borderColor = 'var(--primary-green)';
-        } else {
-            feedback.push('❌ Grammar: Please provide a complete example');
-            if (grammarInput) grammarInput.style.borderColor = '#ef4444';
-        }
-        
-        this.userScore += score;
-        const finalFeedback = feedback.join('<br>');
-        
-        if (score >= 20) {
-            this.showFeedback('🎉 Excellent! You scored ' + score + '/30 points!<br>' + finalFeedback, 'correct');
-            this.markLessonComplete(score);
-        } else {
-            this.showFeedback('📝 Good effort! You scored ' + score + '/30 points.<br>' + finalFeedback, 'incorrect');
-        }
-    }
-
-    getThankYouTranslation() {
-        const translations = {
-            'French': 'merci',
-            'Spanish': 'gracias', 
-            'German': 'danke',
-            'Italian': 'grazie',
-            'Arabic': 'شكرا',
-            'Japanese': 'ありがとう',
-            'English': 'thank you'
-        };
-        return translations[language] || 'thank you';
-    }
-
-    markLessonComplete(score) {
-        console.log('Lesson completed with score:', score);
-        
-        // Enable next button after a delay
-        setTimeout(() => {
-            this.enableNextButton();
-            
-            // In a real app, you would send this to the server
-            // For now, we'll just update the UI
-            this.updateProgressDisplay(score);
-        }, 1500);
-    }
-
-    updateProgressDisplay(score) {
-        // Update any progress indicators on the page
-        const progressElements = document.querySelectorAll('.progress-indicator');
-        progressElements.forEach(element => {
-            element.textContent = `Score: ${this.userScore}`;
-        });
     }
 
     enableNextButton() {
         const nextBtn = document.getElementById('nextBtn');
         if (nextBtn) {
-            nextBtn.classList.add('pulse-animation');
             nextBtn.style.opacity = '1';
+            nextBtn.style.pointerEvents = 'auto';
         }
     }
 
-    showFeedback(message, type) {
-        const feedbackDiv = document.getElementById('feedback');
-        if (!feedbackDiv) {
-            console.error('Feedback div not found');
+    checkPhraseAnswer(correctAnswer) {
+        const userInput = document.querySelector('.phrase-input');
+        if (!userInput) {
+            this.showFeedback('Please enter your translation first!', 'error');
             return;
         }
 
-        feedbackDiv.innerHTML = `
-            <div class="feedback ${type}">
-                <div class="feedback-content">
-                    ${message}
-                </div>
-                ${type === 'correct' ? `
-                    <div class="score-earned">
-                        <i class="fas fa-coins"></i> +${this.getCurrentScore()} points earned!
-                    </div>
-                ` : ''}
-            </div>
-        `;
-    }
+        const userAnswer = userInput.value.trim().toLowerCase();
+        const correctAnswerLower = correctAnswer.toLowerCase();
 
-    showError(message) {
-        this.showFeedback(`❌ Error: ${message}`, 'error');
-    }
-
-    getCurrentScore() {
-        return this.userScore;
-    }
-
-    setupEventListeners() {
-        // Audio playback for vocabulary items
-        document.addEventListener('click', (e) => {
-            if (e.target.closest('.audio-btn')) {
-                const vocabularyItem = e.target.closest('.vocabulary-item');
-                if (vocabularyItem) {
-                    const translation = vocabularyItem.querySelector('.translation');
-                    if (translation) {
-                        this.playAudio(translation.textContent);
-                    }
-                }
-            }
-        });
-
-        // Enter key support for text inputs
-        document.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && e.target.classList.contains('phrase-input')) {
-                const checkBtn = document.querySelector('.submit-btn');
-                if (checkBtn) checkBtn.click();
-            }
-        });
-    }
-
-    playAudio(text) {
-        // Simple console log for now - in real app, implement text-to-speech
-        console.log('Audio playback requested for:', text);
-        
-        // Example of how you might implement TTS:
-        if ('speechSynthesis' in window) {
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = this.getLanguageCode(language);
-            speechSynthesis.speak(utterance);
+        if (userAnswer === correctAnswerLower) {
+            this.userScore += 15;
+            this.showFeedback('✅ Excellent! Your translation is correct!', 'success');
+            this.enableNextButton();
+        } else {
+            this.showFeedback(`❌ Not quite right. The correct answer is: "${correctAnswer}"`, 'error');
         }
     }
 
-    getLanguageCode(lang) {
-        const codes = {
-            'French': 'fr-FR',
-            'Spanish': 'es-ES',
-            'German': 'de-DE',
-            'Italian': 'it-IT',
-            'English': 'en-US'
-        };
-        return codes[lang] || 'en-US';
+    checkGrammarExercise() {
+        const sentences = document.querySelectorAll('.sentence-input');
+        let completedSentences = 0;
+
+        sentences.forEach(sentence => {
+            if (sentence.value.trim().length > 0) {
+                completedSentences++;
+            }
+        });
+
+        if (completedSentences === 0) {
+            this.showFeedback('Please write at least one sentence!', 'error');
+            return;
+        }
+
+        this.userScore += completedSentences * 10;
+        this.showFeedback(`✅ Great job! You completed ${completedSentences} sentence(s). +${completedSentences * 10} points!`, 'success');
+        this.enableNextButton();
+    }
+
+    checkConversationAnswer(missingIndex) {
+        const userInput = document.querySelector('.dialogue-input');
+        if (!userInput) {
+            this.showFeedback('Please enter your response first!', 'error');
+            return;
+        }
+
+        const userAnswer = userInput.value.trim();
+        if (userAnswer.length === 0) {
+            this.showFeedback('Please enter your response first!', 'error');
+            return;
+        }
+
+        this.userScore += 20;
+        this.showFeedback('✅ Good response! Conversation practice completed!', 'success');
+        this.enableNextButton();
     }
 }
 
-// Safe initialization
+// Global functions for onclick handlers
+function selectOption(element) {
+    window.lessonManager.selectOption(element);
+}
+
+function checkAnswer() {
+    window.lessonManager.checkAnswer();
+}
+
+function checkPhraseAnswer(correctAnswer) {
+    window.lessonManager.checkPhraseAnswer(correctAnswer);
+}
+
+function checkGrammarExercise() {
+    window.lessonManager.checkGrammarExercise();
+}
+
+function checkConversationAnswer(missingIndex) {
+    window.lessonManager.checkConversationAnswer(missingIndex);
+}
+
+// Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
-    try {
-        // Check if required variables are defined
-        if (typeof lessonData !== 'undefined' && typeof language !== 'undefined' && typeof topic !== 'undefined') {
-            window.realLessonManager = new RealLessonManager();
-            console.log('Lesson manager started successfully');
-        } else {
-            console.error('Required variables not defined. Please refresh the page.');
-            document.getElementById('exerciseContent').innerHTML = `
-                <div class="error-message">
-                    <p>Unable to load exercise. Please refresh the page or contact support.</p>
-                </div>
-            `;
+    console.log('DOM loaded, initializing lesson manager...');
+    
+    // Check if required elements exist
+    const exerciseContent = document.getElementById('exerciseContent');
+    if (!exerciseContent) {
+        console.error('Exercise content element not found');
+            return;
         }
+
+    try {
+        window.lessonManager = new SimpleLessonManager();
+        console.log('Lesson manager started successfully');
     } catch (error) {
         console.error('Failed to initialize lesson manager:', error);
-        document.getElementById('exerciseContent').innerHTML = `
+        exerciseContent.innerHTML = `
             <div class="error-message">
-                <p>Error loading exercise content. Please try again later.</p>
-                <button onclick="location.reload()" class="nav-btn primary">Reload Page</button>
+                <p>Error loading exercise. Please refresh the page.</p>
+                <button onclick="location.reload()" class="btn-primary">Reload Page</button>
             </div>
         `;
     }
 });
 
-// Add CSS for error states
-const errorStyles = `
-    .error-message {
-        background: #fef2f2;
-        border: 1px solid #fecaca;
-        border-radius: 8px;
+// Add CSS styles
+const style = document.createElement('style');
+style.textContent = `
+    .exercise-content {
         padding: 2rem;
-        text-align: center;
-        color: #dc2626;
+        background: #f8f9fa;
+        border-radius: 8px;
+        margin: 1rem 0;
+    }
+    
+    .question {
+        margin-bottom: 1.5rem;
+        font-size: 1.1rem;
+        color: #333;
+    }
+    
+    .options-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .option {
+        padding: 1rem;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: white;
+    }
+    
+    .option:hover {
+        border-color: #28a745;
+        transform: translateY(-2px);
+    }
+    
+    .option.selected {
+        border-color: #007bff;
+        background: #e3f2fd;
+    }
+    
+    .option.correct {
+        border-color: #28a745;
+        background: #d4edda;
+    }
+    
+    .option.incorrect {
+        border-color: #dc3545;
+        background: #f8d7da;
+    }
+    
+    .pronunciation {
+        font-style: italic;
+        color: #666;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+    }
+    
+    .exercise-hint {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 4px;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+        color: #856404;
+    }
+    
+    .submit-btn {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background 0.3s ease;
+    }
+    
+    .submit-btn:hover:not(:disabled) {
+        background: #218838;
+    }
+    
+    .submit-btn:disabled {
+        background: #6c757d;
+        cursor: not-allowed;
+    }
+    
+    .feedback {
+        margin-top: 1rem;
+        padding: 1rem;
+        border-radius: 4px;
+        font-weight: 500;
+    }
+    
+    .feedback.success {
+        background: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
     }
     
     .feedback.error {
-        background: #fef2f2;
-        color: #dc2626;
-        border: 1px solid #fecaca;
+        background: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+    }
+    
+    .score {
+        margin-top: 0.5rem;
+        font-weight: bold;
+        color: #28a745;
+    }
+    
+    .error-message {
+        text-align: center;
+        padding: 2rem;
+        background: #f8d7da;
+        border: 1px solid #f5c6cb;
+        border-radius: 8px;
+        color: #721c24;
+    }
+    
+    .btn-primary {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 1rem;
+    }
+    
+    .scenario {
+        background: #e3f2fd;
+        border: 1px solid #bbdefb;
+        border-radius: 4px;
+        padding: 1rem;
+        margin: 1rem 0;
+        color: #1565c0;
+    }
+    
+    .phrase-input, .sentence-input, .dialogue-input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #e9ecef;
+        border-radius: 4px;
+        font-size: 1rem;
+        margin: 0.5rem 0;
+        resize: vertical;
+    }
+    
+    .phrase-input:focus, .sentence-input:focus, .dialogue-input:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+    
+    .writing-tips {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 4px;
+        padding: 0.75rem;
+        margin: 1rem 0;
+        color: #856404;
+        font-size: 0.9rem;
+    }
+    
+    .grammar-rule {
+        background: #f8f9fa;
+        border-left: 4px solid #007bff;
+        padding: 1rem;
+        margin: 1rem 0;
+        border-radius: 0 4px 4px 0;
+    }
+    
+    .sentence-input-group {
+        margin: 1rem 0;
+    }
+    
+    .sentence-input-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #333;
+    }
+    
+    .conversation-exercise {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 1rem;
+        margin: 1rem 0;
+    }
+    
+    .dialogue-line {
+        margin: 0.75rem 0;
+        padding: 0.75rem;
+        border-radius: 4px;
+        background: white;
+        border: 1px solid #e9ecef;
+    }
+    
+    .dialogue-line.missing-line {
+        background: #fff3cd;
+        border-color: #ffeaa7;
+    }
+    
+    .speaker {
+        font-weight: bold;
+        color: #007bff;
+        margin-right: 0.5rem;
+    }
+    
+    .translation-hint {
+        font-style: italic;
+        color: #666;
+        font-size: 0.9rem;
+        margin-left: 0.5rem;
+    }
+    
+    .missing-input-container {
+        margin-top: 0.5rem;
+    }
+    
+    .hint {
+        font-size: 0.8rem;
+        color: #666;
+        margin-top: 0.25rem;
+        font-style: italic;
     }
 `;
-
-const styleSheet = document.createElement('style');
-styleSheet.textContent = errorStyles;
-document.head.appendChild(styleSheet);
+document.head.appendChild(style);
