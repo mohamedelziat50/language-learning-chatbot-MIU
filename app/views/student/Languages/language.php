@@ -31,8 +31,8 @@ $languages = [
     <div class="nav-container">
         <h1 class="logo">🌍 LinguaLearn</h1>
         <ul class="nav-menu">
-            <li><a href="dashboard.php" class="nav-link">Home</a></li>
-            <li><a href="profile.php" class="nav-link">Profile</a></li>
+            <li><a href="./../dashboard.php" class="nav-link">Dashboard</a></li>
+            <li><a href="../profile.php" class="nav-link">Profile</a></li>
             <li><a href="about.php" class="nav-link">About</a></li>
             <li><a href="contact.php" class="nav-link">Contact</a></li>
         </ul>
