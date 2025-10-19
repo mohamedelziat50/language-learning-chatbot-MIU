@@ -80,22 +80,21 @@
     
 
     <div class="question">
-      <p><strong>1.</strong> What does HTML stand for?</p>
-      <ul>
-        <li><input type="radio" name="q1"> HyperText Markup Language</li>
-        <li><input type="radio" name="q1"> Home Tool Markup Language</li>
-        <li><input type="radio" name="q1"> Hyperlinks and Text Markup Language</li>
-      </ul>
-    </div>
+    <p><strong>1.</strong> Which of the following is the correct definite article for the French word <em>“école”</em> (school)?</p>
+    <ul>
+      <li><input type="radio" name="q1"> Le école</li>
+      <li><input type="radio" name="q1"> La école</li>
+      <li><input type="radio" name="q1"> L’école</li>
+    </ul>
+  </div>
 
-    <div class="question">
-      <p><strong>2.</strong> Write a short note on CSS selectors.</p>
-      <textarea rows="4" placeholder="Your answer here..."></textarea>
-    </div>
+  <div class="question">
+    <p><strong>2.</strong> Write a short sentence in French using the verb <em>“avoir”</em> (to have) in the present tense.</p>
+    <textarea rows="4" placeholder="Écrivez votre phrase ici..."></textarea>
+  </div>
 
-    <div class="submit-container">
-      <button id="submitQuiz" class="submit-btn">Submit Quiz</button>
-    </div>
+  <div class="submit-container">
+    <button id="submitQuiz" class="submit-btn">Submit Quiz</button>
   </div>
 </section>
 
