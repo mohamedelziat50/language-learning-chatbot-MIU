@@ -23,6 +23,10 @@ body {
     color: var(--text-dark);
     line-height: 1.6;
     min-height: 100vh;
+    display: grid;
+    grid-template-columns: 250px auto;
+    grid-template-rows: 1fr;
+    height: 100vh;
 }
 
 
