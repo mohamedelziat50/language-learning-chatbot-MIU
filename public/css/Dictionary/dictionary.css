@@ -1,0 +1,285 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #ffffff 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(135deg, #12ac54 0%, #00f2fe 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.header p {
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+.back-button {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: background 0.3s;
+}
+
+.back-button:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+.language-selector {
+    padding: 20px;
+    background: #f8f9fa;
+    border-bottom: 2px solid #e9ecef;
+    text-align: center;
+}
+
+.language-selector select {
+    padding: 12px 20px;
+    border: 2px solid #12ac54;
+    border-radius: 25px;
+    font-size: 16px;
+    background: white;
+    cursor: pointer;
+    outline: none;
+    min-width: 200px;
+}
+
+.dictionary-content {
+    padding: 30px;
+}
+
+.language-section {
+    margin-bottom: 50px;
+    border: 2px solid #e9ecef;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.language-header {
+    background: linear-gradient(135deg, #12ac54 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.language-header h2 {
+    font-size: 1.8em;
+    margin: 0;
+}
+
+.word-count {
+    background: rgba(255,255,255,0.2);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.topic-section {
+    margin-bottom: 30px;
+    padding: 0 20px;
+}
+
+.topic-header {
+    background: #f8f9fa;
+    padding: 15px 20px;
+    margin: 20px 0 15px 0;
+    border-radius: 10px;
+    border-left: 5px solid #12ac54;
+}
+
+.topic-header h3 {
+    color: #333;
+    font-size: 1.3em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.topic-header small {
+    font-size: 0.8em;
+    color: #666;
+    font-weight: normal;
+}
+
+.words-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.words-table th {
+    background: #495057;
+    color: white;
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.words-table td {
+    padding: 15px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.words-table tr:nth-child(even) {
+    background: #f8f9fa;
+}
+
+.words-table tr:hover {
+    background: #e3f2fd;
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+}
+
+.word-english {
+    font-weight: 600;
+    color: #333;
+}
+
+.word-translation {
+    color: #12ac54;
+    font-weight: 500;
+}
+
+.word-topic {
+    color: #666;
+    font-size: 0.9em;
+    text-align: center;
+    background: #f1f3f4;
+    padding: 5px 10px;
+    border-radius: 15px;
+    display: inline-block;
+}
+
+.stats {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.stats h3 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.search-box {
+    margin-bottom: 30px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid #e9ecef;
+    border-radius: 25px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.search-box input:focus {
+    border-color: #12ac54;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
+}
+
+/* Hide language sections when filtered */
+.language-section.hidden {
+    display: none;
+}
+
+/* Hide word rows when filtered */
+.word-row.hidden {
+    display: none;
+}
+
+/* Highlight search results */
+.highlight {
+    background-color: #fff3cd;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        margin: 10px;
+        border-radius: 15px;
+    }
+    
+    .header h1 {
+        font-size: 2em;
+    }
+    
+    .language-header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .words-table {
+        font-size: 14px;
+    }
+    
+    .words-table th,
+    .words-table td {
+        padding: 10px;
+    }
+    
+    .word-topic {
+        font-size: 0.8em;
+        padding: 3px 8px;
+    }
+    
+    .topic-header h3 {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dictionary-content {
+        padding: 15px;
+    }
+    
+    .words-table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .language-selector select {
+        width: 100%;
+        max-width: 300px;
+    }
+}

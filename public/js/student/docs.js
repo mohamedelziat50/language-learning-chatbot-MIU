@@ -228,19 +228,10 @@ class DocsManager {
     }
 
     createNewDocument() {
-        // Simulate creating a new document
-        console.log('Creating new document...');
-        
-        // Show loading state
-        this.showLoadingState();
-        
-        // Simulate API call
+        window.NotificationManager.showNotification('Creating new document...', 'info');
+
         setTimeout(() => {
-            this.hideLoadingState();
-            window.NotificationManager.showNotification('New document created successfully!', 'success');
-            
-            // In a real implementation, you would redirect to the document editor
-            // window.location.href = '/editor.php?new=true';
+            window.location.href = '../document.php';
         }, 1000);
     }
 
@@ -261,25 +252,19 @@ class DocsManager {
 
     processUploadedFiles(files) {
         if (files.length === 0) return;
-        
-        this.showLoadingState();
-        
-        // Simulate file processing
-        setTimeout(() => {
-            this.hideLoadingState();
-            window.NotificationManager.showNotification(`${files.length} file(s) uploaded successfully!`, 'success');
-        }, 1500);
+        window.NotificationManager.showNotification(`${files.length} file(s) uploaded successfully!`, 'success');
     }
 
     openDocument(card) {
         const docId = card.dataset.docId || '1';
         console.log(`Opening document ${docId}...`);
         
-        // In a real implementation, you would redirect to the document editor
-        // window.location.href = `/editor.php?id=${docId}`;
-        
         // Show notification for opening document
         window.NotificationManager.showNotification('Opening document...', 'info');
+
+        setTimeout(() => {
+            window.location.href = '../document.php';
+        }, 1000);
     }
 
     toggleDocumentMenu(menuBtn) {
@@ -415,19 +400,6 @@ class DocsManager {
         //     .then(docs => this.renderDocuments(docs));
     }
 
-    showLoadingState() {
-        const loadingDiv = document.createElement('div');
-        loadingDiv.className = 'docs-loading';
-        loadingDiv.innerHTML = '<div class="docs-loading-spinner"></div>';
-        document.querySelector('.main-content').appendChild(loadingDiv);
-    }
-
-    hideLoadingState() {
-        const loadingDiv = document.querySelector('.docs-loading');
-        if (loadingDiv) {
-            loadingDiv.remove();
-        }
-    }
 
 }
 

@@ -1,0 +1,1225 @@
+{
+    "French": {
+        "Greetings": {
+            "vocabulary": [
+                {"word": "Hello", "translation": "Bonjour", "pronunciation": "bon-zhoor"},
+                {"word": "Goodbye", "translation": "Au revoir", "pronunciation": "oh ruh-vwahr"},
+                {"word": "Good morning", "translation": "Bonjour", "pronunciation": "bon-zhoor"},
+                {"word": "Good evening", "translation": "Bonsoir", "pronunciation": "bon-swahr"},
+                {"word": "How are you?", "translation": "Comment ça va?", "pronunciation": "kom-on sa va"},
+                {"word": "I'm fine", "translation": "Je vais bien", "pronunciation": "zhuh vay byan"},
+                {"word": "Thank you", "translation": "Merci", "pronunciation": "mair-see"},
+                {"word": "You're welcome", "translation": "De rien", "pronunciation": "duh ryan"}
+            ],
+            "phrases": {
+                "formal_greeting": "Bonjour, comment allez-vous aujourd'hui?",
+                "informal_greeting": "Salut, quoi de neuf?",
+                "introducing_yourself": "Je m'appelle [Name], enchanté(e)",
+                "asking_about_someone": "Comment allez-vous?",
+                "evening_greeting": "Bonsoir, comment s'est passée votre journée?",
+                "polite_response": "Je vais bien, merci de demander"
+            },
+            "grammar": {
+                "point": "Formal vs Informal Greetings",
+                "explanation": "In French, use 'Bonjour' for formal situations and 'Salut' for informal ones. 'Vous' is formal 'you', 'tu' is informal.",
+                "examples": [
+                    "Bonjour → Salut (formal → informal)",
+                    "Au revoir → Bye (formal → informal)",
+                    "Comment allez-vous? → Quoi de neuf? (formal → informal)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "Alex", "text": "Bonjour Sarah ! Comment ça va?", "translation": "Good morning Sarah! How are you?"},
+                {"speaker": "Sarah", "text": "Bonjour Alex ! Je vais bien, merci. Et toi?", "translation": "Good morning Alex! I'm doing well, thank you. How about you?"},
+                {"speaker": "Alex", "text": "Je vais très bien, merci ! Bonne journée!", "translation": "I'm great, thanks! Have a good day!"},
+                {"speaker": "Sarah", "text": "Toi aussi, à plus tard!", "translation": "You too, see you later!"}
+            ]
+        },
+        "Food & Dining": {
+            "vocabulary": [
+                {"word": "Restaurant", "translation": "Restaurant", "pronunciation": "res-toh-rahn"},
+                {"word": "Menu", "translation": "Menu", "pronunciation": "muh-noo"},
+                {"word": "Waiter", "translation": "Serveur", "pronunciation": "ser-vuhr"},
+                {"word": "Table", "translation": "Table", "pronunciation": "tabl"},
+                {"word": "Order", "translation": "Commander", "pronunciation": "ko-mon-day"},
+                {"word": "Bill", "translation": "Addition", "pronunciation": "a-dee-syon"},
+                {"word": "Tip", "translation": "Pourboire", "pronunciation": "poor-bwar"},
+                {"word": "Delicious", "translation": "Délicieux", "pronunciation": "day-lee-syuh"}
+            ],
+            "phrases": {
+                "reserving_table": "Je voudrais réserver une table pour deux, s'il vous plaît",
+                "asking_menu": "Pourrions-nous voir le menu, s'il vous plaît?",
+                "ordering_food": "Je prendrai le saumon grillé avec des légumes",
+                "asking_recommendation": "Que recommandez-vous aujourd'hui?",
+                "dietary_restriction": "Je suis allergique aux noix",
+                "asking_bill": "Pourrions-nous avoir l'addition, s'il vous plaît?"
+            },
+            "grammar": {
+                "point": "Ordering Food with Modal Verbs",
+                "explanation": "Use 'Je voudrais' (I would like) for polite requests. Add 's'il vous plaît' (please) for extra politeness.",
+                "examples": [
+                    "Je voudrais... (polite request)",
+                    "Pourrais-je avoir... (asking permission)",
+                    "Je prendrai... (decision)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "Client", "text": "Bonsoir. Nous avons une réservation au nom de Johnson.", "translation": "Good evening. We have a reservation under Johnson."},
+                {"speaker": "Hôte", "text": "Bienvenue! Votre table est prête. Par ici, s'il vous plaît.", "translation": "Welcome! Your table is ready. Right this way, please."},
+                {"speaker": "Serveur", "text": "Voici vos menus. Puis-je vous apporter quelque chose à boire?", "translation": "Here are your menus. Can I start you with something to drink?"},
+                {"speaker": "Client", "text": "Oui, nous prendrons de l'eau pour l'instant. Nous avons besoin de quelques minutes pour décider.", "translation": "Yes, we'll both have water for now. We need a few minutes to decide on food."}
+            ]
+        },
+        "Travel": {
+            "vocabulary": [
+                {"word": "Airport", "translation": "Aéroport", "pronunciation": "ay-eh-roh-por"},
+                {"word": "Train station", "translation": "Gare", "pronunciation": "gar"},
+                {"word": "Ticket", "translation": "Billet", "pronunciation": "bee-yay"},
+                {"word": "Passport", "translation": "Passeport", "pronunciation": "pahs-por"},
+                {"word": "Luggage", "translation": "Bagages", "pronunciation": "ba-gazh"},
+                {"word": "Hotel", "translation": "Hôtel", "pronunciation": "oh-tel"},
+                {"word": "Map", "translation": "Carte", "pronunciation": "kart"},
+                {"word": "Directions", "translation": "Itinéraire", "pronunciation": "ee-tee-nay-rair"}
+            ],
+            "phrases": {
+                "asking_directions": "Excusez-moi, où est la gare?",
+                "booking_hotel": "J'ai une réservation au nom de Smith",
+                "at_airport": "Quelle porte pour le vol vers Paris?",
+                "transportation": "Combien coûte un billet pour le centre-ville?",
+                "emergency": "J'ai besoin d'aide, j'ai perdu mon passeport",
+                "shopping": "Combien ça coûte?"
+            },
+            "grammar": {
+                "point": "Asking Questions for Directions",
+                "explanation": "Start with 'Excusez-moi' (Excuse me) and use 'Où est' (Where is) for locations.",
+                "examples": [
+                    "Où est...? (location)",
+                    "Comment aller à...? (directions)",
+                    "Y a-t-il... près d'ici? (existence)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "Touriste", "text": "Excusez-moi, pourriez-vous m'aider? Je cherche le musée du Louvre.", "translation": "Excuse me, could you help me? I'm looking for the Louvre Museum."},
+                {"speaker": "Local", "text": "Bien sûr! C'est à environ 15 minutes d'ici. Allez tout droit, puis tournez à gauche à la banque.", "translation": "Of course! It's about 15 minutes from here. Go straight, then turn left at the bank."},
+                {"speaker": "Touriste", "text": "Merci beaucoup! Dois-je marcher ou prendre le métro?", "translation": "Thank you so much! Should I walk or take the metro?"},
+                {"speaker": "Local", "text": "Marcher est agréable, c'est une belle journée. Vous verrez beaucoup de magasins en chemin.", "translation": "Walking is nice, it's a beautiful day. You'll see many shops along the way."}
+            ]
+        },
+        "Numbers": {
+            "vocabulary": [
+                {"word": "One", "translation": "Un", "pronunciation": "uhn"},
+                {"word": "Two", "translation": "Deux", "pronunciation": "duh"},
+                {"word": "Three", "translation": "Trois", "pronunciation": "trwah"},
+                {"word": "Four", "translation": "Quatre", "pronunciation": "katr"},
+                {"word": "Five", "translation": "Cinq", "pronunciation": "sank"},
+                {"word": "Ten", "translation": "Dix", "pronunciation": "deess"},
+                {"word": "Twenty", "translation": "Vingt", "pronunciation": "van"},
+                {"word": "Hundred", "translation": "Cent", "pronunciation": "sohn"}
+            ],
+            "phrases": {
+                "asking_phone": "Quel est votre numéro de téléphone?",
+                "telling_time": "Il est trois heures",
+                "asking_age": "Quel âge avez-vous?",
+                "telling_age": "J'ai vingt-cinq ans",
+                "asking_price": "Combien ça coûte?",
+                "counting_items": "J'ai besoin de trois pommes et deux bananes"
+            },
+            "grammar": {
+                "point": "Cardinal Numbers and Counting",
+                "explanation": "French numbers have specific patterns. Learn 1-10 first, then 11-20 have unique forms.",
+                "examples": [
+                    "Un, deux, trois (basic counting)",
+                    "Vingt et un, vingt-deux (compound numbers)",
+                    "Cent (larger numbers)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "Commerçant", "text": "Cela fera quinze euros, s'il vous plaît.", "translation": "That will be fifteen euros, please."},
+                {"speaker": "Client", "text": "Voici vingt euros.", "translation": "Here is twenty euros."},
+                {"speaker": "Commerçant", "text": "Merci. Votre monnaie est cinq euros.", "translation": "Thank you. Your change is five euros."},
+                {"speaker": "Client", "text": "Parfait. Bonne journée!", "translation": "Perfect. Have a nice day!"}
+            ]
+        },
+        "Family": {
+            "vocabulary": [
+                {"word": "Mother", "translation": "Mère", "pronunciation": "mair"},
+                {"word": "Father", "translation": "Père", "pronunciation": "pair"},
+                {"word": "Brother", "translation": "Frère", "pronunciation": "frair"},
+                {"word": "Sister", "translation": "Sœur", "pronunciation": "suhr"},
+                {"word": "Parents", "translation": "Parents", "pronunciation": "pah-ron"},
+                {"word": "Children", "translation": "Enfants", "pronunciation": "on-fon"},
+                {"word": "Grandmother", "translation": "Grand-mère", "pronunciation": "gron-mair"},
+                {"word": "Grandfather", "translation": "Grand-père", "pronunciation": "gron-pair"}
+            ],
+            "phrases": {
+                "introducing_family": "Voici ma mère, elle s'appelle Maria",
+                "asking_about_family": "Combien de frères et sœurs as-tu?",
+                "describing_family": "J'ai deux frères et une sœur",
+                "family_activities": "Nous aimons dîner ensemble tous les dimanches",
+                "family_relations": "Ma grand-mère vit avec nous",
+                "family_events": "Nous visitons mes cousins ce week-end"
+            },
+            "grammar": {
+                "point": "Possessive Forms for Family",
+                "explanation": "Use 'mon/ma/mes' for 'my' depending on gender and number: mon père (my father), ma mère (my mother), mes parents (my parents).",
+                "examples": [
+                    "Mon père (masculine singular)",
+                    "Ma mère (feminine singular)",
+                    "Mes parents (plural)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "Maria", "text": "Voici une photo de ma famille. Ce sont mes parents.", "translation": "This is a photo of my family. These are my parents."},
+                {"speaker": "Jean", "text": "Ils ont l'air charmants! Combien de frères et sœurs as-tu?", "translation": "They look lovely! How many siblings do you have?"},
+                {"speaker": "Maria", "text": "J'ai un grand frère et une petite sœur. Mon frère vit à Londres.", "translation": "I have one older brother and one younger sister. My brother lives in London."},
+                {"speaker": "Jean", "text": "C'est sympa. Tu lui rends souvent visite?", "translation": "That's nice. Do you visit him often?"}
+            ]
+        },
+        "Shopping": {
+            "vocabulary": [
+                {"word": "Store", "translation": "Magasin", "pronunciation": "ma-ga-zan"},
+                {"word": "Price", "translation": "Prix", "pronunciation": "pree"},
+                {"word": "Discount", "translation": "Réduction", "pronunciation": "ray-dook-syon"},
+                {"word": "Size", "translation": "Taille", "pronunciation": "tahy"},
+                {"word": "Fitting room", "translation": "Cabine d'essayage", "pronunciation": "ka-been des-say-azh"},
+                {"word": "Cashier", "translation": "Caissier", "pronunciation": "kay-syay"},
+                {"word": "Receipt", "translation": "Reçu", "pronunciation": "ruh-soo"},
+                {"word": "Exchange", "translation": "Échanger", "pronunciation": "ay-shon-zhay"}
+            ],
+            "phrases": {
+                "asking_price": "Combien ça coûte?",
+                "asking_size": "Avez-vous ceci dans une taille plus grande?",
+                "trying_clothes": "Où sont les cabines d'essayage?",
+                "asking_discount": "Cet article est-il en solde?",
+                "making_payment": "Je voudrais payer par carte de crédit, s'il vous plaît",
+                "returning_item": "Je voudrais échanger ceci, ça ne me va pas"
+            },
+            "grammar": {
+                "point": "Making Requests and Asking Questions",
+                "explanation": "Use 'Je cherche' (I'm looking for) and 'Avez-vous' (Do you have) when shopping.",
+                "examples": [
+                    "Avez-vous...? (availability)",
+                    "Pourrais-je essayer...? (permission)",
+                    "Je cherche... (searching)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "Client", "text": "Excusez-moi, je cherche ce pull en taille moyenne.", "translation": "Excuse me, I'm looking for this sweater in a medium size."},
+                {"speaker": "Vendeur", "text": "Je vais vérifier notre stock. Oui, nous avons la taille moyenne. Voulez-vous l'essayer?", "translation": "Let me check our stock. Yes, we have medium. Would you like to try it on?"},
+                {"speaker": "Client", "text": "Oui, s'il vous plaît. Où sont les cabines d'essayage?", "translation": "Yes, please. Where are the fitting rooms?"},
+                {"speaker": "Vendeur", "text": "Juste au coin à gauche. Faites-moi savoir si vous avez besoin d'une autre taille.", "translation": "Just around the corner to your left. Let me know if you need a different size."}
+            ]
+        },
+        "Weather": {
+            "vocabulary": [
+                {"word": "Sun", "translation": "Soleil", "pronunciation": "so-lay"},
+                {"word": "Rain", "translation": "Pluie", "pronunciation": "ploo-ee"},
+                {"word": "Snow", "translation": "Neige", "pronunciation": "nezh"},
+                {"word": "Wind", "translation": "Vent", "pronunciation": "von"},
+                {"word": "Cloud", "translation": "Nuage", "pronunciation": "noo-azh"},
+                {"word": "Temperature", "translation": "Température", "pronunciation": "tom-pay-ra-toor"},
+                {"word": "Season", "translation": "Saison", "pronunciation": "say-zon"},
+                {"word": "Forecast", "translation": "Prévision", "pronunciation": "pray-vee-zee-on"}
+            ],
+            "phrases": {
+                "asking_weather": "Quel temps fait-il aujourd'hui?",
+                "describing_weather": "Il fait beau et chaud",
+                "weather_prediction": "Il pourrait pleuvoir plus tard",
+                "temperature_talk": "Il fait vingt degrés Celsius",
+                "seasonal_talk": "J'adore le temps printanier",
+                "weather_preference": "Je préfère les jours ensoleillés aux jours pluvieux"
+            },
+            "grammar": {
+                "point": "Describing Weather Conditions",
+                "explanation": "Use 'il fait' for weather conditions: il fait beau (it's nice), il fait froid (it's cold).",
+                "examples": [
+                    "Il fait soleil (it is sunny)",
+                    "Il pleuvait (it was raining)",
+                    "Il fera froid (it will be cold)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "Personne A", "text": "Belle journée aujourd'hui, n'est-ce pas?", "translation": "Beautiful day today, isn't it?"},
+                {"speaker": "Personne B", "text": "Oui, le soleil est magnifique. Bien mieux que la pluie d'hier.", "translation": "Yes, the sun is wonderful. Much better than yesterday's rain."},
+                {"speaker": "Personne A", "text": "J'ai entendu qu'il pourrait pleuvoir encore demain.", "translation": "I heard it might rain again tomorrow though."},
+                {"speaker": "Personne B", "text": "Vraiment? Je devrais prendre mon parapluie alors.", "translation": "Really? I should take my umbrella then."}
+            ]
+        },
+        "Daily Routine": {
+            "vocabulary": [
+                {"word": "Wake up", "translation": "Se réveiller", "pronunciation": "suh ray-vay-yay"},
+                {"word": "Breakfast", "translation": "Petit déjeuner", "pronunciation": "puh-tee day-zhuh-nay"},
+                {"word": "Work", "translation": "Travail", "pronunciation": "tra-vahy"},
+                {"word": "Lunch", "translation": "Déjeuner", "pronunciation": "day-zhuh-nay"},
+                {"word": "Dinner", "translation": "Dîner", "pronunciation": "dee-nay"},
+                {"word": "Exercise", "translation": "Exercice", "pronunciation": "eg-zair-seess"},
+                {"word": "Sleep", "translation": "Dormir", "pronunciation": "dor-meer"},
+                {"word": "Shower", "translation": "Douche", "pronunciation": "doosh"}
+            ],
+            "phrases": {
+                "morning_routine": "Je me réveille à sept heures",
+                "work_schedule": "Je commence à travailler à neuf heures du matin",
+                "lunch_break": "Je déjeune à une heure",
+                "evening_activities": "Après le travail, je vais à la salle de sport",
+                "weekend_routine": "Le week-end, je dors jusqu'à neuf heures",
+                "daily_habits": "Je lis généralement avant de m'endormir"
+            },
+            "grammar": {
+                "point": "Present Simple for Routines",
+                "explanation": "Use reflexive verbs for daily routines: je me lève (I wake up), je me douche (I shower).",
+                "examples": [
+                    "Je me réveille (habitual action)",
+                    "Elle travaille (third person singular)",
+                    "Nous dînons (regular activity)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "Marie", "text": "À quelle heure te réveilles-tu habituellement?", "translation": "What time do you usually wake up?"},
+                {"speaker": "Jean", "text": "Je me réveille à six heures et demie pendant la semaine. Et toi?", "translation": "I wake up at six-thirty during the week. What about you?"},
+                {"speaker": "Marie", "text": "Je ne suis pas du matin. Je me réveille à sept heures et demie.", "translation": "I'm not a morning person. I wake up at seven-thirty."},
+                {"speaker": "Jean", "text": "Tu as de la chance! Je dois prendre le train tôt pour aller au travail.", "translation": "Lucky you! I have to catch the early train to work."}
+            ]
+        }
+    },
+    "Spanish": {
+        "Basics": {
+            "vocabulary": [
+                {"word": "Yes", "translation": "Sí", "pronunciation": "see"},
+                {"word": "No", "translation": "No", "pronunciation": "noh"},
+                {"word": "Please", "translation": "Por favor", "pronunciation": "por fah-vor"},
+                {"word": "Sorry", "translation": "Lo siento", "pronunciation": "loh syen-toh"},
+                {"word": "Help", "translation": "Ayuda", "pronunciation": "ah-yoo-dah"},
+                {"word": "Water", "translation": "Agua", "pronunciation": "ah-gwah"},
+                {"word": "Food", "translation": "Comida", "pronunciation": "koh-mee-dah"},
+                {"word": "Bathroom", "translation": "Baño", "pronunciation": "bah-nyoh"}
+            ],
+            "phrases": {
+                "basic_questions": "¿Dónde está el baño?",
+                "polite_requests": "¿Podría ayudarme, por favor?",
+                "emergency_phrases": "Necesito ayuda",
+                "simple_responses": "Sí, entiendo",
+                "asking_repetition": "¿Podría repetir eso, por favor?",
+                "basic_needs": "Tengo hambre y sed"
+            },
+            "grammar": {
+                "point": "Basic Sentence Structure",
+                "explanation": "Spanish sentences typically follow Subject-Verb-Object order. Questions are formed by inversion or adding question marks.",
+                "examples": [
+                    "Yo soy... (I am...)",
+                    "¿Dónde está...? (Where is...?)",
+                    "Necesito... (I need...)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "Turista", "text": "Disculpe, ¿dónde está la estación de tren?", "translation": "Excuse me, where is the train station?"},
+                {"speaker": "Local", "text": "Está recto, como a cinco minutos caminando.", "translation": "It's straight ahead, about five minutes walk."},
+                {"speaker": "Turista", "text": "¡Muchas gracias!", "translation": "Thank you very much!"},
+                {"speaker": "Local", "text": "De nada. ¡Que tenga un buen día!", "translation": "You're welcome. Have a good day!"}
+            ]
+        },
+        "Colors": {
+            "vocabulary": [
+                {"word": "Red", "translation": "Rojo", "pronunciation": "roh-hoh"},
+                {"word": "Blue", "translation": "Azul", "pronunciation": "ah-sool"},
+                {"word": "Green", "translation": "Verde", "pronunciation": "vair-deh"},
+                {"word": "Yellow", "translation": "Amarillo", "pronunciation": "ah-mah-ree-yoh"},
+                {"word": "Black", "translation": "Negro", "pronunciation": "neh-groh"},
+                {"word": "White", "translation": "Blanco", "pronunciation": "blahn-koh"},
+                {"word": "Orange", "translation": "Naranja", "pronunciation": "nah-rahn-hah"},
+                {"word": "Purple", "translation": "Morado", "pronunciation": "moh-rah-doh"}
+            ],
+            "phrases": {
+                "describing_color": "Mi color favorito es el azul",
+                "asking_color": "¿De qué color es tu coche?",
+                "color_preferences": "Me gustan más los colores oscuros que los claros",
+                "color_combinations": "El rojo y el blanco se ven bien juntos",
+                "shopping_colors": "¿Tiene esta camisa en negro?",
+                "nature_colors": "El cielo está muy azul hoy"
+            },
+            "grammar": {
+                "point": "Color Adjectives and Agreement",
+                "explanation": "Spanish adjectives must agree in gender and number with the nouns they modify.",
+                "examples": [
+                    "Un coche rojo (masculine singular)",
+                    "Una casa blanca (feminine singular)",
+                    "Unos zapatos negros (masculine plural)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "Cliente", "text": "Estoy buscando un abrigo nuevo.", "translation": "I'm looking for a new coat."},
+                {"speaker": "Dependiente", "text": "¿De qué color está interesado? Tenemos negro, azul marino y marrón.", "translation": "What color are you interested in? We have black, navy, and brown."},
+                {"speaker": "Cliente", "text": "Creo que prefiero el azul marino. ¿Podría probármelo?", "translation": "I think I prefer the navy blue one. Could I try it on?"},
+                {"speaker": "Dependiente", "text": "¡Por supuesto! Los probadores están por allí.", "translation": "Of course! The fitting rooms are over there."}
+            ]
+        },
+        "Food & Drinks": {
+            "vocabulary": [
+                {"word": "Restaurant", "translation": "Restaurante", "pronunciation": "res-tau-ran-te"},
+                {"word": "Menu", "translation": "Carta / Menú", "pronunciation": "kar-ta / meh-noo"},
+                {"word": "Waiter", "translation": "Camarero", "pronunciation": "ka-ma-re-ro"},
+                {"word": "Dish", "translation": "Plato", "pronunciation": "pla-to"},
+                {"word": "Water", "translation": "Agua", "pronunciation": "ah-gwah"},
+                {"word": "Coffee", "translation": "Café", "pronunciation": "ka-feh"},
+                {"word": "Dessert", "translation": "Postre", "pronunciation": "pos-tre"},
+                {"word": "Delicious", "translation": "Delicioso", "pronunciation": "deh-lee-see-oh-so"}
+            ],
+            "phrases": {
+                "reserving_table": "Quisiera reservar una mesa para dos, por favor",
+                "asking_menu": "¿Nos puede traer el menú, por favor?",
+                "ordering": "Voy a pedir el pollo asado",
+                "asking_recommendation": "¿Qué recomienda hoy?",
+                "dietary": "Soy alérgico a los frutos secos",
+                "asking_bill": "La cuenta, por favor"
+            },
+            "grammar": {
+                "point": "Polite Requests",
+                "explanation": "Use conditional/polite forms like 'Quisiera' or 'Me gustaría' to be polite when ordering.",
+                "examples": [
+                    "Quisiera... (I would like...)",
+                    "¿Me trae...? (Could you bring me...?)",
+                    "Voy a tomar... (I'll have...)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "Cliente", "text": "Buenas tardes, ¿tienen mesa disponible?", "translation": "Good afternoon, do you have a table available?"},
+                {"speaker": "Host", "text": "Sí, por aquí, por favor.", "translation": "Yes, this way, please."},
+                {"speaker": "Camarero", "text": "¿Qué van a tomar?", "translation": "What will you have?"},
+                {"speaker": "Cliente", "text": "Para empezar, una ensalada y luego el pescado, gracias.", "translation": "To start, a salad and then the fish, thank you."}
+            ]
+        },
+        "Transportation": {
+            "vocabulary": [
+                {"word": "Train", "translation": "Tren", "pronunciation": "tren"},
+                {"word": "Bus", "translation": "Autobús", "pronunciation": "ow-to-boos"},
+                {"word": "Ticket", "translation": "Billete / Boleto", "pronunciation": "bee-ye-te / boh-le-to"},
+                {"word": "Station", "translation": "Estación", "pronunciation": "es-ta-syon"},
+                {"word": "Platform", "translation": "Andén", "pronunciation": "an-den"},
+                {"word": "Taxi", "translation": "Taxi", "pronunciation": "tahk-see"},
+                {"word": "Schedule", "translation": "Horario", "pronunciation": "o-ra-ree-oh"},
+                {"word": "Fare", "translation": "Tarifa", "pronunciation": "ta-ree-fah"}
+            ],
+            "phrases": {
+                "asking_schedule": "¿A qué hora sale el próximo tren?",
+                "buying_ticket": "Quisiera dos billetes a Madrid, por favor",
+                "asking_platform": "¿En qué andén sale el tren?",
+                "taking_taxi": "¿Cuánto cuesta un taxi hasta el centro?",
+                "where_stop": "¿Dónde está la parada de autobús?",
+                "lost": "He perdido mi equipaje"
+            },
+            "grammar": {
+                "point": "Using Directions and Time",
+                "explanation": "Use verbs like 'salir' (to depart) and time expressions (a las 8:00) when talking about transport.",
+                "examples": [
+                    "El tren sale a las nueve.",
+                    "Necesito comprar un billete.",
+                    "La estación está cerca."
+                ]
+            },
+            "conversation": [
+                {"speaker": "Turista", "text": "Disculpe, ¿dónde está la estación de tren?", "translation": "Excuse me, where is the train station?"},
+                {"speaker": "Local", "text": "A dos calles, gire a la derecha y la verá.", "translation": "Two blocks away, turn right and you'll see it."},
+                {"speaker": "Turista", "text": "¿Cuánto tarda el tren hasta Barcelona?", "translation": "How long does the train take to Barcelona?"},
+                {"speaker": "Local", "text": "Aproximadamente tres horas.", "translation": "Approximately three hours."}
+            ]
+        },
+        "Hobbies": {
+            "vocabulary": [
+                {"word": "Hobby", "translation": "Pasatiempo", "pronunciation": "pa-sa-tee-em-po"},
+                {"word": "Sport", "translation": "Deporte", "pronunciation": "de-por-te"},
+                {"word": "Music", "translation": "Música", "pronunciation": "moo-see-ka"},
+                {"word": "Reading", "translation": "Lectura", "pronunciation": "lek-too-ra"},
+                {"word": "Painting", "translation": "Pintura", "pronunciation": "peen-too-ra"},
+                {"word": "Garden", "translation": "Jardín", "pronunciation": "har-deen"},
+                {"word": "Cooking", "translation": "Cocinar", "pronunciation": "ko-see-nar"},
+                {"word": "Photography", "translation": "Fotografía", "pronunciation": "fo-to-gra-fee-a"}
+            ],
+            "phrases": {
+                "talking_hobbies": "Me gusta leer en mi tiempo libre",
+                "inviting": "¿Quieres venir a jugar al fútbol este fin de semana?",
+                "describing_skills": "Toco la guitarra desde hace cinco años",
+                "suggesting_activity": "Podemos ir a una exposición de arte",
+                "preference": "Prefiero actividades al aire libre",
+                "asking_about_interest": "¿Qué te gusta hacer?"
+            },
+            "grammar": {
+                "point": "Expressing Likes/Dislikes",
+                "explanation": "Use 'gustar' to express likes: Me gusta(n) + noun or infinitive verb.",
+                "examples": [
+                    "Me gusta bailar.",
+                    "No me gustan los deportes de invierno.",
+                    "Me encanta la música."
+                ]
+            },
+            "conversation": [
+                {"speaker": "A", "text": "¿Qué haces en tu tiempo libre?", "translation": "What do you do in your free time?"},
+                {"speaker": "B", "text": "Me gusta pintar y caminar en el parque.", "translation": "I like to paint and walk in the park."},
+                {"speaker": "A", "text": "¿Te gustaría unirte al club de lectura?", "translation": "Would you like to join the book club?"},
+                {"speaker": "B", "text": "Sí, suena muy bien.", "translation": "Yes, sounds great."}
+            ]
+        }
+    },
+    "German": {
+        "Introductions": {
+            "vocabulary": [
+                {"word": "Hello", "translation": "Hallo", "pronunciation": "hah-loh"},
+                {"word": "Goodbye", "translation": "Auf Wiedersehen", "pronunciation": "owf vee-der-zay-en"},
+                {"word": "Good morning", "translation": "Guten Morgen", "pronunciation": "goo-ten mor-gen"},
+                {"word": "Good evening", "translation": "Guten Abend", "pronunciation": "goo-ten ah-bent"},
+                {"word": "How are you?", "translation": "Wie geht es dir?", "pronunciation": "vee gayt es deer"},
+                {"word": "I'm fine", "translation": "Mir geht es gut", "pronunciation": "meer gayt es goot"},
+                {"word": "Thank you", "translation": "Danke", "pronunciation": "dahn-keh"},
+                {"word": "You're welcome", "translation": "Bitte", "pronunciation": "bit-teh"}
+            ],
+            "phrases": {
+                "formal_greeting": "Guten Tag, wie geht es Ihnen?",
+                "informal_greeting": "Hallo, was geht?",
+                "introducing_yourself": "Ich heiße [Name], nett Sie kennenzulernen",
+                "asking_about_someone": "Wie geht es Ihnen?",
+                "evening_greeting": "Guten Abend, wie war Ihr Tag?",
+                "polite_response": "Mir geht es gut, danke der Nachfrage"
+            },
+            "grammar": {
+                "point": "Formal vs Informal Address",
+                "explanation": "In German, use 'Sie' for formal situations and 'du' for informal ones. Verbs conjugate differently.",
+                "examples": [
+                    "Wie geht es Ihnen? (formal)",
+                    "Wie geht es dir? (informal)",
+                    "Haben Sie...? (formal)",
+                    "Hast du...? (informal)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "Alex", "text": "Guten Morgen, Sarah! Wie geht es dir?", "translation": "Good morning, Sarah! How are you?"},
+                {"speaker": "Sarah", "text": "Guten Morgen, Alex! Mir geht es gut, danke. Und dir?", "translation": "Good morning, Alex! I'm doing well, thank you. How about you?"},
+                {"speaker": "Alex", "text": "Mir geht es sehr gut, danke! Einen schönen Tag noch!", "translation": "I'm great, thanks! Have a good day!"},
+                {"speaker": "Sarah", "text": "Dir auch, bis später!", "translation": "You too, see you later!"}
+            ]
+        }
+        
+    },
+    "English": {
+        "Greetings": {
+            "vocabulary": [
+                {"word": "Hello", "translation": "Hello", "pronunciation": "heh-loh"},
+                {"word": "Goodbye", "translation": "Goodbye", "pronunciation": "good-bye"},
+                {"word": "Please", "translation": "Please", "pronunciation": "pleez"},
+                {"word": "Thank you", "translation": "Thank you", "pronunciation": "thangk yoo"},
+                {"word": "Sorry", "translation": "Sorry", "pronunciation": "sor-ee"},
+                {"word": "Yes", "translation": "Yes", "pronunciation": "yes"},
+                {"word": "No", "translation": "No", "pronunciation": "noh"},
+                {"word": "How are you?", "translation": "How are you?", "pronunciation": "how ar yoo"}
+            ],
+            "phrases": {
+                "formal_greeting": "Good morning, how do you do?",
+                "informal_greeting": "Hey, what's up?",
+                "introducing_yourself": "Hi, I'm [Name]. Nice to meet you.",
+                "asking_about_someone": "How are you doing?",
+                "evening_greeting": "Good evening, how was your day?",
+                "polite_response": "I'm fine, thank you."
+            },
+            "grammar": {
+                "point": "Formality in Greetings",
+                "explanation": "Use different greetings depending on formality: 'Good morning' (formal) vs 'Hi' (informal).",
+                "examples": [
+                    "Good morning (formal)",
+                    "Hi / Hey (informal)",
+                    "How are you? / How're you doing?"
+                ]
+            },
+            "conversation": [
+                {"speaker": "Sam", "text": "Good morning! How are you?", "translation": "Good morning! How are you?"},
+                {"speaker": "Rae", "text": "I'm good, thanks! And you?", "translation": "I'm good, thanks! And you?"},
+                {"speaker": "Sam", "text": "Doing well, thanks. Have a great day!", "translation": "Doing well, thanks. Have a great day!"},
+                {"speaker": "Rae", "text": "You too!", "translation": "You too!"}
+            ]
+        },
+        "Basics": {
+            "vocabulary": [
+                {"word": "Water", "translation": "Water", "pronunciation": "waw-ter"},
+                {"word": "Food", "translation": "Food", "pronunciation": "food"},
+                {"word": "Help", "translation": "Help", "pronunciation": "help"},
+                {"word": "Bathroom", "translation": "Bathroom", "pronunciation": "bath-room"},
+                {"word": "Where", "translation": "Where", "pronunciation": "wair"},
+                {"word": "When", "translation": "When", "pronunciation": "wen"},
+                {"word": "Why", "translation": "Why", "pronunciation": "wy"},
+                {"word": "Who", "translation": "Who", "pronunciation": "hoo"}
+            ],
+            "phrases": {
+                "asking_location": "Where is the restroom?",
+                "asking_help": "Can you help me, please?",
+                "ordering": "I would like this, please.",
+                "introducing": "My name is [Name].",
+                "basic_question": "Can you repeat that?"
+            },
+            "grammar": {
+                "point": "Question Words",
+                "explanation": "Use who/what/where/when/why/how to form basic questions in English.",
+                "examples": [
+                    "Where is the station?",
+                    "What is your name?",
+                    "When does the train leave?"
+                ]
+            },
+            "conversation": [
+                {"speaker": "A", "text": "Excuse me, where is the nearest bus stop?", "translation": "Excuse me, where is the nearest bus stop?"},
+                {"speaker": "B", "text": "Two blocks down, on the left.", "translation": "Two blocks down, on the left."}
+            ]
+        }
+    },
+    "Italian": {
+        "Greetings": {
+            "vocabulary": [
+                {"word": "Hello", "translation": "Ciao", "pronunciation": "chow"},
+                {"word": "Good morning", "translation": "Buongiorno", "pronunciation": "bwohn-jor-no"},
+                {"word": "Good evening", "translation": "Buonasera", "pronunciation": "bwoh-nah-seh-rah"},
+                {"word": "Please", "translation": "Per favore", "pronunciation": "per fah-voh-reh"},
+                {"word": "Thank you", "translation": "Grazie", "pronunciation": "grah-tsee-eh"},
+                {"word": "Yes", "translation": "Sì", "pronunciation": "see"},
+                {"word": "No", "translation": "No", "pronunciation": "noh"},
+                {"word": "Goodbye", "translation": "Arrivederci", "pronunciation": "ah-ree-veh-der-chee"}
+            ],
+            "phrases": {
+                "formal_greeting": "Buongiorno, come sta?",
+                "informal_greeting": "Ciao! Come va?",
+                "introducing_yourself": "Mi chiamo [Name], piacere",
+                "asking_about_someone": "Come stai?",
+                "polite_response": "Sto bene, grazie"
+            },
+            "grammar": {
+                "point": "Formal vs Informal",
+                "explanation": "Use 'Lei' for formal address and 'tu' for informal. Verb endings change accordingly.",
+                "examples": [
+                    "Come sta? (formal)",
+                    "Come stai? (informal)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "Luca", "text": "Ciao Sara! Come va?", "translation": "Hi Sara! How are you?"},
+                {"speaker": "Sara", "text": "Bene, grazie! E tu?", "translation": "Good, thanks! And you?"}
+            ]
+        },
+        "Travel": {
+            "vocabulary": [
+                {"word": "Ticket", "translation": "Biglietto", "pronunciation": "bee-lyet-to"},
+                {"word": "Train", "translation": "Treno", "pronunciation": "treh-no"},
+                {"word": "Airport", "translation": "Aeroporto", "pronunciation": "ah-eh-roh-por-to"},
+                {"word": "Hotel", "translation": "Albergo", "pronunciation": "al-ber-go"},
+                {"word": "Map", "translation": "Mappa", "pronunciation": "mahp-pah"},
+                {"word": "Taxi", "translation": "Taxi", "pronunciation": "tahk-see"},
+                {"word": "Luggage", "translation": "Bagaglio", "pronunciation": "bah-gah-lyoh"},
+                {"word": "Station", "translation": "Stazione", "pronunciation": "stah-tsee-oh-neh"}
+            ],
+            "phrases": {
+                "asking_directions": "Scusi, dove è la stazione?",
+                "booking_hotel": "Ho una prenotazione a nome di [Name]",
+                "at_airport": "Qual è il gate per Roma?",
+                "transportation": "Quanto costa un taxi fino al centro?"
+            },
+            "grammar": {
+                "point": "Polite Requests",
+                "explanation": "Use 'vorrei' or 'posso' when making polite requests or asking permission.",
+                "examples": [
+                    "Vorrei un biglietto per favore.",
+                    "Posso avere la mappa?"
+                ]
+            },
+            "conversation": [
+                {"speaker": "Tourist", "text": "Scusi, come arrivo al Colosseo?", "translation": "Excuse me, how do I get to the Colosseum?"},
+                {"speaker": "Local", "text": "Prenda la metro linea B e scenda a Colosseo.", "translation": "Take metro line B and get off at Colosseo."}
+            ]
+        }
+    },
+    "Arabic": {
+        "Greetings": {
+            "vocabulary": [
+                {"word": "Hello", "translation": "مرحبا", "pronunciation": "marhaba"},
+                {"word": "Good morning", "translation": "صباح الخير", "pronunciation": "sabah al-khair"},
+                {"word": "Good evening", "translation": "مساء الخير", "pronunciation": "masaa' al-khair"},
+                {"word": "Please", "translation": "من فضلك", "pronunciation": "min fadlak"},
+                {"word": "Thank you", "translation": "شكرا", "pronunciation": "shukran"},
+                {"word": "Yes", "translation": "نعم", "pronunciation": "na'am"},
+                {"word": "No", "translation": "لا", "pronunciation": "la"},
+                {"word": "Goodbye", "translation": "مع السلامة", "pronunciation": "ma'a as-salama"}
+            ],
+            "phrases": {
+                "formal_greeting": "السلام عليكم ورحمة الله وبركاته",
+                "informal_greeting": "أهلا! كيف حالك؟",
+                "introducing_yourself": "اسمي [Name]، تشرفت بمعرفتك",
+                "asking_about_someone": "كيف حالك؟",
+                "polite_response": "أنا بخير، شكرا"
+            },
+            "grammar": {
+                "point": "Formal vs Colloquial",
+                "explanation": "Modern Standard Arabic is used in formal settings; many dialects are used in conversation. Pronouns and verb forms differ by dialect.",
+                "examples": [
+                    "كيف حالك؟ (How are you?)",
+                    "أنا بخير (I'm fine)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "A", "text": "مرحبا، كيف حالك؟", "translation": "Hello, how are you?"},
+                {"speaker": "B", "text": "أنا بخير، شكرا. وأنت؟", "translation": "I'm fine, thank you. And you?"}
+            ]
+        },
+        "Basics": {
+            "vocabulary": [
+                {"word": "Yes", "translation": "نعم", "pronunciation": "na'am"},
+                {"word": "No", "translation": "لا", "pronunciation": "la"},
+                {"word": "Water", "translation": "ماء", "pronunciation": "maa'"},
+                {"word": "Food", "translation": "طعام", "pronunciation": "ta'aam"},
+                {"word": "Help", "translation": "مساعدة", "pronunciation": "musa'ada"},
+                {"word": "Where", "translation": "أين", "pronunciation": "ayn"},
+                {"word": "Bathroom", "translation": "حمام", "pronunciation": "hammam"},
+                {"word": "Hotel", "translation": "فندق", "pronunciation": "funduq"}
+            ],
+            "phrases": {
+                "asking_location": "أين الحمام؟",
+                "asking_help": "هل يمكنك مساعدتي؟",
+                "ordering": "أريد هذا من فضلك",
+                "introducing": "اسمي [Name]"
+            },
+            "grammar": {
+                "point": "Word Order and Pronouns",
+                "explanation": "Arabic typically uses Verb-Subject-Object or Subject-Verb-Object; pronouns attach to verbs and nouns.",
+                "examples": [
+                    "أين المحطة؟ (Where is the station?)",
+                    "هل يمكنك المساعدة؟ (Can you help?)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "A", "text": "أين أقرب محطة حافلات؟", "translation": "Where is the nearest bus station?"},
+                {"speaker": "B", "text": "امشِ إلى الأمام ثم انعطف يمينًا.", "translation": "Walk straight then turn right."}
+            ]
+        }
+    },
+    "Japanese": {
+        "Greetings": {
+            "vocabulary": [
+                {"word": "Hello", "translation": "こんにちは", "pronunciation": "konnichiwa"},
+                {"word": "Good morning", "translation": "おはようございます", "pronunciation": "ohayou gozaimasu"},
+                {"word": "Good evening", "translation": "こんばんは", "pronunciation": "konbanwa"},
+                {"word": "Thank you", "translation": "ありがとうございます", "pronunciation": "arigatou gozaimasu"},
+                {"word": "Yes", "translation": "はい", "pronunciation": "hai"},
+                {"word": "No", "translation": "いいえ", "pronunciation": "iie"},
+                {"word": "Please", "translation": "お願いします", "pronunciation": "onegaishimasu"},
+                {"word": "Goodbye", "translation": "さようなら", "pronunciation": "sayounara"}
+            ],
+            "phrases": {
+                "formal_greeting": "はじめまして、よろしくお願いします",
+                "informal_greeting": "やあ、元気？",
+                "introducing_yourself": "私は[Name]です、よろしく",
+                "asking_about_someone": "お元気ですか？",
+                "polite_response": "元気です、ありがとうございます"
+            },
+            "grammar": {
+                "point": "Politeness Levels",
+                "explanation": "Japanese has different politeness levels (casual, polite, honorific). Use ます/です for polite speech.",
+                "examples": [
+                    "行く -> 行きます (informal -> polite)",
+                    "ありがとう -> ありがとうございます (casual -> polite)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "A", "text": "こんにちは、元気ですか？", "translation": "Hello, how are you?"},
+                {"speaker": "B", "text": "はい、元気です。ありがとう。", "translation": "Yes, I'm fine. Thank you."}
+            ]
+        },
+        "Basics": {
+            "vocabulary": [
+                {"word": "Water", "translation": "水", "pronunciation": "mizu"},
+                {"word": "Food", "translation": "食べ物", "pronunciation": "tabemono"},
+                {"word": "Help", "translation": "助けて", "pronunciation": "tasukete"},
+                {"word": "Where", "translation": "どこ", "pronunciation": "doko"},
+                {"word": "Toilet", "translation": "トイレ", "pronunciation": "toire"},
+                {"word": "Train", "translation": "電車", "pronunciation": "densha"},
+                {"word": "Station", "translation": "駅", "pronunciation": "eki"},
+                {"word": "Ticket", "translation": "切符", "pronunciation": "kippu"}
+            ],
+            "phrases": {
+                "asking_location": "トイレはどこですか？",
+                "asking_help": "助けてください",
+                "ordering": "これをください",
+                "introducing": "私の名前は[Name]です"
+            },
+            "grammar": {
+                "point": "Particles",
+                "explanation": "Particles (は/が/を) mark topic/subject/object. Verb comes at the end of the sentence.",
+                "examples": [
+                    "私は学生です (I am a student)",
+                    "駅に行きます (I go to the station)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "A", "text": "すみません、切符はいくらですか？", "translation": "Excuse me, how much is the ticket?"},
+                {"speaker": "B", "text": "500円です。", "translation": "It's 500 yen."}
+            ]
+        }
+    },
+    "Chinese": {
+        "Greetings": {
+            "vocabulary": [
+                {"word": "Hello", "translation": "你好", "pronunciation": "nǐ hǎo"},
+                {"word": "Good morning", "translation": "早上好", "pronunciation": "zǎo shang hǎo"},
+                {"word": "Good evening", "translation": "晚上好", "pronunciation": "wǎn shang hǎo"},
+                {"word": "Thank you", "translation": "谢谢", "pronunciation": "xiè xie"},
+                {"word": "Please", "translation": "请", "pronunciation": "qǐng"},
+                {"word": "Yes", "translation": "是", "pronunciation": "shì"},
+                {"word": "No", "translation": "不", "pronunciation": "bù"},
+                {"word": "Goodbye", "translation": "再见", "pronunciation": "zài jiàn"}
+            ],
+            "phrases": {
+                "formal_greeting": "您好，请问您贵姓？",
+                "informal_greeting": "嗨，你好吗？",
+                "introducing_yourself": "我叫[Name]，很高兴认识你",
+                "asking_about_someone": "你最近怎么样？",
+                "polite_response": "我很好，谢谢"
+            },
+            "grammar": {
+                "point": "Simple SVO Structure",
+                "explanation": "Chinese uses Subject-Verb-Object order. Measure words are required with nouns.",
+                "examples": [
+                    "我爱你 (I love you)",
+                    "他去学校 (He goes to school)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "A", "text": "你好，请问车站在哪里？", "translation": "Hello, where is the station?"},
+                {"speaker": "B", "text": "往前走，右转就到了。", "translation": "Go forward and turn right."}
+            ]
+        },
+        "Numbers": {
+            "vocabulary": [
+                {"word": "One", "translation": "一", "pronunciation": "yī"},
+                {"word": "Two", "translation": "二", "pronunciation": "èr"},
+                {"word": "Three", "translation": "三", "pronunciation": "sān"},
+                {"word": "Ten", "translation": "十", "pronunciation": "shí"},
+                {"word": "Hundred", "translation": "百", "pronunciation": "bǎi"},
+                {"word": "Thousand", "translation": "千", "pronunciation": "qiān"},
+                {"word": "How many", "translation": "多少", "pronunciation": "duō shǎo"},
+                {"word": "Price", "translation": "价格", "pronunciation": "jià gé"}
+            ],
+            "phrases": {
+                "asking_price": "这个多少钱？",
+                "telling_age": "我二十五岁",
+                "counting_items": "我需要三个苹果"
+            },
+            "grammar": {
+                "point": "Number + Measure Word",
+                "explanation": "Use number + measure word + noun for counting (e.g., 三个苹果).",
+                "examples": [
+                    "一个人 (one person)",
+                    "两本书 (two books)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "Seller", "text": "这个多少钱？", "translation": "How much is this?"},
+                {"speaker": "Buyer", "text": "二十块。", "translation": "20 yuan."}
+            ]
+        }
+    },
+    "Portuguese": {
+        "Greetings": {
+            "vocabulary": [
+                {"word": "Hello", "translation": "Olá", "pronunciation": "oh-lah"},
+                {"word": "Good morning", "translation": "Bom dia", "pronunciation": "bom jee-ah"},
+                {"word": "Good evening", "translation": "Boa noite", "pronunciation": "boh-ah noy-che"},
+                {"word": "Thank you", "translation": "Obrigado/Obrigada", "pronunciation": "oh-bree-gah-do/da"},
+                {"word": "Please", "translation": "Por favor", "pronunciation": "por fah-vor"},
+                {"word": "Yes", "translation": "Sim", "pronunciation": "seem"},
+                {"word": "No", "translation": "Não", "pronunciation": "nowng"},
+                {"word": "Goodbye", "translation": "Tchau", "pronunciation": "chow"}
+            ],
+            "phrases": {
+                "formal_greeting": "Bom dia, como vai?",
+                "informal_greeting": "Oi! Tudo bem?",
+                "introducing_yourself": "Eu me chamo [Name], prazer",
+                "asking_about_someone": "Como você está?",
+                "polite_response": "Estou bem, obrigado"
+            },
+            "grammar": {
+                "point": "Formal vs Informal",
+                "explanation": "Use 'você' in Brazil for neutral/formal, 'tu' in some regions for informal. Verb conjugations differ.",
+                "examples": [
+                    "Como vai? (formal)",
+                    "Tudo bem? (informal)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "A", "text": "Bom dia! Onde fica a estação?", "translation": "Good morning! Where is the station?"},
+                {"speaker": "B", "text": "Vá em frente e vire à esquerda.", "translation": "Go straight and turn left."}
+            ]
+        },
+        "Food & Dining": {
+            "vocabulary": [
+                {"word": "Restaurant", "translation": "Restaurante", "pronunciation": "res-tau-ran-che"},
+                {"word": "Menu", "translation": "Cardápio", "pronunciation": "car-dah-pyoh"},
+                {"word": "Waiter", "translation": "Garçom", "pronunciation": "gar-sohm"},
+                {"word": "Table", "translation": "Mesa", "pronunciation": "meh-zah"},
+                {"word": "Bill", "translation": "Conta", "pronunciation": "kon-tah"},
+                {"word": "Delicious", "translation": "Delicioso", "pronunciation": "deh-lee-see-oh-so"}
+            ],
+            "phrases": {
+                "reserving_table": "Gostaria de reservar uma mesa para dois, por favor",
+                "asking_menu": "Podemos ver o cardápio, por favor?",
+                "asking_bill": "A conta, por favor"
+            },
+            "grammar": {
+                "point": "Polite Requests",
+                "explanation": "Use 'Gostaria de' or 'Queria' for polite requests.",
+                "examples": [
+                    "Gostaria de um café, por favor.",
+                    "Queria reservar uma mesa."
+                ]
+            },
+            "conversation": [
+                {"speaker": "Cliente", "text": "Temos reserva no nome Silva.", "translation": "We have a reservation under Silva."},
+                {"speaker": "Host", "text": "Claro, esta é sua mesa.", "translation": "Sure, this is your table."}
+            ]
+        }
+    },
+    "Russian": {
+        "Greetings": {
+            "vocabulary": [
+                {"word": "Hello", "translation": "Здравствуйте/Привет", "pronunciation": "zdravstvuyte / preevyet"},
+                {"word": "Goodbye", "translation": "До свидания", "pronunciation": "da svee-dah-nee-ya"},
+                {"word": "Please", "translation": "Пожалуйста", "pronunciation": "pah-zhal-sta"},
+                {"word": "Thank you", "translation": "Спасибо", "pronunciation": "spah-see-bah"},
+                {"word": "Yes", "translation": "Да", "pronunciation": "da"},
+                {"word": "No", "translation": "Нет", "pronunciation": "nyet"},
+                {"word": "How are you?", "translation": "Как дела?", "pronunciation": "kak dye-la"}
+            ],
+            "phrases": {
+                "formal_greeting": "Здравствуйте, как вы?",
+                "informal_greeting": "Привет! Как дела?",
+                "introducing_yourself": "Меня зовут [Name], приятно познакомиться",
+                "asking_about_someone": "Как у вас дела?",
+                "polite_response": "У меня всё хорошо, спасибо"
+            },
+            "grammar": {
+                "point": "Cases and Formality",
+                "explanation": "Russian uses cases for nouns; greetings vary by formality (Вы vs ты).",
+                "examples": [
+                    "Здравствуйте (formal hello)",
+                    "Привет (informal hello)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "A", "text": "Здравствуйте! Как вы сегодня?", "translation": "Hello! How are you today?"},
+                {"speaker": "B", "text": "Хорошо, спасибо. А вы?", "translation": "Good, thank you. And you?"}
+            ]
+        },
+        "Basics": {
+            "vocabulary": [
+                {"word": "Water", "translation": "Вода", "pronunciation": "va-da"},
+                {"word": "Food", "translation": "Еда", "pronunciation": "ye-da"},
+                {"word": "Help", "translation": "Помогите", "pronunciation": "pa-ma-gee-te"},
+                {"word": "Where", "translation": "Где", "pronunciation": "gde"},
+                {"word": "Toilet", "translation": "Туалет", "pronunciation": "too-ah-lyet"},
+                {"word": "Ticket", "translation": "Билет", "pronunciation": "bee-lyet"}
+            ],
+            "phrases": {
+                "asking_location": "Где ближайшая станция?",
+                "asking_help": "Вы можете мне помочь?",
+                "ordering": "Я хотел бы это, пожалуйста"
+            },
+            "grammar": {
+                "point": "Cases and Word Order",
+                "explanation": "Russian nouns change with cases; word order is flexible but cases show roles.",
+                "examples": [
+                    "Я иду в магазин (I am going to the shop)",
+                    "Мне нужна помощь (I need help)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "A", "text": "Извините, где метро?", "translation": "Excuse me, where is the metro?"},
+                {"speaker": "B", "text": "Идите прямо, затем налево.", "translation": "Go straight, then left."}
+            ]
+        }
+    },
+    "Korean": {
+        "Greetings": {
+            "vocabulary": [
+                {"word": "Hello", "translation": "안녕하세요", "pronunciation": "annyeonghaseyo"},
+                {"word": "Hi (informal)", "translation": "안녕", "pronunciation": "annyeong"},
+                {"word": "Thank you", "translation": "감사합니다", "pronunciation": "gamsahabnida"},
+                {"word": "Please", "translation": "제발/부탁합니다", "pronunciation": "jebal / butakhamnida"},
+                {"word": "Yes", "translation": "네", "pronunciation": "ne"},
+                {"word": "No", "translation": "아니요", "pronunciation": "aniyo"},
+                {"word": "Goodbye", "translation": "안녕히 가세요", "pronunciation": "annyeonghi gaseyo"}
+            ],
+            "phrases": {
+                "formal_greeting": "안녕하세요, 처음 뵙겠습니다",
+                "informal_greeting": "안녕! 잘 지내?",
+                "introducing_yourself": "제 이름은 [Name]입니다",
+                "asking_about_someone": "잘 지내세요?",
+                "polite_response": "네, 잘 지내요"
+            },
+            "grammar": {
+                "point": "Honorifics and Verb Endings",
+                "explanation": "Korean uses honorifics and polite verb endings like -요 and -습니다 depending on formality.",
+                "examples": [
+                    "갑니다 -> 가요 (polite forms)",
+                    "하세요 -> 해 (informal)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "A", "text": "안녕하세요! 오늘 어때요?", "translation": "Hello! How are you today?"},
+                {"speaker": "B", "text": "잘 지내고 있어요, 감사합니다.", "translation": "I'm doing well, thank you."}
+            ]
+        },
+        "Basics": {
+            "vocabulary": [
+                {"word": "Water", "translation": "물", "pronunciation": "mul"},
+                {"word": "Food", "translation": "음식", "pronunciation": "eumsik"},
+                {"word": "Help", "translation": "도와주세요", "pronunciation": "dowajuseyo"},
+                {"word": "Where", "translation": "어디", "pronunciation": "eodi"},
+                {"word": "Bathroom", "translation": "화장실", "pronunciation": "hwajangsil"}
+            ],
+            "phrases": {
+                "asking_location": "화장실이 어디에 있나요?",
+                "asking_help": "도와줄 수 있나요?",
+                "ordering": "이거 주세요"
+            },
+            "grammar": {
+                "point": "Subject/Object Particles",
+                "explanation": "Particles like 은/는/이/가 mark topic and subject; verbs at end indicate tense and politeness.",
+                "examples": [
+                    "저는 학생입니다 (I am a student)",
+                    "학교에 갑니다 (I go to school)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "A", "text": "실례합니다, 여기 버스 정류장이 어디인가요?", "translation": "Excuse me, where is the bus stop?"},
+                {"speaker": "B", "text": "저기 오른쪽에 있어요.", "translation": "It's over there on the right."}
+            ]
+        }
+    },
+    "Hindi": {
+        "Greetings": {
+            "vocabulary": [
+                {"word": "Hello", "translation": "नमस्ते", "pronunciation": "namaste"},
+                {"word": "Good morning", "translation": "सुप्रभात", "pronunciation": "suprabhat"},
+                {"word": "Thank you", "translation": "धन्यवाद", "pronunciation": "dhanyavaad"},
+                {"word": "Please", "translation": "कृपया", "pronunciation": "kripya"},
+                {"word": "Yes", "translation": "हाँ", "pronunciation": "haan"},
+                {"word": "No", "translation": "नहीं", "pronunciation": "nahin"},
+                {"word": "Goodbye", "translation": "अलविदा", "pronunciation": "alvida"}
+            ],
+            "phrases": {
+                "formal_greeting": "नमस्ते, आप कैसे हैं?",
+                "informal_greeting": "हाय! क्या हाल है?",
+                "introducing_yourself": "मेरा नाम [Name] है, मिलकर खुशी हुई",
+                "polite_response": "मैं ठीक हूँ, धन्यवाद"
+            },
+            "grammar": {
+                "point": "Honorifics and Verb Forms",
+                "explanation": "Hindi uses postpositions and verb agreement with gender and number.",
+                "examples": [
+                    "मैं जा रहा हूँ (I am going)",
+                    "वह मेरी दोस्त है (She is my friend)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "A", "text": "नमस्ते, आप कैसे हैं?", "translation": "Hello, how are you?"},
+                {"speaker": "B", "text": "मैं ठीक हूँ, धन्यवाद!", "translation": "I'm fine, thank you!"}
+            ]
+        },
+        "Basics": {
+            "vocabulary": [
+                {"word": "Water", "translation": "पानी", "pronunciation": "paani"},
+                {"word": "Food", "translation": "खाना", "pronunciation": "khaana"},
+                {"word": "Help", "translation": "मदद", "pronunciation": "madad"},
+                {"word": "Where", "translation": "कहाँ", "pronunciation": "kahaan"},
+                {"word": "Toilet", "translation": "शौचालय", "pronunciation": "shauchalay"}
+            ],
+            "phrases": {
+                "asking_location": "शौचालय कहाँ है?",
+                "asking_help": "क्या आप मेरी मदद कर सकते हैं?",
+                "ordering": "मुझे यह चाहिए, कृपया"
+            },
+            "grammar": {
+                "point": "Postpositions and Agreement",
+                "explanation": "Hindi uses postpositions (e.g., में, पर) and verbs agree with the subject in gender and number.",
+                "examples": [
+                    "मैं घर जा रहा हूँ (I am going home)",
+                    "यह सुंदर है (This is beautiful)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "A", "text": "मुझे टिकट कितने का मिलेगा?", "translation": "How much will the ticket cost?"},
+                {"speaker": "B", "text": "यह दो सौ रुपये है।", "translation": "It is 200 rupees."}
+            ]
+        }
+    },
+    "Turkish": {
+        "Greetings": {
+            "vocabulary": [
+                {"word": "Hello", "translation": "Merhaba", "pronunciation": "mehr-hah-bah"},
+                {"word": "Good morning", "translation": "Günaydın", "pronunciation": "goo-nahy-duhn"},
+                {"word": "Good evening", "translation": "İyi akşamlar", "pronunciation": "ee ak-sham-lar"},
+                {"word": "Thank you", "translation": "Teşekkür ederim", "pronunciation": "te-sheh-kyur eh-de-rim"},
+                {"word": "Please", "translation": "Lütfen", "pronunciation": "loot-fen"},
+                {"word": "Yes", "translation": "Evet", "pronunciation": "eh-vet"},
+                {"word": "No", "translation": "Hayır", "pronunciation": "ha-yuhr"}
+            ],
+            "phrases": {
+                "formal_greeting": "Merhaba, nasılsınız?",
+                "informal_greeting": "Selam! N'abersin?",
+                "introducing_yourself": "Benim adım [Name], memnun oldum",
+                "polite_response": "İyiyim, teşekkür ederim"
+            },
+            "grammar": {
+                "point": "Vowel Harmony and Agglutination",
+                "explanation": "Turkish uses suffixes for grammatical functions and vowel harmony rules for suffix forms.",
+                "examples": [
+                    "Ev -> Evler (house -> houses)",
+                    "Gel -> Geliyor (come -> coming)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "A", "text": "Merhaba! Bugün nasılsın?", "translation": "Hello! How are you today?"},
+                {"speaker": "B", "text": "İyiyim, teşekkürler.", "translation": "I'm fine, thanks."}
+            ]
+        },
+        "Basics": {
+            "vocabulary": [
+                {"word": "Water", "translation": "Su", "pronunciation": "su"},
+                {"word": "Food", "translation": "Yemek", "pronunciation": "ye-mek"},
+                {"word": "Help", "translation": "Yardım", "pronunciation": "yar-dim"},
+                {"word": "Where", "translation": "Nerede", "pronunciation": "ne-re-de"},
+                {"word": "Toilet", "translation": "Tuvalet", "pronunciation": "tu-va-let"}
+            ],
+            "phrases": {
+                "asking_location": "Tuvalet nerede?",
+                "asking_help": "Bana yardım eder misiniz?",
+                "ordering": "Bunu alabilir miyim?"
+            },
+            "grammar": {
+                "point": "Postpositions and Suffixes",
+                "explanation": "Turkish uses suffixes for cases and verb conjugation; word order is generally SOV.",
+                "examples": [
+                    "Ben gidiyorum (I am going)",
+                    "Evdeyim (I am at home)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "A", "text": "Affedersiniz, durak nerede?", "translation": "Excuse me, where is the stop?"},
+                {"speaker": "B", "text": "İleri doğru yürü, sonra sağa dön.", "translation": "Walk forward, then turn right."}
+            ]
+        }
+    },
+    "Dutch": {
+        "Greetings": {
+            "vocabulary": [
+                {"word": "Hello", "translation": "Hallo", "pronunciation": "hah-lo"},
+                {"word": "Good morning", "translation": "Goedemorgen", "pronunciation": "goo-deh-mor-ghen"},
+                {"word": "Good evening", "translation": "Goedenavond", "pronunciation": "goo-deh-ah-vond"},
+                {"word": "Thank you", "translation": "Dank je / Dank u", "pronunciation": "dahnk yuh / dahnk oo"},
+                {"word": "Please", "translation": "Alstublieft / Alsjeblieft", "pronunciation": "als-too-bleeft / als-yeh-bleeft"},
+                {"word": "Yes", "translation": "Ja", "pronunciation": "yah"},
+                {"word": "No", "translation": "Nee", "pronunciation": "nay"}
+            ],
+            "phrases": {
+                "formal_greeting": "Goedemorgen, hoe gaat het met u?",
+                "informal_greeting": "Hoi! Hoe gaat het?",
+                "introducing_yourself": "Ik heet [Name], leuk je te ontmoeten",
+                "polite_response": "Het gaat goed, dank je"
+            },
+            "grammar": {
+                "point": "Word Order and Formality",
+                "explanation": "Dutch uses V2 word order for main clauses and different pronouns for formality (u vs jij).",
+                "examples": [
+                    "Hoe gaat het? (How's it going?)",
+                    "Ik kom uit... (I come from...)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "A", "text": "Hallo, weet u waar het station is?", "translation": "Hello, do you know where the station is?"},
+                {"speaker": "B", "text": "Ja, ga rechtdoor en sla links af.", "translation": "Yes, go straight and turn left."}
+            ]
+        },
+        "Shopping": {
+            "vocabulary": [
+                {"word": "Store", "translation": "Winkel", "pronunciation": "win-kel"},
+                {"word": "Price", "translation": "Prijs", "pronunciation": "prays"},
+                {"word": "Receipt", "translation": "Bon", "pronunciation": "bon"},
+                {"word": "Cashier", "translation": "Kassa", "pronunciation": "kah-sah"}
+            ],
+            "phrases": {
+                "asking_price": "Hoeveel kost dit?",
+                "trying_on": "Mag ik dit passen?",
+                "asking_discount": "Is dit in de aanbieding?"
+            },
+            "grammar": {
+                "point": "Articles and Word Order",
+                "explanation": "Dutch articles de/het and adjective endings must be learned; V2 word order applies.",
+                "examples": [
+                    "Ik wil dit kopen (I want to buy this)",
+                    "Heeft u dit in maat M? (Do you have this in size M?)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "Klant", "text": "Is dit in een kleinere maat?", "translation": "Is this available in a smaller size?"},
+                {"speaker": "Verkoper", "text": "Ik zal voor je kijken.", "translation": "I'll check for you."}
+            ]
+        }
+    },
+    "Swedish": {
+        "Greetings": {
+            "vocabulary": [
+                {"word": "Hello", "translation": "Hej", "pronunciation": "hey"},
+                {"word": "Good morning", "translation": "God morgon", "pronunciation": "good mor-on"},
+                {"word": "Good evening", "translation": "God kväll", "pronunciation": "good kvell"},
+                {"word": "Thank you", "translation": "Tack", "pronunciation": "tack"},
+                {"word": "Please", "translation": "Snälla / Var snäll", "pronunciation": "snel-la"},
+                {"word": "Yes", "translation": "Ja", "pronunciation": "yah"},
+                {"word": "No", "translation": "Nej", "pronunciation": "nay"}
+            ],
+            "phrases": {
+                "formal_greeting": "God dag, hur mår du?",
+                "informal_greeting": "Tjena! Hur är läget?",
+                "introducing_yourself": "Jag heter [Name], trevligt att träffas",
+                "polite_response": "Jag mår bra, tack"
+            },
+            "grammar": {
+                "point": "Definite Forms and Word Order",
+                "explanation": "Swedish uses definite suffixes on nouns and V2 word order for main clauses.",
+                "examples": [
+                    "Huset (the house)",
+                    "Jag är student (I am a student)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "A", "text": "Hej! Var ligger närmaste tunnelbana?", "translation": "Hi! Where is the nearest subway?"},
+                {"speaker": "B", "text": "Gå rakt fram och ta första höger.", "translation": "Go straight and take the first right."}
+            ]
+        },
+        "Travel": {
+            "vocabulary": [
+                {"word": "Ticket", "translation": "Biljett", "pronunciation": "bee-lyett"},
+                {"word": "Train", "translation": "Tåg", "pronunciation": "tohg"},
+                {"word": "Bus", "translation": "Buss", "pronunciation": "boos"},
+                {"word": "Airport", "translation": "Flygplats", "pronunciation": "flee-plats"},
+                {"word": "Hotel", "translation": "Hotell", "pronunciation": "ho-tell"}
+            ],
+            "phrases": {
+                "buying_ticket": "Jag skulle vilja köpa en biljett",
+                "asking_schedule": "När går nästa tåg?",
+                "inquiring_transportation": "Hur mycket kostar en taxi till centrum?"
+            },
+            "grammar": {
+                "point": "Verb Conjugation and Word Order",
+                "explanation": "Swedish verbs do not conjugate for person; V2 word order is used in main clauses.",
+                "examples": [
+                    "Jag åker tåg (I take the train)",
+                    "När går bussen? (When does the bus leave?)"
+                ]
+            },
+            "conversation": [
+                {"speaker": "A", "text": "Ursäkta, hur kommer jag till flygplatsen?", "translation": "Excuse me, how do I get to the airport?"},
+                {"speaker": "B", "text": "Ta bussen nummer 5 från stationen.", "translation": "Take bus number 5 from the station."}
+            ]
+        }
+    }
+}
+
