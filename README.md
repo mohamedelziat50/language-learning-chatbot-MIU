@@ -17,12 +17,13 @@ This platform is designed to facilitate language learning through interactive ch
 
 ## Setup
 1. Clone the repository
-2. Start XAMPP (Apache + MySQL)
-3. Create a database named `language_learning` in phpMyAdmin
-4. Run `config/setup_database.php` to create the users table
-5. Access the application via `index.php`
+2. Copy `.env.example` to `.env` (default XAMPP settings already configured)
+3. Start XAMPP (Apache + MySQL)
+4. Create a database named `language_learning` in phpMyAdmin
+5. Run `config/setup_database.php` to create tables and admin user
+6. Login with: admin@gmail.com / admin123
 
-**Note:** `config/db_connect.php` is already configured for default XAMPP settings. Only modify if you have custom database credentials.
+**Note:** Database credentials and admin info are in `.env` file. Schema is in `database/schema.sql`.
 
 ## License
 This project is licensed under the MIT License.
