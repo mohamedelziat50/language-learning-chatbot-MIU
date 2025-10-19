@@ -38,6 +38,7 @@ body {
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
     max-width: 1200px;
+    border: 2px solid var(--dark-green);
 }
 
 .header-content {
@@ -60,13 +61,12 @@ body {
 .search-container {
     max-width: 400px;
     margin: 0 auto;
-    border: #027e6f;
 }
 
 .search-input {
     width: 100%;
     padding: 1rem 1.5rem;
-    border: 2px solid var(--light-green);
+    border: 2px solid var(--dark-green);
     border-radius: 50px;
     font-size: 1rem;
     outline: none;
