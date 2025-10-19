@@ -21,9 +21,9 @@ This platform is designed to facilitate language learning through interactive ch
 3. Start XAMPP (Apache + MySQL)
 4. Create a database named `language_learning` in phpMyAdmin
 5. Run `config/setup_database.php` to create tables and admin user
-6. Login with: admin@gmail.com / admin123
+6. Login with credentials defined in `.env` file (default: admin@gmail.com / admin123)
 
-**Note:** Database credentials and admin info are in `.env` file. Schema is in `database/schema.sql`.
+**Note:** All configuration (database, admin user) is in `.env` file. Schema is in `database/schema.sql`.
 
 ## License
 This project is licensed under the MIT License.
