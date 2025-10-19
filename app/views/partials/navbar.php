@@ -21,9 +21,9 @@
         </div>
 
         <div class="cta-group">
-            <a href="#" class="text-link support">Contact Support</a>
-            <a href="#" class="text-link login">Log In</a>
-            <a href="#cta" class="cta-nav-button">Get LinguaBot Free</a>
+            <a href="/language-learning-chatbot-MIU/app/views/home_page/contact_us.php" class="text-link support">Contact Support</a>
+            <a href="#" class="text-link login" data-bs-toggle="modal" data-bs-target="#authModal">Log In</a>
+            <a href="#" class="cta-nav-button" data-bs-toggle="modal" data-bs-target="#authModal">Get LinguaBot Free</a>
             <button class="mobile-menu-button">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
             </button>

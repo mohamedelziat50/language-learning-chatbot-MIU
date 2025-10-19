@@ -1,3 +1,16 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: /language-learning-chatbot-MIU/index.php");
+    exit();
+}
+
+$fullName = $_SESSION['user_name'] ?? 'User';
+$firstName = explode(' ', trim($fullName))[0];
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +22,7 @@
 <body>
     <?php include '../partials/sidebar.php'; ?>
     <div class="main-content">
-        <div class="header">Welcome back, Mohamed!</div>
+        <div class="header">Welcome back, <?php echo htmlspecialchars($firstName); ?>!</div>
         <div class="card-container">
             <div class="card">
                 <h3>Recent Conversations</h3>

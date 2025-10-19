@@ -1,25 +1,20 @@
 <?php
-// Database connection
-$host = 'localhost';
-$dbname = 'chatbot_db';
-$user = 'root';
-$pass = '';
+$db_server="localhost";
+$db_user="root";
+$db_pass="";
+$db_name="language_learning";
+$conn="";
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die('Database connection failed: ' . $e->getMessage());
+$conn= mysqli_connect($db_server,
+                        $db_user,
+                        $db_pass,
+                        $db_name);
+ 
+if($conn){
+    echo"you are connected!";
 }
-
-// Dummy data for testing purposes
-$dummyData = [
-    ['id' => 1, 'name' => 'John Doe', 'role' => 'student'],
-    ['id' => 2, 'name' => 'Jane Smith', 'role' => 'tutor'],
-    ['id' => 3, 'name' => 'Admin User', 'role' => 'admin']
-];
-
-// Print dummy data for verification
-foreach ($dummyData as $data) {
-    echo "ID: {$data['id']}, Name: {$data['name']}, Role: {$data['role']}\n";
+else{
+     echo"could not connect!";
 }
+    
+?>
