@@ -1,7 +1,5 @@
 <?php
 session_start();
-
-// connect to DB
 include(__DIR__ . '/../../config/db_connect.php');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -18,8 +16,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_name'] = $user['fullname'];
             $_SESSION['user_email'] = $user['email'];
+            $_SESSION['user_role'] = $user['role'];
 
-            header("Location: /language-learning-chatbot-MIU/app/views/student/dashboard.php");
+            if ($user['role'] === 'admin') {
+                header("Location: /language-learning-chatbot-MIU/app/views/admin/admin-dashboard.php");
+            } else {
+                header("Location: /language-learning-chatbot-MIU/app/views/student/dashboard.php");
+            }
             exit();
         } else {
             echo "<script>alert('Incorrect password!'); window.history.back();</script>";
