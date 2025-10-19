@@ -9,7 +9,7 @@
 
 </head>
 <body>
-  <?php include __DIR__ . '/../partials/navbar.php'; ?>
+  <?php include __DIR__ . '/partials/navbar.php'; ?>
   
   <!-- Hero Section -->
   <section class="hero-section">
@@ -105,6 +105,6 @@
       </iframe>
     </div>
   </section>
-  <?php include __DIR__ . '/../partials/footer.php'; ?>
+  <?php include __DIR__ . '/partials/footer.php'; ?>
 </body>
 </html>
