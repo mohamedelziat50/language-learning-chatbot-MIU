@@ -11,10 +11,10 @@ $conn= mysqli_connect($db_server,
                         $db_name);
  
 if($conn){
-    echo"you are connected!";
+    echo"✅ You are connected to the database!" . "<br>";
 }
 else{
-     echo"could not connect!";
+     echo"❌ Could not connect to the database!" . "<br>";
 }
     
 ?>
