@@ -11,14 +11,19 @@ This platform is designed to facilitate language learning through interactive ch
 
 ## File Structure
 - `app/`: Contains the MVC components (controllers, models, views).
-- `config/`: Configuration files.
+- `config/`: Configuration files and database setup script.
 - `database/`: Database scripts and migrations.
 - `public/`: Publicly accessible assets (CSS, JS, images).
 
 ## Setup
-1. Clone the repository.
-2. Configure the database in `config/db_connect.php`.
-3. Run the application using a local server.
+1. Clone the repository
+2. Copy `.env.example` to `.env` (default XAMPP settings already configured)
+3. Start XAMPP (Apache + MySQL)
+4. Create a database named `language_learning` in phpMyAdmin
+5. Run `config/setup_database.php` to create tables and admin user
+6. Login with credentials defined in `.env` file (default: admin@gmail.com / admin123)
+
+**Note:** All configuration (database, admin user) is in `.env` file. Schema is in `database/schema.sql`.
 
 ## License
 This project is licensed under the MIT License.
