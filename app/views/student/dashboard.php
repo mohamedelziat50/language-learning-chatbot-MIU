@@ -17,7 +17,7 @@ $firstName = explode(' ', trim($fullName))[0];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Dashboard</title>
-    <link rel="stylesheet" href="../../../public/css/student/student.css">
+    <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/student/student.css">
 </head>
 <body>
     <?php include '../partials/sidebar.php'; ?>

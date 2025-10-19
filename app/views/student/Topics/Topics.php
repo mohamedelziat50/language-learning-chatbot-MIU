@@ -6,7 +6,7 @@ $lang = $_GET['lang'] ?? null;
 
 // Validate language parameter (basic check against JSON keys)
 if (!$lang) {
-    header("Location: ../Languages/language.php");
+    header("Location: /language-learning-chatbot-MIU/app/views/student/Languages/language.php");
     exit;
 }
 
@@ -54,7 +54,7 @@ $langUrl = urlencode($lang);
 <head>
     <meta charset="UTF-8">
     <title>Topics - <?php echo $pageTitle; ?> | LinguaLearn</title>
-    <link rel="stylesheet" href="../../../../public/css/Topics/Topics.css">
+    <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/Topics/Topics.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -69,7 +69,7 @@ $langUrl = urlencode($lang);
 
             <ul class="nav-menu">
                 <li class="dropdown">
-                    <a href="../Languages/language.php" class="nav-link">
+                    <a href="/language-learning-chatbot-MIU/app/views/student/Languages/language.php" class="nav-link">
                         <i class="fas fa-language"></i> Languages <i class="fas fa-chevron-down"></i>
                     </a>
                     <div class="dropdown-content">
@@ -77,15 +77,15 @@ $langUrl = urlencode($lang);
                         foreach ($topicsData as $language => $list) {
                             $langUrlDropdown = urlencode($language);
                             $languageEscaped = htmlspecialchars($language);
-                            echo "<a href='../Topics/Topics.php?lang=$langUrlDropdown'><i class='fas fa-flag'></i> $languageEscaped</a>";
+                            echo "<a href='/language-learning-chatbot-MIU/app/views/student/Topics/Topics.php?lang=$langUrlDropdown'><i class='fas fa-flag'></i> $languageEscaped</a>";
                         }
                         ?>
                     </div>
                 </li>
-                <li><a href="../dashboard.php" class="nav-link"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="../Dictionary/dictionary.php" class="nav-link"><i class="fas fa-book"></i> Dictionary</a></li>
-                <li><a href="../progress.php" class="nav-link"><i class="fas fa-chart-line"></i> My Progress</a></li>
-                <li><a href="../profile.php" class="nav-link"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="/language-learning-chatbot-MIU/app/views/student/dashboard.php" class="nav-link"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="/language-learning-chatbot-MIU/app/views/student/Dictionary/dictionary.php" class="nav-link"><i class="fas fa-book"></i> Dictionary</a></li>
+                <li><a href="/language-learning-chatbot-MIU/app/views/student/progress.php" class="nav-link"><i class="fas fa-chart-line"></i> My Progress</a></li>
+                <li><a href="/language-learning-chatbot-MIU/app/views/student/profile.php" class="nav-link"><i class="fas fa-user"></i> Profile</a></li>
             </ul>
         </div>
     </nav>
@@ -149,7 +149,7 @@ $langUrl = urlencode($lang);
                         <i class="fas fa-folder-open"></i>
                         <h3>No Topics Available</h3>
                         <p>We're working on adding topics for this language. Check back soon!</p>
-                        <a href="../Languages/language.php" class="btn-primary">Choose Another Language</a>
+                        <a href="/language-learning-chatbot-MIU/app/views/student/Languages/language.php" class="btn-primary">Choose Another Language</a>
                     </div>
                 <?php endif; ?>
             </div>
@@ -177,6 +177,6 @@ $langUrl = urlencode($lang);
         </div>
     </div>
 
-    <script src="../../../../public/js/Topics/Topics.js"></script>
+    <script src="/language-learning-chatbot-MIU/public/js/Topics/Topics.js"></script>
 </body>
 </html>

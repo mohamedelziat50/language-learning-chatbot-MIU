@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard - Language Learning Platform</title>
-  <link rel="stylesheet" href="../../../public/css/admin/admin-dashboard.css">
+  <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/admin/admin-dashboard.css">
 </head>
 <body>
   <div class="dashboard-container">
@@ -527,6 +527,6 @@
     </main>
   </div>
 
-  <script src="../../../public/js/admin/admin-dashboard.js"></script>
+  <script src="/language-learning-chatbot-MIU/public/js/admin/admin-dashboard.js"></script>
 </body>
 </html>

@@ -25,11 +25,11 @@ $languages = [
     <title>Select Language - LinguaLearn</title>
 
     <!-- ✅ Main Styles -->
-    <link rel="stylesheet" href="../../../../public/css/Languages/language.css">
+    <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/Languages/language.css">
     <!-- ✅ Student stylesheet (added) -->
-    <link rel="stylesheet" href="../../../../public/css/student/student.css">
+    <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/student/student.css">
     <!-- ✅ Sidebar Styles -->
-    <link rel="stylesheet" href="../../../../public/css/student/sidebar.css">
+    <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/student/sidebar.css">
     <!-- ✅ Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -78,7 +78,7 @@ $languages = [
 </div>
 
 <!-- ✅ Scripts -->
-<script src="../../../../public/js/Languages/language.js"></script>
+<script src="/language-learning-chatbot-MIU/public/js/Languages/language.js"></script>
 
 </body>
 </html>
