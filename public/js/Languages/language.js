@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 selectBtn.style.background = '';
                 
                 // Redirect to topics page
-                window.location.href = `../Topics/Topics.php?lang=${encodeURIComponent(languageName)}`;
+                window.location.href = `../../../app/views/student/Topics/Topics.php?lang=${encodeURIComponent(languageName)}`;
             }, 800);
         });
     });
