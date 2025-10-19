@@ -1,3 +1,18 @@
+<?php
+session_start();
+
+// Check if user is admin
+if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
+    header("Location: /language-learning-chatbot-MIU/index.php");
+    exit();
+}
+
+// Load controller to fetch data
+require_once __DIR__ . '/../../controllers/admin/user.php';
+
+// Get total users count
+$totalUsers = getTotalUsersCount();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +34,7 @@
       </div>
 
       <nav class="sidebar-nav">
-        <a href="#overview" class="nav-item active">
+        <a href="/language-learning-chatbot-MIU/app/views/admin/admin-dashboard.php" class="nav-item active">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="3" width="7" height="7"></rect>
             <rect x="14" y="3" width="7" height="7"></rect>
@@ -28,7 +43,7 @@
           </svg>
           <span>Overview</span>
         </a>
-        <a href="#users" class="nav-item">
+        <a href="/language-learning-chatbot-MIU/app/views/admin/manage_users.php" class="nav-item">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
             <circle cx="9" cy="7" r="4"></circle>
@@ -78,7 +93,7 @@
             <p class="admin-role">Administrator</p>
           </div>
         </div>
-        <button class="logout-btn">
+        <button class="logout-btn" onclick="window.location.href='/language-learning-chatbot-MIU/app/controllers/logout.php'">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
             <polyline points="16 17 21 12 16 7"></polyline>
@@ -109,7 +124,7 @@
           </div>
           <div class="stat-content">
             <p class="stat-label">Total Users</p>
-            <h3 class="stat-value">2,847</h3>
+            <h3 class="stat-value"><?php echo number_format($totalUsers); ?></h3>
             <p class="stat-change positive">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="18 15 12 9 6 15"></polyline>
@@ -203,99 +218,54 @@
 
         <div class="card">
           <div class="card-header">
-            <h3>Recent Users</h3>
-            <a href="#users" class="view-all">View All</a>
+            <h3>Recent Activity</h3>
+            <a href="/language-learning-chatbot-MIU/app/views/admin/manage_users.php" class="view-all">View All Users</a>
           </div>
-          <div class="table-container">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Role</th>
-                  <th>Status</th>
-                  <th>Joined</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <div class="user-cell">
-                      <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=50" alt="User" class="user-avatar-small">
-                      <span>Sarah Chen</span>
-                    </div>
-                  </td>
-                  <td><span class="role-badge student">Student</span></td>
-                  <td><span class="status-badge active">Active</span></td>
-                  <td>Oct 15, 2025</td>
-                  <td>
-                    <button class="action-btn">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                      </svg>
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="user-cell">
-                      <img src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=50" alt="User" class="user-avatar-small">
-                      <span>Marcus Johnson</span>
-                    </div>
-                  </td>
-                  <td><span class="role-badge tutor">Tutor</span></td>
-                  <td><span class="status-badge active">Active</span></td>
-                  <td>Oct 14, 2025</td>
-                  <td>
-                    <button class="action-btn">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                      </svg>
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="user-cell">
-                      <img src="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=50" alt="User" class="user-avatar-small">
-                      <span>Emily Rodriguez</span>
-                    </div>
-                  </td>
-                  <td><span class="role-badge student">Student</span></td>
-                  <td><span class="status-badge inactive">Inactive</span></td>
-                  <td>Oct 13, 2025</td>
-                  <td>
-                    <button class="action-btn">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                      </svg>
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="user-cell">
-                      <img src="https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=50" alt="User" class="user-avatar-small">
-                      <span>David Kim</span>
-                    </div>
-                  </td>
-                  <td><span class="role-badge student">Student</span></td>
-                  <td><span class="status-badge active">Active</span></td>
-                  <td>Oct 12, 2025</td>
-                  <td>
-                    <button class="action-btn">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                      </svg>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <div style="padding: 1.5rem;">
+            <!-- Activity Item -->
+            <div style="display: flex; align-items: start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid #e2e8f0;">
+              <div style="width: 40px; height: 40px; border-radius: 50%; background: #667eea; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="8.5" cy="7" r="4"></circle>
+                  <line x1="20" y1="8" x2="20" y2="14"></line>
+                  <line x1="23" y1="11" x2="17" y2="11"></line>
+                </svg>
+              </div>
+              <div style="flex: 1;">
+                <p style="font-weight: 600; color: #2d3748; margin: 0;">New user registered</p>
+                <p style="font-size: 0.875rem; color: #718096; margin: 0.25rem 0 0 0;">Sarah Johnson joined the platform</p>
+                <p style="font-size: 0.75rem; color: #a0aec0; margin: 0.5rem 0 0 0;">2 hours ago</p>
+              </div>
+            </div>
+
+            <!-- Activity Item -->
+            <div style="display: flex; align-items: start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid #e2e8f0;">
+              <div style="width: 40px; height: 40px; border-radius: 50%; background: #48bb78; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <div style="flex: 1;">
+                <p style="font-weight: 600; color: #2d3748; margin: 0;">Lesson completed</p>
+                <p style="font-size: 0.875rem; color: #718096; margin: 0.25rem 0 0 0;">Mike Chen completed "Spanish Basics"</p>
+                <p style="font-size: 0.75rem; color: #a0aec0; margin: 0.5rem 0 0 0;">3 hours ago</p>
+              </div>
+            </div>
+
+            <!-- Activity Item -->
+            <div style="display: flex; align-items: start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid #e2e8f0;">
+              <div style="width: 40px; height: 40px; border-radius: 50%; background: #ed8936; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </div>
+              <div style="flex: 1;">
+                <p style="font-weight: 600; color: #2d3748; margin: 0;">New forum post</p>
+                <p style="font-size: 0.875rem; color: #718096; margin: 0.25rem 0 0 0;">Emma Davis started a discussion</p>
+                <p style="font-size: 0.75rem; color: #a0aec0; margin: 0.5rem 0 0 0;">5 hours ago</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
