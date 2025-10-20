@@ -1,19 +1,33 @@
-/* Import Inter font for modern look */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+/* Import Poppins and Inter fonts for modern look */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 /* Docs Page Styles - Grammarly-inspired design */
 
-:root {
-    --primary-green: #027e6f;
-    --primary-green-hover: #016a5e;
+        :root {
+            /* LinguaBot Unified Color Palette */
+            --color-primary: #027e6f;
+            --color-secondary: rgba(2, 126, 111, 0.2);
+            --color-text: #1E1E1E;
+            --color-text-muted: #6B7280;
+            --color-background: #F9FAFB;
+            --color-error: #EF4444;
+            --color-success: #22C55E;
+            --color-teal-dark: #026b5e;
+            --color-teal-primary: #027e6f;
+            --color-teal-overlay: rgba(2, 126, 111, 0.2);
+            --color-teal-overlay-light: rgba(20, 184, 166, 0.3);
+    
+    /* Legacy compatibility */
+    --primary-green: var(--color-primary);
+    --primary-green-hover: var(--color-teal-dark);
     --primary-green-active: #014c43;
-    --text-primary: #1a1a1a;
-    --text-secondary: #666666;
-    --text-muted: #999999;
-    --border-light: #e5e5e5;
+    --text-primary: var(--color-text);
+    --text-secondary: var(--color-text-muted);
+    --text-muted: var(--color-text-muted);
+    --border-light: #CBD5E1;
     --background-white: #ffffff;
-    --background-light: #f8f9fa;
-    --shadow-soft: 0 2px 6px rgba(0, 0, 0, 0.08);
+    --background-light: var(--color-background);
+    --shadow-soft: 0 2px 10px rgba(0,0,0,0.05);
     --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
     --border-radius: 8px;
     --border-radius-small: 4px;

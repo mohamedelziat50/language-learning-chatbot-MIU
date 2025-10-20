@@ -4,20 +4,36 @@
    ======================================== */
 
 /* ========== CSS Variables ========== */
-:root {
-    --primary-color: #027e6f;
-    --primary-hover: #016a5e;
-    --text-primary: #1a1a1a;
-    --text-secondary: #6b7280;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            /* LinguaBot Unified Color Palette */
+            --color-primary: #027e6f;
+            --color-secondary: rgba(2, 126, 111, 0.2);
+            --color-text: #1E1E1E;
+            --color-text-muted: #6B7280;
+            --color-background: #F9FAFB;
+            --color-error: #EF4444;
+            --color-success: #22C55E;
+            --color-teal-dark: #026b5e;
+            --color-teal-primary: #027e6f;
+            --color-teal-overlay: rgba(2, 126, 111, 0.2);
+            --color-teal-overlay-light: rgba(20, 184, 166, 0.3);
+    
+    /* Legacy compatibility */
+    --primary-color: var(--color-primary);
+    --primary-hover: var(--color-teal-dark);
+    --text-primary: var(--color-text);
+    --text-secondary: var(--color-text-muted);
     --text-muted: #9ca3af;
-    --border-color: #e5e7eb;
+    --border-color: #CBD5E1;
     --border-light: #f3f4f6;
     --background-white: #ffffff;
-    --background-gray: #f9fafb;
-    --success-color: #10b981;
+    --background-gray: var(--color-background);
+    --success-color: var(--color-success);
     --warning-color: #f59e0b;
-    --error-color: #ef4444;
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --error-color: var(--color-error);
+    --shadow-sm: 0 2px 10px rgba(0,0,0,0.05);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     --radius-sm: 4px;
@@ -32,7 +48,7 @@
 
 body {
     margin: 0;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Poppins', 'Inter', sans-serif;
     background-color: var(--background-gray);
     color: var(--text-primary);
     line-height: 1.6;
@@ -484,7 +500,7 @@ body {
     flex: 1;
     border: none;
     background: transparent;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Poppins', 'Inter', sans-serif;
     font-size: 16px;
     line-height: 1.9;
     color: var(--text-primary);
