@@ -3,13 +3,25 @@
    ======================================================= */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
-:root {
-    --color-teal-primary: #027e6f;
-    --color-teal-light: #e6f6f5;
-    --color-teal-dark: #026b5e;
-    --color-text-dark: #1f2937;
-    --color-text-medium: #4b5563;
-    --color-background-page: #f8fafc;
+        :root {
+            /* LinguaBot Unified Color Palette */
+            --color-primary: #027e6f;
+            --color-secondary: rgba(2, 126, 111, 0.2);
+            --color-text: #1E1E1E;
+            --color-text-muted: #6B7280;
+            --color-background: #F9FAFB;
+            --color-error: #EF4444;
+            --color-success: #22C55E;
+            --color-teal-dark: #026b5e;
+            --color-teal-primary: #027e6f;
+            --color-teal-overlay: rgba(2, 126, 111, 0.2);
+            --color-teal-overlay-light: rgba(20, 184, 166, 0.3);
+    
+    /* Legacy compatibility */
+    --color-teal-light: var(--color-secondary);
+    --color-text-dark: var(--color-text);
+    --color-text-medium: var(--color-text-muted);
+    --color-background-page: var(--color-background);
     --color-background-white: #ffffff;
     --max-width: 1360px;
     --border-radius-base: 0.75rem;
@@ -23,9 +35,9 @@
 }
 
 body {
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #f8fafc 0%, #e0f2f1 50%, #f1f5f9 100%);
-    color: var(--color-text-medium);
+    font-family: 'Poppins', 'Inter', sans-serif;
+    background: var(--color-background);
+    color: var(--color-text);
     line-height: 1.6;
     font-size: 16px;
 }

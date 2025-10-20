@@ -1,9 +1,24 @@
 /* Verified and added any missing sidebar-related colors and styles */
-:root {
-    --button-primary-background-default: #027e6f;
-    --sidebar-background-color: #fff;
-    --sidebar-hover-color: #EBEBEB;
-    --sidebar-border-color: #d9d9d9;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+        :root {
+            /* LinguaBot Unified Color Palette */
+            --color-primary: #027e6f;
+            --color-secondary: rgba(2, 126, 111, 0.2);
+            --color-text: #1E1E1E;
+            --color-text-muted: #6B7280;
+            --color-background: #F9FAFB;
+            --color-error: #EF4444;
+            --color-success: #22C55E;
+            --color-teal-dark: #026b5e;
+            --color-teal-primary: #027e6f;
+            --color-teal-overlay: rgba(2, 126, 111, 0.2);
+            --color-teal-overlay-light: rgba(20, 184, 166, 0.3);
+    
+    /* Legacy compatibility */
+    --button-primary-background-default: var(--color-primary);
+    --sidebar-background-color: #ffffff;
+    --sidebar-hover-color: var(--color-secondary);
+    --sidebar-border-color: #CBD5E1;
 }
 .sidebar {
     grid-column: 1 / 2; /* Sidebar occupies the first column */
@@ -12,13 +27,15 @@
     padding-top: 50px;
     display: flex;
     flex-direction: column;
-    border-right: 1px solid var(--sidebar-border-color);
-    background-color: var(--sidebar-background-color);
+    border-right: 1px solid #CBD5E1;
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 .sidebar .logo {
     font-size: 24px;
-    font-weight: bold;
-    color: var(--button-primary-background-default); /* Use primary color for logo */
+    font-weight: 700;
+    font-family: 'Poppins', 'Inter', sans-serif;
+    color: var(--color-primary);
     margin-bottom: 30px;
     text-align: center;
 }
@@ -39,22 +56,24 @@
 .sidebar nav a {
     display: flex;
     align-items: center;
-    color: #333;
+    color: var(--color-text);
     text-decoration: none;
     margin: 10px 0;
     font-size: 16px;
+    font-family: 'Poppins', 'Inter', sans-serif;
+    font-weight: 500;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 8px;
     transition: background-color 0.3s;
 }
 .sidebar nav a:hover {
     background-color: var(--sidebar-hover-color);
 }
 .sidebar nav a.active {
-    background-color: #EBEBEB; /* Light gray for highlighting entire button */
-    border-left: 4px solid var(--button-primary-background-default); /* Green border */
-    color: #333; /* Default text color */
-    font-weight: bold; /* Emphasize active link */
+    background-color: var(--color-secondary);
+    border-left: 4px solid var(--color-primary);
+    color: var(--color-primary);
+    font-weight: 600;
 }
 .sidebar nav a i {
     margin-right: 10px;

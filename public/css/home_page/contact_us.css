@@ -1,9 +1,24 @@
 /* Global Styles */
+        :root {
+            /* LinguaBot Unified Color Palette */
+            --color-primary: #027e6f;
+            --color-secondary: rgba(2, 126, 111, 0.2);
+            --color-text: #1E1E1E;
+            --color-text-muted: #6B7280;
+            --color-background: #F9FAFB;
+            --color-error: #EF4444;
+            --color-success: #22C55E;
+            --color-teal-dark: #026b5e;
+            --color-teal-primary: #027e6f;
+            --color-teal-overlay: rgba(2, 126, 111, 0.2);
+            --color-teal-overlay-light: rgba(20, 184, 166, 0.3);
+}
+
 body {
     margin: 0;
-    font-family: "Poppins", sans-serif;
-    background-color: #f8f9f8;
-    color: #333;
+    font-family: 'Poppins', 'Inter', sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text);
 }
 
 body::-webkit-scrollbar {
@@ -15,7 +30,7 @@ body::-webkit-scrollbar {
 .hero-section {
     position: relative;
     height: 25vh;
-    background: linear-gradient(to bottom, #4ab7a5 0%, #4ab7a5 70%, #f8f9f8 100%);
+    background: linear-gradient(to bottom, var(--color-primary) 0%, var(--color-primary) 70%, var(--color-background) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -101,19 +116,20 @@ body::-webkit-scrollbar {
 }
 
 .contact-form button.submit-btn {
-    background-color: #4ab7a5;
+    background-color: var(--color-primary);
     color: white;
     border: none;
     padding: 12px;
     border-radius: 8px;
     cursor: pointer;
     font-size: 1em;
+    font-family: 'Poppins', 'Inter', sans-serif;
     font-weight: 600;
     transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .contact-form button.submit-btn:hover {
-    background-color: #3a9e8f;
+    background-color: var(--color-teal-dark);
     transform: translateY(-2px);
 }
 
@@ -193,19 +209,20 @@ body::-webkit-scrollbar {
 
 /* Newsletter Submit Button */
 .newsletter-form button {
-    background-color: #4ab7a5;
+    background-color: var(--color-primary);
     color: white;
     border: none;
     padding: 12px;
     border-radius: 8px;
     cursor: pointer;
     font-size: 1em;
+    font-family: 'Poppins', 'Inter', sans-serif;
     font-weight: 600;
     transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .newsletter-form button:hover {
-    background-color: #3a9e8f;
+    background-color: var(--color-teal-dark);
     transform: translateY(-2px);
 }
 
@@ -246,9 +263,9 @@ body::-webkit-scrollbar {
     border-radius: 12px;
     padding: 30px;
     text-align: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-top: 5px solid #4ab7a5;
+    border-top: 5px solid var(--color-primary);
 }
 
 .info-card:hover {
@@ -258,7 +275,7 @@ body::-webkit-scrollbar {
 
 .info-card i {
     font-size: 2em;
-    color: #4ab7a5;
+    color: var(--color-primary);
     margin-bottom: 15px;
 }
 
@@ -290,7 +307,7 @@ body::-webkit-scrollbar {
 }
 
 .map-section h2 {
-    color: #4ab7a5;
+    color: var(--color-primary);
     font-size: 1.8em;
     margin-bottom: 10px;
 }

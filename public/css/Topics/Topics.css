@@ -1,22 +1,37 @@
 /* ===== CSS Variables for Enhanced Green & White Theme ===== */
-:root {
-    --primary-green: #027e6f;
-    --dark-green: #027e6f;
-    --light-green: #ffffff;
-    --accent-green: #027e6f;
-    --bright-green: #027e6f;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+        :root {
+            /* LinguaBot Unified Color Palette */
+            --color-primary: #027e6f;
+            --color-secondary: rgba(2, 126, 111, 0.2);
+            --color-text: #1E1E1E;
+            --color-text-muted: #6B7280;
+            --color-background: #F9FAFB;
+            --color-error: #EF4444;
+            --color-success: #22C55E;
+            --color-teal-dark: #026b5e;
+            --color-teal-primary: #027e6f;
+            --color-teal-overlay: rgba(2, 126, 111, 0.2);
+            --color-teal-overlay-light: rgba(20, 184, 166, 0.3);
+    
+    /* Legacy compatibility */
+    --primary-green: var(--color-primary);
+    --dark-green: var(--color-teal-dark);
+    --light-green: var(--color-secondary);
+    --accent-green: var(--color-primary);
+    --bright-green: var(--color-primary);
     --white: #ffffff;
-    --off-white: #fafafa;
+    --off-white: var(--color-background);
     --light-gray: #f8f9fa;
-    --medium-gray: #e9ecef;
-    --text-dark: #2d3748;
-    --text-medium: #4a5568;
-    --text-light: #718096;
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --medium-gray: #CBD5E1;
+    --text-dark: var(--color-text);
+    --text-medium: var(--color-text-muted);
+    --text-light: var(--color-text-muted);
+    --shadow-sm: 0 2px 10px rgba(0,0,0,0.05);
     --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
     --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
     --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
-    --shadow-green: 0 8px 25px rgba(18, 172, 84, 0.2);
+    --shadow-green: 0 8px 25px rgba(0, 168, 132, 0.2);
     --border-radius-sm: 8px;
     --border-radius: 12px;
     --border-radius-lg: 16px;
@@ -37,9 +52,9 @@ html {
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, var(--light-green) 0%, var(--off-white) 50%, var(--white) 100%);
-    color: var(--text-dark);
+    font-family: 'Poppins', 'Inter', sans-serif;
+    background: var(--color-background);
+    color: var(--color-text);
     line-height: 1.7;
     min-height: 100vh;
     overflow-x: hidden;
@@ -47,9 +62,9 @@ body {
 
 /* ===== Enhanced Modern Navbar ===== */
 .navbar {
-    background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-teal-dark) 100%);
     padding: 0;
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -74,11 +89,12 @@ body {
     gap: 0.75rem;
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--white);
+    font-family: 'Poppins', 'Inter', sans-serif;
+    color: #ffffff;
     text-decoration: none;
     transition: var(--transition);
     padding: 0.5rem 1rem;
-    border-radius: var(--border-radius);
+    border-radius: 12px;
 }
 
 .logo:hover {
@@ -102,11 +118,12 @@ body {
 }
 
 .nav-link {
-    color: var(--white);
+    color: #ffffff;
     text-decoration: none;
+    font-family: 'Poppins', 'Inter', sans-serif;
     font-weight: 500;
     padding: 0.75rem 1.25rem;
-    border-radius: var(--border-radius);
+    border-radius: 12px;
     transition: var(--transition);
     display: flex;
     align-items: center;
@@ -397,13 +414,13 @@ body {
 
 /* Enhanced Topic Card */
 .topic-card {
-    background: linear-gradient(135deg, var(--white) 0%, var(--off-white) 100%);
-    border-radius: var(--border-radius-lg);
+    background: #ffffff;
+    border-radius: 12px;
     padding: 2rem 1.5rem;
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     transition: var(--transition);
     cursor: pointer;
-    border: 1px solid var(--medium-gray);
+    border: 1px solid #CBD5E1;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -426,8 +443,8 @@ body {
 
 .topic-card:hover {
     transform: translateY(-8px) scale(1.02);
-    border-color: var(--primary-green);
-    box-shadow: var(--shadow-green);
+    border-color: var(--color-primary);
+    box-shadow: 0 8px 25px rgba(0, 168, 132, 0.2);
 }
 
 .topic-card:hover::before {
