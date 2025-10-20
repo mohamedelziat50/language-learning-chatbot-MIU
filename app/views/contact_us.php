@@ -12,7 +12,7 @@
 
 </head>
 <body>
-  <?php include __DIR__ . '/../partials/navbar.php'; ?>
+  <?php include __DIR__ . '/partials/navbar.php'; ?>
   
   <!-- Hero Section -->
   <section class="hero-section">
@@ -108,9 +108,9 @@
       </iframe>
     </div>
   </section>
-  <?php include __DIR__ . '/../partials/footer.php'; ?>
-  <?php include __DIR__ . '/../partials/auth_popup.php'; ?>
-
+  
+<?php include __DIR__ . '/partials/footer.php'; ?>
+<?php include __DIR__ . '/partials/auth_popup.php'; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/language-learning-chatbot-MIU/public/js/home_page/home_page.js"></script>

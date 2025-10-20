@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Profile & Dashboard</title>
-  <link rel="stylesheet" href="../../../public/css/student/profile.css">
-  <link rel="stylesheet" href="../../../public/css/student/student.css">
+  <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/student/profile.css">
+  <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/student/student.css">
 </head>
 <body>
 <?php include '../partials/sidebar.php'; ?>
@@ -14,7 +14,7 @@
     <div class="animated-bg"></div>
     <div class="profile-info">
       <div class="avatar-wrapper">
-        <img src="../../../public/images/img1.webp" alt="User Avatar" class="avatar">
+        <img src="/language-learning-chatbot-MIU/public/images/img1.webp" alt="User Avatar" class="avatar">
       </div>
 
       <div class="profile-text">
@@ -353,6 +353,6 @@
 
   </main>
  </div>
- <script src="../../../public/js/student/profile.js"></script>
+ <script src="/language-learning-chatbot-MIU/public/js/student/profile.js"></script>
  </body>
 </html>

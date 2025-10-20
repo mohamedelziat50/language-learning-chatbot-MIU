@@ -23,6 +23,10 @@ body {
     color: var(--text-dark);
     line-height: 1.6;
     min-height: 100vh;
+    display: grid;
+    grid-template-columns: 250px auto;
+    grid-template-rows: 1fr;
+    height: 100vh;
 }
 
 
@@ -34,6 +38,7 @@ body {
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
     max-width: 1200px;
+    border: 2px solid var(--dark-green);
 }
 
 .header-content {
@@ -56,13 +61,12 @@ body {
 .search-container {
     max-width: 400px;
     margin: 0 auto;
-    border: #027e6f;
 }
 
 .search-input {
     width: 100%;
     padding: 1rem 1.5rem;
-    border: 2px solid var(--light-green);
+    border: 2px solid var(--dark-green);
     border-radius: 50px;
     font-size: 1rem;
     outline: none;
