@@ -9,6 +9,8 @@
 </head>
 <body>
 <?php include '../partials/sidebar.php'; ?>
+
+  <div class="main-content">
   <section class="quiz-settings">
     <div class="settings-container">
 
@@ -51,23 +53,37 @@
           </div>
         </div>
 
-        <!-- Language -->
-        <div class="setting language">
-          <h3>Language</h3>
-          <select id="languageSelect">
-            <option value="english">English</option>
-            <option value="french">French</option>
-            <option value="spanish">Spanish</option>
-            <option value="arabic">Arabic</option>
-          </select>
-        </div>
       </div>
 
       <button id="createBtn" class="create-btn">Create Test</button>
 
-    </div>
-  </section>
+      <!-- Previous Quiz Results -->
+    <section class="previous-quizzes">
+      <h2>Your Previous Quizzes</h2>
 
+      <div class="quiz-history">
+        <div class="quiz-record">
+          <span class="quiz-lang">French</span>
+          <span class="quiz-diff">Difficulty: 3/5</span>
+          <span class="quiz-score">Score: 8/10</span>
+          <span class="quiz-date">Taken: Oct 18, 2025</span>
+        </div>
+
+        <div class="quiz-record">
+          <span class="quiz-lang">Spanish</span>
+          <span class="quiz-diff">Difficulty: 2/5</span>
+          <span class="quiz-score">Score: 9/10</span>
+          <span class="quiz-date">Taken: Oct 10, 2025</span>
+        </div>
+        
+      </div>
+    </section>
+
+
+        </div>
+      </section>
+
+  
   <!-- Quiz Output Section -->
   <section id="quizOutput" class="hidden">
   <div class="quiz-container">
@@ -103,97 +119,7 @@
     <div class="spinner"></div>
   </div>
 
-  <script>
-  // Duration control
-  let time = 10;
-  const timeDisplay = document.getElementById("timeDisplay");
-  document.getElementById("increaseTime").addEventListener("click", () => {
-    time += 5;
-    timeDisplay.textContent = `${time} min`;
-  });
-  document.getElementById("decreaseTime").addEventListener("click", () => {
-    if (time > 5) {
-      time -= 5;
-      timeDisplay.textContent = `${time} min`;
-    }
-  });
-
-  // Create test logic
-  const createBtn = document.getElementById("createBtn");
-  const loadingSpinner = document.getElementById("loadingSpinner");
-  const quizOutput = document.getElementById("quizOutput");
-  const quizSettings = document.querySelector(".quiz-settings");
-
-  createBtn.addEventListener("click", () => {
-    // Hide settings, show loader
-    quizSettings.classList.add("hidden");
-    quizOutput.classList.add("hidden");
-    loadingSpinner.classList.remove("hidden");
-
-    // Simulate loading delay (2 seconds)
-    setTimeout(() => {
-      loadingSpinner.classList.add("hidden"); // Hide loader
-      quizOutput.classList.remove("hidden");  // Show quiz
-      quizOutput.scrollIntoView({ behavior: "smooth" });
-    }, 2000);
-  });
-
-  function startTimer(duration) {
-    let timer = duration, minutes, seconds;
-    const display = document.getElementById("timerDisplay");
-    const interval = setInterval(() => {
-      minutes = parseInt(timer / 60, 10);
-      seconds = parseInt(timer % 60, 10);
-
-      minutes = minutes < 10 ? "0" + minutes : minutes;
-      seconds = seconds < 10 ? "0" + seconds : seconds;
-
-      display.textContent = `${minutes}:${seconds}`;
-
-      if (--timer < 0) {
-        clearInterval(interval);
-        alert("Time’s up! Submitting your quiz...");
-        submitQuiz();
-      }
-    }, 1000);
-  }
-
-  function submitQuiz() {
-    alert("Your quiz has been submitted successfully!");
-    location.reload(); // reset to start page for demo
-  }
-
-  const submitButton = document.getElementById("submitQuiz");
-  submitButton.addEventListener("click", submitQuiz);
-
-  // Update inside your existing setTimeout (after quizOutput shows)
-  createBtn.addEventListener("click", () => {
-    quizSettings.classList.add("hidden");
-    quizOutput.classList.add("hidden");
-    loadingSpinner.classList.remove("hidden");
-
-    setTimeout(() => {
-      loadingSpinner.classList.add("hidden");
-      quizOutput.classList.remove("hidden");
-      quizOutput.scrollIntoView({ behavior: "smooth" });
-
-      // Start timer (10 minutes = 600 seconds)
-      startTimer(600);
-    }, 2000);
-  });
-
-
-  // Handle answer selection visual
-document.querySelectorAll(".question li").forEach(option => {
-  option.addEventListener("click", () => {
-    const parent = option.closest("ul");
-    parent.querySelectorAll("li").forEach(li => li.classList.remove("selected"));
-    option.classList.add("selected");
-    option.querySelector("input").checked = true;
-  });
-});
-
-</script>
-
+  <script src="/language-learning-chatbot-MIU/public/js/student/quiz.js"></script>
+</div>
 </body>
 </html>
