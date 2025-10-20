@@ -31,14 +31,18 @@
           <div class="tab-content">
             <!-- Login Form -->
             <div class="tab-pane fade show active" id="loginTab" role="tabpanel">
-              <form action="/language-learning-chatbot-MIU/app/controllers/login.php" method="POST">
+              <form id="loginForm" action="/language-learning-chatbot-MIU/app/controllers/login.php" method="POST">
                 <div class="mb-3 text-start">
                   <label for="loginEmail" class="form-label">Email address</label>
-                  <input type="email" class="form-control" id="loginEmail" name="email" required>
+                  <input type="text" class="form-control" id="loginEmail" name="email" required
+           pattern="[a-zA-Z][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,10}$"
+           title="Enter a valid email, starting with a letter, and TLD at least 3 letters">
                 </div>
                 <div class="mb-3 text-start">
                   <label for="loginPassword" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="loginPassword" name="password" required>
+                  <input type="password" class="form-control" id="loginPassword" name="password" required
+                  pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$"
+                  title="Password must be at least 8 characters, include uppercase, lowercase, number, and special character">
                 </div>
                 <button type="submit" class="btn btn-primary w-100 mb-3">Login</button>
                 <button type="button" class="btn btn-outline-danger w-100">
@@ -50,18 +54,22 @@
 
             <!-- Sign Up Form -->
             <div class="tab-pane fade" id="signupTab" role="tabpanel">
-              <form action="/language-learning-chatbot-MIU/app/controllers/signup.php" method="POST">
+              <form id="signupForm" action="/language-learning-chatbot-MIU/app/controllers/signup.php" method="POST">
                 <div class="mb-3 text-start">
                   <label for="signupName" class="form-label">Full Name</label>
                   <input type="text" class="form-control" id="signupName" name="name" required>
                 </div>
                 <div class="mb-3 text-start">
                   <label for="signupEmail" class="form-label">Email address</label>
-                  <input type="email" class="form-control" id="signupEmail" name="email" required>
+                  <input type="text" class="form-control" id="signupEmail" name="email" required
+                  pattern="[a-zA-Z][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,10}$"
+                  title="Enter a valid email, starting with a letter, and TLD at least 3 letters">
                 </div>
                 <div class="mb-3 text-start">
                   <label for="signupPassword" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="signupPassword" name="password" required>
+                  <input type="password" class="form-control" id="signupPassword" name="password" required
+                  pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$"
+                  title="Password must be at least 8 characters, include uppercase, lowercase, number, and special character">
                 </div>
                 <button type="submit" class="btn btn-success w-100 mb-3">Sign Up</button>
                 <button type="button" class="btn btn-outline-danger w-100">
@@ -82,3 +90,27 @@
     </div>
   </div>
 </div>
+
+<script>
+const loginForm = document.getElementById('loginForm');
+loginForm.addEventListener('submit', function(e) {
+  const emailInput = document.getElementById('loginEmail');
+  const regex = /^[a-zA-Z][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,10}$/;
+  if (!regex.test(emailInput.value)) {
+    e.preventDefault();
+    alert("Invalid email format. Must start with a letter and TLD at least 3 letters.");
+    emailInput.focus();
+  }
+});
+
+const signupForm = document.getElementById('signupForm');
+signupForm.addEventListener('submit', function(e) {
+  const emailInput = document.getElementById('signupEmail');
+  const regex = /^[a-zA-Z][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,10}$/;
+  if (!regex.test(emailInput.value)) {
+    e.preventDefault();
+    alert("Invalid email format. Must start with a letter and TLD at least 3 letters.");
+    emailInput.focus();
+  }
+});
+</script>
