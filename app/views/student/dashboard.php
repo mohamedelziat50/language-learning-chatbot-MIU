@@ -1,15 +1,28 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: /language-learning-chatbot-MIU/index.php");
+    exit();
+}
+
+$fullName = $_SESSION['user_name'] ?? 'User';
+$firstName = explode(' ', trim($fullName))[0];
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Dashboard</title>
-    <link rel="stylesheet" href="../../../public/css/student/student.css">
+    <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/student/student.css">
 </head>
 <body>
     <?php include '../partials/sidebar.php'; ?>
     <div class="main-content">
-        <div class="header">Welcome back, Mohamed!</div>
+        <div class="header">Welcome back, <?php echo htmlspecialchars($firstName); ?>!</div>
         <div class="card-container">
             <div class="card">
                 <h3>Recent Conversations</h3>
