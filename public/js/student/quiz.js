@@ -79,16 +79,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (--timer < 0) {
         clearInterval(interval);
         alert("Time’s up! Submitting your quiz...");
-        submitQuiz();
       }
     }, 1000);
   }
 
-  // Submit quiz function
-  function submitQuiz() {
-    alert("Your quiz has been submitted successfully!");
-    location.reload(); // reset to start page for demo
-  }
+  
 
   const submitButton = document.getElementById("submitQuiz");
   submitButton.addEventListener("click", submitQuiz);
@@ -102,22 +97,24 @@ function displayQuiz(quizData) {
   // MCQs
   quizData.mcq.forEach((q, idx) => {
     const mcqHTML = `
-      <div class="question">
-        <p><strong>${idx + 1}.</strong> ${q.question}</p>
-        <ul>
-          ${q.options.map(o => `<li><input type="radio" name="q${idx}"> ${o}</li>`).join("")}
-        </ul>
-      </div>`;
+  <div class="question" data-correct="${q.answer}">
+    <p><strong>${idx + 1}.</strong> ${q.question}</p>
+    <ul>
+      ${q.options.map(o => `<li><input type="radio" name="q${idx}" value="${o}"> ${o}</li>`).join("")}
+    </ul>
+  </div>`;
+
     quizQuestions.insertAdjacentHTML("beforeend", mcqHTML);
   });
 
   // Short answer
   quizData.short.forEach((q, idx) => {
     const shortHTML = `
-      <div class="question">
-        <p><strong>${quizData.mcq.length + idx + 1}.</strong> ${q.question}</p>
-        <textarea rows="4"></textarea>
-      </div>`;
+  <div class="question" data-correct="${q.answer}">
+    <p><strong>${quizData.mcq.length + idx + 1}.</strong> ${q.question}</p>
+    <textarea rows="4"></textarea>
+  </div>`;
+
     quizQuestions.insertAdjacentHTML("beforeend", shortHTML);
   });
 
@@ -131,3 +128,75 @@ function displayQuiz(quizData) {
     });
   });
 }
+
+
+document.getElementById("submitQuiz").addEventListener("click", function () {
+    const quizSection = document.getElementById("quizOutput");
+    const settingsSection = document.querySelector(".quiz-settings");
+    const reviewSection = document.getElementById("reviewSection");
+    const reviewContainer = document.getElementById("reviewContainer");
+
+    reviewContainer.innerHTML = ""; // clear previous reviews
+
+    // Collect answers
+    const questions = document.querySelectorAll(".question");
+    questions.forEach((q, index) => {
+        const selected = q.querySelector("input[type=radio]:checked");
+        const correct = q.getAttribute("data-correct");
+
+        const reviewItem = document.createElement("div");
+        reviewItem.classList.add("review-item");
+
+        reviewItem.innerHTML = `
+            <h3>Question ${index + 1}</h3>
+            <p>${q.querySelector("p").innerText}</p>
+
+        `;
+
+        // If user selected something
+        if (selected) {
+            if (selected.value === correct) {
+                reviewItem.innerHTML += `
+                    <p class="correct">Your Answer: ${selected.value}</p>
+                `;
+            } else {
+                reviewItem.innerHTML += `
+                    <p class="wrong">Your Answer: ${selected.value}</p>
+                    <p class="correct-answer-highlight">Correct Answer: ${correct}</p>
+                `;
+            }
+        } else {
+            // unanswered
+            reviewItem.innerHTML += `
+                <p class="wrong">No answer selected</p>
+                <p class="correct-answer-highlight">Correct Answer: ${correct}</p>
+            `;
+        }
+
+        reviewContainer.appendChild(reviewItem);
+    });
+
+    // Show review mode
+    quizSection.style.display = "none";
+    settingsSection.style.display = "none";
+    reviewSection.style.display = "block";
+  
+    // Scroll to top
+    reviewSection.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+// Back to settings
+document.getElementById("backToSettings").addEventListener("click", function () {
+    // Hide review section
+    document.getElementById("reviewSection").style.display = "none";
+
+    // Show settings
+    const settingsSection = document.querySelector(".quiz-settings");
+    settingsSection.classList.remove("hidden");
+    settingsSection.style.display = "block";
+
+    // Hide quiz output
+    const quizSection = document.getElementById("quizOutput");
+    quizSection.classList.add("hidden");
+});
+

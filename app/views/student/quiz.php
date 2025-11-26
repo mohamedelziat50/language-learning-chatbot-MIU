@@ -100,6 +100,13 @@
   </div>
 </section>
 
+<div id="reviewSection" style="display:none;">
+    <h2>Review Your Answers</h2>
+    <div id="reviewContainer"></div>
+
+    <button id="backToSettings">Back to Settings</button>
+</div>
+
   <!-- Loading Spinner -->
   <div id="loadingSpinner" class="hidden">
     <div class="spinner"></div>
