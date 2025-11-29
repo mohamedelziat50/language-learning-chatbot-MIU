@@ -15,11 +15,20 @@ if (file_exists($envPath)) {
     }
 }
 
-// 1. Receive data from frontend
-$mcqCount = $_POST['mcqCount'] ?? 5;
-$shortCount = $_POST['shortCount'] ?? 2;
-$difficulty = $_POST['difficulty'] ?? 2;
-$language = $_POST['language'] ?? "French";
+// 1. Receive data from frontend and validate
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo json_encode(["error" => ["message" => "Invalid request method. Use POST."]]);
+    exit;
+}
+
+// Defensive read: treat empty strings as not set
+$mcqCount = isset($_POST['mcqCount']) && $_POST['mcqCount'] !== '' ? intval($_POST['mcqCount']) : 5;
+$shortCount = isset($_POST['shortCount']) && $_POST['shortCount'] !== '' ? intval($_POST['shortCount']) : 2;
+$difficulty = isset($_POST['difficulty']) && $_POST['difficulty'] !== '' ? intval($_POST['difficulty']) : 2;
+$language = isset($_POST['language']) && $_POST['language'] !== '' ? trim($_POST['language']) : "French";
+
+// Log received parameters for debugging (written to PHP error log)
+error_log("generate_quiz POST received: " . json_encode(["mcqCount" => $mcqCount, "shortCount" => $shortCount, "difficulty" => $difficulty, "language" => $language]));
 
 // 2. Get API key
 $api_key = getenv('OPENAI_API_KEY');
@@ -65,6 +74,36 @@ curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
 $response = curl_exec($curl);
+$curlErr = curl_error($curl);
+$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 curl_close($curl);
 
-echo $response;
+if ($response === false) {
+    error_log("cURL error when calling OpenAI: " . $curlErr);
+    echo json_encode(["error" => ["message" => "Failed to call AI API.", "details" => $curlErr]]);
+    exit;
+}
+
+// If OpenAI returned a non-200, try to forward that error
+$decoded = json_decode($response, true);
+if ($httpCode < 200 || $httpCode >= 300) {
+    error_log("OpenAI returned HTTP $httpCode: " . $response);
+    echo json_encode(["error" => ["message" => "AI API error.", "http_code" => $httpCode, "body" => $decoded]]);
+    exit;
+}
+
+// Decode OpenAI response so we can wrap it with helpful debug info
+$decodedOpenAI = json_decode($response, true);
+
+// Prepare wrapper so client can see what was sent and what was received
+$wrapper = [
+    "success" => true,
+    "mcqCount" => $mcqCount,
+    "shortCount" => $shortCount,
+    "difficulty" => $difficulty,
+    "language" => $language,
+    "sent_prompt" => $data['messages'][0]['content'],
+    "openai" => $decodedOpenAI
+];
+
+echo json_encode($wrapper);

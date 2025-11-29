@@ -30,36 +30,81 @@ document.addEventListener("DOMContentLoaded", () => {
     formData.append("difficulty", difficulty);
     formData.append("language", language);
 
+    // Debug: log form values
+    for (const pair of formData.entries()) {
+      console.log(pair[0] + ':', pair[1]);
+    }
+
     // Show loading spinner
     document.getElementById("loadingSpinner").classList.remove("hidden");
 
     fetch("/language-learning-chatbot-MIU/app/controllers/generate_quiz.php", {
-        method: "POST",
-        body: formData
+      method: "POST",
+      body: formData
     })
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById("loadingSpinner").classList.add("hidden");
+    .then(res => res.text())
+    .then(text => {
+      document.getElementById("loadingSpinner").classList.add("hidden");
 
-        const quiz = data.choices[0].message.content;
-        const quizJson = JSON.parse(quiz);
+      // Log raw response for debugging
+      console.log('Raw server response:', text);
 
-        // Display questions dynamically
-        displayQuiz(quizJson);
+      let parsed;
+      try {
+        parsed = JSON.parse(text);
+      } catch (e) {
+        console.error('Failed to parse server JSON response:', e, text);
+        alert('Server returned invalid JSON. Check console for details.');
+        return;
+      }
 
-        // Hide settings and show quiz
-        document.querySelector(".quiz-settings").classList.add("hidden");
-        const quizOutput = document.getElementById("quizOutput");
-        quizOutput.classList.remove("hidden");
-        quizOutput.scrollIntoView({ behavior: "smooth" });
+      // Handle server-side error payloads
+      if (parsed.error) {
+        console.error('Server error:', parsed.error);
+        alert('Failed to generate quiz: ' + (parsed.error.message || JSON.stringify(parsed.error)));
+        return;
+      }
 
-        // Start timer (convert minutes to seconds)
-        startTimer(time * 60);
+      // New wrapper format: { success:true, openai: { choices: [...] }, sent_prompt: "..." }
+      const aiResp = parsed.openai ? parsed.openai : parsed;
+
+      if (!aiResp.choices || !aiResp.choices[0] || !aiResp.choices[0].message) {
+        console.error('Unexpected AI payload:', aiResp);
+        alert('Unexpected AI response. See console for details.');
+        return;
+      }
+
+      const quizContent = aiResp.choices[0].message.content;
+      let quizJson;
+      try {
+        quizJson = JSON.parse(quizContent);
+      } catch (e) {
+        console.error('Failed to parse quiz JSON from AI content:', e, quizContent);
+        // As fallback, if the AI already returned parsed object in 'openai' wrapper, try other locations
+        if (parsed.openai && parsed.openai.data) {
+          quizJson = parsed.openai.data;
+        } else {
+          alert('Failed to parse quiz JSON from AI. Check console.');
+          return;
+        }
+      }
+
+      // Display questions dynamically
+      displayQuiz(quizJson);
+
+      // Hide settings and show quiz
+      document.querySelector(".quiz-settings").classList.add("hidden");
+      const quizOutput = document.getElementById("quizOutput");
+      quizOutput.classList.remove("hidden");
+      quizOutput.scrollIntoView({ behavior: "smooth" });
+
+      // Start timer (convert minutes to seconds)
+      startTimer(time * 60);
     })
     .catch(err => {
-        console.error(err);
-        document.getElementById("loadingSpinner").classList.add("hidden");
-        alert("Failed to generate quiz. Check console for errors.");
+      console.error('Fetch error:', err);
+      document.getElementById("loadingSpinner").classList.add("hidden");
+      alert("Failed to generate quiz. Check console for errors.");
     });
   });
 
