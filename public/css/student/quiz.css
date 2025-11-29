@@ -29,9 +29,9 @@ body {
 }
 
 .main-content {
-    height: 100vh;
-    overflow-y: auto;
-    padding: 0 20px;
+    padding: 0;
+    margin: 0;
+    width: 100%;
 }
 
 /*QUIZ SETTINGS SECTION*/
@@ -446,6 +446,143 @@ body {
 .quiz-date {
     font-style: italic;
     color: #777;
+}
+
+.correct {
+    background-color: #d4edda !important;
+    /* green shade */
+}
+
+.wrong {
+    background-color: #f8d7da !important;
+    /* red shade */
+}
+
+.correct-answer-highlight {
+    border-left: 4px solid #28a745;
+}
+
+/* REVIEW QUIZ SECTION */
+#reviewSection {
+    display: block;
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(120deg, #f8fafc, #eef9f7);
+    padding: 40px 5%;
+    box-sizing: border-box;
+}
+
+/* Header */
+#reviewSection h2 {
+    font-size: 2rem;
+    color: #027e6f;
+    font-weight: 700;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+#reviewSection h2::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: #4ab7a5;
+    margin-top: 6px;
+    border-radius: 2px;
+}
+
+/* Review container */
+#reviewContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    max-width: 900px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+/* Individual review item */
+.review-item {
+    background: #f7fdfb;
+    padding: 20px 25px;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.review-item:hover {
+    border-color: #4ab7a5;
+    box-shadow: 0 4px 12px rgba(74, 183, 165, 0.2);
+}
+
+/* Question text in review */
+.review-item h3 {
+    font-size: 1.2em;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #222;
+}
+
+.review-item p {
+    font-size: 1.1em;
+    margin-bottom: 8px;
+    color: #333;
+    padding: 6px 12px;
+    border-radius: 8px;
+}
+
+/* Correct answer */
+.review-item .correct {
+    background-color: #d4edda;
+    color: #155724;
+    border-left: 4px solid #28a745;
+}
+
+/* Wrong answer */
+.review-item .wrong {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-left: 4px solid #dc3545;
+}
+
+/* Correct answer highlight */
+.review-item .correct-answer-highlight {
+    background-color: #e2f0e8;
+    color: #155724;
+    border-left: 4px solid #28a745;
+    padding-left: 10px;
+}
+
+/* Optional: responsive adjustments */
+@media (max-width: 640px) {
+    #reviewContainer {
+        gap: 15px;
+    }
+
+    .review-item {
+        padding: 15px;
+    }
+}
+
+/* Back to settings button */
+#backToSettings {
+    background: #4ab7a5;
+    color: white;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1em;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 30px;
+    transition: background 0.3s, transform 0.2s;
+}
+
+#backToSettings:hover {
+    background: #3a9e8f;
+    transform: translateY(-2px);
 }
 
 @media (max-width: 640px) {

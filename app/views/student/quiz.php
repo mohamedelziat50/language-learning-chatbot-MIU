@@ -93,26 +93,19 @@
         ⏱ <span id="timerDisplay">10:00</span>
       </div>
     </div>
-    
-
-    <div class="question">
-    <p><strong>1.</strong> Which of the following is the correct definite article for the French word <em>“école”</em> (school)?</p>
-    <ul>
-      <li><input type="radio" name="q1"> Le école</li>
-      <li><input type="radio" name="q1"> La école</li>
-      <li><input type="radio" name="q1"> L’école</li>
-    </ul>
-  </div>
-
-  <div class="question">
-    <p><strong>2.</strong> Write a short sentence in French using the verb <em>“avoir”</em> (to have) in the present tense.</p>
-    <textarea rows="4" placeholder="Écrivez votre phrase ici..."></textarea>
-  </div>
-
-  <div class="submit-container">
-    <button id="submitQuiz" class="submit-btn">Submit Quiz</button>
+    <div id="quizQuestions"></div> <!-- questions go here -->
+    <div class="submit-container">
+      <button id="submitQuiz" class="submit-btn">Submit Quiz</button>
+    </div>
   </div>
 </section>
+
+<div id="reviewSection" style="display:none;">
+    <h2>Review Your Answers</h2>
+    <div id="reviewContainer"></div>
+
+    <button id="backToSettings">Back to Settings</button>
+</div>
 
   <!-- Loading Spinner -->
   <div id="loadingSpinner" class="hidden">
