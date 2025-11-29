@@ -176,58 +176,86 @@ function displayQuiz(quizData) {
 
 
 document.getElementById("submitQuiz").addEventListener("click", function () {
-    const quizSection = document.getElementById("quizOutput");
-    const settingsSection = document.querySelector(".quiz-settings");
-    const reviewSection = document.getElementById("reviewSection");
-    const reviewContainer = document.getElementById("reviewContainer");
+  const quizSection = document.getElementById("quizOutput");
+  const settingsSection = document.querySelector(".quiz-settings");
+  const reviewSection = document.getElementById("reviewSection");
+  const reviewContainer = document.getElementById("reviewContainer");
 
-    reviewContainer.innerHTML = ""; // clear previous reviews
+  reviewContainer.innerHTML = ""; // clear previous reviews
 
-    // Collect answers
-    const questions = document.querySelectorAll(".question");
-    questions.forEach((q, index) => {
-        const selected = q.querySelector("input[type=radio]:checked");
-        const correct = q.getAttribute("data-correct");
+  // Collect answers and compute score
+  const questions = document.querySelectorAll(".question");
+  let correctCount = 0;
+  const totalQuestions = questions.length;
 
-        const reviewItem = document.createElement("div");
-        reviewItem.classList.add("review-item");
+  questions.forEach((q, index) => {
+    const radio = q.querySelector("input[type=radio]:checked");
+    const textarea = q.querySelector("textarea");
+    const correct = q.getAttribute("data-correct");
 
-        reviewItem.innerHTML = `
-            <h3>Question ${index + 1}</h3>
-            <p>${q.querySelector("p").innerText}</p>
+    const reviewItem = document.createElement("div");
+    reviewItem.classList.add("review-item");
 
+    reviewItem.innerHTML = `
+      <h3>Question ${index + 1}</h3>
+      <p>${q.querySelector("p").innerText}</p>
+    `;
+
+    // Multiple choice handling
+    if (radio) {
+      if (radio.value === correct) {
+        correctCount++;
+        reviewItem.innerHTML += `<p class="correct">Your Answer: ${radio.value}</p>`;
+      } else {
+        reviewItem.innerHTML += `
+          <p class="wrong">Your Answer: ${radio.value}</p>
+          <p class="correct-answer-highlight">Correct Answer: ${correct}</p>
         `;
-
-        // If user selected something
-        if (selected) {
-            if (selected.value === correct) {
-                reviewItem.innerHTML += `
-                    <p class="correct">Your Answer: ${selected.value}</p>
-                `;
-            } else {
-                reviewItem.innerHTML += `
-                    <p class="wrong">Your Answer: ${selected.value}</p>
-                    <p class="correct-answer-highlight">Correct Answer: ${correct}</p>
-                `;
-            }
+      }
+    } else if (textarea) {
+      // Short answer: compare trimmed, case-insensitive
+      const userAns = textarea.value ? textarea.value.trim() : "";
+      if (userAns.length > 0 && correct) {
+        const normalizedUser = userAns.toLowerCase();
+        const normalizedCorrect = String(correct).toLowerCase();
+        if (normalizedUser === normalizedCorrect) {
+          correctCount++;
+          reviewItem.innerHTML += `<p class="correct">Your Answer: ${userAns}</p>`;
         } else {
-            // unanswered
-            reviewItem.innerHTML += `
-                <p class="wrong">No answer selected</p>
-                <p class="correct-answer-highlight">Correct Answer: ${correct}</p>
-            `;
+          reviewItem.innerHTML += `
+            <p class="wrong">Your Answer: ${userAns}</p>
+            <p class="correct-answer-highlight">Correct Answer: ${correct}</p>
+          `;
         }
+      } else {
+        // unanswered
+        reviewItem.innerHTML += `
+          <p class="wrong">No answer provided</p>
+          <p class="correct-answer-highlight">Correct Answer: ${correct}</p>
+        `;
+      }
+    } else {
+      // fallback for unknown question types
+      reviewItem.innerHTML += `<p class="wrong">No answer detected</p><p class="correct-answer-highlight">Correct Answer: ${correct}</p>`;
+    }
 
-        reviewContainer.appendChild(reviewItem);
-    });
+    reviewContainer.appendChild(reviewItem);
+  });
 
-    // Show review mode
-    quizSection.style.display = "none";
-    settingsSection.style.display = "none";
-    reviewSection.style.display = "block";
-  
-    // Scroll to top
-    reviewSection.scrollIntoView({ behavior: "smooth", block: "start" });
+  // Insert score summary at top
+  const percent = totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
+  const scoreBanner = document.createElement('div');
+  scoreBanner.classList.add('score-banner');
+  scoreBanner.innerHTML = `<h3>Score: ${correctCount} / ${totalQuestions} (${percent}%)</h3>`;
+  reviewContainer.prepend(scoreBanner);
+
+  // Show review mode
+  quizSection.style.display = "none";
+  settingsSection.style.display = "none";
+  reviewSection.style.display = "block";
+
+  // Scroll to top
+  reviewSection.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
 // Back to settings
