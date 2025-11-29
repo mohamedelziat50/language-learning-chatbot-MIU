@@ -108,6 +108,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Load previous quizzes on page load
+  loadPreviousQuizzes();
+
   // Timer function
   function startTimer(duration) {
     let timer = duration, minutes, seconds;
@@ -249,6 +252,35 @@ document.getElementById("submitQuiz").addEventListener("click", function () {
   scoreBanner.innerHTML = `<h3>Score: ${correctCount} / ${totalQuestions} (${percent}%)</h3>`;
   reviewContainer.prepend(scoreBanner);
 
+    // Save quiz result to server (send JSON)
+    const payload = {
+      language: document.querySelector('.quiz-lang') ? document.querySelector('.quiz-lang').innerText : 'Unknown',
+      difficulty: Number(document.getElementById('difficultySlider') ? document.getElementById('difficultySlider').value : 0),
+      mcqCount: Number(document.getElementById('mcqCount') ? document.getElementById('mcqCount').value : 0),
+      shortCount: Number(document.getElementById('shortCount') ? document.getElementById('shortCount').value : 0),
+      score: correctCount,
+      total: totalQuestions,
+      percent: percent
+    };
+
+    fetch('/language-learning-chatbot-MIU/app/controllers/save_quiz.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data && data.success) {
+        console.log('Quiz saved, id=', data.quiz_id);
+        // Refresh previous quizzes list
+        loadPreviousQuizzes();
+      } else {
+        console.warn('Failed to save quiz', data);
+      }
+    })
+    .catch(err => console.error('Save quiz error', err));
+
   // Show review mode
   quizSection.style.display = "none";
   settingsSection.style.display = "none";
@@ -272,4 +304,38 @@ document.getElementById("backToSettings").addEventListener("click", function () 
     const quizSection = document.getElementById("quizOutput");
     quizSection.classList.add("hidden");
 });
+
+// Fetch and render previous quizzes
+function loadPreviousQuizzes() {
+  fetch('/language-learning-chatbot-MIU/app/controllers/get_quizzes.php', {
+    method: 'GET',
+    credentials: 'same-origin'
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (!data || !data.success) {
+      console.warn('Could not load previous quizzes', data);
+      return;
+    }
+
+    const container = document.querySelector('.quiz-history');
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    data.quizzes.forEach(q => {
+      const rec = document.createElement('div');
+      rec.classList.add('quiz-record');
+      const date = new Date(q.created_at).toLocaleString();
+      rec.innerHTML = `
+        <span class="quiz-lang">${q.language || 'Unknown'}</span>
+        <span class="quiz-diff">Difficulty: ${q.difficulty || '-'} /5</span>
+        <span class="quiz-score">Score: ${q.score || 0}/${q.total_questions || 0} (${q.percent ? Math.round(q.percent) : 0}%)</span>
+        <span class="quiz-date">Taken: ${date}</span>
+      `;
+      container.appendChild(rec);
+    });
+  })
+  .catch(err => console.error('Load quizzes error', err));
+}
 
