@@ -40,15 +40,24 @@
                 </div>
                 <div class="mb-3 text-start">
                   <label for="loginPassword" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="loginPassword" name="password" required
-                  pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$"
-                  title="Password must be at least 8 characters, include uppercase, lowercase, number, and special character">
+                  <div class="input-group">
+                    <input type="password" class="form-control" id="loginPassword" name="password" required
+                    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$"
+                    title="Password must be at least 8 characters, include uppercase, lowercase, number, and special character">
+                    <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('loginPassword')"
+                            style="border-left: 0; cursor: pointer;">
+                      <span id="loginPasswordToggle">👁</span>
+                    </button>
+                  </div>
                 </div>
                 <button type="submit" class="btn btn-primary w-100 mb-3">Login</button>
-                <button type="button" class="btn btn-outline-danger w-100">
-                  <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" width="20" class="me-2">
+
+                <a href="/language-learning-chatbot-MIU/app/controllers/google_login.php" 
+                class="btn google-btn w-100 mb-3">
+                  <img src="https://developers.google.com/identity/images/g-logo.png" width="20">
                   Continue with Google
-                </button>
+              </a>
+
               </form>
             </div>
 
@@ -67,15 +76,24 @@
                 </div>
                 <div class="mb-3 text-start">
                   <label for="signupPassword" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="signupPassword" name="password" required
-                  pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$"
-                  title="Password must be at least 8 characters, include uppercase, lowercase, number, and special character">
+                  <div class="input-group">
+                    <input type="password" class="form-control" id="signupPassword" name="password" required
+                    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$"
+                    title="Password must be at least 8 characters, include uppercase, lowercase, number, and special character">
+                    <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('signupPassword')"
+                            style="border-left: 0; cursor: pointer;">
+                      <span id="signupPasswordToggle">👁</span>
+                    </button>
+                  </div>
                 </div>
                 <button type="submit" class="btn btn-success w-100 mb-3">Sign Up</button>
-                <button type="button" class="btn btn-outline-danger w-100">
-                  <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" width="20" class="me-2">
+                <!-- Google Sign-Up / Login Button -->
+                 <a href="/language-learning-chatbot-MIU/app/controllers/google_login.php" 
+                class="btn google-btn w-100 mb-3">
+                  <img src="https://developers.google.com/identity/images/g-logo.png" width="20">
                   Continue with Google
-                </button>
+              </a>
+
               </form>
             </div>
           </div>
@@ -92,6 +110,18 @@
 </div>
 
 <script>
+function togglePasswordVisibility(fieldId) {
+  const field = document.getElementById(fieldId);
+  const toggle = document.getElementById(fieldId + 'Toggle');
+  if (field.type === 'password') {
+    field.type = 'text';
+    toggle.textContent = '👁';
+  } else {
+    field.type = 'password';
+    toggle.textContent = '👁';
+  }
+}
+
 const loginForm = document.getElementById('loginForm');
 loginForm.addEventListener('submit', function(e) {
   const emailInput = document.getElementById('loginEmail');
