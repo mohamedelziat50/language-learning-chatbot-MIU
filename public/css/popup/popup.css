@@ -191,3 +191,33 @@
     width: 80%;
     z-index: 2;
 }
+
+/* Google Button */
+.google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-weight: 500;
+    color: #444;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.google-btn img {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+}
+
+.google-btn:hover {
+    background-color: #f7f7f7;
+    border-color: #ccc;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+    color: #333;
+}

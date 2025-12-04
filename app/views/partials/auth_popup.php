@@ -51,10 +51,13 @@
                   </div>
                 </div>
                 <button type="submit" class="btn btn-primary w-100 mb-3">Login</button>
-                <button type="button" class="btn btn-outline-danger w-100">
-                  <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" width="20" class="me-2">
+
+                <a href="/language-learning-chatbot-MIU/app/controllers/google_login.php" 
+                class="btn google-btn w-100 mb-3">
+                  <img src="https://developers.google.com/identity/images/g-logo.png" width="20">
                   Continue with Google
-                </button>
+              </a>
+
               </form>
             </div>
 
@@ -84,10 +87,13 @@
                   </div>
                 </div>
                 <button type="submit" class="btn btn-success w-100 mb-3">Sign Up</button>
-                <button type="button" class="btn btn-outline-danger w-100">
-                  <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" width="20" class="me-2">
+                <!-- Google Sign-Up / Login Button -->
+                 <a href="/language-learning-chatbot-MIU/app/controllers/google_login.php" 
+                class="btn google-btn w-100 mb-3">
+                  <img src="https://developers.google.com/identity/images/g-logo.png" width="20">
                   Continue with Google
-                </button>
+              </a>
+
               </form>
             </div>
           </div>
