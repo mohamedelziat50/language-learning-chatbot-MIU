@@ -29,7 +29,7 @@ $admin_email = getenv('ADMIN_EMAIL');
 $admin_password = password_hash(getenv('ADMIN_PASSWORD'), PASSWORD_DEFAULT);
 $admin_role = getenv('ADMIN_ROLE');
 
-$insert_admin = "INSERT IGNORE INTO users (fullname, email, password, role) 
+$insert_admin = "INSERT IGNORE INTO users (name, email, password, role) 
                  VALUES ('$admin_name', '$admin_email', '$admin_password', '$admin_role')";
 mysqli_query($conn, $insert_admin);
 
