@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $hashed = password_hash($password, PASSWORD_DEFAULT);
 
     // Insert into users table
-    $stmt = mysqli_prepare($conn, "INSERT INTO users (fullname, email, password) VALUES (?, ?, ?)");
+    $stmt = mysqli_prepare($conn, "INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
     mysqli_stmt_bind_param($stmt, "sss", $name, $email, $hashed);
 
     if (mysqli_stmt_execute($stmt)) {
