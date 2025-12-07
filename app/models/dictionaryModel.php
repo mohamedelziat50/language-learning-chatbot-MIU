@@ -13,7 +13,7 @@ class Dictionary {
     }
 
     public function getById($id) {
-        $id = intval($id);
+        $id = intval($id); //intval is used to prevent SQL injection by ensuring $id is an integer
         $result = $this->conn->query("SELECT * FROM $this->table WHERE id = $id");
         return $result->fetch_assoc();
     }
