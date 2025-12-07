@@ -13,7 +13,6 @@ class UserController {
 
         return $result->fetch_all(MYSQLI_ASSOC);
     }
-
     public static function getTotalUsersCount() {
         global $conn;
 
@@ -21,7 +20,6 @@ class UserController {
         $row = $result->fetch_assoc();
         return $row['total'] ?? 0;
     }
-
     public static function addUser() {
         global $conn;
 
@@ -49,4 +47,51 @@ class UserController {
 
         return ["status"=>"error", "message"=>$stmt->error];
     }
+      public static function updateUser() {
+        global $conn;
+
+        $data = $_POST;
+
+        if (!isset($data['user_id'])) {
+            return ["status"=>"error", "message"=>"Missing user_id"];
+        }
+
+        $id     = $data['user_id'];
+        $name   = $data['name']   ?? null;
+        $email  = $data['email']  ?? null;
+        $role   = $data['role']   ?? null;
+        $status = $data['status'] ?? null;
+
+        $stmt = $conn->prepare("
+            UPDATE users 
+            SET name=?, email=?, role=?, status=?
+            WHERE user_id=?
+        ");
+        $stmt->bind_param("ssssi", $name, $email, $role, $status, $id);
+
+        if ($stmt->execute()) {
+            return ["status"=>"success", "message"=>"User updated"];
+        }
+
+        return ["status"=>"error", "message"=>$stmt->error];
+    }
+    public static function deleteUser() {
+        global $conn;
+
+        if (!isset($_POST['user_id'])) {
+            return ["status"=>"error", "message"=>"Missing user_id"];
+        }
+
+        $id = $_POST['user_id'];
+
+        $stmt = $conn->prepare("DELETE FROM users WHERE user_id=?");
+        $stmt->bind_param("i", $id);
+
+        if ($stmt->execute()) {
+            return ["status"=>"success", "message"=>"User deleted"];
+        }
+
+        return ["status"=>"error", "message"=>$stmt->error];
+    }
+    
 }
