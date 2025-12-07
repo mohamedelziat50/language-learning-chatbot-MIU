@@ -1,0 +1,56 @@
+@startuml
+class Language {
+    - conn: mysqli
+    - table: string = 'languages'
+
+    + __construct(database: mysqli)
+    + getAll(): array
+    + getById(id: int): array
+    + create(name: string, code: string): bool
+    + update(id: int, name: string, code: string): bool
+    + delete(id: int): bool
+}
+
+class Topic {
+    - conn: mysqli
+    - table: string = 'topics'
+
+    + __construct(database: mysqli)
+    + getAll(): array
+    + getById(id: int): array
+    + getByLanguage(language_id: int): array
+    + create(title: string, language_id: int, description: string): bool
+    + update(id: int, title: string, description: string): bool
+    + delete(id: int): bool
+}
+
+
+class Lesson {
+    - conn: mysqli
+    - table: string = 'lessons'
+
+    + __construct(database: mysqli)
+    + getAll(): array
+    + getById(id: int): array
+    + getByTopic(topic_id: int): array
+    + create(title: string, content: string, topic_id: int, difficulty: string): bool
+    + update(id: int, title: string, content: string, difficulty: string): bool
+    + delete(id: int): bool
+
+    + getProgress(lesson_id: int, user_id: int): array
+    + updateProgress(lesson_id: int, user_id: int, completed: bool): bool
+}
+
+class Dictionary {
+    - conn: mysqli
+    - table: string = 'dictionary'
+
+    + __construct(database: mysqli)
+    + getAll(): array
+    + getById(id: int): array
+    + getByLanguage(language_id: int): array
+    + search(keyword: string, language_id: int): array
+    + create(word: string, translation: string, language_id: int, pronunciation: string, example: string): bool
+    + update(id: int, word: string, translation: string, pronunciation: string, example: string): bool
+    + delete(id: int): bool
+}
