@@ -8,11 +8,12 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
 }
 
 // Load controller to fetch data
-require_once __DIR__ . '/../../controllers/admin/user.php';
+require_once __DIR__ . '/../../controllers/admin/manage_users.php';
 
 // Get total users count
-$totalUsers = getTotalUsersCount();
+$totalUsers = UserController::getTotalUsersCount();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,7 +31,7 @@ $totalUsers = getTotalUsersCount();
           <line x1="2" y1="12" x2="22" y2="12"></line>
           <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
         </svg>
-        <h2>Admin Panel</h2>
+        <h2>Admin Dashboard</h2>
       </div>
 
       <nav class="sidebar-nav">
