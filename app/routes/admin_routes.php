@@ -50,6 +50,36 @@ function registerUserRoutes($request, $method) {
         return true;
     }
 
+     if ($request === '/updateUser' && $method === 'POST') {
+        try {
+            header('Content-Type: application/json');
+            $result = UserController::updateUser();
+            echo json_encode($result);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                "status" => "error",
+                "message" => "Failed to update user: " . $e->getMessage()
+            ]);
+        }
+        return true;
+    }
+
+    if ($request === '/deleteUser' && $method === 'POST') {
+        try {
+            header('Content-Type: application/json');
+            $result = UserController::deleteUser();
+            echo json_encode($result);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode([
+                "status" => "error",
+                "message" => "Failed to delete user: " . $e->getMessage()
+            ]);
+        }
+        return true;
+    }
+    
   return false;
 
 }
