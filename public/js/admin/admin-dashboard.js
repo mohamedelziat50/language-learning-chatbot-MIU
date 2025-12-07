@@ -1,17 +1,19 @@
 // Dark Mode Toggle
 const themeToggle = document.getElementById('themeToggle');
 
-themeToggle.addEventListener('click', () => {
-  document.body.classList.toggle('dark-mode');
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
 
-  if (document.body.classList.contains('dark-mode')) {
-    themeToggle.textContent = '☀️';
-    localStorage.setItem('adminTheme', 'dark');
-  } else {
-    themeToggle.textContent = '🌙';
-    localStorage.setItem('adminTheme', 'light');
-  }
-});
+    if (document.body.classList.contains('dark-mode')) {
+      themeToggle.textContent = '☀️';
+      localStorage.setItem('adminTheme', 'dark');
+    } else {
+      themeToggle.textContent = '🌙';
+      localStorage.setItem('adminTheme', 'light');
+    }
+  });
+}
 
 // Load saved theme
 window.addEventListener('DOMContentLoaded', () => {
@@ -330,7 +332,7 @@ function renderQueries(queries) {
 }
 
 function getTrendIcon(trend) {
-  switch(trend) {
+  switch (trend) {
     case 'increasing':
       return '<polyline points="18 15 12 9 6 15"></polyline>';
     case 'decreasing':
@@ -345,8 +347,8 @@ function getTrendIcon(trend) {
 function sortQueries(column, direction = 'desc') {
   const sorted = [...queriesData].sort((a, b) => {
     let aValue, bValue;
-    
-    switch(column) {
+
+    switch (column) {
       case 'times':
         aValue = a.timesAsked;
         bValue = b.timesAsked;
@@ -362,14 +364,14 @@ function sortQueries(column, direction = 'desc') {
       default:
         return 0;
     }
-    
+
     if (direction === 'desc') {
       return bValue > aValue ? 1 : -1;
     } else {
       return aValue > bValue ? 1 : -1;
     }
   });
-  
+
   renderQueries(sorted);
 }
 
@@ -412,10 +414,10 @@ document.addEventListener('DOMContentLoaded', () => {
     icon.addEventListener('click', (e) => {
       const header = e.target.closest('.header-cell');
       let column = 'times';
-      
+
       if (header.classList.contains('query-header')) column = 'query';
       else if (header.classList.contains('trend-header')) column = 'trend';
-      
+
       sortQueries(column);
     });
   });
@@ -425,13 +427,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (exportBtn) {
     exportBtn.addEventListener('click', () => {
       console.log('Exporting queries report...');
-      
+
       // Create CSV content
       const csvContent = [
         'Query,Category,Times Asked,Trend,Trend Value,Suggested Action',
         ...queriesData.map(q => `"${q.query}","${q.category}",${q.timesAsked},${q.trend},${q.trendValue}%,"${q.suggestedAction}"`)
       ].join('\n');
-      
+
       // Download CSV
       const blob = new Blob([csvContent], { type: 'text/csv' });
       const url = window.URL.createObjectURL(blob);
@@ -440,7 +442,7 @@ document.addEventListener('DOMContentLoaded', () => {
       a.download = `common-queries-report-${new Date().toISOString().split('T')[0]}.csv`;
       a.click();
       window.URL.revokeObjectURL(url);
-      
+
       console.log('Export completed');
     });
   }
