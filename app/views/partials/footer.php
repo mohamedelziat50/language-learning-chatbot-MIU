@@ -8,7 +8,7 @@
             <a href="#" class="transition">Privacy Policy</a>
             <a href="#" class="transition">Terms of Service</a>
             <a href="#" class="transition">Careers</a>
-            <a href="#" class="transition">Contact</a>
+            <a href="/language-learning-chatbot-MIU/app/views/about_us.php" class="transition">About Us</a>
         </div>
     </div>
 </footer>
