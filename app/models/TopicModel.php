@@ -1,50 +1,49 @@
 <?php
 class Topic {
-    private $conn;
-    private $table = 'topics';
+    private $id;
+    private $title;
+    private $language_id;
+    private $description;
 
-    public function __construct($database) {
-        $this->conn = $database;
+    public function __construct($id = null, $title = '', $language_id = null, $description = '') {
+        $this->id = $id;
+        $this->title = $title;
+        $this->language_id = $language_id;
+        $this->description = $description;
     }
 
-    public function getAll() {
-        $result = $this->conn->query("SELECT * FROM $this->table");
-        return $result->fetch_all(MYSQLI_ASSOC);
+    // Getters
+    public function getId() {
+        return $this->id;
     }
 
-    public function getById($id) {
-        $id = intval($id);
-        $result = $this->conn->query("SELECT * FROM $this->table WHERE id = $id");
-        return $result->fetch_assoc();
+    public function getTitle() {
+        return $this->title;
     }
 
-    public function getByLanguage($language_id) {
-        $language_id = intval($language_id);
-        $result = $this->conn->query("SELECT * FROM $this->table WHERE language_id = $language_id");
-        return $result->fetch_all(MYSQLI_ASSOC);
+    public function getLanguageId() {
+        return $this->language_id;
     }
 
-    public function create($title, $language_id, $description = '') {
-        $title = $this->conn->real_escape_string($title);
-        $description = $this->conn->real_escape_string($description);
-        $language_id = intval($language_id);
-        $query = "INSERT INTO $this->table (title, language_id, description) 
-                  VALUES ('$title', $language_id, '$description')";
-        return $this->conn->query($query);
+    public function getDescription() {
+        return $this->description;
     }
 
-    public function update($id, $title, $description = '') {
-        $id = intval($id);
-        $title = $this->conn->real_escape_string($title);
-        $description = $this->conn->real_escape_string($description);
-        $query = "UPDATE $this->table SET title = '$title', description = '$description' WHERE id = $id";
-        return $this->conn->query($query);
+    // Setters
+    public function setId($id) {
+        $this->id = $id;
     }
 
-    public function delete($id) {
-        $id = intval($id);
-        $query = "DELETE FROM $this->table WHERE id = $id";
-        return $this->conn->query($query);
+    public function setTitle($title) {
+        $this->title = $title;
+    }
+
+    public function setLanguageId($language_id) {
+        $this->language_id = $language_id;
+    }
+
+    public function setDescription($description) {
+        $this->description = $description;
     }
 }
 ?>
