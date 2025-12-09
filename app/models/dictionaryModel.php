@@ -1,70 +1,69 @@
 <?php
 class Dictionary {
-    private $conn;
-    private $table = 'dictionary';
+    private $id;
+    private $word;
+    private $translation;
+    private $language_id;
+    private $pronunciation;
+    private $example;
 
-    public function __construct($database) {
-        $this->conn = $database;
+    public function __construct($id = null, $word = '', $translation = '', $language_id = null, $pronunciation = '', $example = '') {
+        $this->id = $id;
+        $this->word = $word;
+        $this->translation = $translation;
+        $this->language_id = $language_id;
+        $this->pronunciation = $pronunciation;
+        $this->example = $example;
     }
 
-    public function getAll() {
-        $result = $this->conn->query("SELECT * FROM $this->table");
-        return $result->fetch_all(MYSQLI_ASSOC);
+    // Getters
+    public function getId() {
+        return $this->id;
     }
 
-    public function getById($id) {
-        $id = intval($id); //intval is used to prevent SQL injection by ensuring $id is an integer
-        $result = $this->conn->query("SELECT * FROM $this->table WHERE id = $id");
-        return $result->fetch_assoc();
+    public function getWord() {
+        return $this->word;
     }
 
-    public function getByLanguage($language_id) {
-        $language_id = intval($language_id);
-        $result = $this->conn->query("SELECT * FROM $this->table WHERE language_id = $language_id");
-        return $result->fetch_all(MYSQLI_ASSOC);
+    public function getTranslation() {
+        return $this->translation;
     }
 
-    public function search($keyword, $language_id = null) {
-        $keyword = $this->conn->real_escape_string($keyword);
-        $query = "SELECT * FROM $this->table WHERE (word LIKE '%$keyword%' OR translation LIKE '%$keyword%')";
-        
-        if ($language_id) {
-            $language_id = intval($language_id);
-            $query .= " AND language_id = $language_id";
-        }
-        
-        $result = $this->conn->query($query);
-        return $result->fetch_all(MYSQLI_ASSOC);
+    public function getLanguageId() {
+        return $this->language_id;
     }
 
-    public function create($word, $translation, $language_id, $pronunciation = '', $example = '') {
-        $word = $this->conn->real_escape_string($word);
-        $translation = $this->conn->real_escape_string($translation);
-        $pronunciation = $this->conn->real_escape_string($pronunciation);
-        $example = $this->conn->real_escape_string($example);
-        $language_id = intval($language_id);
-        
-        $query = "INSERT INTO $this->table (word, translation, language_id, pronunciation, example) 
-                  VALUES ('$word', '$translation', $language_id, '$pronunciation', '$example')";
-        return $this->conn->query($query);
+    public function getPronunciation() {
+        return $this->pronunciation;
     }
 
-    public function update($id, $word, $translation, $pronunciation = '', $example = '') {
-        $id = intval($id);
-        $word = $this->conn->real_escape_string($word);
-        $translation = $this->conn->real_escape_string($translation);
-        $pronunciation = $this->conn->real_escape_string($pronunciation);
-        $example = $this->conn->real_escape_string($example);
-        
-        $query = "UPDATE $this->table SET word = '$word', translation = '$translation', 
-                  pronunciation = '$pronunciation', example = '$example' WHERE id = $id";
-        return $this->conn->query($query);
+    public function getExample() {
+        return $this->example;
     }
 
-    public function delete($id) {
-        $id = intval($id);
-        $query = "DELETE FROM $this->table WHERE id = $id";
-        return $this->conn->query($query);
+    // Setters
+    public function setId($id) {
+        $this->id = $id;
+    }
+
+    public function setWord($word) {
+        $this->word = $word;
+    }
+
+    public function setTranslation($translation) {
+        $this->translation = $translation;
+    }
+
+    public function setLanguageId($language_id) {
+        $this->language_id = $language_id;
+    }
+
+    public function setPronunciation($pronunciation) {
+        $this->pronunciation = $pronunciation;
+    }
+
+    public function setExample($example) {
+        $this->example = $example;
     }
 }
 ?>

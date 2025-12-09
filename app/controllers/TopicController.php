@@ -1,11 +1,11 @@
 <?php
 header('Content-Type: application/json');
 require_once '../../config/db_connect.php';
-require_once '../../models/Topic.php';
+require_once '../../models/TopicRepository.php';
 
 $database = new Database();
 $conn = $database->connect();
-$topic = new Topic($conn);
+$topicRepo = new TopicRepository($conn);
 
 $method = $_SERVER['REQUEST_METHOD'];
 

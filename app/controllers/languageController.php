@@ -1,11 +1,11 @@
 <?php
 header('Content-Type: application/json');
 require_once '../../config/db_connect.php';
-require_once '../../models/Language.php';
+require_once '../../models/LanguageRepository.php';
 
 $database = new Database();
 $conn = $database->connect();
-$language = new Language($conn);
+$languageRepo = new LanguageRepository($conn);
 
 $method = $_SERVER['REQUEST_METHOD'];
 
