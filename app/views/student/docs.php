@@ -1,55 +1,27 @@
 <?php
-// Sample documents data - in a real application, this would come from a database
-$documents = [
-    [
-        'id' => 1,
-        'title' => 'Spanish Grammar Basics',
-        'preview' => 'Essential grammar rules for Spanish learners. Covering verb conjugations, tenses, and common structures.',
-        'type' => 'Grammar',
-        'updated_at' => date('Y-m-d H:i:s', strtotime('-1 day')),
-        'created_at' => date('Y-m-d H:i:s', strtotime('-3 days'))
-    ],
-    [
-        'id' => 2,
-        'title' => 'French Vocabulary List',
-        'preview' => 'Comprehensive vocabulary list with 500+ essential French words and phrases for daily conversations.',
-        'type' => 'Vocabulary',
-        'updated_at' => date('Y-m-d H:i:s', strtotime('-1 day')),
-        'created_at' => date('Y-m-d H:i:s', strtotime('-5 days'))
-    ],
-    [
-        'id' => 3,
-        'title' => 'German Pronunciation Guide',
-        'preview' => 'Master German pronunciation with audio examples and phonetic transcriptions for difficult sounds.',
-        'type' => 'Pronunciation',
-        'updated_at' => date('Y-m-d H:i:s', strtotime('-2 days')),
-        'created_at' => date('Y-m-d H:i:s', strtotime('-1 week'))
-    ],
-    [
-        'id' => 4,
-        'title' => 'English Conversation Practice',
-        'preview' => 'Practice dialogues and conversation starters for improving English speaking skills.',
-        'type' => 'Conversation',
-        'updated_at' => date('Y-m-d H:i:s', strtotime('-3 days')),
-        'created_at' => date('Y-m-d H:i:s', strtotime('-2 weeks'))
-    ],
-    [
-        'id' => 5,
-        'title' => 'Japanese Hiragana Chart',
-        'preview' => 'Complete hiragana character chart with stroke order and pronunciation guide.',
-        'type' => 'Writing',
-        'updated_at' => date('Y-m-d H:i:s', strtotime('-4 days')),
-        'created_at' => date('Y-m-d H:i:s', strtotime('-3 weeks'))
-    ],
-    [
-        'id' => 6,
-        'title' => 'Italian Cultural Notes',
-        'preview' => 'Understanding Italian culture, customs, and social etiquette for better language learning.',
-        'type' => 'Culture',
-        'updated_at' => date('Y-m-d H:i:s', strtotime('-5 days')),
-        'created_at' => date('Y-m-d H:i:s', strtotime('-1 month'))
-    ]
-];
+session_start();
+ob_start();
+require_once __DIR__ . '/../../controllers/DocumentsController.php';
+ob_clean();
+
+// Get documents from database
+$user_id = $_SESSION['user_id'] ?? null;
+$documents = [];
+
+if ($user_id) {
+    $db_documents = getDocumentsByUser($user_id);
+    
+    foreach ($db_documents as $doc) {
+        $documents[] = [
+            'id' => $doc['document_id'],
+            'title' => $doc['title'],
+            'preview' => $doc['preview_text'] ?? 'New document - Start writing to see preview...',
+            'type' => 'Document',
+            'updated_at' => $doc['updated_at'],
+            'created_at' => $doc['created_at']
+        ];
+    }
+}
 
 // Function to group documents by date
 function groupDocumentsByDate($documents) {

@@ -227,12 +227,29 @@ class DocsManager {
         });
     }
 
-    createNewDocument() {
+    async createNewDocument() {
         window.NotificationManager.showNotification('Creating new document...', 'info');
-
-        setTimeout(() => {
-            window.location.href = '../document.php';
-        }, 1000);
+        
+        const formData = new FormData();
+        formData.append('title', 'Untitled Document');
+        formData.append('content', '');
+        
+        try {
+            const response = await fetch('/language-learning-chatbot-MIU/app/index.php/documents/create', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            if (data.status === 'success' && data.document_id) {
+                window.location.href = `/language-learning-chatbot-MIU/app/views/document.php?id=${data.document_id}`;
+            } else {
+                window.NotificationManager.showNotification(data.message || 'Failed to create document', 'error');
+            }
+        } catch (error) {
+            window.NotificationManager.showNotification('Error creating document', 'error');
+        }
     }
 
     handleUpload() {
@@ -256,15 +273,10 @@ class DocsManager {
     }
 
     openDocument(card) {
-        const docId = card.dataset.docId || '1';
-        console.log(`Opening document ${docId}...`);
-        
-        // Show notification for opening document
-        window.NotificationManager.showNotification('Opening document...', 'info');
-
-        setTimeout(() => {
-            window.location.href = '../document.php';
-        }, 1000);
+        const docId = card.dataset.docId;
+        if (docId) {
+            window.location.href = `/language-learning-chatbot-MIU/app/views/document.php?id=${docId}`;
+        }
     }
 
     toggleDocumentMenu(menuBtn) {
@@ -373,13 +385,38 @@ class DocsManager {
         window.NotificationManager.showNotification('Share link copied to clipboard!', 'success');
     }
 
-    deleteDocument(card) {
-        if (confirm('Are you sure you want to delete this document?')) {
-            card.style.animation = 'fadeOut 0.3s ease-out';
-            setTimeout(() => {
-                card.remove();
-                window.NotificationManager.showNotification('Document deleted successfully!', 'success');
-            }, 300);
+    async deleteDocument(card) {
+        if (!confirm('Are you sure you want to delete this document?')) {
+            return;
+        }
+        
+        const docId = card.dataset.docId;
+        if (!docId) {
+            window.NotificationManager.showNotification('Document ID not found', 'error');
+            return;
+        }
+        
+        const formData = new FormData();
+        
+        try {
+            const response = await fetch(`/language-learning-chatbot-MIU/app/index.php/documents/${docId}/delete`, {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            if (data.status === 'success') {
+                card.style.animation = 'fadeOut 0.3s ease-out';
+                setTimeout(() => {
+                    card.remove();
+                    window.NotificationManager.showNotification('Document deleted successfully!', 'success');
+                }, 300);
+            } else {
+                window.NotificationManager.showNotification(data.message || 'Failed to delete document', 'error');
+            }
+        } catch (error) {
+            window.NotificationManager.showNotification('Error deleting document', 'error');
         }
     }
 

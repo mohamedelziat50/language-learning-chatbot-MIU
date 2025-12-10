@@ -267,46 +267,65 @@ class DocumentEditor {
         }, 2000); // Save after 2 seconds of inactivity
     }
 
-    performAutoSave() {
-        this.isAutoSaving = true;
+    async performAutoSave() {
+        if (this.isAutoSaving) return;
         
-        // Simulate save operation
-        setTimeout(() => {
-            this.saveContent();
+        this.isAutoSaving = true;
+        this.updateSaveStatus('Saving...', 'saving');
+        
+        const success = await this.saveContent();
+        
+        if (success) {
             this.updateSaveStatus('All changes saved', 'saved');
-            this.isAutoSaving = false;
-        }, 500);
+        } else {
+            this.updateSaveStatus('Failed to save', 'error');
+        }
+        
+        this.isAutoSaving = false;
     }
 
-    saveContent() {
-        const content = {
-            title: this.documentTitle.value,
-            content: this.documentEditor.value,
-            lastModified: new Date().toISOString()
-        };
-
-        // Save to localStorage (in real app, this would be sent to server)
-        localStorage.setItem('document_content', JSON.stringify(content));
-
-        // Append to versions (keep last 10)
-        const saved = localStorage.getItem('document_versions');
-        const versions = saved ? JSON.parse(saved) : [];
-        versions.push({ timestamp: Date.now(), title: content.title, preview: content.content.slice(0, 120) });
-        while (versions.length > 10) versions.shift();
-        localStorage.setItem('document_versions', JSON.stringify(versions));
+    async saveContent() {
+        const documentId = document.getElementById('document-id')?.value;
+        const title = this.documentTitle.value;
+        const content = this.documentEditor.value;
+        
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('content', content);
+        
+        try {
+            let url;
+            if (documentId) {
+                url = `/language-learning-chatbot-MIU/app/index.php/documents/${documentId}/update`;
+            } else {
+                url = `/language-learning-chatbot-MIU/app/index.php/documents/create`;
+            }
+            
+            const response = await fetch(url, {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            if (data.status === 'success') {
+                if (!documentId && data.document_id) {
+                    // New document created, update the hidden input and URL
+                    document.getElementById('document-id').value = data.document_id;
+                    window.history.replaceState({}, '', `?id=${data.document_id}`);
+                }
+                return true;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            console.error('Error saving document:', error);
+            return false;
+        }
     }
 
     loadSavedContent() {
-        const saved = localStorage.getItem('document_content');
-        if (saved) {
-            try {
-                const content = JSON.parse(saved);
-                this.documentTitle.value = content.title || 'Untitled Document';
-                this.documentEditor.value = content.content || '';
-            } catch (e) {
-                console.error('Error loading saved content:', e);
-            }
-        }
+        // Content is loaded from PHP, no need to load from localStorage
     }
 
     updateSaveStatus(message, status = 'saved') {

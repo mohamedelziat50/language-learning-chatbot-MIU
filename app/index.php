@@ -17,8 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-// Load admin routes
+// Load routes
 require_once __DIR__ . '/routes/admin_routes.php';
+require_once __DIR__ . '/routes/document_routes.php';
 
 // Parse request - try PATH_INFO first, then parse from REQUEST_URI
 $request = $_SERVER['PATH_INFO'] ?? '';
@@ -39,7 +40,8 @@ error_log("Parsed request: " . $request);
 
 $method = $_SERVER['REQUEST_METHOD'];
 
-// Execute router
+// Execute routers
+if (registerDocumentRoutes($request, $method)) exit;
 if (registerUserRoutes($request, $method)) exit;
 
 // No valid route found
