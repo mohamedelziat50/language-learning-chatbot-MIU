@@ -1,6 +1,8 @@
 <?php
+require_once __DIR__ . '/../../../models/dictionaryModel.php';
+
 // Load the dictionary data
-$dictionaryData = json_decode(file_get_contents('../Dictionary/dictionary.json'), true);
+$dictionaryData = DictionaryModel::getAllDictionary();
 $referrerLanguage = $_GET['lang'] ?? $_GET['language'] ?? '';
 
 ?>
@@ -36,19 +38,9 @@ $referrerLanguage = $_GET['lang'] ?? $_GET['language'] ?? '';
         <div class="dictionary-content">
             <div class="stats">
                 <h3>Dictionary Statistics</h3>
-                <p>Total Languages: <?php echo count($dictionaryData); ?> | 
-                    Total Topics: <?php 
-                        $totalTopics = 0;
-                        $totalWords = 0;
-                        foreach ($dictionaryData as $language => $topics) {
-                            $totalTopics += count($topics);
-                            foreach ($topics as $words) {
-                                $totalWords += count($words);
-                            }
-                        }
-                        echo $totalTopics;
-                    ?> | 
-                    Total Words: <?php echo $totalWords; ?>
+                <p>Total Languages: <?php echo count($dictionaryData); ?> |
+                    Total Topics: <?php echo DictionaryModel::getTotalTopics(); ?> |
+                    Total Words: <?php echo DictionaryModel::getTotalWords(); ?>
                 </p>
             </div>
 

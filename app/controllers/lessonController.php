@@ -2,7 +2,7 @@
 // filepath: app/controllers/lessons.php
 
 header('Content-Type: application/json');
-require_once __DIR__ . '/../models/Lesson.php';
+require_once __DIR__ . '/../models/LessonModel.php';
 require_once __DIR__ . '/../helpers/ResponseHelper.php';
 require_once __DIR__ . '/../helpers/Validator.php';
 
@@ -23,7 +23,7 @@ try {
             ResponseHelper::success('Lessons retrieved', $data);
         }
         elseif ($action === 'show' && isset($_GET['id'])) {
-            $lesson = Lesson::getById(intval($_GET['id']));
+            $lesson = LessonModel::getById(intval($_GET['id']));
             if (!$lesson) {
                 ResponseHelper::error('Lesson not found', 404);
             }
@@ -36,7 +36,7 @@ try {
             ]);
         }
         elseif ($action === 'by_topic' && isset($_GET['topic_id'])) {
-            $lessons = Lesson::getByTopic(intval($_GET['topic_id']));
+            $lessons = LessonModel::getByTopic(intval($_GET['topic_id']));
             $data = array_map(fn($lesson) => [
                 'id' => $lesson->getId(),
                 'title' => $lesson->getTitle(),
@@ -75,7 +75,7 @@ try {
             ResponseHelper::error('ID is required', 400);
         }
         
-        $lesson = Lesson::getById(intval($input['id']));
+        $lesson = LessonModel::getById(intval($input['id']));
         if (!$lesson) {
             ResponseHelper::error('Lesson not found', 404);
         }

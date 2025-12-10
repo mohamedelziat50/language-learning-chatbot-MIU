@@ -1,63 +1,24 @@
 <?php
 
-define('LESSON_DATA_PATH', __DIR__ . '/lesson_data.json');
-define('CACHE_EXPIRY', 3600); 
-$lessonDataCache = null;
-$cacheTimestamp = 0;
-
-function loadLessonData($language, $topicName) {
-    global $lessonDataCache, $cacheTimestamp;
-
-    if (!is_string($language) || !is_string($topicName) || empty($language) || empty($topicName)) {
-        error_log("Invalid input for loadLessonData: lang=$language, topic=$topicName");
-        return null;
-    }
-
-    if ($lessonDataCache && (time() - $cacheTimestamp) < CACHE_EXPIRY) {
-        return $lessonDataCache[$language][$topicName] ?? null;
-    }
-
-    if (!file_exists(LESSON_DATA_PATH)) {
-        error_log("Lesson data file not found: " . LESSON_DATA_PATH);
-        return null;
-    }
-
-    $jsonData = file_get_contents(LESSON_DATA_PATH);
-    if ($jsonData === false) {
-        error_log("Failed to read lesson data file: " . LESSON_DATA_PATH);
-        return null;
-    }
-
-    $allData = json_decode($jsonData, true);
-
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        error_log("JSON decode error: " . json_last_error_msg());
-        return null;
-    }
-
-    $lessonDataCache = $allData;
-    $cacheTimestamp = time();
-
-    return $allData[$language][$topicName] ?? null;
-}
+require_once __DIR__ . '/../../../models/lessonModel.php';
 
 function getRealLessonContent($language, $topicName) {
-    $lessonData = loadLessonData($language, $topicName);
-    
+    $lessonData = LessonModel::getLessonByLanguageAndTopic($language, $topicName);
+
     if (!$lessonData) {
         error_log("No lesson data found for language: $language, topic: $topicName");
         return [
             "vocabulary" => [],
             "phrases" => [],
             "grammar" => [
-                "point" => "Content Not Available", 
-                "explanation" => "Lesson content for '{$topicName}' in {$language} is being developed.", 
+                "point" => "Content Not Available",
+                "explanation" => "Lesson content for '{$topicName}' in {$language} is being developed.",
                 "examples" => []
             ],
             "conversation" => []
         ];
     }
-    
+
     return $lessonData;
 }
 
@@ -164,26 +125,14 @@ function getLessonStructure($language, $topicName) {
  * Get available languages from lesson data
  */
 function getAvailableLanguages() {
-    global $lessonDataCache, $cacheTimestamp;
-    
-    if (!$lessonDataCache || (time() - $cacheTimestamp) >= CACHE_EXPIRY) {
-        loadLessonData('English', 'Greetings'); // This will refresh cache
-    }
-    
-    return array_keys($lessonDataCache ?? []);
+    return LessonModel::getAvailableLanguages();
 }
 
 /**
  * Get available topics for a language
  */
 function getAvailableTopics($language) {
-    global $lessonDataCache, $cacheTimestamp;
-    
-    if (!$lessonDataCache || (time() - $cacheTimestamp) >= CACHE_EXPIRY) {
-        loadLessonData($language, 'Greetings'); // This will refresh cache
-    }
-    
-    return array_keys($lessonDataCache[$language] ?? []);
+    return LessonModel::getAvailableTopics($language);
 }
 
 /**

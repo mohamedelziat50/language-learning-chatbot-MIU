@@ -10,31 +10,12 @@ if (!$lang) {
     exit;
 }
 
-// Load topics data from JSON (path adjusted to match schema: Lesson/)
-$jsonPath = __DIR__ . '/../Lessons/lesson_data.json';
-if (!file_exists($jsonPath)) {
-    die("❌ Topics data file not found!");
-}
-
-$jsonData = file_get_contents($jsonPath);
-$topicsData = json_decode($jsonData, true);
-
-// Error handling for invalid JSON
-if ($topicsData === null) {
-    die("❌ Invalid JSON data!");
-}
-
-// Validate lang exists in JSON
-if (!isset($topicsData[$lang])) {
-    die("❌ Language not found in data!");
-}
-
-// Extract topics for this language from JSON
+require_once '../../../models/TopicModel.php';
+$topicsData = Topic::getAllTopics();
 $languageTopics = $topicsData[$lang] ?? [];
 $topics = [];
 
 foreach ($languageTopics as $topicName => $topicContent) {
-    // Pull description from JSON if available, else fallback to helper
     $description = $topicContent['description'] ?? getTopicDescription($topicName);
     $topics[] = [
         'name' => $topicName,

@@ -1,7 +1,5 @@
 <?php
-// filepath: app/models/Topic.php
-
-require_once __DIR__ . '/../helpers/FileStorage.php';
+require_once __DIR__ . '/app/data/topics.php'
 
 class Topic {
     private int $id;
@@ -17,10 +15,8 @@ class Topic {
         $this->language_id = $language_id;
         $this->description = $description;
         $this->icon = $icon;
-        
-        if (!isset(self::$storage)) {
-            self::$storage = new FileStorage();
-        }
+
+        if (!isset(self::$storage)) self::$storage = new FileStorage();
     }
 
     // ===== GETTERS =====
@@ -35,60 +31,35 @@ class Topic {
     public function setDescription(string $description): void { $this->description = $description; }
     public function setIcon(string $icon): void { $this->icon = $icon; }
 
-    // ===== STATIC CRUD METHODS =====
+    // ===== STATIC METHODS =====
     public static function getAll(): array {
         $data = self::$storage->readFile('topics');
         $topics = [];
         foreach ($data as $item) {
-            $topics[] = new self(
-                $item['id'],
-                $item['title'],
-                $item['language_id'],
-                $item['description'] ?? '',
-                $item['icon'] ?? ''
-            );
+            $topics[] = new self($item['id'], $item['title'], $item['language_id'], $item['description'] ?? '', $item['icon'] ?? '');
         }
         return $topics;
     }
 
     public static function getById(int $id): ?Topic {
-        $data = self::$storage->readFile('topics');
-        foreach ($data as $item) {
-            if ($item['id'] == $id) {
-                return new self(
-                    $item['id'],
-                    $item['title'],
-                    $item['language_id'],
-                    $item['description'] ?? '',
-                    $item['icon'] ?? ''
-                );
-            }
+        foreach (self::getAll() as $topic) {
+            if ($topic->getId() === $id) return $topic;
         }
         return null;
     }
 
     public static function getByLanguage(int $language_id): array {
-        $data = self::$storage->readFile('topics');
-        $topics = [];
-        foreach ($data as $item) {
-            if ($item['language_id'] == $language_id) {
-                $topics[] = new self(
-                    $item['id'],
-                    $item['title'],
-                    $item['language_id'],
-                    $item['description'] ?? '',
-                    $item['icon'] ?? ''
-                );
-            }
-        }
-        return $topics;
+        return array_filter(self::getAll(), fn($t) => $t->getLanguageId() === $language_id);
+    }
+
+    public static function getAllTopics(): array {
+        return require __DIR__ . '/../data/topics.php';
     }
 
     public function save(): bool {
         $data = self::$storage->readFile('topics');
         $this->id = self::$storage->getNextId('topics');
-        
-        $newTopic = [
+        $data[] = [
             'id' => $this->id,
             'title' => $this->title,
             'language_id' => $this->language_id,
@@ -96,14 +67,11 @@ class Topic {
             'icon' => $this->icon,
             'created_at' => date('Y-m-d H:i:s')
         ];
-        
-        $data[] = $newTopic;
         return self::$storage->writeFile('topics', $data);
     }
 
     public function update(): bool {
         $data = self::$storage->readFile('topics');
-        
         foreach ($data as &$item) {
             if ($item['id'] == $this->id) {
                 $item['title'] = $this->title;
@@ -112,7 +80,6 @@ class Topic {
                 break;
             }
         }
-        
         return self::$storage->writeFile('topics', $data);
     }
 

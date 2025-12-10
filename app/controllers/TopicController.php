@@ -1,17 +1,18 @@
 <?php
-// filepath: app/controllers/topics.php
+// filepath: app/controllers/topic.php
 
 header('Content-Type: application/json');
 require_once __DIR__ . '/../models/Topic.php';
-require_once __DIR__ . '/../helpers/ResponseHelper.php';
-require_once __DIR__ . '/../helpers/Validator.php';
+require_once __DIR__ . '/../models/Language.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
-$action = $_GET['action'] ?? null;
+$action = $_GET['action'] ?? 'all';
 
 try {
+    // ===== GET REQUESTS =====
     if ($method === 'GET') {
-        if ($action === 'all' || !$action) {
+        // Get all topics
+        if ($action === 'all') {
             $topics = Topic::getAll();
             $data = array_map(fn($topic) => [
                 'id' => $topic->getId(),
@@ -20,23 +21,34 @@ try {
                 'description' => $topic->getDescription(),
                 'icon' => $topic->getIcon()
             ], $topics);
-            ResponseHelper::success('Topics retrieved', $data);
+
+            echo json_encode(['success' => true, 'message' => 'Topics retrieved', 'data' => $data]);
+            exit;
         }
-        elseif ($action === 'show' && isset($_GET['id'])) {
+
+        // Get topic by ID
+        if ($action === 'show' && isset($_GET['id'])) {
             $topic = Topic::getById(intval($_GET['id']));
             if (!$topic) {
-                ResponseHelper::error('Topic not found', 404);
+                http_response_code(404);
+                echo json_encode(['success' => false, 'message' => 'Topic not found']);
+                exit;
             }
-            ResponseHelper::success('Topic retrieved', [
+
+            echo json_encode(['success' => true, 'message' => 'Topic retrieved', 'data' => [
                 'id' => $topic->getId(),
                 'title' => $topic->getTitle(),
                 'language_id' => $topic->getLanguageId(),
                 'description' => $topic->getDescription(),
                 'icon' => $topic->getIcon()
-            ]);
+            ]]);
+            exit;
         }
-        elseif ($action === 'by_language' && isset($_GET['language_id'])) {
-            $topics = Topic::getByLanguage(intval($_GET['language_id']));
+
+        // Get topics by language ID
+        if ($action === 'by_language' && isset($_GET['language_id'])) {
+            $language_id = intval($_GET['language_id']);
+            $topics = Topic::getByLanguage($language_id);
             $data = array_map(fn($topic) => [
                 'id' => $topic->getId(),
                 'title' => $topic->getTitle(),
@@ -44,69 +56,101 @@ try {
                 'description' => $topic->getDescription(),
                 'icon' => $topic->getIcon()
             ], $topics);
-            ResponseHelper::success('Topics retrieved', $data);
+
+            echo json_encode(['success' => true, 'message' => 'Topics retrieved', 'data' => $data]);
+            exit;
         }
     }
-    elseif ($method === 'POST' && $action === 'create') {
+
+    // ===== POST REQUEST - CREATE =====
+    if ($method === 'POST' && $action === 'create') {
         $input = json_decode(file_get_contents("php://input"), true) ?? $_POST;
-        
-        $errors = Validator::validate($input, [
-            'title' => 'required|string',
-            'language_id' => 'required|integer',
-            'description' => 'string',
-            'icon' => 'string'
-        ]);
-        
-        if (!empty($errors)) {
-            ResponseHelper::error('Validation failed', 400, $errors);
+
+        if (empty($input['title']) || empty($input['language_id'])) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'Title and language_id are required']);
+            exit;
         }
-        
-        $topic = new Topic(0, $input['title'], $input['language_id'], $input['description'] ?? '', $input['icon'] ?? '');
+
+        $topic = new Topic(
+            0,
+            trim($input['title']),
+            intval($input['language_id']),
+            $input['description'] ?? '',
+            $input['icon'] ?? ''
+        );
+
         if ($topic->save()) {
-            ResponseHelper::success('Topic created successfully', ['id' => $topic->getId()]);
+            http_response_code(201);
+            echo json_encode(['success' => true, 'message' => 'Topic created', 'id' => $topic->getId()]);
         } else {
-            ResponseHelper::error('Failed to create topic', 500);
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Failed to create topic']);
         }
+        exit;
     }
-    elseif ($method === 'PUT' && $action === 'update') {
+
+    // ===== PUT REQUEST - UPDATE =====
+    if ($method === 'PUT' && $action === 'update') {
         $input = json_decode(file_get_contents("php://input"), true) ?? $_POST;
-        
-        if (!isset($input['id'])) {
-            ResponseHelper::error('ID is required', 400);
+
+        if (empty($input['id'])) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'ID is required']);
+            exit;
         }
-        
+
         $topic = Topic::getById(intval($input['id']));
         if (!$topic) {
-            ResponseHelper::error('Topic not found', 404);
+            http_response_code(404);
+            echo json_encode(['success' => false, 'message' => 'Topic not found']);
+            exit;
         }
-        
-        $topic->setTitle($input['title'] ?? $topic->getTitle());
-        $topic->setDescription($input['description'] ?? $topic->getDescription());
-        $topic->setIcon($input['icon'] ?? $topic->getIcon());
-        
+
+        if (isset($input['title'])) $topic->setTitle(trim($input['title']));
+        if (isset($input['description'])) $topic->setDescription($input['description']);
+        if (isset($input['icon'])) $topic->setIcon($input['icon']);
+
         if ($topic->update()) {
-            ResponseHelper::success('Topic updated successfully');
+            echo json_encode(['success' => true, 'message' => 'Topic updated']);
         } else {
-            ResponseHelper::error('Failed to update topic', 500);
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Failed to update topic']);
         }
+        exit;
     }
-    elseif ($method === 'DELETE' && $action === 'delete') {
+
+    // ===== DELETE REQUEST =====
+    if ($method === 'DELETE' && $action === 'delete') {
         $input = json_decode(file_get_contents("php://input"), true) ?? $_POST;
-        
-        if (!isset($input['id'])) {
-            ResponseHelper::error('ID is required', 400);
+
+        if (empty($input['id'])) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'ID is required']);
+            exit;
         }
-        
+
+        $topic = Topic::getById(intval($input['id']));
+        if (!$topic) {
+            http_response_code(404);
+            echo json_encode(['success' => false, 'message' => 'Topic not found']);
+            exit;
+        }
+
         if (Topic::delete(intval($input['id']))) {
-            ResponseHelper::success('Topic deleted successfully');
+            echo json_encode(['success' => true, 'message' => 'Topic deleted']);
         } else {
-            ResponseHelper::error('Failed to delete topic', 500);
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Failed to delete topic']);
         }
+        exit;
     }
-    else {
-        ResponseHelper::error('Invalid request', 400);
-    }
+
+    http_response_code(400);
+    echo json_encode(['success' => false, 'message' => 'Invalid request']);
+
 } catch (Exception $e) {
-    ResponseHelper::error($e->getMessage(), 500);
+    http_response_code(500);
+    echo json_encode(['success' => false, 'message' => 'Server error: ' . $e->getMessage()]);
 }
 ?>

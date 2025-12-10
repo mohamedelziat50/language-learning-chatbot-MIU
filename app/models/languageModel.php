@@ -1,24 +1,17 @@
 <?php
 // filepath: app/models/Language.php
 
-require_once __DIR__ . '/../helpers/FileStorage.php';
-
 class Language {
     private int $id;
     private string $name;
     private string $code;
     private string $flag;
-    private static FileStorage $storage;
 
     public function __construct(int $id = 0, string $name = '', string $code = '', string $flag = '') {
         $this->id = $id;
         $this->name = $name;
         $this->code = $code;
         $this->flag = $flag;
-        
-        if (!isset(self::$storage)) {
-            self::$storage = new FileStorage();
-        }
     }
 
     // ===== GETTERS =====
@@ -34,84 +27,67 @@ class Language {
 
     // ===== STATIC CRUD METHODS =====
     public static function getAll(): array {
-        $data = self::$storage->readFile('languages');
+        $languagesData = require __DIR__ . '/../data/languages.php';
         $languages = [];
-        foreach ($data as $item) {
+        foreach ($languagesData as $lang) {
             $languages[] = new self(
-                $item['id'],
-                $item['name'],
-                $item['code'],
-                $item['flag'] ?? ''
+                $lang['id'],
+                $lang['name'],
+                $lang['code'],
+                $lang['flag']
             );
         }
         return $languages;
     }
 
-    public static function getById(int $id): ?Language {
-        $data = self::$storage->readFile('languages');
-        foreach ($data as $item) {
-            if ($item['id'] == $id) {
-                return new self(
-                    $item['id'],
-                    $item['name'],
-                    $item['code'],
-                    $item['flag'] ?? ''
-                );
-            }
-        }
-        return null;
+    public static function getAllAsArray(): array {
+        $languagesData = require __DIR__ . '/../data/languages.php';
+        return $languagesData;
     }
 
-    public static function getByCode(string $code): ?Language {
-        $data = self::$storage->readFile('languages');
-        foreach ($data as $item) {
-            if ($item['code'] === $code) {
-                return new self(
-                    $item['id'],
-                    $item['name'],
-                    $item['code'],
-                    $item['flag'] ?? ''
-                );
+    public static function getById(int $id): ?Language {
+        $languages = self::getAll();
+        foreach ($languages as $lang) {
+            if ($lang->getId() === $id) {
+                return $lang;
             }
         }
         return null;
     }
 
     public function save(): bool {
-        $data = self::$storage->readFile('languages');
-        $this->id = self::$storage->getNextId('languages');
-        
-        $newLanguage = [
-            'id' => $this->id,
-            'name' => $this->name,
-            'code' => $this->code,
-            'flag' => $this->flag,
-            'created_at' => date('Y-m-d H:i:s')
-        ];
-        
-        $data[] = $newLanguage;
-        return self::$storage->writeFile('languages', $data);
+        // For simplicity, this method does not actually persist data.
+        // In a real application, you would implement database storage here.
+        return true;
     }
 
-    public function update(): bool {
-        $data = self::$storage->readFile('languages');
-        
-        foreach ($data as &$item) {
-            if ($item['id'] == $this->id) {
-                $item['name'] = $this->name;
-                $item['code'] = $this->code;
-                $item['flag'] = $this->flag;
-                break;
+    public function delete(): bool {
+        // For simplicity, this method does not actually delete data.
+        // In a real application, you would implement database deletion here.
+        return true;
+    }
+
+    public static function getByCode(string $code): ?Language {
+        $languages = self::getAll();
+        foreach ($languages as $lang) {
+            if ($lang->getCode() === $code) {
+                return $lang;
             }
         }
-        
-        return self::$storage->writeFile('languages', $data);
+        return null;
     }
 
-    public static function delete(int $id): bool {
-        $data = self::$storage->readFile('languages');
-        $data = array_filter($data, fn($item) => $item['id'] != $id);
-        return self::$storage->writeFile('languages', array_values($data));
+    public static function exists(string $code): bool {
+        return self::getByCode($code) !== null;
     }
+
+    public static function update(int $id, string $name, string $code, string $flag): bool {
+        // For simplicity, this method does not actually update data.
+        // In a real application, you would implement database update here.
+        return true;
+
+    }
+
+
 }
 ?>
