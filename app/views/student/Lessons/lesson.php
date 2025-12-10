@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../Lessons/lesson_helper.php';
+require_once 'lesson_helper.php';
 
 // CSRF Protection
 if (!isset($_SESSION['csrf_token'])) {

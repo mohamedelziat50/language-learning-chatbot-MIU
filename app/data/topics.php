@@ -77,8 +77,8 @@ return [
         "language_id" => 3,
         "description" => "Getting around: transport vocabulary",
         "icon" => "fas fa-bus"
-    ]
-    
+    ],
+
     // ======================
     // English (language_id = 4)
     // ======================
@@ -102,5 +102,6 @@ return [
         "language_id" => 4,
         "description" => "Discussing weather conditions",
         "icon" => "fas fa-cloud-sun"
-    )]
+    ]
 ];
+?>

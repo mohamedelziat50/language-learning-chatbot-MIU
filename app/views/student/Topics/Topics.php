@@ -11,15 +11,25 @@ if (!$lang) {
 }
 
 require_once '../../../models/TopicModel.php';
-$topicsData = Topic::getAllTopics();
-$languageTopics = $topicsData[$lang] ?? [];
-$topics = [];
 
-foreach ($languageTopics as $topicName => $topicContent) {
-    $description = $topicContent['description'] ?? getTopicDescription($topicName);
+// Map language names to language IDs (you might want to create a proper mapping)
+$languageMap = [
+    'French' => 1,
+    'Spanish' => 2,
+    'German' => 3,
+    'English' => 4
+];
+
+$languageId = $languageMap[$lang] ?? 1; // Default to French if not found
+$allTopics = Topic::getAll();
+$languageTopics = array_filter($allTopics, fn($topic) => $topic->getLanguageId() === $languageId);
+
+$topics = [];
+foreach ($languageTopics as $topic) {
     $topics[] = [
-        'name' => $topicName,
-        'description' => $description
+        'name' => $topic->getTitle(),
+        'description' => $topic->getDescription(),
+        'icon' => $topic->getIcon()
     ];
 }
 
