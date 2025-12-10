@@ -1,53 +1,44 @@
 <?php
-class DictionaryModel {
-    public static function getAllDictionary($language = null) {
-        $dictionaryData = require __DIR__ . '/../data/dictionary.php';
 
-        if ($language) {
-            return $dictionaryData[$language] ?? [];
+class DictionaryModel
+{
+    private array $dictionary = [];
+
+    public function __construct(string $filePath)
+    {
+        if (!file_exists($filePath)) {
+            throw new Exception("Dictionary file not found: " . $filePath);
         }
 
-        return $dictionaryData;
+        $this->dictionary = include $filePath;
+
+        if (!is_array($this->dictionary)) {
+            throw new Exception("Dictionary file does not return a valid array.");
+        }
     }
 
-    public static function getDictionaryByLanguage($language) {
-        $dictionaryData = require __DIR__ . '/../data/dictionary.php';
-        return $dictionaryData[$language] ?? [];
+    public function getAll(): array
+    {
+        return $this->dictionary;
     }
 
-    public static function getDictionaryByLanguageAndTopic($language, $topic) {
-        $dictionaryData = require __DIR__ . '/../data/dictionary.php';
-        return $dictionaryData[$language][$topic] ?? [];
+    public function getTotalTopics(): int
+    {
+        $count = 0;
+        foreach ($this->dictionary as $language => $topics) {
+            $count += count($topics);
+        }
+        return $count;
     }
 
-    public static function getAvailableLanguages() {
-        $dictionaryData = require __DIR__ . '/../data/dictionary.php';
-        return array_keys($dictionaryData);
-    }
-
-    public static function getAvailableTopics($language) {
-        $dictionaryData = require __DIR__ . '/../data/dictionary.php';
-        return array_keys($dictionaryData[$language] ?? []);
-    }
-
-    public static function getTotalWords() {
-        $dictionaryData = require __DIR__ . '/../data/dictionary.php';
-        $totalWords = 0;
-        foreach ($dictionaryData as $language => $topics) {
+    public function getTotalWords(): int
+    {
+        $count = 0;
+        foreach ($this->dictionary as $language => $topics) {
             foreach ($topics as $words) {
-                $totalWords += count($words);
+                $count += count($words);
             }
         }
-        return $totalWords;
-    }
-
-    public static function getTotalTopics() {
-        $dictionaryData = require __DIR__ . '/../data/dictionary.php';
-        $totalTopics = 0;
-        foreach ($dictionaryData as $language => $topics) {
-            $totalTopics += count($topics);
-        }
-        return $totalTopics;
+        return $count;
     }
 }
-?>

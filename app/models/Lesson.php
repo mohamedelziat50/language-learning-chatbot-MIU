@@ -1,5 +1,6 @@
 <?php
 // filepath: app/models/Lesson.php
+require_once __DIR__ . '/../data/lessons.php';
 
 class Lesson {
     private int $id;
