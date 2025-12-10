@@ -18,8 +18,21 @@ $sql_file = __DIR__ . '/../database/schema.sql';
 // Step 2: Read the SQL file contents
 $sql = file_get_contents($sql_file);
 
-// Step 3: Execute the SQL to create tables
-if (!mysqli_query($conn, $sql)) {
+// Step 3: Execute the SQL to create tables (handle multiple statements)
+if (mysqli_multi_query($conn, $sql)) {
+    // Process all results
+    do {
+        // Store first result set
+        if ($result = mysqli_store_result($conn)) {
+            mysqli_free_result($result);
+        }
+    } while (mysqli_next_result($conn));
+    
+    // Check for errors
+    if (mysqli_errno($conn)) {
+        die("❌ Error executing SQL: " . mysqli_error($conn));
+    }
+} else {
     die("❌ Error: " . mysqli_error($conn));
 }
 
