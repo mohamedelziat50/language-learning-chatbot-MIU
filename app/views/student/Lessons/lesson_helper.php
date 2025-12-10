@@ -1,9 +1,9 @@
 <?php
 
-require_once __DIR__ . '/../../../models/lessonModel.php';
+require_once __DIR__ . '/../../models/Lesson.php';
 
 function getRealLessonContent($language, $topicName) {
-    $lessonData = LessonModel::getLessonByLanguageAndTopic($language, $topicName);
+    $lessonData = Lesson::getByLanguageAndTopic($language, $topicName);
 
     if (!$lessonData) {
         error_log("No lesson data found for language: $language, topic: $topicName");
@@ -50,7 +50,6 @@ function updateProgress($language, $topic, $lessonType, $score = 0) {
         $_SESSION['user_progress'][$language][$topic]['completed_lessons'][] = $lessonType;
         $_SESSION['user_progress'][$language][$topic]['score'] += $score;
         
-        // Count actual words learned from vocabulary
         $content = getRealLessonContent($language, $topic);
         $vocabularyCount = count($content['vocabulary'] ?? []);
         $_SESSION['user_progress'][$language][$topic]['words_learned'] = $vocabularyCount;
@@ -67,7 +66,7 @@ function getProgressStats($language, $topic) {
     ];
     
     $completed = count($progress['completed_lessons'] ?? []);
-    $totalLessons = 5; // vocabulary, phrases, grammar, conversation, practice
+    $totalLessons = 5;
     
     return [
         'completed' => $completed,
@@ -121,60 +120,36 @@ function getLessonStructure($language, $topicName) {
     return $lessons;
 }
 
-/**
- * Get available languages from lesson data
- */
 function getAvailableLanguages() {
-    return LessonModel::getAvailableLanguages();
+    return Lesson::getAvailableLanguages();
 }
 
-/**
- * Get available topics for a language
- */
 function getAvailableTopics($language) {
-    return LessonModel::getAvailableTopics($language);
+    return Lesson::getAvailableTopics($language);
 }
 
-/**
- * Validate and process a practice submission.
- *
- * Expected $answers array keys:
- *   - 'vocab'    => string (translation)
- *   - 'phrase'   => string (sentence)
- *   - 'grammar'  => string (example)
- * Optionally pass $csrfToken to verify against $_SESSION['csrf_token'].
- *
- * Returns associative array:
- *   ['success' => bool, 'score' => int, 'message' => string, 'progress' => array]
- */
 function submitPractice($language, $topic, array $answers = [], $csrfToken = null) {
-    // Ensure session is available for CSRF and progress
     if (session_status() === PHP_SESSION_NONE) {
         @session_start();
     }
 
-    // Optional CSRF check
     if ($csrfToken !== null) {
         if (!isset($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], (string)$csrfToken)) {
             return ['success' => false, 'score' => 0, 'message' => 'Invalid CSRF token', 'progress' => getProgressStats($language, $topic)];
         }
     }
 
-    // Basic sanitation
     $vocab  = isset($answers['vocab']) ? trim((string)$answers['vocab']) : '';
     $phrase = isset($answers['phrase']) ? trim((string)$answers['phrase']) : '';
     $grammar = isset($answers['grammar']) ? trim((string)$answers['grammar']) : '';
 
-    // Simple validation rules (mirror client-side):
-    $vocabOk   = mb_strlen($vocab) > 0;        // any non-empty translation
-    $phraseOk  = mb_strlen($phrase) >= 7;      // sentence-like
-    $grammarOk = mb_strlen($grammar) >= 9;     // example-like
+    $vocabOk   = mb_strlen($vocab) > 0;
+    $phraseOk  = mb_strlen($phrase) >= 7;
+    $grammarOk = mb_strlen($grammar) >= 9;
 
     $validCount = ($vocabOk ? 1 : 0) + ($phraseOk ? 1 : 0) + ($grammarOk ? 1 : 0);
 
-    // Require at least 2 of 3 tasks to be valid to pass
     if ($validCount >= 2) {
-        // Award +10 only once per topic/practice
         if (!isset($_SESSION['user_progress'][$language][$topic]['completed_lessons'])
             || !in_array('practice', $_SESSION['user_progress'][$language][$topic]['completed_lessons'], true)) {
 
@@ -188,7 +163,6 @@ function submitPractice($language, $topic, array $answers = [], $csrfToken = nul
             ];
         }
 
-        // Already completed previously
         return [
             'success' => true,
             'score' => 0,
@@ -197,7 +171,6 @@ function submitPractice($language, $topic, array $answers = [], $csrfToken = nul
         ];
     }
 
-    // Not enough valid answers
     return [
         'success' => false,
         'score' => 0,
