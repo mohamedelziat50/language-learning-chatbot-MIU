@@ -28,6 +28,20 @@ return [
         "description" => "Counting and numbers in French",
         "icon" => "fas fa-sort-numeric-up"
     ],
+    [
+        "id" => 5,
+        "title" => "Shopping",
+        "language_id" => 1,
+        "description" => "Useful phrases for shopping and bargaining",
+        "icon" => "fas fa-shopping-cart"
+    ],
+    [
+        "id" => 6,
+        "title" => "Directions",
+        "language_id" => 1,
+        "description" => "Asking for and giving directions",
+        "icon" => "fas fa-map-signs"
+    ],
 
     // ======================
     // Spanish (language_id = 2)

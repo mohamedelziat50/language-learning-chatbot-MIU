@@ -1,6 +1,8 @@
 <?php
 // filepath: app/models/TopicModel.php
 
+require_once __DIR__ . '/../data/topics.php';
+
 class Topic {
     private int $id;
     private string $title;
