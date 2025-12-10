@@ -1,59 +1,28 @@
 <?php
-class Lesson {
-    private $id;
-    private $title;
-    private $content;
-    private $topic_id;
-    private $difficulty;
+class LessonModel {
+    public static function getAllLessons($language = null) {
+        $lessonsData = require __DIR__ . '/../data/lessons.php';
 
-    public function __construct($id = null, $title = '', $content = '', $topic_id = null, $difficulty = 'beginner') {
-        $this->id = $id;
-        $this->title = $title;
-        $this->content = $content;
-        $this->topic_id = $topic_id;
-        $this->difficulty = $difficulty;
+        if ($language) {
+            return $lessonsData[$language] ?? [];
+        }
+
+        return $lessonsData;
     }
 
-    // Getters
-    public function getId() {
-        return $this->id;
+    public static function getLessonByLanguageAndTopic($language, $topic) {
+        $lessonsData = require __DIR__ . '/../data/lessons.php';
+        return $lessonsData[$language][$topic] ?? null;
     }
 
-    public function getTitle() {
-        return $this->title;
+    public static function getAvailableLanguages() {
+        $lessonsData = require __DIR__ . '/../data/lessons.php';
+        return array_keys($lessonsData);
     }
 
-    public function getContent() {
-        return $this->content;
-    }
-
-    public function getTopicId() {
-        return $this->topic_id;
-    }
-
-    public function getDifficulty() {
-        return $this->difficulty;
-    }
-
-    // Setters
-    public function setId($id) {
-        $this->id = $id;
-    }
-
-    public function setTitle($title) {
-        $this->title = $title;
-    }
-
-    public function setContent($content) {
-        $this->content = $content;
-    }
-
-    public function setTopicId($topic_id) {
-        $this->topic_id = $topic_id;
-    }
-
-    public function setDifficulty($difficulty) {
-        $this->difficulty = $difficulty;
+    public static function getAvailableTopics($language) {
+        $lessonsData = require __DIR__ . '/../data/lessons.php';
+        return array_keys($lessonsData[$language] ?? []);
     }
 }
 ?>

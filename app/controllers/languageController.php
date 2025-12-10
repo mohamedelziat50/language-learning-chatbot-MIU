@@ -1,43 +1,176 @@
 <?php
-header('Content-Type: application/json');
-require_once '../../config/db_connect.php';
-require_once '../../models/LanguageRepository.php';
+// filepath: app/controllers/language.php
 
-$database = new Database();
-$conn = $database->connect();
-$languageRepo = new LanguageRepository($conn);
+header('Content-Type: application/json');
+require_once __DIR__ . '/../models/Language.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
+$action = $_GET['action'] ?? 'all';
 
 try {
-    if ($method === 'GET') {
-        if (isset($_GET['id'])) {
-            $data = $language->getById($_GET['id']);
-        } else {
-            $data = $language->getAll();
-        }
-        echo json_encode(['success' => true, 'data' => $data]);
+
+    /*
+    |--------------------------------------------------------------------------
+    | GET ALL LANGUAGES
+    |--------------------------------------------------------------------------
+    */
+    if ($method === 'GET' && $action === 'all') {
+        $languages = Language::getAll();
+
+        $data = array_map(fn($lang) => [
+            'id' => $lang->getId(),
+            'name' => $lang->getName(),
+            'code' => $lang->getCode(),
+            'flag' => $lang->getFlag()
+        ], $languages);
+
+        echo json_encode([
+            'success' => true,
+            'message' => 'Languages retrieved',
+            'data' => $data
+        ]);
+        exit;
     }
-    elseif ($method === 'POST') {
-        $input = json_decode(file_get_contents("php://input"), true);
-        if (!isset($input['name']) || !isset($input['code'])) {
-            echo json_encode(['success' => false, 'error' => 'Missing required fields']);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | GET LANGUAGE BY ID
+    |--------------------------------------------------------------------------
+    */
+    if ($method === 'GET' && $action === 'show' && isset($_GET['id'])) {
+        $language = Language::getById((int)$_GET['id']);
+
+        if (!$language) {
+            http_response_code(404);
+            echo json_encode(['success' => false, 'message' => 'Language not found']);
             exit;
         }
-        $result = $language->create($input['name'], $input['code']);
-        echo json_encode(['success' => $result, 'message' => 'Language created']);
+
+        echo json_encode([
+            'success' => true,
+            'message' => 'Language retrieved',
+            'data' => [
+                'id' => $language->getId(),
+                'name' => $language->getName(),
+                'code' => $language->getCode(),
+                'flag' => $language->getFlag()
+            ]
+        ]);
+        exit;
     }
-    elseif ($method === 'PUT') {
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CREATE LANGUAGE (POST)
+    |--------------------------------------------------------------------------
+    */
+    if ($method === 'POST') {
+        $input = json_decode(file_get_contents("php://input"), true) ?? $_POST;
+
+        if (empty($input['name']) || empty($input['code'])) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'Name and code are required']);
+            exit;
+        }
+
+        $language = new Language(
+            0,
+            trim($input['name']),
+            strtolower(trim($input['code'])),
+            $input['flag'] ?? ''
+        );
+
+        if ($language->save()) {
+            http_response_code(201);
+            echo json_encode(['success' => true, 'message' => 'Language created']);
+        } else {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Failed to create language']);
+        }
+        exit;
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE LANGUAGE (PUT)
+    |--------------------------------------------------------------------------
+    */
+    if ($method === 'PUT') {
         $input = json_decode(file_get_contents("php://input"), true);
-        $result = $language->update($input['id'], $input['name'], $input['code']);
-        echo json_encode(['success' => $result, 'message' => 'Language updated']);
+
+        if (empty($input['id'])) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'ID is required']);
+            exit;
+        }
+
+        $language = Language::getById((int)$input['id']);
+
+        if (!$language) {
+            http_response_code(404);
+            echo json_encode(['success' => false, 'message' => 'Language not found']);
+            exit;
+        }
+
+        if (isset($input['name'])) $language->setName(trim($input['name']));
+        if (isset($input['code'])) $language->setCode(strtolower(trim($input['code'])));
+        if (isset($input['flag'])) $language->setFlag($input['flag']);
+
+        if ($language->update()) {
+            echo json_encode(['success' => true, 'message' => 'Language updated']);
+        } else {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Failed to update language']);
+        }
+        exit;
     }
-    elseif ($method === 'DELETE') {
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | DELETE LANGUAGE (DELETE)
+    |--------------------------------------------------------------------------
+    */
+    if ($method === 'DELETE') {
         $input = json_decode(file_get_contents("php://input"), true);
-        $result = $language->delete($input['id']);
-        echo json_encode(['success' => $result, 'message' => 'Language deleted']);
+
+        if (empty($input['id'])) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'ID is required']);
+            exit;
+        }
+
+        $language = Language::getById((int)$input['id']);
+
+        if (!$language) {
+            http_response_code(404);
+            echo json_encode(['success' => false, 'message' => 'Language not found']);
+            exit;
+        }
+
+        if ($language->delete()) {
+            echo json_encode(['success' => true, 'message' => 'Language deleted']);
+        } else {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Failed to delete language']);
+        }
+        exit;
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | DEFAULT INVALID REQUEST
+    |--------------------------------------------------------------------------
+    */
+    http_response_code(400);
+    echo json_encode(['success' => false, 'message' => 'Invalid request']);
+
 } catch (Exception $e) {
-    echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+    http_response_code(500);
+    echo json_encode(['success' => false, 'message' => 'Server error: ' . $e->getMessage()]);
 }
 ?>
