@@ -1,28 +1,69 @@
 <?php
+// filepath: app/views/student/Lessons/lesson_helper.php
 
-require_once '/app/models/Lesson.php';
+require_once __DIR__ . '/../../models/TopicModel.php';
+require_once __DIR__ . '/../../models/LanguageModel.php';
 
 function getRealLessonContent($language, $topicName) {
-    $lessonData = Lesson::getByLanguageAndTopic($language, $topicName);
-
-    if (!$lessonData) {
-        error_log("No lesson data found for language: $language, topic: $topicName");
-        return [
-            "vocabulary" => [],
-            "phrases" => [],
-            "grammar" => [
-                "point" => "Content Not Available",
-                "explanation" => "Lesson content for '{$topicName}' in {$language} is being developed.",
-                "examples" => []
-            ],
-            "conversation" => []
-        ];
+    // Get language ID
+    $languages = Language::getAll();
+    $languageId = null;
+    foreach ($languages as $lang) {
+        if ($lang->getName() === $language) {
+            $languageId = $lang->getId();
+            break;
+        }
     }
-
+    
+    if (!$languageId) return getDefaultContent($topicName);
+    
+    // Get topic ID
+    $topics = Topic::getAll();
+    $topicId = null;
+    foreach ($topics as $topic) {
+        if ($topic->getTitle() === $topicName && $topic->getLanguageId() === $languageId) {
+            $topicId = $topic->getId();
+            break;
+        }
+    }
+    
+    if (!$topicId) return getDefaultContent($topicName);
+    
+    // Return empty lesson data (no Lesson model yet)
+    $lessonData = [
+        'vocabulary' => [],
+        'phrases' => [],
+        'grammar' => [
+            "point" => "Grammar Basics",
+            "explanation" => "Coming soon",
+            "examples" => []
+        ],
+        'conversation' => [],
+        'practice' => []
+    ];
+    
     return $lessonData;
 }
 
+function getDefaultContent($topicName) {
+    return [
+        "vocabulary" => [],
+        "phrases" => [],
+        "grammar" => [
+            "point" => "Content Not Available",
+            "explanation" => "Lesson content for '{$topicName}' is being developed.",
+            "examples" => []
+        ],
+        "conversation" => [],
+        "practice" => []
+    ];
+}
+
 function initializeUserProgress($language, $topic) {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    
     if (!isset($_SESSION['user_progress'])) {
         $_SESSION['user_progress'] = [];
     }
@@ -42,6 +83,10 @@ function initializeUserProgress($language, $topic) {
 }
 
 function updateProgress($language, $topic, $lessonType, $score = 0) {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    
     if (!isset($_SESSION['user_progress'][$language][$topic]['completed_lessons'])) {
         $_SESSION['user_progress'][$language][$topic]['completed_lessons'] = [];
     }
@@ -59,6 +104,10 @@ function updateProgress($language, $topic, $lessonType, $score = 0) {
 }
 
 function getProgressStats($language, $topic) {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    
     $progress = $_SESSION['user_progress'][$language][$topic] ?? [
         'completed_lessons' => [],
         'score' => 0,
@@ -121,16 +170,28 @@ function getLessonStructure($language, $topicName) {
 }
 
 function getAvailableLanguages() {
-    return Lesson::getAvailableLanguages();
+    return Language::getAll();
 }
 
 function getAvailableTopics($language) {
-    return Lesson::getAvailableTopics($language);
+    $languages = Language::getAll();
+    $languageId = null;
+    
+    foreach ($languages as $lang) {
+        if ($lang->getName() === $language) {
+            $languageId = $lang->getId();
+            break;
+        }
+    }
+    
+    if (!$languageId) return [];
+    
+    return Topic::getByLanguage($languageId);
 }
 
 function submitPractice($language, $topic, array $answers = [], $csrfToken = null) {
     if (session_status() === PHP_SESSION_NONE) {
-        @session_start();
+        session_start();
     }
 
     if ($csrfToken !== null) {

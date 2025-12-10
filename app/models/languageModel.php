@@ -1,5 +1,6 @@
 <?php
 // filepath: app/models/Language.php
+require_once __DIR__ . '/../data/languages.php';
 
 class Language {
     private int $id;
