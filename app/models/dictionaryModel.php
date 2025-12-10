@@ -1,69 +1,53 @@
 <?php
-class Dictionary {
-    private $id;
-    private $word;
-    private $translation;
-    private $language_id;
-    private $pronunciation;
-    private $example;
+class DictionaryModel {
+    public static function getAllDictionary($language = null) {
+        $dictionaryData = require __DIR__ . '/../data/dictionary.php';
 
-    public function __construct($id = null, $word = '', $translation = '', $language_id = null, $pronunciation = '', $example = '') {
-        $this->id = $id;
-        $this->word = $word;
-        $this->translation = $translation;
-        $this->language_id = $language_id;
-        $this->pronunciation = $pronunciation;
-        $this->example = $example;
+        if ($language) {
+            return $dictionaryData[$language] ?? [];
+        }
+
+        return $dictionaryData;
     }
 
-    // Getters
-    public function getId() {
-        return $this->id;
+    public static function getDictionaryByLanguage($language) {
+        $dictionaryData = require __DIR__ . '/../data/dictionary.php';
+        return $dictionaryData[$language] ?? [];
     }
 
-    public function getWord() {
-        return $this->word;
+    public static function getDictionaryByLanguageAndTopic($language, $topic) {
+        $dictionaryData = require __DIR__ . '/../data/dictionary.php';
+        return $dictionaryData[$language][$topic] ?? [];
     }
 
-    public function getTranslation() {
-        return $this->translation;
+    public static function getAvailableLanguages() {
+        $dictionaryData = require __DIR__ . '/../data/dictionary.php';
+        return array_keys($dictionaryData);
     }
 
-    public function getLanguageId() {
-        return $this->language_id;
+    public static function getAvailableTopics($language) {
+        $dictionaryData = require __DIR__ . '/../data/dictionary.php';
+        return array_keys($dictionaryData[$language] ?? []);
     }
 
-    public function getPronunciation() {
-        return $this->pronunciation;
+    public static function getTotalWords() {
+        $dictionaryData = require __DIR__ . '/../data/dictionary.php';
+        $totalWords = 0;
+        foreach ($dictionaryData as $language => $topics) {
+            foreach ($topics as $words) {
+                $totalWords += count($words);
+            }
+        }
+        return $totalWords;
     }
 
-    public function getExample() {
-        return $this->example;
-    }
-
-    // Setters
-    public function setId($id) {
-        $this->id = $id;
-    }
-
-    public function setWord($word) {
-        $this->word = $word;
-    }
-
-    public function setTranslation($translation) {
-        $this->translation = $translation;
-    }
-
-    public function setLanguageId($language_id) {
-        $this->language_id = $language_id;
-    }
-
-    public function setPronunciation($pronunciation) {
-        $this->pronunciation = $pronunciation;
-    }
-
-    public function setExample($example) {
-        $this->example = $example;
+    public static function getTotalTopics() {
+        $dictionaryData = require __DIR__ . '/../data/dictionary.php';
+        $totalTopics = 0;
+        foreach ($dictionaryData as $language => $topics) {
+            $totalTopics += count($topics);
+        }
+        return $totalTopics;
     }
 }
 ?>

@@ -1,52 +1,130 @@
 <?php
-header('Content-Type: application/json');
-require_once '../../config/db_connect.php';
-require_once '../../models/DictionaryRepository.php';
+// filepath: app/controllers/dictionary.php
 
-$database = new Database();
-$conn = $database->connect();
-$dictionaryRepo = new DictionaryRepository($conn);
+header('Content-Type: application/json');
+require_once __DIR__ . '/../models/Dictionary.php';
+require_once __DIR__ . '/../helpers/ResponseHelper.php';
+require_once __DIR__ . '/../helpers/Validator.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
+$action = $_GET['action'] ?? null;
 
 try {
     if ($method === 'GET') {
-        if (isset($_GET['id'])) {
-            $data = $dictionaryRepo->getById($_GET['id']);
-        } elseif (isset($_GET['search'])) {
+        if ($action === 'all' || !$action) {
+            $words = Dictionary::getAll();
+            $data = array_map(fn($word) => [
+                'id' => $word->getId(),
+                'word' => $word->getWord(),
+                'translation' => $word->getTranslation(),
+                'language_id' => $word->getLanguageId(),
+                'pronunciation' => $word->getPronunciation(),
+                'example' => $word->getExample()
+            ], $words);
+            ResponseHelper::success('Words retrieved', $data);
+        }
+        elseif ($action === 'show' && isset($_GET['id'])) {
+            $word = Dictionary::getById(intval($_GET['id']));
+            if (!$word) {
+                ResponseHelper::error('Word not found', 404);
+            }
+            ResponseHelper::success('Word retrieved', [
+                'id' => $word->getId(),
+                'word' => $word->getWord(),
+                'translation' => $word->getTranslation(),
+                'language_id' => $word->getLanguageId(),
+                'pronunciation' => $word->getPronunciation(),
+                'example' => $word->getExample()
+            ]);
+        }
+        elseif ($action === 'by_language' && isset($_GET['language_id'])) {
+            $words = Dictionary::getByLanguage(intval($_GET['language_id']));
+            $data = array_map(fn($word) => [
+                'id' => $word->getId(),
+                'word' => $word->getWord(),
+                'translation' => $word->getTranslation(),
+                'language_id' => $word->getLanguageId(),
+                'pronunciation' => $word->getPronunciation(),
+                'example' => $word->getExample()
+            ], $words);
+            ResponseHelper::success('Words retrieved', $data);
+        }
+        elseif ($action === 'search' && isset($_GET['keyword'])) {
             $language_id = $_GET['language_id'] ?? null;
-            $data = $dictionaryRepo->search($_GET['search'], $language_id);
-        } elseif (isset($_GET['language_id'])) {
-            $data = $dictionaryRepo->getByLanguage($_GET['language_id']);
+            $words = Dictionary::search($_GET['keyword'], $language_id ? intval($language_id) : null);
+            $data = array_map(fn($word) => [
+                'id' => $word->getId(),
+                'word' => $word->getWord(),
+                'translation' => $word->getTranslation(),
+                'language_id' => $word->getLanguageId(),
+                'pronunciation' => $word->getPronunciation(),
+                'example' => $word->getExample()
+            ], $words);
+            ResponseHelper::success('Search results', $data);
+        }
+    }
+    elseif ($method === 'POST' && $action === 'create') {
+        $input = json_decode(file_get_contents("php://input"), true) ?? $_POST;
+        
+        $errors = Validator::validate($input, [
+            'word' => 'required|string',
+            'translation' => 'required|string',
+            'language_id' => 'required|integer',
+            'pronunciation' => 'string',
+            'example' => 'string'
+        ]);
+        
+        if (!empty($errors)) {
+            ResponseHelper::error('Validation failed', 400, $errors);
+        }
+        
+        $dictionary = new Dictionary(0, $input['word'], $input['translation'], $input['language_id'], $input['pronunciation'] ?? '', $input['example'] ?? '');
+        if ($dictionary->save()) {
+            ResponseHelper::success('Word created successfully', ['id' => $dictionary->getId()]);
         } else {
-            $data = $dictionaryRepo->getAll();
+            ResponseHelper::error('Failed to create word', 500);
         }
-        echo json_encode(['success' => true, 'data' => $data]);
     }
-    elseif ($method === 'POST') {
-        $input = json_decode(file_get_contents("php://input"), true);
-        if (!isset($input['word']) || !isset($input['translation']) || !isset($input['language_id'])) {
-            echo json_encode(['success' => false, 'error' => 'Missing required fields']);
-            exit;
+    elseif ($method === 'PUT' && $action === 'update') {
+        $input = json_decode(file_get_contents("php://input"), true) ?? $_POST;
+        
+        if (!isset($input['id'])) {
+            ResponseHelper::error('ID is required', 400);
         }
-        $dictionary = new Dictionary(null, $input['word'], $input['translation'], $input['language_id'],
-        $input['pronunciation'] ?? '', $input['example'] ?? '');
-        $result = $dictionaryRepo->create($dictionary);
-        echo json_encode(['success' => $result, 'message' => 'Word added']);
+        
+        $dictionary = Dictionary::getById(intval($input['id']));
+        if (!$dictionary) {
+            ResponseHelper::error('Word not found', 404);
+        }
+        
+        $dictionary->setWord($input['word'] ?? $dictionary->getWord());
+        $dictionary->setTranslation($input['translation'] ?? $dictionary->getTranslation());
+        $dictionary->setPronunciation($input['pronunciation'] ?? $dictionary->getPronunciation());
+        $dictionary->setExample($input['example'] ?? $dictionary->getExample());
+        
+        if ($dictionary->update()) {
+            ResponseHelper::success('Word updated successfully');
+        } else {
+            ResponseHelper::error('Failed to update word', 500);
+        }
     }
-    elseif ($method === 'PUT') {
-        $input = json_decode(file_get_contents("php://input"), true);
-        $dictionary = new Dictionary($input['id'], $input['word'], $input['translation'], null,
-        $input['pronunciation'] ?? '', $input['example'] ?? '');
-        $result = $dictionaryRepo->update($dictionary);
-        echo json_encode(['success' => $result, 'message' => 'Word updated']);
+    elseif ($method === 'DELETE' && $action === 'delete') {
+        $input = json_decode(file_get_contents("php://input"), true) ?? $_POST;
+        
+        if (!isset($input['id'])) {
+            ResponseHelper::error('ID is required', 400);
+        }
+        
+        if (Dictionary::delete(intval($input['id']))) {
+            ResponseHelper::success('Word deleted successfully');
+        } else {
+            ResponseHelper::error('Failed to delete word', 500);
+        }
     }
-    elseif ($method === 'DELETE') {
-        $input = json_decode(file_get_contents("php://input"), true);
-        $result = $dictionaryRepo->delete($input['id']);
-        echo json_encode(['success' => $result, 'message' => 'Word deleted']);
+    else {
+        ResponseHelper::error('Invalid request', 400);
     }
 } catch (Exception $e) {
-    echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+    ResponseHelper::error($e->getMessage(), 500);
 }
 ?>
