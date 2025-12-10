@@ -3,7 +3,7 @@
 
 header('Content-Type: application/json');
 require_once __DIR__ . '/../models/Lesson.php';
-require_once __DIR__ . '/../models/Topic.php';
+require_once __DIR__ . '/../models/TopicModel.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 $action = $_GET['action'] ?? 'all';

@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../../models/Lesson.php';
+require_once '/app/models/Lesson.php';
 
 function getRealLessonContent($language, $topicName) {
     $lessonData = Lesson::getByLanguageAndTopic($language, $topicName);
