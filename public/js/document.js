@@ -7,11 +7,14 @@ class DocumentEditor {
         this.saveTimeout = null;
         this.suggestions = [];
         this.aiMessages = [];
+        this.analysisTimeout = null;
+        this.isAnalyzing = false;
+        this.inlineHighlights = [];
         
         this.initializeElements();
         this.bindEvents();
         this.initializeEditor();
-        this.loadMockSuggestions();
+        this.loadSuggestions();
         this.initializeResponsive();
         // Default active tab: AI panel
         this.switchTab('ai');
@@ -47,6 +50,9 @@ class DocumentEditor {
         this.checkPlagiarismBtn = document.getElementById('check-plagiarism-btn');
         this.plagiarismPlaceholder = document.querySelector('.plag-placeholder');
         
+        // Analysis elements
+        this.analyzeBtn = document.getElementById('analyze-btn');
+        
         // Toolbar elements
         this.toolbarBtns = document.querySelectorAll('.toolbar-btn');
     }
@@ -68,8 +74,9 @@ class DocumentEditor {
         // Document content editing
         this.documentEditor.addEventListener('input', () => {
             this.triggerAutoSave();
-            this.analyzeContent();
+            this.debouncedAnalyzeContent();
             this.renderStats(); // Update stats live
+            this.clearInlineHighlights();
         });
 
         // AI chat
@@ -118,6 +125,14 @@ class DocumentEditor {
         this.checkPlagiarismBtn.addEventListener('click', () => {
             this.checkPlagiarism();
         });
+
+        // Manual analyze button
+        const analyzeBtn = document.getElementById('analyze-btn');
+        if (analyzeBtn) {
+            analyzeBtn.addEventListener('click', () => {
+                this.analyzeContent();
+            });
+        }
 
         // Toolbar buttons
         this.toolbarBtns.forEach(btn => {
@@ -286,7 +301,7 @@ class DocumentEditor {
 
     async saveContent() {
         const documentId = document.getElementById('document-id')?.value;
-        const title = this.documentTitle.value;
+        const title = this.documentTitle.value.trim() || 'Untitled Document';
         const content = this.documentEditor.value;
         
         const formData = new FormData();
@@ -311,11 +326,22 @@ class DocumentEditor {
             if (data.status === 'success') {
                 if (!documentId && data.document_id) {
                     // New document created, update the hidden input and URL
-                    document.getElementById('document-id').value = data.document_id;
+                    const hiddenInput = document.getElementById('document-id');
+                    if (hiddenInput) {
+                        hiddenInput.value = data.document_id;
+                    } else {
+                        // Create hidden input if it doesn't exist
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.id = 'document-id';
+                        input.value = data.document_id;
+                        this.documentEditor.parentElement.appendChild(input);
+                    }
                     window.history.replaceState({}, '', `?id=${data.document_id}`);
                 }
                 return true;
             } else {
+                console.error('Save failed:', data);
                 return false;
             }
         } catch (error) {
@@ -342,80 +368,157 @@ class DocumentEditor {
         }, 30000);
     }
 
-    analyzeContent() {
-        // Mock content analysis for suggestions
-        const content = this.documentEditor.value;
+    debouncedAnalyzeContent() {
+        // Clear existing timeout
+        if (this.analysisTimeout) {
+            clearTimeout(this.analysisTimeout);
+        }
+
+        // Set new timeout - analyze after 2 seconds of inactivity
+        this.analysisTimeout = setTimeout(() => {
+            this.analyzeContent();
+        }, 2000);
+    }
+
+    async analyzeContent() {
+        const content = this.documentEditor.value.trim();
         
+        // Check content length first (before checking document ID)
         if (content.length < 10) {
+            this.clearSuggestions();
+            this.clearInlineHighlights();
+            window.NotificationManager?.showNotification('Document is too short to analyze. Please add more content (at least 10 characters).', 'info');
+            return;
+        }
+
+        if (this.isAnalyzing) {
+            return; // Already analyzing
+        }
+
+        this.isAnalyzing = true;
+        this.updateSaveStatus('Analyzing...', 'saving');
+        
+        // Update analyze button
+        if (this.analyzeBtn) {
+            this.analyzeBtn.disabled = true;
+            const icon = this.analyzeBtn.querySelector('i');
+            const span = this.analyzeBtn.querySelector('span');
+            if (icon) icon.className = 'fas fa-spinner fa-spin';
+            if (span) span.textContent = 'Analyzing...';
+        }
+
+        try {
+            // First, save the document to ensure latest content is analyzed
+            const saveSuccess = await this.saveContent();
+            
+            if (!saveSuccess) {
+                window.NotificationManager?.showNotification('Failed to save document. Please try again.', 'error');
+                return;
+            }
+            
+            // Get document ID after saving (in case it was a new document)
+            let documentId = document.getElementById('document-id')?.value;
+            
+            if (!documentId) {
+                window.NotificationManager?.showNotification('Document not saved yet. Please wait a moment and try again.', 'info');
+                return;
+            }
+            
+            // Call the analyze API
+            const response = await fetch(`/language-learning-chatbot-MIU/app/index.php/documents/${documentId}/analyze`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    analyze_grammar: true,
+                    analyze_vocabulary: true
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.status === 'success') {
+                // Load suggestions after analysis
+                await this.loadSuggestions();
+                const suggestionCount = data.suggestions_count || 0;
+                if (suggestionCount > 0) {
+                    window.NotificationManager?.showNotification(`Analysis complete: ${suggestionCount} suggestion${suggestionCount !== 1 ? 's' : ''} found`, 'success');
+                } else {
+                    window.NotificationManager?.showNotification('Analysis complete: No suggestions found. Your document looks good!', 'success');
+                }
+            } else {
+                console.error('Analysis failed:', data.message);
+                window.NotificationManager?.showNotification('Analysis failed: ' + (data.message || 'Unknown error'), 'error');
+            }
+        } catch (error) {
+            console.error('Error analyzing content:', error);
+            window.NotificationManager?.showNotification('Error analyzing content: ' + error.message, 'error');
+        } finally {
+            this.isAnalyzing = false;
+            
+            // Restore analyze button
+            if (this.analyzeBtn) {
+                this.analyzeBtn.disabled = false;
+                const icon = this.analyzeBtn.querySelector('i');
+                const span = this.analyzeBtn.querySelector('span');
+                if (icon) icon.className = 'fas fa-spell-check';
+                if (span) span.textContent = 'Analyze';
+            }
+        }
+    }
+
+    async loadSuggestions() {
+        const documentId = document.getElementById('document-id')?.value;
+        
+        if (!documentId) {
             this.clearSuggestions();
             return;
         }
 
-        // Generate mock suggestions based on content
-        this.generateMockSuggestions(content);
-    }
+        try {
+            const response = await fetch(`/language-learning-chatbot-MIU/app/index.php/documents/${documentId}/suggestions`);
+            const data = await response.json();
 
-    generateMockSuggestions(content) {
-        const suggestions = [];
-        
-        // Mock grammar suggestions
-        if (content.includes('its') && !content.includes("it's")) {
-            suggestions.push({
-                category: 'correctness',
-                type: 'grammar',
-                text: 'Consider using "it\'s" instead of "its"',
-                description: 'Use "it\'s" when you mean "it is" or "it has"',
-                position: content.indexOf('its')
-            });
+            if (data.status === 'success') {
+                this.suggestions = data.suggestions || [];
+                this.displaySuggestions(this.suggestions);
+                this.renderInlineHighlights();
+            } else {
+                console.error('Failed to load suggestions:', data.message);
+                this.clearSuggestions();
+            }
+        } catch (error) {
+            console.error('Error loading suggestions:', error);
+            this.clearSuggestions();
         }
-
-        if (content.includes('alot')) {
-            suggestions.push({
-                category: 'correctness',
-                type: 'spelling',
-                text: 'Consider using "a lot" instead of "alot"',
-                description: '"A lot" should be written as two words',
-                position: content.indexOf('alot')
-            });
-        }
-
-        // Mock clarity suggestions
-        if (content.includes('very') && content.length > 50) {
-            suggestions.push({
-                category: 'clarity',
-                type: 'wordiness',
-                text: 'Consider removing "very" for stronger writing',
-                description: 'Stronger adjectives can replace "very" + adjective',
-                position: content.indexOf('very')
-            });
-        }
-
-        // Mock engagement suggestions
-        if (content.length > 100 && !content.includes('?')) {
-            suggestions.push({
-                category: 'engagement',
-                type: 'interaction',
-                text: 'Consider adding a question to engage readers',
-                description: 'Questions can make your writing more interactive',
-                position: content.length - 1
-            });
-        }
-
-        this.displaySuggestions(suggestions);
     }
 
     displaySuggestions(suggestions) {
         // Clear existing suggestions
         this.clearSuggestions();
 
+        if (!suggestions || suggestions.length === 0) {
+            const listContainer = document.getElementById('review-suggestions');
+            if (listContainer) {
+                listContainer.innerHTML = '<p class="muted" style="padding: 20px; text-align: center;">No suggestions found. Your document looks good!</p>';
+            }
+            this.updateSuggestionCount(0);
+            return;
+        }
+
         // Flat list for refined UI
         const listContainer = document.getElementById('review-suggestions');
         let proCount = 0;
+        
         suggestions.forEach(suggestion => {
             const suggestionElement = this.createSuggestionElement(suggestion);
-            listContainer.appendChild(suggestionElement);
+            if (listContainer) {
+                listContainer.appendChild(suggestionElement);
+            }
             proCount++;
         });
+        
         const proBadge = document.getElementById('pro-count');
         if (proBadge) proBadge.textContent = proCount.toString();
 
@@ -426,40 +529,163 @@ class DocumentEditor {
     createSuggestionElement(suggestion) {
         const div = document.createElement('div');
         div.className = 'suggestion-card';
-        const category = suggestion.category.charAt(0).toUpperCase() + suggestion.category.slice(1);
+        div.dataset.suggestionId = suggestion.suggestion_id;
+        
+        // Map suggestion types to categories
+        const categoryMap = {
+            'grammar': 'Correctness',
+            'vocabulary': 'Clarity',
+            'spelling': 'Correctness',
+            'clarity': 'Clarity'
+        };
+        
+        const category = categoryMap[suggestion.suggestion_type] || 'Correctness';
+        const iconMap = {
+            'grammar': 'fa-spell-check',
+            'vocabulary': 'fa-book',
+            'spelling': 'fa-exclamation-triangle',
+            'clarity': 'fa-lightbulb'
+        };
+        const icon = iconMap[suggestion.suggestion_type] || 'fa-shield-alt';
+        
+        const originalText = suggestion.original_text || '';
+        const suggestedText = suggestion.suggested_text || '';
+        const explanation = suggestion.explanation || 'No explanation available';
+        
         div.innerHTML = `
-            <div class="meta"><i class="fas fa-shield-alt"></i> ${category} · ${suggestion.type}</div>
-            <div class="text">${suggestion.text}</div>
-            <div class="suggestion-description">${suggestion.description}</div>
+            <div class="meta"><i class="fas ${icon}"></i> ${category} · ${suggestion.suggestion_type}</div>
+            <div class="text">
+                <span class="original-text">"${this.escapeHtml(originalText)}"</span>
+                ${suggestedText ? `<span class="arrow">→</span> <span class="suggested-text">"${this.escapeHtml(suggestedText)}"</span>` : ''}
+            </div>
+            <div class="suggestion-description">${this.escapeHtml(explanation)}</div>
             <div class="actions">
-                <button class="accept" onclick="documentEditor.acceptSuggestion(this)">Accept</button>
-                <button class="dismiss" onclick="documentEditor.dismissSuggestion(this)">Dismiss</button>
+                <button class="accept" onclick="documentEditor.acceptSuggestion(this, ${suggestion.suggestion_id})">Accept</button>
+                <button class="dismiss" onclick="documentEditor.dismissSuggestion(this, ${suggestion.suggestion_id})">Dismiss</button>
             </div>
         `;
 
         return div;
     }
 
-    acceptSuggestion(button) {
-        // Mock accepting suggestion
-        const suggestionItem = button.closest('.suggestion-item');
-        suggestionItem.style.opacity = '0.5';
-        suggestionItem.style.pointerEvents = 'none';
-        
-        // Update suggestion count
-        this.updateSuggestionCount();
-        
-        // Show success message
-        window.NotificationManager.showNotification('Suggestion accepted', 'success');
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
     }
 
-    dismissSuggestion(button) {
-        // Mock dismissing suggestion
-        const suggestionItem = button.closest('.suggestion-item');
-        suggestionItem.remove();
+    async acceptSuggestion(button, suggestionId) {
+        const suggestionCard = button.closest('.suggestion-card');
+        if (!suggestionCard) return;
+
+        // Disable button and show loading
+        button.disabled = true;
+        button.textContent = 'Applying...';
+
+        try {
+            const response = await fetch(`/language-learning-chatbot-MIU/app/index.php/suggestions/${suggestionId}/applySuggestion`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const data = await response.json();
+
+            if (data.status === 'success') {
+                // Remove the suggestion card
+                suggestionCard.style.opacity = '0.5';
+                suggestionCard.style.pointerEvents = 'none';
+                setTimeout(() => {
+                    suggestionCard.remove();
+                    this.updateSuggestionCount();
+                }, 300);
+                
+                // Reload document content
+                await this.reloadDocumentContent();
+                
+                // Reload suggestions to update positions
+                await this.loadSuggestions();
+                
+                // Show success message
+                window.NotificationManager?.showNotification('Suggestion applied successfully', 'success');
+            } else {
+                button.disabled = false;
+                button.textContent = 'Accept';
+                window.NotificationManager?.showNotification('Failed to apply suggestion: ' + (data.message || 'Unknown error'), 'error');
+            }
+        } catch (error) {
+            console.error('Error accepting suggestion:', error);
+            button.disabled = false;
+            button.textContent = 'Accept';
+            window.NotificationManager?.showNotification('Error applying suggestion', 'error');
+        }
+    }
+
+    dismissSuggestion(button, suggestionId) {
+        const suggestionCard = button.closest('.suggestion-card');
+        if (suggestionCard) {
+            suggestionCard.style.transition = 'opacity 0.3s';
+            suggestionCard.style.opacity = '0';
+            setTimeout(() => {
+                suggestionCard.remove();
+                this.updateSuggestionCount();
+            }, 300);
+        }
+    }
+
+    async reloadDocumentContent() {
+        const documentId = document.getElementById('document-id')?.value;
+        if (!documentId) return;
+
+        try {
+            const response = await fetch(`/language-learning-chatbot-MIU/app/index.php/documents/${documentId}`);
+            const data = await response.json();
+
+            if (data.status === 'success' && data.document) {
+                // Update editor content
+                this.documentEditor.value = data.document.content || '';
+                this.documentTitle.value = data.document.title || '';
+                
+                // Trigger auto-save status update
+                this.updateSaveStatus('Content updated', 'saved');
+            }
+        } catch (error) {
+            console.error('Error reloading document:', error);
+        }
+    }
+
+    renderInlineHighlights() {
+        this.clearInlineHighlights();
         
-        // Update suggestion count
-        this.updateSuggestionCount();
+        if (!this.suggestions || this.suggestions.length === 0) {
+            return;
+        }
+
+        // Note: Since we're using a textarea, we can't directly highlight text inline
+        // Instead, we'll show highlights in a separate overlay or use markers
+        // For now, we'll store the highlights for potential future use with contenteditable div
+        
+        this.suggestions.forEach(suggestion => {
+            if (suggestion.position_start !== null && suggestion.position_end !== null) {
+                this.inlineHighlights.push({
+                    start: suggestion.position_start,
+                    end: suggestion.position_end,
+                    type: suggestion.suggestion_type,
+                    id: suggestion.suggestion_id
+                });
+            }
+        });
+
+        // If we want to add visual indicators, we could add markers next to the textarea
+        // For now, clicking on suggestions in the sidebar will be the primary interaction
+    }
+
+    clearInlineHighlights() {
+        this.inlineHighlights = [];
+        // Remove any highlight markers if they exist
+        const markers = document.querySelectorAll('.inline-highlight-marker');
+        markers.forEach(marker => marker.remove());
     }
 
     clearSuggestions() {
@@ -670,14 +896,7 @@ class DocumentEditor {
     }
 
 
-    loadMockSuggestions() {
-        // Load initial mock suggestions for demo
-        setTimeout(() => {
-            if (this.documentEditor.value.length > 0) {
-                this.analyzeContent();
-            }
-        }, 1000);
-    }
+    // Removed loadMockSuggestions - now using loadSuggestions() which is called in constructor
 
     initializeResponsive() {
         // Handle mobile sidebar behavior
