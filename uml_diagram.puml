@@ -1,19 +1,29 @@
-@startuml
-' Entity Classes (Passive, with properties and getters/setters)
-class Language {
+@startuml Language Learning Chatbot - MVC Architecture
+
+' Model Classes (Handle data access from JSON files)
+class LanguageModel {
     - id: int
     - name: string
     - code: string
+    - flag: string
 
-    + __construct(id: int, name: string, code: string)
+    + __construct(id: int, name: string, code: string, flag: string)
     + getId(): int
     + getName(): string
     + getCode(): string
+    + getFlag(): string
     + setName(name: string): void
     + setCode(code: string): void
+    + setFlag(flag: string): void
+    + getAll(): array<LanguageModel>
+    + getById(id: int): LanguageModel|null
+    + getByCode(code: string): LanguageModel|null
+    + exists(code: string): bool
+    + save(): bool
+    + delete(): bool
 }
 
-class Topic {
+class TopicModel {
     - id: int
     - title: string
     - language_id: int
@@ -26,9 +36,14 @@ class Topic {
     + getDescription(): string
     + setTitle(title: string): void
     + setDescription(description: string): void
+    + getAll(): array<TopicModel>
+    + getById(id: int): TopicModel|null
+    + getByLanguage(language_id: int): array<TopicModel>
+    + save(): bool
+    + delete(): bool
 }
 
-class Lesson {
+class LessonModel {
     - id: int
     - title: string
     - content: string
@@ -44,85 +59,31 @@ class Lesson {
     + setTitle(title: string): void
     + setContent(content: string): void
     + setDifficulty(difficulty: string): void
+    + getAll(): array<LessonModel>
+    + getById(id: int): LessonModel|null
+    + getByTopic(topic_id: int): array<LessonModel>
+    + save(): bool
+    + delete(): bool
 }
 
-class Dictionary {
-    - id: int
-    - word: string
-    - translation: string
-    - language_id: int
-    - pronunciation: string
-    - example: string
+class DictionaryModel {
+    - dictionary: array
 
-    + __construct(id: int, word: string, translation: string, language_id: int, pronunciation: string, example: string)
-    + getId(): int
-    + getWord(): string
-    + getTranslation(): string
-    + getLanguageId(): int
-    + getPronunciation(): string
-    + getExample(): string
-    + setWord(word: string): void
-    + setTranslation(translation: string): void
-    + setPronunciation(pronunciation: string): void
-    + setExample(example: string): void
+    + __construct(filePath: string)
+    + getAll(): array
+    + getTotalTopics(): int
+    + getTotalWords(): int
+    + getLanguages(): array
+    + getCategories(language: string): array
+    + getWords(language: string, category: string): array
+    + search(term: string): array
 }
 
-' Repository Classes (Handle database operations)
-class LanguageRepository {
-    - conn: mysqli
-
-    + __construct(conn: mysqli)
-    + getAll(): array<Language>
-    + getById(id: int): Language|null
-    + create(language: Language): bool
-    + update(language: Language): bool
-    + delete(id: int): bool
-}
-
-class TopicRepository {
-    - conn: mysqli
-
-    + __construct(conn: mysqli)
-    + getAll(): array<Topic>
-    + getById(id: int): Topic|null
-    + getByLanguage(language_id: int): array<Topic>
-    + create(topic: Topic): bool
-    + update(topic: Topic): bool
-    + delete(id: int): bool
-}
-
-class LessonRepository {
-    - conn: mysqli
-
-    + __construct(conn: mysqli)
-    + getAll(): array<Lesson>
-    + getById(id: int): Lesson|null
-    + getByTopic(topic_id: int): array<Lesson>
-    + create(lesson: Lesson): bool
-    + update(lesson: Lesson): bool
-    + delete(id: int): bool
-    + getProgress(lesson_id: int, user_id: int): array
-    + updateProgress(lesson_id: int, user_id: int, completed: bool): bool
-}
-
-class DictionaryRepository {
-    - conn: mysqli
-
-    + __construct(conn: mysqli)
-    + getAll(): array<Dictionary>
-    + getById(id: int): Dictionary|null
-    + getByLanguage(language_id: int): array<Dictionary>
-    + search(keyword: string, language_id: int): array<Dictionary>
-    + create(dictionary: Dictionary): bool
-    + update(dictionary: Dictionary): bool
-    + delete(id: int): bool
-}
-
-' Controller Classes (Handle requests and use repositories)
+' Controller Classes (Handle requests and use models)
 class LanguageController {
-    - repo: LanguageRepository
+    - model: LanguageModel
 
-    + __construct(repo: LanguageRepository)
+    + __construct()
     + index(): void
     + show(id: int): void
     + store(): void
@@ -131,9 +92,9 @@ class LanguageController {
 }
 
 class TopicController {
-    - repo: TopicRepository
+    - model: TopicModel
 
-    + __construct(repo: TopicRepository)
+    + __construct()
     + index(): void
     + show(id: int): void
     + store(): void
@@ -142,9 +103,9 @@ class TopicController {
 }
 
 class LessonController {
-    - repo: LessonRepository
+    - model: LessonModel
 
-    + __construct(repo: LessonRepository)
+    + __construct()
     + index(): void
     + show(id: int): void
     + store(): void
@@ -155,55 +116,62 @@ class LessonController {
 }
 
 class DictionaryController {
-    - repo: DictionaryRepository
+    - model: DictionaryModel
 
-    + __construct(repo: DictionaryRepository)
-    + index(): void
-    + show(id: int): void
-    + store(): void
-    + update(id: int): void
-    + destroy(id: int): void
-    + search(keyword: string): void
+    + __construct()
+    + languages(): void
+    + categories(language: string): void
+    + words(language: string, category: string): void
+    + search(term: string): void
+    + full(): void
 }
 
-' Seeder Classes (Populate database from JSON files)
-class DictionarySeeder {
-    - repo: DictionaryRepository
-
-    + __construct(repo: DictionaryRepository)
-    + run(): void
+' View Classes (Handle presentation)
+class LanguageView {
+    + renderList(languages: array): void
+    + renderForm(language: LanguageModel|null): void
+    + renderShow(language: LanguageModel): void
 }
 
-class LessonSeeder {
-    - repo: LessonRepository
-    - topicRepo: TopicRepository
+class TopicView {
+    + renderList(topics: array): void
+    + renderForm(topic: TopicModel|null): void
+    + renderShow(topic: TopicModel): void
+}
 
-    + __construct(repo: LessonRepository, topicRepo: TopicRepository)
-    + run(): void
+class LessonView {
+    + renderList(lessons: array): void
+    + renderForm(lesson: LessonModel|null): void
+    + renderShow(lesson: LessonModel): void
+    + renderProgress(progress: array): void
+}
+
+class DictionaryView {
+    + renderLanguages(languages: array): void
+    + renderCategories(categories: array): void
+    + renderWords(words: array): void
+    + renderSearchResults(results: array): void
 }
 
 ' Relationships
-' Aggregation (weak "has-a"): Entities can exist independently
-Language o-- "*" Topic : aggregation
-Topic o-- "*" Lesson : aggregation
-Language o-- "*" Dictionary : aggregation
+' Aggregation (weak "has-a"): Models can exist independently
+LanguageModel o-- "*" TopicModel : aggregation
+TopicModel o-- "*" LessonModel : aggregation
 
-' Dependency (uses): Repositories manage entities
-LanguageRepository ..> Language : dependency
-TopicRepository ..> Topic : dependency
-LessonRepository ..> Lesson : dependency
-DictionaryRepository ..> Dictionary : dependency
+' Dependency (uses): Controllers use models
+LanguageController ..> LanguageModel : dependency
+TopicController ..> TopicModel : dependency
+LessonController ..> LessonModel : dependency
+DictionaryController ..> DictionaryModel : dependency
 
-' Dependency: Controllers use repositories
-LanguageController ..> LanguageRepository : dependency
-TopicController ..> TopicRepository : dependency
-LessonController ..> LessonRepository : dependency
-DictionaryController ..> DictionaryRepository : dependency
+' Dependency: Controllers render views
+LanguageController ..> LanguageView : renders
+TopicController ..> TopicView : renders
+LessonController ..> LessonView : renders
+DictionaryController ..> DictionaryView : renders
 
-' Dependency: Seeders use repositories and entities
-DictionarySeeder ..> DictionaryRepository : dependency
-DictionarySeeder ..> Dictionary : dependency
-LessonSeeder ..> LessonRepository : dependency
-LessonSeeder ..> TopicRepository : dependency
-LessonSeeder ..> Lesson : dependency
-LessonSeeder ..> Topic : dependency
+' Dependency: Views use models for data
+LanguageView ..> LanguageModel : uses
+TopicView ..> TopicModel : uses
+LessonView ..> LessonModel : uses
+DictionaryView ..> DictionaryModel : uses

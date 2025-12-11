@@ -55,4 +55,24 @@ class DictionaryController
     {
         echo json_encode($this->model->getAll());
     }
+
+    public function getFullDictionary(): array
+    {
+        return $this->model->getAll();
+    }
+
+    public function getStats(): array
+    {
+        return [
+            'languages' => count($this->model->getLanguages()),
+            'topics' => $this->model->getTotalTopics(),
+            'words' => $this->model->getTotalWords()
+        ];
+    }
+
+    public function getLanguages(): array
+    {
+        return $this->model->getLanguages();
+    }
 }
+?>
