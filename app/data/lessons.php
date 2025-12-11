@@ -1,7 +1,4 @@
-<?php
-// filepath: app/data/lessons.php
-
-return [
+[
     // ===== FRENCH =====
     // Language ID 1: French
     // Topic ID 1: Greetings
