@@ -2,7 +2,7 @@
 // filepath: app/controllers/lessons.php
 
 header('Content-Type: application/json');
-require_once __DIR__ . '/../models/Lesson.php';
+require_once __DIR__ . '/../models/LessonModel.php';
 require_once __DIR__ . '/../models/TopicModel.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
@@ -11,8 +11,10 @@ $action = $_GET['action'] ?? 'all';
 try {
     // ===== GET REQUESTS =====
     if ($method === 'GET') {
+
+        // Get all lessons
         if ($action === 'all') {
-            $lessons = Lesson::getAllLessons();
+            $lessons = Lesson::getAll();
             $data = array_map(fn($lesson) => [
                 'id' => $lesson->getId(),
                 'title' => $lesson->getTitle(),
@@ -29,6 +31,7 @@ try {
             exit;
         }
 
+        // Get lesson by ID
         if ($action === 'show' && isset($_GET['id'])) {
             $lesson = Lesson::getById(intval($_GET['id']));
             if (!$lesson) {
@@ -51,14 +54,9 @@ try {
             exit;
         }
 
+        // Get lessons by topic
         if ($action === 'by_topic' && isset($_GET['topic_id'])) {
             $topic_id = intval($_GET['topic_id']);
-            if (!Topic::getById($topic_id)) {
-                http_response_code(404);
-                echo json_encode(['success' => false, 'message' => 'Topic not found']);
-                exit;
-            }
-
             $lessons = Lesson::getByTopic($topic_id);
             $data = array_map(fn($lesson) => [
                 'id' => $lesson->getId(),
@@ -76,6 +74,7 @@ try {
             exit;
         }
 
+        // Get lessons by language and topic
         if ($action === 'by_language_topic' && isset($_GET['language_id'], $_GET['topic_id'])) {
             $lessons = Lesson::getByLanguageAndTopic(intval($_GET['language_id']), intval($_GET['topic_id']));
             $data = array_map(fn($lesson) => [
