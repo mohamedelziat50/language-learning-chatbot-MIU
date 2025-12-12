@@ -1,48 +1,47 @@
 <?php
-// Include helper functions for better organization
-require_once '../Topics/helpers.php'; // Create this file with getTopicDescription() and getTopicIcon()
+// filepath: app/views/student/Topics/Topics.php
+
+require_once '../Topics/helpers.php';
+require_once '../../../models/TopicModel.php';
+require_once '../../../models/LanguageModel.php';
 
 $lang = $_GET['lang'] ?? null;
 
-// Validate language parameter (basic check against JSON keys)
 if (!$lang) {
     header("Location: /language-learning-chatbot-MIU/app/views/student/Languages/language.php");
     exit;
 }
 
-// Load topics data from JSON (path adjusted to match schema: Lesson/)
-$jsonPath = __DIR__ . '/../Lessons/lesson_data.json';
-if (!file_exists($jsonPath)) {
-    die("❌ Topics data file not found!");
+// Map language names to language IDs
+$languageMap = [
+    'French' => 1,
+    'Spanish' => 2,
+    'German' => 3,
+    'English' => 4
+];
+
+$languageId = $languageMap[$lang] ?? 1;
+
+// Get all languages for dropdown
+$allLanguages = Language::getAll();
+$topicsData = [];
+foreach ($allLanguages as $language) {
+    $topicsData[$language->getName()] = [];
 }
 
-$jsonData = file_get_contents($jsonPath);
-$topicsData = json_decode($jsonData, true);
+// Get topics for current language
+$allTopics = Topic::getAll();
+$languageTopics = array_filter($allTopics, fn($topic) => $topic->getLanguageId() === $languageId);
 
-// Error handling for invalid JSON
-if ($topicsData === null) {
-    die("❌ Invalid JSON data!");
-}
-
-// Validate lang exists in JSON
-if (!isset($topicsData[$lang])) {
-    die("❌ Language not found in data!");
-}
-
-// Extract topics for this language from JSON
-$languageTopics = $topicsData[$lang] ?? [];
 $topics = [];
-
-foreach ($languageTopics as $topicName => $topicContent) {
-    // Pull description from JSON if available, else fallback to helper
-    $description = $topicContent['description'] ?? getTopicDescription($topicName);
+foreach ($languageTopics as $topic) {
     $topics[] = [
-        'name' => $topicName,
-        'description' => $description
+        'name' => $topic->getTitle(),
+        'description' => $topic->getDescription(),
+        'icon' => $topic->getIcon()
     ];
 }
 
-// Prepare data for HTML rendering
 $pageTitle = htmlspecialchars($lang);
 $topicsCount = count($topics);
 $languageHighlight = htmlspecialchars($lang);
@@ -118,7 +117,7 @@ $langUrl = urlencode($lang);
                             $tName = htmlspecialchars($topic['name']);
                             $tDesc = htmlspecialchars($topic['description']);
                             $topicUrl = urlencode($topic['name']);
-                            $topicIcon = getTopicIcon($tName);
+                            $topicIcon = $topic['icon'] ?? 'fas fa-book';
                         ?>
                         <div class="topic-card"
                             data-topic="<?php echo $tName; ?>"

@@ -1,8 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            /* LinguaBot Unified Color Palette */
+            --color-primary: #027e6f;
+            --color-secondary: rgba(2, 126, 111, 0.2);
+            --color-text: #1E1E1E;
+            --color-text-muted: #6B7280;
+            --color-background: #F9FAFB;
+            --color-error: #EF4444;
+            --color-success: #22C55E;
+            --color-teal-dark: #026b5e;
+            --color-teal-primary: #027e6f;
+            --color-teal-overlay: rgba(2, 126, 111, 0.2);
+            --color-teal-overlay-light: rgba(20, 184, 166, 0.3);
+}
+
 body {
-    background-color: #f8f9fb;
-    background-image: radial-gradient(#d9f3ef 1px, transparent 1px);
-    background-size: 25px 25px;
-    font-family: 'Poppins', sans-serif;
+    background-color: var(--color-background);
+    font-family: 'Poppins', 'Inter', sans-serif;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
@@ -29,7 +44,7 @@ body {
 
 /* Heading Styling */
 .settings-container h1 {
-    color: #027e6f;
+    color: var(--color-primary);
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 35px;
@@ -41,7 +56,7 @@ body {
     display: block;
     width: 60px;
     height: 4px;
-    background: #4ab7a5;
+    background: var(--color-primary);
     margin-top: 6px;
     border-radius: 2px;
 }
@@ -56,7 +71,7 @@ body {
 
 /* Individual Setting Card */
 .setting {
-    background: #f7fdfb;
+    background: var(--color-secondary);
     padding: 20px;
     border-radius: 12px;
     border: 1px solid #e0e0e0;
@@ -64,7 +79,7 @@ body {
 }
 
 .setting:hover {
-    border-color: #4ab7a5;
+    border-color: var(--color-primary);
     box-shadow: 0 4px 12px rgba(74, 183, 165, 0.2);
 }
 
@@ -78,18 +93,20 @@ body {
 }
 
 .duration-control button {
-    background: #4ab7a5;
+    background: var(--color-primary);
     color: #fff;
     border: none;
     padding: 8px 14px;
     font-size: 1.2em;
-    border-radius: 6px;
+    font-family: 'Poppins', 'Inter', sans-serif;
+    font-weight: 500;
+    border-radius: 8px;
     cursor: pointer;
     transition: background 0.3s;
 }
 
 .duration-control button:hover {
-    background: #3a9e8f;
+    background: var(--color-primary);
 }
 
 /*Question Count*/
@@ -97,15 +114,22 @@ body {
     width: 80px;
     padding: 6px;
     border-radius: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid #CBD5E1;
     text-align: center;
     font-size: 1em;
+    font-family: 'Poppins', 'Inter', sans-serif;
+    transition: border-color 0.3s;
+}
+
+.questions input:focus {
+    outline: none;
+    border-color: var(--color-primary);
 }
 
 /*Difficulty*/
 .difficulty input[type="range"] {
     width: 100%;
-    accent-color: #4ab7a5;
+    accent-color: var(--color-primary);
     
 }
 
@@ -121,26 +145,34 @@ body {
     width: 100%;
     padding: 10px;
     border-radius: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid #CBD5E1;
     font-size: 1em;
+    font-family: 'Poppins', 'Inter', sans-serif;
+    transition: border-color 0.3s;
+}
+
+.language select:focus {
+    outline: none;
+    border-color: var(--color-primary);
 }
 
 /*Create Button*/
 .create-btn {
-    background: #4ab7a5;
+    background: var(--color-primary);
     color: white;
     padding: 12px 28px;
     border: none;
-    border-radius: 10px;
+    border-radius: 8px;
     font-size: 1em;
-    cursor: pointer;
+    font-family: 'Poppins', 'Inter', sans-serif;
     font-weight: 600;
+    cursor: pointer;
     transition: background 0.3s, transform 0.2s;
     margin-bottom: 30px;
 }
 
 .create-btn:hover {
-    background: #3a9e8f;
+    background: var(--color-primary);
     transform: translateY(-2px);
 }
 
@@ -167,7 +199,7 @@ body {
     width: 60px;
     height: 60px;
     border: 6px solid #e0e0e0;
-    border-top: 6px solid #4ab7a5;
+    border-top: 6px solid var(--color-primary);
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -183,7 +215,7 @@ body {
     display: block;
     width: 100%;
     min-height: 100vh;
-    background: linear-gradient(120deg, #f8fafc, #eef9f7);
+    background: linear-gradient(120deg, var(--color-background), var(--color-secondary));
     padding: 0;
     position: relative;
     overflow: hidden;
@@ -194,7 +226,7 @@ body {
     position: absolute;
     width: 400px;
     height: 400px;
-    background: radial-gradient(circle at 30% 30%, #b9f3e4, transparent 60%);
+    background: radial-gradient(circle at 30% 30%, var(--color-secondary), transparent 60%);
     top: -100px;
     left: -100px;
     z-index: 0;
@@ -218,7 +250,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(90deg, #4ab7a5, #6fd1bf);
+    background: linear-gradient(90deg, var(--color-primary), var(--color-teal-overlay-light));
     color: #fff;
     padding: 18px 30px;
 }
@@ -298,17 +330,17 @@ body {
 
 .question li:hover {
     background: #eaf7f4;
-    border-color: #4ab7a5;
+    border-color: var(--color-primary);
 }
 
 .question input[type="radio"] {
-    accent-color: #4ab7a5;
+    accent-color: var(--color-primary);
     margin-right: 10px;
 }
 
 .question li.selected {
     background: #d6f4ee;
-    border-color: #4ab7a5;
+    border-color: var(--color-primary);
     box-shadow: 0 4px 12px rgba(74, 183, 165, 0.3);
     transform: scale(1.02);
 }
@@ -325,7 +357,7 @@ body {
 
 .question textarea:focus {
     outline: none;
-    border-color: #4ab7a5;
+    border-color: var(--color-primary);
     background: #ffffff;
 }
 
@@ -345,7 +377,7 @@ body {
 }
 
 .submit-btn {
-    background: #4ab7a5;
+    background: var(--color-primary);
     color: white;
     padding: 12px 40px;
     border: none;
@@ -357,7 +389,7 @@ body {
 }
 
 .submit-btn:hover {
-    background: #3a9e8f;
+    background: var(--color-primary);
     transform: translateY(-2px);
 }
 
@@ -374,8 +406,8 @@ body {
     font-size: 1.8rem;
     font-weight: 700;
     margin-bottom: 25px;
-    color: #027e6f;
-    border-bottom: 3px solid #4ab7a5;
+    color: var(--color-primary);
+    border-bottom: 3px solid var(--color-primary);
     padding-bottom: 6px;
 }
 

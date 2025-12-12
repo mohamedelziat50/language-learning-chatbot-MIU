@@ -1,3 +1,28 @@
+<?php
+session_start();
+ob_start();
+require_once __DIR__ . '/../controllers/DocumentsController.php';
+ob_clean();
+
+$document_id = $_GET['id'] ?? null;
+$document_title = "Untitled Document";
+$document_content = "";
+$user_id = $_SESSION['user_id'] ?? null;
+
+if ($document_id && $user_id) {
+    $document_data = getDocumentById($document_id);
+    if ($document_data && $document_data['owner_id'] == $user_id) {
+        $document_title = htmlspecialchars($document_data['title']);
+        $document_content = htmlspecialchars($document_data['content']);
+    } else {
+        header("Location: ./student/docs.php");
+        exit();
+    }
+} else if (!$user_id) {
+    header("Location: /language-learning-chatbot-MIU/app/views/login.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,7 +93,7 @@
                     <!-- Inline document header at the top of the editor -->
                         <div class="doc-header">
                         <div class="document-title-section">
-                            <input type="text" id="document-title" value="Untitled Document" class="document-title-input">
+                            <input type="text" id="document-title" value="<?php echo $document_title; ?>" class="document-title-input">
                             <span class="save-status" id="save-status">All changes saved</span>
                         </div>
                         <div class="doc-header-actions">
@@ -87,8 +112,8 @@
                         <textarea 
                             id="document-editor" 
                             placeholder="Start writing your document…"
-                            autofocus
-                        ></textarea>
+                            autofocus><?php echo $document_content; ?></textarea>
+                        <input type="hidden" id="document-id" value="<?php echo $document_id ?? ''; ?>">
                     </div>
 
                     <!-- Formatting toolbar at the bottom -->

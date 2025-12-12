@@ -1,17 +1,32 @@
 /* ===== CLEAN MODERN GREEN & WHITE THEME ===== */
-:root {
-    --primary-green: #027e6f;
-    --dark-green: ##027e6f;
-    --light-green: #ecfdf5;
-    --accent-green: #027e6f;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+        :root {
+            /* LinguaBot Unified Color Palette */
+            --color-primary: #027e6f;
+            --color-secondary: rgba(2, 126, 111, 0.2);
+            --color-text: #1E1E1E;
+            --color-text-muted: #6B7280;
+            --color-background: #F9FAFB;
+            --color-error: #EF4444;
+            --color-success: #22C55E;
+            --color-teal-dark: #026b5e;
+            --color-teal-primary: #027e6f;
+            --color-teal-overlay: rgba(2, 126, 111, 0.2);
+            --color-teal-overlay-light: rgba(20, 184, 166, 0.3);
+    
+    /* Legacy compatibility */
+    --primary-green: var(--color-primary);
+    --dark-green: var(--color-teal-dark);
+    --light-green: var(--color-secondary);
+    --accent-green: var(--color-primary);
     --white: #ffffff;
-    --off-white: #f8fafc;
+    --off-white: var(--color-background);
     --light-gray: #f1f5f9;
-    --border-gray: #e2e8f0;
-    --text-dark: #1e293b;
-    --text-medium: #475569;
-    --text-light: #64748b;
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --border-gray: #CBD5E1;
+    --text-dark: var(--color-text);
+    --text-medium: var(--color-text-muted);
+    --text-light: var(--color-text-muted);
+    --shadow-sm: 0 2px 10px rgba(0,0,0,0.05);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
@@ -24,9 +39,9 @@
 }
 
 body {
-    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-    background-color: var(--off-white);
-    color: var(--text-dark);
+    font-family: 'Poppins', 'Inter', sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text);
     line-height: 1.6;
     min-height: 100vh;
 }
@@ -145,12 +160,12 @@ body {
 
 /* ===== LESSON CARDS ===== */
 .lesson-card {
-    background: var(--white);
-    border: 1px solid var(--border-gray);
+    background: #ffffff;
+    border: 1px solid #CBD5E1;
     border-radius: 12px;
     padding: 2rem;
     margin-bottom: 2rem;
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
 .lesson-card.vocabulary {
@@ -184,18 +199,20 @@ body {
 }
 
 .vocabulary-item {
-    background: var(--light-green);
+    background: var(--color-secondary);
     padding: 1.5rem;
     border-radius: 8px;
     text-align: center;
     border: 1px solid transparent;
     transition: all 0.2s ease;
     position: relative;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
 .vocabulary-item:hover {
-    border-color: var(--primary-green);
+    border-color: var(--color-primary);
     transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 .word {
@@ -393,25 +410,28 @@ body {
 
 .fill-blank-input {
     padding: 0.75rem;
-    border: 2px solid var(--border-gray);
-    border-radius: 6px;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
     font-size: 1rem;
+    font-family: 'Poppins', 'Inter', sans-serif;
     width: 100%;
     margin: 0.5rem 0;
+    transition: border-color 0.3s;
 }
 
 .fill-blank-input:focus {
     outline: none;
-    border-color: var(--primary-green);
+    border-color: var(--color-primary);
 }
 
 /* ===== BUTTONS ===== */
 .submit-btn {
-    background: var(--primary-green);
-    color: var(--white);
+    background: var(--color-primary);
+    color: #ffffff;
     border: none;
     padding: 1rem 2rem;
     border-radius: 8px;
+    font-family: 'Poppins', 'Inter', sans-serif;
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s ease;

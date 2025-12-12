@@ -1,15 +1,30 @@
 /* THIS FILE IS FOR THE STRUCTURE OF ANY STUDENT DASHBOARD PAGE, CREATE DIFF. CSS FILES FOR NEW PAGES */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
-:root {
-    --button-primary-background-default: #027e6f;
-    --button-primary-background-hover: #016a5e;
+        :root {
+            /* LinguaBot Unified Color Palette */
+            --color-primary: #027e6f;
+            --color-secondary: rgba(2, 126, 111, 0.2);
+            --color-text: #1E1E1E;
+            --color-text-muted: #6B7280;
+            --color-background: #F9FAFB;
+            --color-error: #EF4444;
+            --color-success: #22C55E;
+            --color-teal-dark: #026b5e;
+            --color-teal-primary: #027e6f;
+            --color-teal-overlay: rgba(2, 126, 111, 0.2);
+            --color-teal-overlay-light: rgba(20, 184, 166, 0.3);
+    
+    /* Legacy compatibility */
+    --button-primary-background-default: var(--color-primary);
+    --button-primary-background-hover: var(--color-teal-dark);
     --button-primary-background-active: #014c43;
 }
 body {
     margin: 0;
-    font-family: 'Roboto', sans-serif;
-    background-color: #ffffff;
-    color: #333;
+    font-family: 'Poppins', 'Inter', sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text);
     display: grid;
     grid-template-columns: 250px auto;
     grid-template-rows: 1fr;
@@ -35,10 +50,10 @@ body {
     gap: 20px;
 }
 .card {
-    background: #fff;
-    border: 1px solid var(--button-primary-background-default);
+    background: #ffffff;
+    border: 1px solid #CBD5E1;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     padding: 20px;
     transition: transform 0.3s;
 }
@@ -65,12 +80,14 @@ footer {
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
 .button-primary {
-    background-color: var(--button-primary-background-default);
+    background-color: var(--color-primary);
     color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     padding: 10px 20px;
     font-size: 16px;
+    font-family: 'Poppins', 'Inter', sans-serif;
+    font-weight: 500;
     cursor: pointer;
     transition: background-color 0.3s;
 }
