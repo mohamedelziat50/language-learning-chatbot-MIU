@@ -27,4 +27,19 @@ CREATE TABLE IF NOT EXISTS documents (
 
     INDEX idx_owner_id (owner_id), -- INDEX ON owner_id, SPEED UP SEARCH BY OWNER_ID
     INDEX idx_updated_at (updated_at) -- INDEX ON updated_at, SPEED UP SEARCH BY UPDATED_AT
-)
+);
+
+CREATE TABLE IF NOT EXISTS document_suggestions (
+    suggestion_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    document_id INT UNSIGNED NOT NULL,
+    suggestion_type ENUM('grammar', 'vocabulary', 'spelling', 'clarity') NOT NULL,
+    original_text TEXT NOT NULL,
+    suggested_text TEXT,
+    position_start INT UNSIGNED,
+    position_end INT UNSIGNED,
+    explanation TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_document_suggestions_document
+        FOREIGN KEY (document_id) REFERENCES documents(document_id)
+        ON DELETE CASCADE
+);

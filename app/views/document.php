@@ -154,6 +154,10 @@ if ($document_id && $user_id) {
                     <div class="tab-panel" id="review-panel">
                         <div class="suggestions-header">
                             <h3>Review suggestions <span class="badge">0</span></h3>
+                            <button class="analyze-btn" id="analyze-btn" title="Analyze document for grammar and vocabulary">
+                                <i class="fas fa-spell-check"></i>
+                                <span>Analyze</span>
+                            </button>
                         </div>
 
                         <div class="category-chips">
