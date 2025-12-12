@@ -52,3 +52,15 @@
 [10-Dec-2025 20:28:22 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/10/update
 [10-Dec-2025 20:28:22 Europe/Berlin] PATH_INFO: /documents/10/update
 [10-Dec-2025 20:28:22 Europe/Berlin] Parsed request: /documents/10/update
+[12-Dec-2025 07:59:02 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/5/update
+[12-Dec-2025 07:59:02 Europe/Berlin] PATH_INFO: /documents/5/update
+[12-Dec-2025 07:59:02 Europe/Berlin] Parsed request: /documents/5/update
+[12-Dec-2025 07:59:32 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/5/update
+[12-Dec-2025 07:59:32 Europe/Berlin] PATH_INFO: /documents/5/update
+[12-Dec-2025 07:59:32 Europe/Berlin] Parsed request: /documents/5/update
+[12-Dec-2025 08:00:02 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/5/update
+[12-Dec-2025 08:00:02 Europe/Berlin] PATH_INFO: /documents/5/update
+[12-Dec-2025 08:00:02 Europe/Berlin] Parsed request: /documents/5/update
+[12-Dec-2025 08:00:32 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/5/update
+[12-Dec-2025 08:00:32 Europe/Berlin] PATH_INFO: /documents/5/update
+[12-Dec-2025 08:00:32 Europe/Berlin] Parsed request: /documents/5/update
