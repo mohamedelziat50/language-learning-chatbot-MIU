@@ -31,7 +31,7 @@
           <div class="tab-content">
             <!-- Login Form -->
             <div class="tab-pane fade show active" id="loginTab" role="tabpanel">
-              <form id="loginForm" action="/language-learning-chatbot-MIU/app/controllers/login.php" method="POST">
+              <form id="loginForm" action="/language-learning-chatbot-MIU/app/controllers/auth/login.php" method="POST">
                 <div class="mb-3 text-start">
                   <label for="loginEmail" class="form-label">Email address</label>
                   <input type="text" class="form-control" id="loginEmail" name="email" required
@@ -52,7 +52,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary w-100 mb-3">Login</button>
 
-                <a href="/language-learning-chatbot-MIU/app/controllers/google_login.php" 
+                <a href="/language-learning-chatbot-MIU/app/controllers/auth/google_login.php" 
                 class="btn google-btn w-100 mb-3">
                   <img src="https://developers.google.com/identity/images/g-logo.png" width="20">
                   Continue with Google
@@ -63,7 +63,7 @@
 
             <!-- Sign Up Form -->
             <div class="tab-pane fade" id="signupTab" role="tabpanel">
-              <form id="signupForm" action="/language-learning-chatbot-MIU/app/controllers/signup.php" method="POST">
+              <form id="signupForm" action="/language-learning-chatbot-MIU/app/controllers/auth/signup.php" method="POST">
                 <div class="mb-3 text-start">
                   <label for="signupName" class="form-label">Full Name</label>
                   <input type="text" class="form-control" id="signupName" name="name" required>
@@ -88,7 +88,7 @@
                 </div>
                 <button type="submit" class="btn btn-success w-100 mb-3">Sign Up</button>
                 <!-- Google Sign-Up / Login Button -->
-                 <a href="/language-learning-chatbot-MIU/app/controllers/google_login.php" 
+                <a href="/language-learning-chatbot-MIU/app/controllers/auth/google_login.php" 
                 class="btn google-btn w-100 mb-3">
                   <img src="https://developers.google.com/identity/images/g-logo.png" width="20">
                   Continue with Google
