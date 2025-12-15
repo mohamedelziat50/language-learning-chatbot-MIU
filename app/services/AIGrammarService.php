@@ -51,7 +51,9 @@ class AIGrammarService {
 private function buildPrompt($content, $analyze_grammar, $analyze_vocabulary) {
     
     // --- START: MODIFIED INSTRUCTIONS ---
-    $instructions = "You are a professional grammar and writing assistant. **Prioritize comprehensive spelling checks, especially for common typos and easily confused words.** Analyze the following text for ";
+    $instructions = "You are a professional grammar and writing assistant. 
+    **Prioritize comprehensive spelling checks, especially for common typos and easily confused words.**
+     Analyze the following text for ";
     
     if ($analyze_grammar && $analyze_vocabulary) {
         $instructions .= "grammar errors, clarity issues, and vocabulary improvements.";
