@@ -13,7 +13,7 @@
   --color-teal-primary: #027e6f;
   --color-teal-overlay: rgba(2, 126, 111, 0.2);
   --color-teal-overlay-light: rgba(20, 184, 166, 0.3);
-  
+
   /* Legacy compatibility */
   --color-accent: #f59e0b;
   --color-purple: #8b5cf6;
@@ -22,7 +22,7 @@
   --color-bg-secondary: #ffffff;
   --color-text-secondary: var(--color-text-muted);
   --color-border: #CBD5E1;
-  --shadow-sm: 0 2px 10px rgba(0,0,0,0.05);
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.1);
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -205,8 +205,14 @@ body {
 }
 
 .subtitle {
-  color: var(--color-text-secondary);
-  font-size: 0.9375rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-teal-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-top: 0.5rem;
+  letter-spacing: 0.5px;
 }
 
 /* Stats Grid */
@@ -225,7 +231,7 @@ body {
   display: flex;
   gap: 1rem;
   transition: var(--transition);
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .stat-card:hover {
@@ -313,7 +319,7 @@ body {
   border-radius: 16px;
   padding: 1.5rem;
   border: 1px solid #CBD5E1;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   transition: var(--transition);
 }
 
@@ -885,10 +891,21 @@ body {
     display: block;
   }
 
-  .query-header::before { content: "Query/Mistake"; }
-  .times-header::before { content: "Times Asked"; }
-  .trend-header::before { content: "Trend"; }
-  .action-header::before { content: "Suggested Action"; }
+  .query-header::before {
+    content: "Query/Mistake";
+  }
+
+  .times-header::before {
+    content: "Times Asked";
+  }
+
+  .trend-header::before {
+    content: "Trend";
+  }
+
+  .action-header::before {
+    content: "Suggested Action";
+  }
 }
 
 /* Scrollbar */
@@ -916,6 +933,7 @@ body {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -927,7 +945,18 @@ body {
   animation: fadeIn 0.5s ease-out backwards;
 }
 
-.stat-card:nth-child(1) { animation-delay: 0.1s; }
-.stat-card:nth-child(2) { animation-delay: 0.2s; }
-.stat-card:nth-child(3) { animation-delay: 0.3s; }
-.stat-card:nth-child(4) { animation-delay: 0.4s; }
+.stat-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.stat-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.stat-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.stat-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
