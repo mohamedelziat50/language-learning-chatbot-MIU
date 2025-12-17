@@ -4,7 +4,7 @@
 header('Content-Type: application/json');
 
 require_once __DIR__ . '/../models/LanguageModel.php';
-require_once __DIR__ . '/../models/UserModel.php';
+require_once __DIR__ . '/../../config/db_connect.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 $action = $_GET['action'] ?? '';
@@ -57,12 +57,14 @@ try {
             exit;
         }
 
-        $saved = UserModel::saveSelectedLanguage(
-            (int)$input['user_id'],
-            $language->getCode()
-        );
+        // Update user's selected language using language_id
+        $user_id = mysqli_real_escape_string($conn, $input['user_id']);
+        $language_id = mysqli_real_escape_string($conn, $language->getId());
 
-        if ($saved) {
+        $sql = "UPDATE users SET selected_language_id = '$language_id' WHERE user_id = '$user_id'";
+        $result = mysqli_query($conn, $sql);
+
+        if ($result) {
             echo json_encode([
                 'success' => true,
                 'message' => 'Language selected successfully',

@@ -52,3 +52,6 @@
 [10-Dec-2025 20:28:22 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/10/update
 [10-Dec-2025 20:28:22 Europe/Berlin] PATH_INFO: /documents/10/update
 [10-Dec-2025 20:28:22 Europe/Berlin] Parsed request: /documents/10/update
+[17-Dec-2025 19:58:16 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/deleteUser
+[17-Dec-2025 19:58:16 Europe/Berlin] PATH_INFO: /deleteUser
+[17-Dec-2025 19:58:16 Europe/Berlin] Parsed request: /deleteUser

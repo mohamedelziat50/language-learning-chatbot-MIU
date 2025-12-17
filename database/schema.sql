@@ -7,10 +7,11 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     role ENUM('student','tutor','admin') DEFAULT 'student',
-    selected_language VARCHAR(50) NULL DEFAULT NULL, -- ADD THIS LINE
+    selected_language_id INT UNSIGNED NULL, -- Foreign key to languages.language_id
     status ENUM('active','inactive') DEFAULT 'active',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (selected_language_id) REFERENCES languages(language_id) ON DELETE SET NULL
 );
 
 -- Documents table for user-created documents
