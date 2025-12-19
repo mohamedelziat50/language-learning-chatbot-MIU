@@ -1,6 +1,14 @@
 -- Database Schema for Language Learning Chatbot
 -- Run this via setup_database.php or import directly into phpMyAdmin
 
+-- Languages table (for your Language model)
+CREATE TABLE IF NOT EXISTS languages (
+    language_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    code VARCHAR(10) NOT NULL UNIQUE,
+    flag VARCHAR(255) DEFAULT '',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 CREATE TABLE IF NOT EXISTS users (
     user_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -43,14 +51,7 @@ CREATE TABLE IF NOT EXISTS document_suggestions (
         FOREIGN KEY (document_id) REFERENCES documents(document_id)
         ON DELETE CASCADE
 );
--- Languages table (for your Language model)
-CREATE TABLE IF NOT EXISTS languages (
-    language_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    code VARCHAR(10) NOT NULL UNIQUE,
-    flag VARCHAR(255) DEFAULT '',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+
 
 -- Insert some common languages
 INSERT INTO languages (name, code, flag) VALUES

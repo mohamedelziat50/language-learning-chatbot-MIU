@@ -2193,3 +2193,26 @@ Stack trace:
 [17-Dec-2025 19:58:16 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/deleteUser
 [17-Dec-2025 19:58:16 Europe/Berlin] PATH_INFO: /deleteUser
 [17-Dec-2025 19:58:16 Europe/Berlin] Parsed request: /deleteUser
+[19-Dec-2025 10:18:28 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/create
+[19-Dec-2025 10:18:28 Europe/Berlin] PATH_INFO: /documents/create
+[19-Dec-2025 10:18:28 Europe/Berlin] Parsed request: /documents/create
+[19-Dec-2025 10:18:29 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/10/suggestions
+[19-Dec-2025 10:18:29 Europe/Berlin] PATH_INFO: /documents/10/suggestions
+[19-Dec-2025 10:18:29 Europe/Berlin] Parsed request: /documents/10/suggestions
+[19-Dec-2025 10:18:36 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/10/update
+[19-Dec-2025 10:18:36 Europe/Berlin] PATH_INFO: /documents/10/update
+[19-Dec-2025 10:18:36 Europe/Berlin] Parsed request: /documents/10/update
+[19-Dec-2025 10:18:36 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/10/update
+[19-Dec-2025 10:18:36 Europe/Berlin] PATH_INFO: /documents/10/update
+[19-Dec-2025 10:18:36 Europe/Berlin] Parsed request: /documents/10/update
+[19-Dec-2025 10:18:36 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/10/analyze
+[19-Dec-2025 10:18:36 Europe/Berlin] PATH_INFO: /documents/10/analyze
+[19-Dec-2025 10:18:36 Europe/Berlin] Parsed request: /documents/10/analyze
+[19-Dec-2025 10:18:37 Europe/Berlin] AI Grammar Service Error: OpenAI API Error: You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.
+[19-Dec-2025 10:18:39 Europe/Berlin] AI Grammar Service Error: OpenAI API Error: You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.
+[19-Dec-2025 10:18:39 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/10/suggestions
+[19-Dec-2025 10:18:39 Europe/Berlin] PATH_INFO: /documents/10/suggestions
+[19-Dec-2025 10:18:39 Europe/Berlin] Parsed request: /documents/10/suggestions
+[19-Dec-2025 10:18:46 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/10/update
+[19-Dec-2025 10:18:46 Europe/Berlin] PATH_INFO: /documents/10/update
+[19-Dec-2025 10:18:46 Europe/Berlin] Parsed request: /documents/10/update
