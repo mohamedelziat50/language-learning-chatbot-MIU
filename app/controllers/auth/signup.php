@@ -1,5 +1,5 @@
 <?php
-include(__DIR__ . '/../../config/db_connect.php');
+include(__DIR__ . '/../../../config/db_connect.php');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $name = trim($_POST['name']);

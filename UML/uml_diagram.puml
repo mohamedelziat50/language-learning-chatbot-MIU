@@ -1,0 +1,177 @@
+@startuml Language Learning Chatbot - MVC Architecture
+
+' Model Classes (Handle data access from JSON files)
+class LanguageModel {
+    - id: int
+    - name: string
+    - code: string
+    - flag: string
+
+    + __construct(id: int, name: string, code: string, flag: string)
+    + getId(): int
+    + getName(): string
+    + getCode(): string
+    + getFlag(): string
+    + setName(name: string): void
+    + setCode(code: string): void
+    + setFlag(flag: string): void
+    + getAll(): array<LanguageModel>
+    + getById(id: int): LanguageModel|null
+    + getByCode(code: string): LanguageModel|null
+    + exists(code: string): bool
+    + save(): bool
+    + delete(): bool
+}
+
+class TopicModel {
+    - id: int
+    - title: string
+    - language_id: int
+    - description: string
+
+    + __construct(id: int, title: string, language_id: int, description: string)
+    + getId(): int
+    + getTitle(): string
+    + getLanguageId(): int
+    + getDescription(): string
+    + setTitle(title: string): void
+    + setDescription(description: string): void
+    + getAll(): array<TopicModel>
+    + getById(id: int): TopicModel|null
+    + getByLanguage(language_id: int): array<TopicModel>
+    + save(): bool
+    + delete(): bool
+}
+
+class LessonModel {
+    - id: int
+    - title: string
+    - content: string
+    - topic_id: int
+    - difficulty: string
+
+    + __construct(id: int, title: string, content: string, topic_id: int, difficulty: string)
+    + getId(): int
+    + getTitle(): string
+    + getContent(): string
+    + getTopicId(): int
+    + getDifficulty(): string
+    + setTitle(title: string): void
+    + setContent(content: string): void
+    + setDifficulty(difficulty: string): void
+    + getAll(): array<LessonModel>
+    + getById(id: int): LessonModel|null
+    + getByTopic(topic_id: int): array<LessonModel>
+    + save(): bool
+    + delete(): bool
+}
+
+class DictionaryModel {
+    - dictionary: array
+
+    + __construct(filePath: string)
+    + getAll(): array
+    + getTotalTopics(): int
+    + getTotalWords(): int
+    + getLanguages(): array
+    + getCategories(language: string): array
+    + getWords(language: string, category: string): array
+    + search(term: string): array
+}
+
+' Controller Classes (Handle requests and use models)
+class LanguageController {
+    - model: LanguageModel
+
+    + __construct()
+    + index(): void
+    + show(id: int): void
+    + store(): void
+    + update(id: int): void
+    + destroy(id: int): void
+}
+
+class TopicController {
+    - model: TopicModel
+
+    + __construct()
+    + index(): void
+    + show(id: int): void
+    + store(): void
+    + update(id: int): void
+    + destroy(id: int): void
+}
+
+class LessonController {
+    - model: LessonModel
+
+    + __construct()
+    + index(): void
+    + show(id: int): void
+    + store(): void
+    + update(id: int): void
+    + destroy(id: int): void
+    + getProgress(lesson_id: int, user_id: int): void
+    + updateProgress(lesson_id: int, user_id: int): void
+}
+
+class DictionaryController {
+    - model: DictionaryModel
+
+    + __construct()
+    + languages(): void
+    + categories(language: string): void
+    + words(language: string, category: string): void
+    + search(term: string): void
+    + full(): void
+}
+
+' View Classes (Handle presentation)
+class LanguageView {
+    + renderList(languages: array): void
+    + renderForm(language: LanguageModel|null): void
+    + renderShow(language: LanguageModel): void
+}
+
+class TopicView {
+    + renderList(topics: array): void
+    + renderForm(topic: TopicModel|null): void
+    + renderShow(topic: TopicModel): void
+}
+
+class LessonView {
+    + renderList(lessons: array): void
+    + renderForm(lesson: LessonModel|null): void
+    + renderShow(lesson: LessonModel): void
+    + renderProgress(progress: array): void
+}
+
+class DictionaryView {
+    + renderLanguages(languages: array): void
+    + renderCategories(categories: array): void
+    + renderWords(words: array): void
+    + renderSearchResults(results: array): void
+}
+
+' Relationships
+' Aggregation (weak "has-a"): Models can exist independently
+LanguageModel o-- "*" TopicModel : aggregation
+TopicModel o-- "*" LessonModel : aggregation
+
+' Dependency (uses): Controllers use models
+LanguageController ..> LanguageModel : dependency
+TopicController ..> TopicModel : dependency
+LessonController ..> LessonModel : dependency
+DictionaryController ..> DictionaryModel : dependency
+
+' Dependency: Controllers render views
+LanguageController ..> LanguageView : renders
+TopicController ..> TopicView : renders
+LessonController ..> LessonView : renders
+DictionaryController ..> DictionaryView : renders
+
+' Dependency: Views use models for data
+LanguageView ..> LanguageModel : uses
+TopicView ..> TopicModel : uses
+LessonView ..> LessonModel : uses
+DictionaryView ..> DictionaryModel : uses
