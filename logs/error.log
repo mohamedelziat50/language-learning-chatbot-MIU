@@ -2216,3 +2216,47 @@ Stack trace:
 [19-Dec-2025 10:18:46 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/10/update
 [19-Dec-2025 10:18:46 Europe/Berlin] PATH_INFO: /documents/10/update
 [19-Dec-2025 10:18:46 Europe/Berlin] Parsed request: /documents/10/update
+[19-Dec-2025 10:56:04 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/10/update
+[19-Dec-2025 10:56:04 Europe/Berlin] PATH_INFO: /documents/10/update
+[19-Dec-2025 10:56:04 Europe/Berlin] Parsed request: /documents/10/update
+[19-Dec-2025 10:56:04 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/10/update
+[19-Dec-2025 10:56:04 Europe/Berlin] PATH_INFO: /documents/10/update
+[19-Dec-2025 10:56:04 Europe/Berlin] Parsed request: /documents/10/update
+[19-Dec-2025 10:56:04 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/10/analyze
+[19-Dec-2025 10:56:04 Europe/Berlin] PATH_INFO: /documents/10/analyze
+[19-Dec-2025 10:56:04 Europe/Berlin] Parsed request: /documents/10/analyze
+[19-Dec-2025 10:56:08 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/10/update
+[19-Dec-2025 10:56:08 Europe/Berlin] PATH_INFO: /documents/10/update
+[19-Dec-2025 10:56:08 Europe/Berlin] Parsed request: /documents/10/update
+[19-Dec-2025 10:56:08 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/10/analyze
+[19-Dec-2025 10:56:08 Europe/Berlin] PATH_INFO: /documents/10/analyze
+[19-Dec-2025 10:56:08 Europe/Berlin] Parsed request: /documents/10/analyze
+[19-Dec-2025 10:56:11 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/10/update
+[19-Dec-2025 10:56:11 Europe/Berlin] PATH_INFO: /documents/10/update
+[19-Dec-2025 10:56:11 Europe/Berlin] Parsed request: /documents/10/update
+[19-Dec-2025 10:56:11 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/10/analyze
+[19-Dec-2025 10:56:11 Europe/Berlin] PATH_INFO: /documents/10/analyze
+[19-Dec-2025 10:56:11 Europe/Berlin] Parsed request: /documents/10/analyze
+[19-Dec-2025 10:56:58 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/create
+[19-Dec-2025 10:56:58 Europe/Berlin] PATH_INFO: /documents/create
+[19-Dec-2025 10:56:58 Europe/Berlin] Parsed request: /documents/create
+[19-Dec-2025 10:56:58 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/suggestions
+[19-Dec-2025 10:56:58 Europe/Berlin] PATH_INFO: /documents/1/suggestions
+[19-Dec-2025 10:56:58 Europe/Berlin] Parsed request: /documents/1/suggestions
+[19-Dec-2025 10:57:03 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/update
+[19-Dec-2025 10:57:03 Europe/Berlin] PATH_INFO: /documents/1/update
+[19-Dec-2025 10:57:03 Europe/Berlin] Parsed request: /documents/1/update
+[19-Dec-2025 10:57:03 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/update
+[19-Dec-2025 10:57:03 Europe/Berlin] PATH_INFO: /documents/1/update
+[19-Dec-2025 10:57:03 Europe/Berlin] Parsed request: /documents/1/update
+[19-Dec-2025 10:57:03 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/analyze
+[19-Dec-2025 10:57:03 Europe/Berlin] PATH_INFO: /documents/1/analyze
+[19-Dec-2025 10:57:03 Europe/Berlin] Parsed request: /documents/1/analyze
+[19-Dec-2025 10:57:04 Europe/Berlin] AI Grammar Service Error: OpenAI API Error: You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.
+[19-Dec-2025 10:57:06 Europe/Berlin] AI Grammar Service Error: OpenAI API Error: You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.
+[19-Dec-2025 10:57:06 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/suggestions
+[19-Dec-2025 10:57:06 Europe/Berlin] PATH_INFO: /documents/1/suggestions
+[19-Dec-2025 10:57:06 Europe/Berlin] Parsed request: /documents/1/suggestions
+[19-Dec-2025 10:57:29 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/update
+[19-Dec-2025 10:57:29 Europe/Berlin] PATH_INFO: /documents/1/update
+[19-Dec-2025 10:57:29 Europe/Berlin] Parsed request: /documents/1/update
