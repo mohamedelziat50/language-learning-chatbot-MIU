@@ -1,6 +1,14 @@
 -- Database Schema for Language Learning Chatbot
 -- Run this via setup_database.php or import directly into phpMyAdmin
 
+-- Languages table (for your Language model)
+CREATE TABLE IF NOT EXISTS languages (
+    language_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    code VARCHAR(10) NOT NULL UNIQUE,
+    flag VARCHAR(255) DEFAULT '',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 CREATE TABLE IF NOT EXISTS users (
     user_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -29,14 +37,21 @@ CREATE TABLE IF NOT EXISTS documents (
     INDEX idx_updated_at (updated_at) -- INDEX ON updated_at, SPEED UP SEARCH BY UPDATED_AT
 );
 
--- Languages table (for your Language model)
-CREATE TABLE IF NOT EXISTS languages (
-    language_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    code VARCHAR(10) NOT NULL UNIQUE,
-    flag VARCHAR(255) DEFAULT '',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS document_suggestions (
+    suggestion_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    document_id INT UNSIGNED NOT NULL,
+    suggestion_type ENUM('grammar', 'vocabulary', 'spelling', 'clarity') NOT NULL,
+    original_text TEXT NOT NULL,
+    suggested_text TEXT,
+    position_start INT UNSIGNED,
+    position_end INT UNSIGNED,
+    explanation TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_document_suggestions_document
+        FOREIGN KEY (document_id) REFERENCES documents(document_id)
+        ON DELETE CASCADE
 );
+
 
 -- Insert some common languages
 INSERT INTO languages (name, code, flag) VALUES
