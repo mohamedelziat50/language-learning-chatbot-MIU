@@ -2,3 +2,5 @@
 .env
 /vendor/
 logs/error.log
+.phpunit.result.cache
+.phpunit.cache/
