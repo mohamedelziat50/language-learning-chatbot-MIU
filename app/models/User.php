@@ -1,10 +1,8 @@
 <?php
-/**
- * User Model
- * 
- * Handles all user-related database operations
- */
-class User {
+require_once __DIR__ . '/../services/AuthenticationInterface.php';
+require_once __DIR__ . '/../services/UserRepositoryInterface.php';
+
+class User implements AuthenticationInterface, UserRepositoryInterface {
     private $conn;
     private $table_name = "users";
     
@@ -22,7 +20,7 @@ class User {
         $this->conn = $db;
     }
     
-    public function getAll() {
+    public function getAll(): array {
         $query = "SELECT user_id, name, email, role, status, created_at, updated_at 
                   FROM " . $this->table_name . " 
                   ORDER BY created_at DESC";
@@ -36,7 +34,7 @@ class User {
         return [];
     }
     
-    public function getById($id) {
+    public function getById(int $id): ?array {
         $query = "SELECT user_id, name, email, role, status, created_at, updated_at 
                   FROM " . $this->table_name . " 
                   WHERE user_id = ? 
@@ -54,7 +52,7 @@ class User {
         return null;
     }
     
-    public function getByEmail($email) {
+    public function getByEmail(string $email): ?array {
         $query = "SELECT user_id, name, email, password, role, status, created_at, updated_at 
                   FROM " . $this->table_name . " 
                   WHERE email = ? 
@@ -83,8 +81,7 @@ class User {
         return mysqli_num_rows($result) > 0;
     }
     
-    public function create() {
-        // Set defaults if not provided
+    public function create(): array {
         if (empty($this->role)) {
             $this->role = 'student';
         }
@@ -113,7 +110,7 @@ class User {
         return ["status" => "error", "message" => mysqli_error($this->conn)];
     }
     
-    public function update() {
+    public function update(): array {
         if (empty($this->user_id)) {
             return ["status" => "error", "message" => "User ID is required"];
         }
@@ -138,8 +135,8 @@ class User {
         return ["status" => "error", "message" => mysqli_error($this->conn)];
     }
     
-    public function updatePassword($newPassword) {
-        if (empty($this->user_id)) {
+    public function updatePassword(int $userId, string $newPassword): array {
+        if (empty($userId)) {
             return ["status" => "error", "message" => "User ID is required"];
         }
         
@@ -150,7 +147,7 @@ class User {
                   WHERE user_id = ?";
         
         $stmt = mysqli_prepare($this->conn, $query);
-        mysqli_stmt_bind_param($stmt, "si", $hashedPassword, $this->user_id);
+        mysqli_stmt_bind_param($stmt, "si", $hashedPassword, $userId);
         
         if (mysqli_stmt_execute($stmt)) {
             return ["status" => "success", "message" => "Password updated successfully"];
@@ -159,7 +156,7 @@ class User {
         return ["status" => "error", "message" => mysqli_error($this->conn)];
     }
     
-    public function delete($id) {
+    public function delete(int $id): array {
         $query = "DELETE FROM " . $this->table_name . " WHERE user_id = ?";
         
         $stmt = mysqli_prepare($this->conn, $query);
@@ -172,7 +169,7 @@ class User {
         return ["status" => "error", "message" => mysqli_error($this->conn)];
     }
     
-    public function getTotalCount() {
+    public function getTotalCount(): int {
         $query = "SELECT COUNT(*) as total FROM " . $this->table_name;
         $result = mysqli_query($this->conn, $query);
         
@@ -184,12 +181,11 @@ class User {
         return 0;
     }
     
-    public function verifyLogin($email, $password) {
+    public function verifyLogin(string $email, string $password): ?array {
         $user = $this->getByEmail($email);
         
         if ($user && isset($user['password'])) {
             if (password_verify($password, $user['password'])) {
-                // Remove password from returned data
                 unset($user['password']);
                 return $user;
             }

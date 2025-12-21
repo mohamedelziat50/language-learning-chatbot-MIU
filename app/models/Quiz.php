@@ -25,22 +25,6 @@ class Quiz {
         $score = intval($score);
         $total = intval($total);
         $percent = floatval($percent);
-        $createSQL = "CREATE TABLE IF NOT EXISTS quizzes (
-            id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-            user_id INT UNSIGNED NOT NULL,
-            language VARCHAR(100) DEFAULT NULL,
-            difficulty TINYINT DEFAULT NULL,
-            mcq_count INT DEFAULT NULL,
-            short_count INT DEFAULT NULL,
-            score INT DEFAULT NULL,
-            total_questions INT DEFAULT NULL,
-            percent FLOAT DEFAULT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            INDEX (user_id)
-        )
-        ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
-
-        mysqli_query($this->conn, $createSQL);
         $stmt = mysqli_prepare($this->conn, "INSERT INTO quizzes (user_id, language, difficulty, mcq_count, short_count, score, total_questions, percent) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         mysqli_stmt_bind_param($stmt, 'isiiiiid', $this->user_id, $language, $difficulty, $mcq_count, $short_count, $score, $total, $percent);
 
@@ -55,22 +39,6 @@ class Quiz {
     }
 
     public function getQuizzes($limit = 50) {
-        $createSQL = "CREATE TABLE IF NOT EXISTS quizzes (
-            id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-            user_id INT UNSIGNED NOT NULL,
-            language VARCHAR(100) DEFAULT NULL,
-            difficulty TINYINT DEFAULT NULL,
-            mcq_count INT DEFAULT NULL,
-            short_count INT DEFAULT NULL,
-            score INT DEFAULT NULL,
-            total_questions INT DEFAULT NULL,
-            percent FLOAT DEFAULT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            INDEX (user_id)
-        )
-        ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
-
-        mysqli_query($this->conn, $createSQL);
         $sql = "SELECT id, language, difficulty, mcq_count, short_count, score, total_questions, percent, created_at FROM quizzes WHERE user_id = ? ORDER BY created_at DESC LIMIT ?";
         $stmt = mysqli_prepare($this->conn, $sql);
         $limit = intval($limit);
@@ -84,5 +52,6 @@ class Quiz {
         }
 
         mysqli_stmt_close($stmt);
+        return $rows;
     }
 }

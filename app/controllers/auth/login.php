@@ -2,6 +2,7 @@
 session_start();
 include(__DIR__ . '/../../../config/db_connect.php');
 require_once(__DIR__ . '/../../models/User.php');
+require_once(__DIR__ . '/../../services/AuthenticationInterface.php');
 require_once(__DIR__ . '/../../services/UserValidator.php');
 require_once(__DIR__ . '/../../services/ResponseHandler.php');
 
