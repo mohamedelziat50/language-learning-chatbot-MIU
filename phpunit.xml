@@ -5,6 +5,7 @@
          verbose="true">
     <testsuites>
         <testsuite name="Unit Tests">
+             <!-- Auto pointer to all the unit tests here by using the directory tag and the name of the directory -->
             <directory>tests/Unit</directory>
         </testsuite>
     </testsuites>

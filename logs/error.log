@@ -14,3 +14,43 @@ Stack trace:
 #3 C:\xampp\htdocs\language-learning-chatbot-MIU\app\index.php(21): require_once('C:\\xampp\\htdocs...')
 #4 {main}
   thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\config\db_connect.php on line 9
+[21-Dec-2025 19:54:58 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown database 'language_learning' in C:\xampp\htdocs\language-learning-chatbot-MIU\config\db_connect.php:9
+Stack trace:
+#0 C:\xampp\htdocs\language-learning-chatbot-MIU\config\db_connect.php(9): mysqli_connect('localhost', 'root', Object(SensitiveParameterValue), 'language_learni...')
+#1 C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\admin\manage_users.php(2): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\admin_routes.php(2): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\language-learning-chatbot-MIU\app\index.php(21): require_once('C:\\xampp\\htdocs...')
+#4 {main}
+  thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\config\db_connect.php on line 9
+[21-Dec-2025 19:55:58 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown database 'language_learning' in C:\xampp\htdocs\language-learning-chatbot-MIU\config\db_connect.php:9
+Stack trace:
+#0 C:\xampp\htdocs\language-learning-chatbot-MIU\config\db_connect.php(9): mysqli_connect('localhost', 'root', Object(SensitiveParameterValue), 'language_learni...')
+#1 C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\admin\manage_users.php(2): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\admin_routes.php(2): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\language-learning-chatbot-MIU\app\index.php(21): require_once('C:\\xampp\\htdocs...')
+#4 {main}
+  thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\config\db_connect.php on line 9
+[21-Dec-2025 19:56:58 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown database 'language_learning' in C:\xampp\htdocs\language-learning-chatbot-MIU\config\db_connect.php:9
+Stack trace:
+#0 C:\xampp\htdocs\language-learning-chatbot-MIU\config\db_connect.php(9): mysqli_connect('localhost', 'root', Object(SensitiveParameterValue), 'language_learni...')
+#1 C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\admin\manage_users.php(2): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\admin_routes.php(2): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\language-learning-chatbot-MIU\app\index.php(21): require_once('C:\\xampp\\htdocs...')
+#4 {main}
+  thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\config\db_connect.php on line 9
+[21-Dec-2025 19:57:58 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown database 'language_learning' in C:\xampp\htdocs\language-learning-chatbot-MIU\config\db_connect.php:9
+Stack trace:
+#0 C:\xampp\htdocs\language-learning-chatbot-MIU\config\db_connect.php(9): mysqli_connect('localhost', 'root', Object(SensitiveParameterValue), 'language_learni...')
+#1 C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\admin\manage_users.php(2): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\admin_routes.php(2): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\language-learning-chatbot-MIU\app\index.php(21): require_once('C:\\xampp\\htdocs...')
+#4 {main}
+  thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\config\db_connect.php on line 9
+[21-Dec-2025 19:58:58 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown database 'language_learning' in C:\xampp\htdocs\language-learning-chatbot-MIU\config\db_connect.php:9
+Stack trace:
+#0 C:\xampp\htdocs\language-learning-chatbot-MIU\config\db_connect.php(9): mysqli_connect('localhost', 'root', Object(SensitiveParameterValue), 'language_learni...')
+#1 C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\admin\manage_users.php(2): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\admin_routes.php(2): require_once('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\language-learning-chatbot-MIU\app\index.php(21): require_once('C:\\xampp\\htdocs...')
+#4 {main}
+  thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\config\db_connect.php on line 9

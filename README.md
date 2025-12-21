@@ -29,7 +29,7 @@ This platform is designed to facilitate language learning through interactive ch
 
 **Setup:**
 1. Install Composer (PHP package manager): https://getcomposer.org/Composer-Setup.exe (restart terminal/IDE after installation)
-2. Enable PHP zip extension: `(Get-Content C:\xampp\php\php.ini) -replace ';extension=zip', 'extension=zip' | Set-Content C:\xampp\php\php.ini`
+2. Enable PHP zip extension: Run PowerShell as Administrator, then: `(Get-Content C:\xampp\php\php.ini) -replace ';extension=zip', 'extension=zip' | Set-Content C:\xampp\php\php.ini`
 3. Install dependencies: `composer install` (creates `vendor/` directory)
 4. Create test database: Run `tests/setup_test_database.php` once
 
