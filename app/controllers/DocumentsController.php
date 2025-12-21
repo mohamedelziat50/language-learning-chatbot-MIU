@@ -189,11 +189,11 @@ function analyzeGrammar($document_id, $content) {
     // Check API status
     if ($ai_suggestions === false) {
         // API failed - check if it's because API key is missing
-        $api_key = getenv('OPENAI_API_KEY');
+        $api_key = getenv('GROQ_API_KEY');
         if (!$api_key) {
-            return ['suggestions' => [], 'api_status' => 'no_key', 'error' => 'OpenAI API key not configured'];
+            return ['suggestions' => [], 'api_status' => 'no_key', 'error' => 'GROQ_API_KEY not configured in .env'];
         }
-        return ['suggestions' => [], 'api_status' => 'failed', 'error' => 'OpenAI API call failed. Check error logs for details.'];
+        return ['suggestions' => [], 'api_status' => 'failed', 'error' => 'Groq API call failed. Check error logs for details.'];
     }
     
     // Only use AI-powered analysis; if none returned, stop here
@@ -258,11 +258,11 @@ function analyzeVocabulary($document_id, $content) {
     // Check API status
     if ($ai_suggestions === false) {
         // API failed - check if it's because API key is missing
-        $api_key = getenv('OPENAI_API_KEY');
+        $api_key = getenv('GROQ_API_KEY');
         if (!$api_key) {
-            return ['suggestions' => [], 'api_status' => 'no_key', 'error' => 'OpenAI API key not configured'];
+            return ['suggestions' => [], 'api_status' => 'no_key', 'error' => 'GROQ_API_KEY not configured in .env'];
         }
-        return ['suggestions' => [], 'api_status' => 'failed', 'error' => 'OpenAI API call failed. Check error logs for details.'];
+        return ['suggestions' => [], 'api_status' => 'failed', 'error' => 'Groq API call failed. Check error logs for details.'];
     }
     
     // Only use AI-powered analysis; if none returned, stop here

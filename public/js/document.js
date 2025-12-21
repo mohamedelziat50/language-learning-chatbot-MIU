@@ -374,10 +374,10 @@ class DocumentEditor {
             clearTimeout(this.analysisTimeout);
         }
 
-        // Set new timeout - analyze after 2 seconds of inactivity
+        // Set new timeout - analyze after 4 seconds of inactivity
         this.analysisTimeout = setTimeout(() => {
             this.analyzeContent();
-        }, 2000);
+        }, 4000);
     }
 
     async analyzeContent() {
