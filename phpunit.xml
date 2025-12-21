@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+         colors="true"
+         verbose="true">
+    <testsuites>
+        <testsuite name="Unit Tests">
+             <!-- Auto pointer to all the unit tests here by using the directory tag and the name of the directory -->
+            <directory>tests/Unit</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <!-- Test Database Configuration (optional - fallbacks in test files) -->
+        <env name="DB_TEST_SERVER" value="localhost"/>
+        <env name="DB_TEST_USER" value="root"/>
+        <env name="DB_TEST_PASS" value=""/>
+        <env name="DB_TEST_NAME" value="test_language_learning_chatbot"/>
+    </php>
+</phpunit>
