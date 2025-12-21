@@ -50,13 +50,15 @@ $result = mysqli_stmt_get_result($stmt);
 if (mysqli_num_rows($result) === 1) {
     // Existing user
     $user = mysqli_fetch_assoc($result);
-    $user_id = $user['id'];
+    $user_id = $user['user_id'];
     $role = $user['role'];
 } else {
-    // Create new account
+    // Create new account with password placeholder for Google users
     $role = 'student';
-    $insert = mysqli_prepare($conn, "INSERT INTO users (fullname, email, role) VALUES (?, ?, ?)");
-    mysqli_stmt_bind_param($insert, "sss", $name, $email, $role);
+    $status = 'active';
+    $password_placeholder = password_hash('google_oauth_' . time(), PASSWORD_DEFAULT);
+    $insert = mysqli_prepare($conn, "INSERT INTO users (name, email, password, role, status) VALUES (?, ?, ?, ?, ?)");
+    mysqli_stmt_bind_param($insert, "sssss", $name, $email, $password_placeholder, $role, $status);
     mysqli_stmt_execute($insert);
     $user_id = mysqli_insert_id($conn);
 }
