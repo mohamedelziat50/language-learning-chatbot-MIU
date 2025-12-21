@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/AIQuizGeneratorInterface.php';
 
+#liskov Substitution Principle applied here as GroqQuizGenerator can be used wherever AIQuizGeneratorInterface is expected.
 class GroqQuizGenerator implements AIQuizGeneratorInterface {
     
     public function generate(int $mcqCount, int $shortCount, int $difficulty, string $language): array {
