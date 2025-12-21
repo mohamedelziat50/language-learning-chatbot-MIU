@@ -605,3 +605,6 @@
 [21-Dec-2025 15:03:41 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/update
 [21-Dec-2025 15:03:41 Europe/Berlin] PATH_INFO: /documents/1/update
 [21-Dec-2025 15:03:41 Europe/Berlin] Parsed request: /documents/1/update
+[21-Dec-2025 16:10:55 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/2/update
+[21-Dec-2025 16:10:55 Europe/Berlin] PATH_INFO: /documents/2/update
+[21-Dec-2025 16:10:55 Europe/Berlin] Parsed request: /documents/2/update
