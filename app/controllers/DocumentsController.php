@@ -96,8 +96,13 @@ function updateDocument($document_id, $user_id, $title, $content) {
         $preview_text .= '...';
     }
     
+    // Escape all values to prevent SQL injection (apostrophes within the title or content will break the query)
+    $title_escaped = mysqli_real_escape_string($conn, $title);
+    $content_escaped = mysqli_real_escape_string($conn, $content);
+    $preview_text_escaped = mysqli_real_escape_string($conn, $preview_text);
+    
     // Update the document
-    $sql = "UPDATE documents SET title = '$title', content = '$content', preview_text = '$preview_text' 
+    $sql = "UPDATE documents SET title = '$title_escaped', content = '$content_escaped', preview_text = '$preview_text_escaped' 
             WHERE document_id = $document_id";
     
     return mysqli_query($conn, $sql); // Returns true if the document was updated, false if it was not updated
