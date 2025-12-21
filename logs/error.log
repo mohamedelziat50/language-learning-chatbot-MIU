@@ -62,6 +62,7 @@ Stack trace:
 #3 C:\xampp\htdocs\language-learning-chatbot-MIU\app\index.php(21): require_once('C:\\xampp\\htdocs...')
 #4 {main}
 <<<<<<< HEAD
+<<<<<<< HEAD
   thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php on line 103
 [21-Dec-2025 16:37:49 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
 [21-Dec-2025 16:37:49 Europe/Berlin] PATH_INFO: /documents/3/update
@@ -241,6 +242,9 @@ Stack trace:
 [21-Dec-2025 22:12:59 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/deleteUser
 [21-Dec-2025 22:12:59 Europe/Berlin] PATH_INFO: /deleteUser
 [21-Dec-2025 22:12:59 Europe/Berlin] Parsed request: /deleteUser
+=======
+  thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\config\db_connect.php on line 9
+>>>>>>> bcb2a28aa53ce641b7ca1a794a5defbb7e4e53a8
 =======
   thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\config\db_connect.php on line 9
 >>>>>>> bcb2a28aa53ce641b7ca1a794a5defbb7e4e53a8
