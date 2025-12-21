@@ -109,7 +109,11 @@ $totalUsers = UserController::getTotalUsersCount();
       <header class="dashboard-header">
         <div>
           <h1>Dashboard Overview</h1>
-          <p class="subtitle">Welcome back! Here's what's happening today.</p>
+          <p class="subtitle">Welcome back, <?php 
+            $fullName = $_SESSION['user_name'] ?? 'Admin'; 
+            $firstName = explode(' ', trim($fullName))[0];
+            echo htmlspecialchars($firstName); 
+          ?></p>
         </div>
       </header>
 

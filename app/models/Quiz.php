@@ -10,7 +10,7 @@ class Quiz {
     }
 
     /**
-     * Generate a quiz using OpenAI API
+     * Generate a quiz using Groq API
      * 
      * @param int $mcqCount Number of multiple choice questions
      * @param int $shortCount Number of short answer questions
@@ -20,18 +20,22 @@ class Quiz {
      */
     public function generateQuiz($mcqCount, $shortCount, $difficulty, $language) {
         // Get API key
-        $api_key = getenv('OPENAI_API_KEY');
+        $api_key = getenv('GROQ_API_KEY');
         if (!$api_key) {
             return [
-                "error" => ["message" => "OpenAI API key not set. Check your .env file."]
+                "error" => ["message" => "Groq API key not set. Check your .env file."]
             ];
         }
 
         // Prepare AI API request
-        $url = "https://api.openai.com/v1/chat/completions";
+        $url = "https://api.groq.com/openai/v1/chat/completions";
         $data = [
-            "model" => "gpt-4o-mini",
+            "model" => "llama-3.1-8b-instant",
             "messages" => [
+                [
+                    "role" => "system",
+                    "content" => "You are a quiz generator for language learning. Generate quizzes in the exact JSON format requested."
+                ],
                 [
                     "role" => "user",
                     "content" => "Generate a quiz for learning $language.
@@ -49,10 +53,12 @@ class Quiz {
                 ]
             }"
                 ]
-            ]
+            ],
+            "temperature" => 0.7,
+            "max_tokens" => 2000
         ];
 
-        // Call OpenAI API
+        // Call Groq API
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, [
@@ -69,7 +75,7 @@ class Quiz {
 
         // Handle cURL errors
         if ($response === false) {
-            error_log("cURL error when calling OpenAI: " . $curlErr);
+            error_log("cURL error when calling Groq: " . $curlErr);
             return [
                 "error" => ["message" => "Failed to call AI API.", "details" => $curlErr]
             ];
@@ -78,7 +84,7 @@ class Quiz {
         // Decode response
         $decoded = json_decode($response, true);
         if ($httpCode < 200 || $httpCode >= 300) {
-            error_log("OpenAI returned HTTP $httpCode: " . $response);
+            error_log("Groq returned HTTP $httpCode: " . $response);
             return [
                 "error" => ["message" => "AI API error.", "http_code" => $httpCode, "body" => $decoded]
             ];
@@ -91,8 +97,8 @@ class Quiz {
             "shortCount" => $shortCount,
             "difficulty" => $difficulty,
             "language" => $language,
-            "sent_prompt" => $data['messages'][0]['content'],
-            "openai" => $decoded
+            "sent_prompt" => $data['messages'][1]['content'],
+            "groq" => $decoded
         ];
 
         return $wrapper;

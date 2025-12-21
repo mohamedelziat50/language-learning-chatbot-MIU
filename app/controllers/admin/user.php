@@ -23,4 +23,3 @@ function getTotalUsersCount() {
     $userModel = new User($conn);
     return $userModel->getTotalCount();
 }
-?>

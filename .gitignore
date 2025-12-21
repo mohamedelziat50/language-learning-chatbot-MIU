@@ -1,5 +1,4 @@
 # Ignore environment file
 .env
 /vendor/
-logs/
-*.log
+logs/error.log
