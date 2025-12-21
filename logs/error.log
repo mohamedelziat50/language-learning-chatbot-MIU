@@ -921,3 +921,6 @@ Stack trace:
 [21-Dec-2025 20:55:13 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/updateUser
 [21-Dec-2025 20:55:13 Europe/Berlin] PATH_INFO: /updateUser
 [21-Dec-2025 20:55:13 Europe/Berlin] Parsed request: /updateUser
+[21-Dec-2025 22:12:59 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/deleteUser
+[21-Dec-2025 22:12:59 Europe/Berlin] PATH_INFO: /deleteUser
+[21-Dec-2025 22:12:59 Europe/Berlin] Parsed request: /deleteUser

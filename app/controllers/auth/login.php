@@ -10,7 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
 
-    // Validate input format
     $validator = new UserValidator();
     $validation = $validator->validateLogin($email, $password);
     
@@ -18,12 +17,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ResponseHandler::alertAndBack(implode(', ', $validation['errors']));
     }
 
-    // Create user instance and verify credentials
-    $userModel = new User($conn);
-    $user = $userModel->verifyLogin($email, $password);
+    $authenticator = new User($conn);
+    $user = $authenticator->verifyLogin($email, $password);
+    #solid Principle: Dependency Inversion Principle applied here.
+    #The Login controller depends on the AuthenticationInterface abstraction rather than a concrete User class.
+    #This allows for different authentication implementations (e.g., OAuth, LDAP) to be used
 
     if ($user) {
-        // Successful login - set session data
         session_regenerate_id(true);
         $_SESSION['user_id'] = $user['user_id'];
         $_SESSION['user_name'] = $user['name'];
@@ -32,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['created_at'] = $user['created_at'];
         $_SESSION['status'] = $user['status'];
 
-        // Redirect based on role
         $redirectUrl = ($user['role'] === 'admin') 
             ? '/language-learning-chatbot-MIU/app/views/admin/admin-dashboard.php'
             : '/language-learning-chatbot-MIU/app/views/student/dashboard.php';
