@@ -10,7 +10,7 @@ class DocumentEditor {
         this.analysisTimeout = null;
         this.isAnalyzing = false;
         this.inlineHighlights = [];
-        
+
         this.initializeElements();
         this.bindEvents();
         this.initializeEditor();
@@ -25,34 +25,34 @@ class DocumentEditor {
         this.documentTitle = document.getElementById('document-title');
         this.documentEditor = document.getElementById('document-editor');
         this.saveStatus = document.getElementById('save-status');
-        
+
         // Tab elements
         this.tabButtons = document.querySelectorAll('.tab-btn');
         this.tabPanels = document.querySelectorAll('.tab-panel');
         this.rightSidebar = document.querySelector('.right-sidebar');
         this.sidebarToggle = document.getElementById('sidebar-toggle');
         this.mainContentArea = document.querySelector('.main-content-area');
-        
+
         // Left sidebar elements
         this.leftSidebar = document.getElementById('left-sidebar');
         this.lsViews = {
             stats: document.getElementById('ls-stats'),
             versions: document.getElementById('ls-versions')
         };
-        
+
         // AI elements
         this.aiInput = document.getElementById('ai-text-input');
         this.aiSendBtn = document.getElementById('ai-send-btn');
         this.aiMessages = document.getElementById('ai-messages');
         this.clearChatBtn = document.getElementById('clear-chat-btn');
-        
+
         // Plagiarism elements
         this.checkPlagiarismBtn = document.getElementById('check-plagiarism-btn');
         this.plagiarismPlaceholder = document.querySelector('.plag-placeholder');
-        
+
         // Analysis elements
         this.analyzeBtn = document.getElementById('analyze-btn');
-        
+
         // Toolbar elements
         this.toolbarBtns = document.querySelectorAll('.toolbar-btn');
     }
@@ -181,7 +181,7 @@ class DocumentEditor {
         const words = content.trim().split(/\s+/).filter(Boolean).length;
         const chars = content.replace(/\s/g, '').length;
         const readingTime = Math.max(1, Math.round(words / 200));
-        
+
         document.getElementById('stat-words').textContent = words;
         document.getElementById('stat-chars').textContent = chars;
         document.getElementById('stat-reading').textContent = readingTime + ' min';
@@ -191,12 +191,12 @@ class DocumentEditor {
         const saved = localStorage.getItem('document_versions');
         const versions = saved ? JSON.parse(saved) : [];
         const listContainer = document.getElementById('version-list');
-        
+
         if (versions.length === 0) {
             listContainer.innerHTML = '<p class="muted">No versions yet. Auto-saves will appear here.</p>';
             return;
         }
-        
+
         listContainer.innerHTML = versions.reverse().map(v => `
             <div class="version-item">
                 <div class="version-time">${new Date(v.timestamp).toLocaleString()}</div>
@@ -207,18 +207,18 @@ class DocumentEditor {
 
     toggleSidebar() {
         const width = window.innerWidth;
-        
+
         // Mobile behavior (768px and below)
         if (width <= 768) {
             this.rightSidebar.classList.toggle('active');
             return;
         }
-        
+
         // Desktop behavior (above 768px)
         const mainContentArea = document.querySelector('.main-content-area');
         const isHidden = this.rightSidebar.classList.toggle('hidden');
         const icon = this.sidebarToggle.querySelector('i');
-        
+
         if (isHidden) {
             // Hide sidebar and expand main content
             mainContentArea.classList.add('sidebar-hidden');
@@ -239,10 +239,10 @@ class DocumentEditor {
     initializeEditor() {
         // Set initial focus
         this.documentEditor.focus();
-        
+
         // Initialize autosave
         this.startAutoSave();
-        
+
         // Load any saved content
         this.loadSavedContent();
     }
@@ -284,18 +284,18 @@ class DocumentEditor {
 
     async performAutoSave() {
         if (this.isAutoSaving) return;
-        
+
         this.isAutoSaving = true;
         this.updateSaveStatus('Saving...', 'saving');
-        
+
         const success = await this.saveContent();
-        
+
         if (success) {
             this.updateSaveStatus('All changes saved', 'saved');
         } else {
             this.updateSaveStatus('Failed to save', 'error');
         }
-        
+
         this.isAutoSaving = false;
     }
 
@@ -303,11 +303,11 @@ class DocumentEditor {
         const documentId = document.getElementById('document-id')?.value;
         const title = this.documentTitle.value.trim() || 'Untitled Document';
         const content = this.documentEditor.value;
-        
+
         const formData = new FormData();
         formData.append('title', title);
         formData.append('content', content);
-        
+
         try {
             let url;
             if (documentId) {
@@ -315,14 +315,14 @@ class DocumentEditor {
             } else {
                 url = `/language-learning-chatbot-MIU/app/index.php/documents/create`;
             }
-            
+
             const response = await fetch(url, {
                 method: 'POST',
                 body: formData
             });
-            
+
             const data = await response.json();
-            
+
             if (data.status === 'success') {
                 if (!documentId && data.document_id) {
                     // New document created, update the hidden input and URL
@@ -382,7 +382,7 @@ class DocumentEditor {
 
     async analyzeContent() {
         const content = this.documentEditor.value.trim();
-        
+
         // Check content length first (before checking document ID)
         if (content.length < 10) {
             this.clearSuggestions();
@@ -397,7 +397,7 @@ class DocumentEditor {
 
         this.isAnalyzing = true;
         this.updateSaveStatus('Analyzing...', 'saving');
-        
+
         // Update analyze button
         if (this.analyzeBtn) {
             this.analyzeBtn.disabled = true;
@@ -410,20 +410,20 @@ class DocumentEditor {
         try {
             // First, save the document to ensure latest content is analyzed
             const saveSuccess = await this.saveContent();
-            
+
             if (!saveSuccess) {
                 window.NotificationManager?.showNotification('Failed to save document. Please try again.', 'error');
                 return;
             }
-            
+
             // Get document ID after saving (in case it was a new document)
             let documentId = document.getElementById('document-id')?.value;
-            
+
             if (!documentId) {
                 window.NotificationManager?.showNotification('Document not saved yet. Please wait a moment and try again.', 'info');
                 return;
             }
-            
+
             // Call the analyze API
             const response = await fetch(`/language-learning-chatbot-MIU/app/index.php/documents/${documentId}/analyze`, {
                 method: 'POST',
@@ -438,25 +438,51 @@ class DocumentEditor {
 
             const data = await response.json();
 
-            if (data.status === 'success') {
-                // Load suggestions after analysis
-                await this.loadSuggestions();
+            // Load suggestions after analysis
+            await this.loadSuggestions();
+
+            // Check API status and show appropriate messages
+            if (data.api_status) {
+                const apiErrors = [];
+                if (data.api_status.grammar === 'failed' || data.api_status.grammar === 'no_key') {
+                    apiErrors.push('Grammar analysis: ' + (data.errors?.grammar || 'API unavailable'));
+                }
+                if (data.api_status.vocabulary === 'failed' || data.api_status.vocabulary === 'no_key') {
+                    apiErrors.push('Vocabulary analysis: ' + (data.errors?.vocabulary || 'API unavailable'));
+                }
+
+                if (apiErrors.length > 0) {
+                    window.NotificationManager?.showNotification(
+                        'API Error: ' + apiErrors.join(' | ') + '. Check error logs for details.',
+                        'error'
+                    );
+                }
+            }
+
+            if (data.status === 'success' || data.status === 'warning') {
                 const suggestionCount = data.suggestions_count || 0;
                 if (suggestionCount > 0) {
-                    window.NotificationManager?.showNotification(`Analysis complete: ${suggestionCount} suggestion${suggestionCount !== 1 ? 's' : ''} found`, 'success');
+                    window.NotificationManager?.showNotification(
+                        `Analysis complete: ${suggestionCount} suggestion${suggestionCount !== 1 ? 's' : ''} found`,
+                        data.status === 'warning' ? 'warning' : 'success'
+                    );
                 } else {
-                    window.NotificationManager?.showNotification('Analysis complete: No suggestions found. Your document looks good!', 'success');
+                    const message = data.status === 'warning'
+                        ? 'Analysis complete: No suggestions found (API had issues). Your document may still have errors.'
+                        : 'Analysis complete: No suggestions found. Your document looks good!';
+                    window.NotificationManager?.showNotification(message, data.status === 'warning' ? 'warning' : 'success');
                 }
             } else {
-                console.error('Analysis failed:', data.message);
-                window.NotificationManager?.showNotification('Analysis failed: ' + (data.message || 'Unknown error'), 'error');
+                console.error('Analysis failed:', data.message, data.errors);
+                const errorMsg = data.errors ? Object.values(data.errors).join(' | ') : (data.message || 'Unknown error');
+                window.NotificationManager?.showNotification('Analysis failed: ' + errorMsg, 'error');
             }
         } catch (error) {
             console.error('Error analyzing content:', error);
             window.NotificationManager?.showNotification('Error analyzing content: ' + error.message, 'error');
         } finally {
             this.isAnalyzing = false;
-            
+
             // Restore analyze button
             if (this.analyzeBtn) {
                 this.analyzeBtn.disabled = false;
@@ -470,7 +496,7 @@ class DocumentEditor {
 
     async loadSuggestions() {
         const documentId = document.getElementById('document-id')?.value;
-        
+
         if (!documentId) {
             this.clearSuggestions();
             return;
@@ -510,7 +536,7 @@ class DocumentEditor {
         // Flat list for refined UI
         const listContainer = document.getElementById('review-suggestions');
         let proCount = 0;
-        
+
         suggestions.forEach(suggestion => {
             const suggestionElement = this.createSuggestionElement(suggestion);
             if (listContainer) {
@@ -518,7 +544,7 @@ class DocumentEditor {
             }
             proCount++;
         });
-        
+
         const proBadge = document.getElementById('pro-count');
         if (proBadge) proBadge.textContent = proCount.toString();
 
@@ -530,7 +556,7 @@ class DocumentEditor {
         const div = document.createElement('div');
         div.className = 'suggestion-card';
         div.dataset.suggestionId = suggestion.suggestion_id;
-        
+
         // Map suggestion types to categories
         const categoryMap = {
             'grammar': 'Correctness',
@@ -538,7 +564,7 @@ class DocumentEditor {
             'spelling': 'Correctness',
             'clarity': 'Clarity'
         };
-        
+
         const category = categoryMap[suggestion.suggestion_type] || 'Correctness';
         const iconMap = {
             'grammar': 'fa-spell-check',
@@ -547,11 +573,11 @@ class DocumentEditor {
             'clarity': 'fa-lightbulb'
         };
         const icon = iconMap[suggestion.suggestion_type] || 'fa-shield-alt';
-        
+
         const originalText = suggestion.original_text || '';
         const suggestedText = suggestion.suggested_text || '';
         const explanation = suggestion.explanation || 'No explanation available';
-        
+
         div.innerHTML = `
             <div class="meta"><i class="fas ${icon}"></i> ${category} · ${suggestion.suggestion_type}</div>
             <div class="text">
@@ -600,13 +626,13 @@ class DocumentEditor {
                     suggestionCard.remove();
                     this.updateSuggestionCount();
                 }, 300);
-                
+
                 // Reload document content
                 await this.reloadDocumentContent();
-                
+
                 // Reload suggestions to update positions
                 await this.loadSuggestions();
-                
+
                 // Show success message
                 window.NotificationManager?.showNotification('Suggestion applied successfully', 'success');
             } else {
@@ -646,7 +672,7 @@ class DocumentEditor {
                 // Update editor content
                 this.documentEditor.value = data.document.content || '';
                 this.documentTitle.value = data.document.title || '';
-                
+
                 // Trigger auto-save status update
                 this.updateSaveStatus('Content updated', 'saved');
             }
@@ -657,7 +683,7 @@ class DocumentEditor {
 
     renderInlineHighlights() {
         this.clearInlineHighlights();
-        
+
         if (!this.suggestions || this.suggestions.length === 0) {
             return;
         }
@@ -665,7 +691,7 @@ class DocumentEditor {
         // Note: Since we're using a textarea, we can't directly highlight text inline
         // Instead, we'll show highlights in a separate overlay or use markers
         // For now, we'll store the highlights for potential future use with contenteditable div
-        
+
         this.suggestions.forEach(suggestion => {
             if (suggestion.position_start !== null && suggestion.position_end !== null) {
                 this.inlineHighlights.push({
@@ -711,13 +737,13 @@ class DocumentEditor {
 
         // Add user message
         this.addAIMessage(message, 'user');
-        
+
         // Clear input
         this.aiInput.value = '';
-        
+
         // Show typing indicator
         this.showTypingIndicator();
-        
+
         // Simulate AI response
         setTimeout(() => {
             this.hideTypingIndicator();
@@ -734,7 +760,7 @@ class DocumentEditor {
 
         const messageDiv = document.createElement('div');
         messageDiv.className = `ai-message ${sender}`;
-        
+
         if (sender === 'user') {
             messageDiv.innerHTML = `
                 <div class="ai-content">
@@ -751,7 +777,7 @@ class DocumentEditor {
                 </div>
             `;
         }
-        
+
         this.aiMessages.appendChild(messageDiv);
         this.aiMessages.scrollTop = this.aiMessages.scrollHeight;
     }
@@ -772,7 +798,7 @@ class DocumentEditor {
                 </div>
             </div>
         `;
-        
+
         this.aiMessages.appendChild(typingDiv);
         this.aiMessages.scrollTop = this.aiMessages.scrollHeight;
     }
@@ -793,7 +819,7 @@ class DocumentEditor {
             "I notice you're using passive voice here. Active voice would make this stronger.",
             "This paragraph flows well! Consider adding a transition to connect it to the next one."
         ];
-        
+
         return responses[Math.floor(Math.random() * responses.length)];
     }
 
@@ -801,25 +827,25 @@ class DocumentEditor {
         // Clear all messages but keep the header and empty state
         const messages = this.aiMessages.querySelectorAll('.ai-message, .typing-indicator');
         messages.forEach(msg => msg.remove());
-        
+
         // Show empty state again
         const emptyState = document.getElementById('ai-empty-state');
         if (emptyState) {
             emptyState.style.display = 'flex';
         }
-        
+
         window.NotificationManager.showNotification('Chat cleared', 'info');
     }
 
     checkPlagiarism() {
         this.checkPlagiarismBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
         this.checkPlagiarismBtn.disabled = true;
-        
+
         // Simulate plagiarism check
         setTimeout(() => {
             this.checkPlagiarismBtn.innerHTML = '<i class="fas fa-search"></i> Check Document';
             this.checkPlagiarismBtn.disabled = false;
-            
+
             // Show results
             this.showPlagiarismResults();
         }, 2000);
@@ -843,10 +869,10 @@ class DocumentEditor {
 
     handleToolbarAction(button) {
         const action = button.title.toLowerCase();
-        
+
         // Toggle active state
         button.classList.toggle('active');
-        
+
         // Apply formatting (mock implementation)
         switch (action) {
             case 'bold':
@@ -879,14 +905,14 @@ class DocumentEditor {
             e.preventDefault();
             this.performAutoSave();
         }
-        
+
         // Ctrl+B for bold
         if (e.ctrlKey && e.key === 'b') {
             e.preventDefault();
             const boldBtn = document.querySelector('[title="Bold"]');
             this.handleToolbarAction(boldBtn);
         }
-        
+
         // Ctrl+I for italic
         if (e.ctrlKey && e.key === 'i') {
             e.preventDefault();
@@ -902,12 +928,12 @@ class DocumentEditor {
         // Handle mobile sidebar behavior
         this.handleMobileResize();
         window.addEventListener('resize', () => this.handleMobileResize());
-        
+
         // Close right sidebar when clicking outside on mobile
         document.addEventListener('click', (e) => {
             if (window.innerWidth <= 768) {
-                if (this.rightSidebar.classList.contains('active') && 
-                    !this.rightSidebar.contains(e.target) && 
+                if (this.rightSidebar.classList.contains('active') &&
+                    !this.rightSidebar.contains(e.target) &&
                     !this.sidebarToggle.contains(e.target)) {
                     this.rightSidebar.classList.remove('active');
                 }
@@ -917,13 +943,13 @@ class DocumentEditor {
 
     handleMobileResize() {
         const width = window.innerWidth;
-        
+
         // Reset sidebar states on resize
         if (width > 768) {
             // Remove mobile classes
             this.rightSidebar.classList.remove('active');
             this.mainContentArea.classList.remove('sidebar-hidden');
-            
+
             // Restore hidden state if it was hidden before
             const wasHidden = this.rightSidebar.classList.contains('hidden');
             if (wasHidden) {
@@ -934,7 +960,7 @@ class DocumentEditor {
             this.rightSidebar.classList.remove('hidden');
             this.mainContentArea.classList.remove('sidebar-hidden');
             this.sidebarToggle.classList.remove('sidebar-hidden');
-            
+
             // Reset icon
             const icon = this.sidebarToggle.querySelector('i');
             icon.classList.remove('fa-chevron-left');
