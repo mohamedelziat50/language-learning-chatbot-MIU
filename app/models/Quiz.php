@@ -39,19 +39,19 @@ class Quiz {
                 [
                     "role" => "user",
                     "content" => "Generate a quiz for learning $language.
-Difficulty: $difficulty/5.
-MCQs: $mcqCount.
-Short answer questions: $shortCount.
+            Difficulty: $difficulty/5.
+            MCQs: $mcqCount.
+            Short answer questions: $shortCount.
 
-Return JSON ONLY in this format:
-{
-    \"mcq\": [
-        {\"question\": \"...\", \"options\": [\"...\", \"...\", \"...\"], \"answer\": \"...\"}
-    ],
-    \"short\": [
-        {\"question\": \"...\", \"answer\": \"...\"}
-    ]
-}"
+            Return JSON ONLY in this format:
+            {
+                \"mcq\": [
+                    {\"question\": \"...\", \"options\": [\"...\", \"...\", \"...\"], \"answer\": \"...\"}
+                ],
+                \"short\": [
+                    {\"question\": \"...\", \"answer\": \"...\"}
+                ]
+            }"
                 ]
             ],
             "temperature" => 0.7,
