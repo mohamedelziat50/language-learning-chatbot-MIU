@@ -1,10 +1,8 @@
 <?php
-/**
- * User Model
- * 
- * Handles all user-related database operations
- */
-class User {
+require_once __DIR__ . '/../services/AuthenticationInterface.php';
+require_once __DIR__ . '/../services/UserRepositoryInterface.php';
+
+class User implements AuthenticationInterface, UserRepositoryInterface {
     private $conn;
     private $table_name = "users";
     
@@ -18,19 +16,11 @@ class User {
     public $created_at;
     public $updated_at;
     
-    /**
-     * Constructor with database connection
-     * @param object $db Database connection object
-     */
     public function __construct($db) {
         $this->conn = $db;
     }
     
-    /**
-     * Get all users
-     * @return array Array of users
-     */
-    public function getAll() {
+    public function getAll(): array {
         $query = "SELECT user_id, name, email, role, status, created_at, updated_at 
                   FROM " . $this->table_name . " 
                   ORDER BY created_at DESC";
@@ -44,12 +34,7 @@ class User {
         return [];
     }
     
-    /**
-     * Get user by ID
-     * @param int $id User ID
-     * @return array|null User data or null if not found
-     */
-    public function getById($id) {
+    public function getById(int $id): ?array {
         $query = "SELECT user_id, name, email, role, status, created_at, updated_at 
                   FROM " . $this->table_name . " 
                   WHERE user_id = ? 
@@ -67,12 +52,7 @@ class User {
         return null;
     }
     
-    /**
-     * Get user by email
-     * @param string $email User email
-     * @return array|null User data or null if not found
-     */
-    public function getByEmail($email) {
+    public function getByEmail(string $email): ?array {
         $query = "SELECT user_id, name, email, password, role, status, created_at, updated_at 
                   FROM " . $this->table_name . " 
                   WHERE email = ? 
@@ -90,11 +70,6 @@ class User {
         return null;
     }
     
-    /**
-     * Check if email exists
-     * @param string $email Email to check
-     * @return bool True if exists, false otherwise
-     */
     public function emailExists($email) {
         $query = "SELECT user_id FROM " . $this->table_name . " WHERE email = ? LIMIT 1";
         
@@ -106,32 +81,12 @@ class User {
         return mysqli_num_rows($result) > 0;
     }
     
-    /**
-     * Create new user
-     * @return array Response with status and message
-     */
-    public function create() {
-        // Validate required fields
-        if (empty($this->name) || empty($this->email) || empty($this->password)) {
-            return ["status" => "error", "message" => "Missing required fields"];
-        }
-        
-        // Check if email already exists
-        if ($this->emailExists($this->email)) {
-            return ["status" => "error", "message" => "Email already exists"];
-        }
-        
-        // Set defaults
+    public function create(): array {
         if (empty($this->role)) {
             $this->role = 'student';
         }
         if (empty($this->status)) {
             $this->status = 'active';
-        }
-        
-        // Hash password if not already hashed
-        if (!password_get_info($this->password)['algo']) {
-            $this->password = password_hash($this->password, PASSWORD_DEFAULT);
         }
         
         $query = "INSERT INTO " . $this->table_name . " 
@@ -155,11 +110,7 @@ class User {
         return ["status" => "error", "message" => mysqli_error($this->conn)];
     }
     
-    /**
-     * Update user
-     * @return array Response with status and message
-     */
-    public function update() {
+    public function update(): array {
         if (empty($this->user_id)) {
             return ["status" => "error", "message" => "User ID is required"];
         }
@@ -184,13 +135,8 @@ class User {
         return ["status" => "error", "message" => mysqli_error($this->conn)];
     }
     
-    /**
-     * Update user password
-     * @param string $newPassword New password
-     * @return array Response with status and message
-     */
-    public function updatePassword($newPassword) {
-        if (empty($this->user_id)) {
+    public function updatePassword(int $userId, string $newPassword): array {
+        if (empty($userId)) {
             return ["status" => "error", "message" => "User ID is required"];
         }
         
@@ -201,7 +147,7 @@ class User {
                   WHERE user_id = ?";
         
         $stmt = mysqli_prepare($this->conn, $query);
-        mysqli_stmt_bind_param($stmt, "si", $hashedPassword, $this->user_id);
+        mysqli_stmt_bind_param($stmt, "si", $hashedPassword, $userId);
         
         if (mysqli_stmt_execute($stmt)) {
             return ["status" => "success", "message" => "Password updated successfully"];
@@ -210,12 +156,7 @@ class User {
         return ["status" => "error", "message" => mysqli_error($this->conn)];
     }
     
-    /**
-     * Delete user
-     * @param int $id User ID to delete
-     * @return array Response with status and message
-     */
-    public function delete($id) {
+    public function delete(int $id): array {
         $query = "DELETE FROM " . $this->table_name . " WHERE user_id = ?";
         
         $stmt = mysqli_prepare($this->conn, $query);
@@ -228,11 +169,7 @@ class User {
         return ["status" => "error", "message" => mysqli_error($this->conn)];
     }
     
-    /**
-     * Get total users count
-     * @return int Total number of users
-     */
-    public function getTotalCount() {
+    public function getTotalCount(): int {
         $query = "SELECT COUNT(*) as total FROM " . $this->table_name;
         $result = mysqli_query($this->conn, $query);
         
@@ -244,18 +181,11 @@ class User {
         return 0;
     }
     
-    /**
-     * Verify user login credentials
-     * @param string $email User email
-     * @param string $password Plain text password
-     * @return array|null User data if valid, null otherwise
-     */
-    public function verifyLogin($email, $password) {
+    public function verifyLogin(string $email, string $password): ?array {
         $user = $this->getByEmail($email);
         
         if ($user && isset($user['password'])) {
             if (password_verify($password, $user['password'])) {
-                // Remove password from returned data
                 unset($user['password']);
                 return $user;
             }
@@ -264,11 +194,6 @@ class User {
         return null;
     }
     
-    /**
-     * Get users by role
-     * @param string $role User role (student, tutor, admin)
-     * @return array Array of users
-     */
     public function getByRole($role) {
         $query = "SELECT user_id, name, email, role, status, created_at, updated_at 
                   FROM " . $this->table_name . " 
@@ -287,11 +212,6 @@ class User {
         return [];
     }
     
-    /**
-     * Get users by status
-     * @param string $status User status (active, inactive)
-     * @return array Array of users
-     */
     public function getByStatus($status) {
         $query = "SELECT user_id, name, email, role, status, created_at, updated_at 
                   FROM " . $this->table_name . " 

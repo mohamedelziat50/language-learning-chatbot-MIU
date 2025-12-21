@@ -104,16 +104,6 @@ if (exportBtn) {
   });
 }
 
-// Logout button
-const logoutBtn = document.querySelector('.logout-btn');
-if (logoutBtn) {
-  logoutBtn.addEventListener('click', () => {
-    if (confirm('Are you sure you want to logout?')) {
-      console.log('Logging out...');
-      window.location.href = '/login';
-    }
-  });
-}
 
 // Table row click
 const tableRows = document.querySelectorAll('.data-table tbody tr');

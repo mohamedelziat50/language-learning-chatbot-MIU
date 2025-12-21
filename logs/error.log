@@ -61,4 +61,190 @@ Stack trace:
 #2 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\admin_routes.php(2): require_once('C:\\xampp\\htdocs...')
 #3 C:\xampp\htdocs\language-learning-chatbot-MIU\app\index.php(21): require_once('C:\\xampp\\htdocs...')
 #4 {main}
+<<<<<<< HEAD
+<<<<<<< HEAD
+  thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php on line 103
+[21-Dec-2025 16:37:49 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
+[21-Dec-2025 16:37:49 Europe/Berlin] PATH_INFO: /documents/3/update
+[21-Dec-2025 16:37:49 Europe/Berlin] Parsed request: /documents/3/update
+[21-Dec-2025 16:37:49 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 't work what do i do', preview_text = 'my code doesn't work what do i do' 
+  ...' at line 1 in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php:103
+Stack trace:
+#0 C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php(103): mysqli_query(Object(mysqli), 'UPDATE document...')
+#1 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(52): updateDocument('3', '2', 'Untitled Docume...', 'my code doesn't...')
+#2 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(270): handle_updateDocument('3')
+#3 C:\xampp\htdocs\language-learning-chatbot-MIU\app\index.php(44): registerDocumentRoutes('/documents/3/up...', 'POST')
+#4 {main}
+  thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php on line 103
+[21-Dec-2025 16:38:18 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/suggestions
+[21-Dec-2025 16:38:18 Europe/Berlin] PATH_INFO: /documents/3/suggestions
+[21-Dec-2025 16:38:18 Europe/Berlin] Parsed request: /documents/3/suggestions
+[21-Dec-2025 16:38:19 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
+[21-Dec-2025 16:38:19 Europe/Berlin] PATH_INFO: /documents/3/update
+[21-Dec-2025 16:38:19 Europe/Berlin] Parsed request: /documents/3/update
+[21-Dec-2025 16:38:24 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/delete
+[21-Dec-2025 16:38:24 Europe/Berlin] PATH_INFO: /documents/3/delete
+[21-Dec-2025 16:38:24 Europe/Berlin] Parsed request: /documents/3/delete
+[21-Dec-2025 16:38:26 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/2/delete
+[21-Dec-2025 16:38:26 Europe/Berlin] PATH_INFO: /documents/2/delete
+[21-Dec-2025 16:38:26 Europe/Berlin] Parsed request: /documents/2/delete
+[21-Dec-2025 16:38:28 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/delete
+[21-Dec-2025 16:38:28 Europe/Berlin] PATH_INFO: /documents/1/delete
+[21-Dec-2025 16:38:28 Europe/Berlin] Parsed request: /documents/1/delete
+[21-Dec-2025 16:38:31 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/create
+[21-Dec-2025 16:38:31 Europe/Berlin] PATH_INFO: /documents/create
+[21-Dec-2025 16:38:31 Europe/Berlin] Parsed request: /documents/create
+[21-Dec-2025 16:38:31 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/suggestions
+[21-Dec-2025 16:38:31 Europe/Berlin] PATH_INFO: /documents/4/suggestions
+[21-Dec-2025 16:38:31 Europe/Berlin] Parsed request: /documents/4/suggestions
+[21-Dec-2025 16:38:38 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/update
+[21-Dec-2025 16:38:38 Europe/Berlin] PATH_INFO: /documents/4/update
+[21-Dec-2025 16:38:38 Europe/Berlin] Parsed request: /documents/4/update
+[21-Dec-2025 16:38:38 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 't work what do i do', preview_text = 'my code doesn't work what do i do' 
+  ...' at line 1 in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php:103
+Stack trace:
+#0 C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php(103): mysqli_query(Object(mysqli), 'UPDATE document...')
+#1 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(52): updateDocument('4', '2', 'Untitled Docume...', 'my code doesn't...')
+#2 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(270): handle_updateDocument('4')
+#3 C:\xampp\htdocs\language-learning-chatbot-MIU\app\index.php(44): registerDocumentRoutes('/documents/4/up...', 'POST')
+#4 {main}
+  thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php on line 103
+[21-Dec-2025 16:38:40 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/update
+[21-Dec-2025 16:38:40 Europe/Berlin] PATH_INFO: /documents/4/update
+[21-Dec-2025 16:38:40 Europe/Berlin] Parsed request: /documents/4/update
+[21-Dec-2025 16:38:40 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 't work what do i do', preview_text = 'my code doesn't work what do i do' 
+  ...' at line 1 in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php:103
+Stack trace:
+#0 C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php(103): mysqli_query(Object(mysqli), 'UPDATE document...')
+#1 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(52): updateDocument('4', '2', 'Untitled Docume...', 'my code doesn't...')
+#2 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(270): handle_updateDocument('4')
+#3 C:\xampp\htdocs\language-learning-chatbot-MIU\app\index.php(44): registerDocumentRoutes('/documents/4/up...', 'POST')
+#4 {main}
+  thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php on line 103
+[21-Dec-2025 16:39:01 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/update
+[21-Dec-2025 16:39:01 Europe/Berlin] PATH_INFO: /documents/4/update
+[21-Dec-2025 16:39:01 Europe/Berlin] Parsed request: /documents/4/update
+[21-Dec-2025 16:39:01 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 't work what do i do', preview_text = 'my code doesn't work what do i do' 
+  ...' at line 1 in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php:103
+Stack trace:
+#0 C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php(103): mysqli_query(Object(mysqli), 'UPDATE document...')
+#1 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(52): updateDocument('4', '2', 'Untitled Docume...', 'my code doesn't...')
+#2 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(270): handle_updateDocument('4')
+#3 C:\xampp\htdocs\language-learning-chatbot-MIU\app\index.php(44): registerDocumentRoutes('/documents/4/up...', 'POST')
+#4 {main}
+  thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php on line 103
+[21-Dec-2025 16:39:31 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/update
+[21-Dec-2025 16:39:31 Europe/Berlin] PATH_INFO: /documents/4/update
+[21-Dec-2025 16:39:31 Europe/Berlin] Parsed request: /documents/4/update
+[21-Dec-2025 16:39:49 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/suggestions
+[21-Dec-2025 16:39:49 Europe/Berlin] PATH_INFO: /documents/4/suggestions
+[21-Dec-2025 16:39:49 Europe/Berlin] Parsed request: /documents/4/suggestions
+[21-Dec-2025 16:40:01 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/update
+[21-Dec-2025 16:40:01 Europe/Berlin] PATH_INFO: /documents/4/update
+[21-Dec-2025 16:40:01 Europe/Berlin] Parsed request: /documents/4/update
+[21-Dec-2025 16:40:03 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/update
+[21-Dec-2025 16:40:03 Europe/Berlin] PATH_INFO: /documents/4/update
+[21-Dec-2025 16:40:03 Europe/Berlin] Parsed request: /documents/4/update
+[21-Dec-2025 16:40:03 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/analyze
+[21-Dec-2025 16:40:03 Europe/Berlin] PATH_INFO: /documents/4/analyze
+[21-Dec-2025 16:40:03 Europe/Berlin] Parsed request: /documents/4/analyze
+[21-Dec-2025 16:40:05 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/suggestions
+[21-Dec-2025 16:40:05 Europe/Berlin] PATH_INFO: /documents/4/suggestions
+[21-Dec-2025 16:40:05 Europe/Berlin] Parsed request: /documents/4/suggestions
+[21-Dec-2025 16:40:15 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/suggestions/505/applySuggestion
+[21-Dec-2025 16:40:15 Europe/Berlin] PATH_INFO: /suggestions/505/applySuggestion
+[21-Dec-2025 16:40:15 Europe/Berlin] Parsed request: /suggestions/505/applySuggestion
+[21-Dec-2025 16:40:15 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4
+[21-Dec-2025 16:40:15 Europe/Berlin] PATH_INFO: /documents/4
+[21-Dec-2025 16:40:15 Europe/Berlin] Parsed request: /documents/4
+[21-Dec-2025 16:40:15 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/update
+[21-Dec-2025 16:40:15 Europe/Berlin] PATH_INFO: /documents/4/update
+[21-Dec-2025 16:40:15 Europe/Berlin] Parsed request: /documents/4/update
+[21-Dec-2025 16:40:15 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/analyze
+[21-Dec-2025 16:40:15 Europe/Berlin] PATH_INFO: /documents/4/analyze
+[21-Dec-2025 16:40:15 Europe/Berlin] Parsed request: /documents/4/analyze
+[21-Dec-2025 16:40:17 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/suggestions
+[21-Dec-2025 16:40:17 Europe/Berlin] PATH_INFO: /documents/4/suggestions
+[21-Dec-2025 16:40:17 Europe/Berlin] Parsed request: /documents/4/suggestions
+[21-Dec-2025 16:40:19 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/update
+[21-Dec-2025 16:40:19 Europe/Berlin] PATH_INFO: /documents/4/update
+[21-Dec-2025 16:40:19 Europe/Berlin] Parsed request: /documents/4/update
+[21-Dec-2025 16:40:23 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/suggestions/507/applySuggestion
+[21-Dec-2025 16:40:23 Europe/Berlin] PATH_INFO: /suggestions/507/applySuggestion
+[21-Dec-2025 16:40:23 Europe/Berlin] Parsed request: /suggestions/507/applySuggestion
+[21-Dec-2025 16:40:24 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4
+[21-Dec-2025 16:40:24 Europe/Berlin] PATH_INFO: /documents/4
+[21-Dec-2025 16:40:24 Europe/Berlin] Parsed request: /documents/4
+[21-Dec-2025 16:40:24 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/update
+[21-Dec-2025 16:40:24 Europe/Berlin] PATH_INFO: /documents/4/update
+[21-Dec-2025 16:40:24 Europe/Berlin] Parsed request: /documents/4/update
+[21-Dec-2025 16:40:24 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/analyze
+[21-Dec-2025 16:40:24 Europe/Berlin] PATH_INFO: /documents/4/analyze
+[21-Dec-2025 16:40:24 Europe/Berlin] Parsed request: /documents/4/analyze
+[21-Dec-2025 16:40:25 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/suggestions
+[21-Dec-2025 16:40:25 Europe/Berlin] PATH_INFO: /documents/4/suggestions
+[21-Dec-2025 16:40:25 Europe/Berlin] Parsed request: /documents/4/suggestions
+[21-Dec-2025 16:40:30 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/suggestions/511/applySuggestion
+[21-Dec-2025 16:40:30 Europe/Berlin] PATH_INFO: /suggestions/511/applySuggestion
+[21-Dec-2025 16:40:30 Europe/Berlin] Parsed request: /suggestions/511/applySuggestion
+[21-Dec-2025 16:40:30 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4
+[21-Dec-2025 16:40:30 Europe/Berlin] PATH_INFO: /documents/4
+[21-Dec-2025 16:40:30 Europe/Berlin] Parsed request: /documents/4
+[21-Dec-2025 16:40:30 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/update
+[21-Dec-2025 16:40:30 Europe/Berlin] PATH_INFO: /documents/4/update
+[21-Dec-2025 16:40:30 Europe/Berlin] Parsed request: /documents/4/update
+[21-Dec-2025 16:40:30 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/analyze
+[21-Dec-2025 16:40:30 Europe/Berlin] PATH_INFO: /documents/4/analyze
+[21-Dec-2025 16:40:30 Europe/Berlin] Parsed request: /documents/4/analyze
+[21-Dec-2025 16:40:32 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/suggestions
+[21-Dec-2025 16:40:32 Europe/Berlin] PATH_INFO: /documents/4/suggestions
+[21-Dec-2025 16:40:32 Europe/Berlin] Parsed request: /documents/4/suggestions
+[21-Dec-2025 16:40:34 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/update
+[21-Dec-2025 16:40:34 Europe/Berlin] PATH_INFO: /documents/4/update
+[21-Dec-2025 16:40:34 Europe/Berlin] Parsed request: /documents/4/update
+[21-Dec-2025 16:40:34 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/analyze
+[21-Dec-2025 16:40:34 Europe/Berlin] PATH_INFO: /documents/4/analyze
+[21-Dec-2025 16:40:34 Europe/Berlin] Parsed request: /documents/4/analyze
+[21-Dec-2025 16:40:36 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/suggestions
+[21-Dec-2025 16:40:36 Europe/Berlin] PATH_INFO: /documents/4/suggestions
+[21-Dec-2025 16:40:36 Europe/Berlin] Parsed request: /documents/4/suggestions
+[21-Dec-2025 16:40:38 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/suggestions/514/applySuggestion
+[21-Dec-2025 16:40:38 Europe/Berlin] PATH_INFO: /suggestions/514/applySuggestion
+[21-Dec-2025 16:40:38 Europe/Berlin] Parsed request: /suggestions/514/applySuggestion
+[21-Dec-2025 16:40:39 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4
+[21-Dec-2025 16:40:39 Europe/Berlin] PATH_INFO: /documents/4
+[21-Dec-2025 16:40:39 Europe/Berlin] Parsed request: /documents/4
+[21-Dec-2025 16:40:39 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/update
+[21-Dec-2025 16:40:39 Europe/Berlin] PATH_INFO: /documents/4/update
+[21-Dec-2025 16:40:39 Europe/Berlin] Parsed request: /documents/4/update
+[21-Dec-2025 16:40:39 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/analyze
+[21-Dec-2025 16:40:39 Europe/Berlin] PATH_INFO: /documents/4/analyze
+[21-Dec-2025 16:40:39 Europe/Berlin] Parsed request: /documents/4/analyze
+[21-Dec-2025 16:40:40 Europe/Berlin] AI Grammar Service Error (Groq): Groq API Error: Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kd0grjvse4pvhj00xmd1kd7r` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5543, Requested 553. Please try again in 960ms. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing
+[21-Dec-2025 16:40:40 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/suggestions
+[21-Dec-2025 16:40:40 Europe/Berlin] PATH_INFO: /documents/4/suggestions
+[21-Dec-2025 16:40:40 Europe/Berlin] Parsed request: /documents/4/suggestions
+[21-Dec-2025 16:40:50 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/4/update
+[21-Dec-2025 16:40:50 Europe/Berlin] PATH_INFO: /documents/4/update
+[21-Dec-2025 16:40:50 Europe/Berlin] Parsed request: /documents/4/update
+[21-Dec-2025 17:49:36 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/deleteUser
+[21-Dec-2025 17:49:36 Europe/Berlin] PATH_INFO: /deleteUser
+[21-Dec-2025 17:49:36 Europe/Berlin] Parsed request: /deleteUser
+[21-Dec-2025 17:49:53 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/updateUser
+[21-Dec-2025 17:49:53 Europe/Berlin] PATH_INFO: /updateUser
+[21-Dec-2025 17:49:53 Europe/Berlin] Parsed request: /updateUser
+[21-Dec-2025 20:54:57 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/deleteUser
+[21-Dec-2025 20:54:57 Europe/Berlin] PATH_INFO: /deleteUser
+[21-Dec-2025 20:54:57 Europe/Berlin] Parsed request: /deleteUser
+[21-Dec-2025 20:55:13 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/updateUser
+[21-Dec-2025 20:55:13 Europe/Berlin] PATH_INFO: /updateUser
+[21-Dec-2025 20:55:13 Europe/Berlin] Parsed request: /updateUser
+[21-Dec-2025 22:12:59 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/deleteUser
+[21-Dec-2025 22:12:59 Europe/Berlin] PATH_INFO: /deleteUser
+[21-Dec-2025 22:12:59 Europe/Berlin] Parsed request: /deleteUser
+=======
   thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\config\db_connect.php on line 9
+>>>>>>> bcb2a28aa53ce641b7ca1a794a5defbb7e4e53a8
+=======
+  thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\config\db_connect.php on line 9
+>>>>>>> bcb2a28aa53ce641b7ca1a794a5defbb7e4e53a8
