@@ -63,12 +63,14 @@ class AIGrammarService {
     $prompt = $instructions . "\n\nText to analyze:\n" . $content . "\n\n";
     // --- END: MODIFIED INSTRUCTIONS ---
     
-    $prompt .= "Return a JSON array of suggestions. Each suggestion should have:
+    $prompt .= "**CRITICAL: suggested_text MUST be different from original_text. If you suggest a capitalization change, the suggested_text must reflect the actual change (e.g., 'hello' → 'Hello', not 'hello' → 'hello').**
+
+Return a JSON array of suggestions. Each suggestion should have:
 - type: 'grammar', 'vocabulary', 'spelling', or 'clarity'
 - position_start: character position where the issue starts (0-indexed)
 - position_end: character position where the issue ends
-- original_text: the text that has the issue
-- suggested_text: the corrected text (or null if just a suggestion)
+- original_text: the text that has the issue (exactly as it appears)
+- suggested_text: the corrected text with the actual change applied (MUST be different from original_text)
 - explanation: brief explanation of the issue
 
 Example format:
@@ -88,6 +90,14 @@ Example format:
     \"original_text\": \"nome\",
     \"suggested_text\": \"name\",
     \"explanation\": \"Spelling error. 'Nome' should be 'name' in this context.\"
+  },
+  {
+    \"type\": \"grammar\",
+    \"position_start\": 0,
+    \"position_end\": 5,
+    \"original_text\": \"hello\",
+    \"suggested_text\": \"Hello\",
+    \"explanation\": \"Capitalize the first letter at the beginning of a sentence.\"
   },
   {
     \"type\": \"vocabulary\",

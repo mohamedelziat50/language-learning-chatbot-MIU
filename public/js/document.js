@@ -619,22 +619,30 @@ class DocumentEditor {
             const data = await response.json();
 
             if (data.status === 'success') {
-                // Remove the suggestion card
-                suggestionCard.style.opacity = '0.5';
-                suggestionCard.style.pointerEvents = 'none';
-                setTimeout(() => {
-                    suggestionCard.remove();
-                    this.updateSuggestionCount();
+                // Disable all suggestion cards (make them unclickable)
+                const allCards = document.querySelectorAll('.suggestion-card');
+                allCards.forEach(card => {
+                    card.style.pointerEvents = 'none';
+                    card.style.opacity = '0.6';
+                });
+
+                // Fade out the applied suggestion smoothly
+                suggestionCard.style.transition = 'opacity 0.3s ease';
+                suggestionCard.style.opacity = '0';
+                
+                setTimeout(async () => {
+                    // Clear all suggestions from UI
+                    this.clearSuggestions();
+
+                    // Reload document content
+                    await this.reloadDocumentContent();
+
+                    // Automatically re-analyze the updated content
+                    await this.analyzeContent();
+
+                    // Show success message
+                    window.NotificationManager?.showNotification('Suggestion applied successfully', 'success');
                 }, 300);
-
-                // Reload document content
-                await this.reloadDocumentContent();
-
-                // Reload suggestions to update positions
-                await this.loadSuggestions();
-
-                // Show success message
-                window.NotificationManager?.showNotification('Suggestion applied successfully', 'success');
             } else {
                 button.disabled = false;
                 button.textContent = 'Accept';
