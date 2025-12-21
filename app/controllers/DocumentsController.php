@@ -96,8 +96,13 @@ function updateDocument($document_id, $user_id, $title, $content) {
         $preview_text .= '...';
     }
     
+    // Escape all values to prevent SQL injection (apostrophes within the title or content will break the query)
+    $title_escaped = mysqli_real_escape_string($conn, $title);
+    $content_escaped = mysqli_real_escape_string($conn, $content);
+    $preview_text_escaped = mysqli_real_escape_string($conn, $preview_text);
+    
     // Update the document
-    $sql = "UPDATE documents SET title = '$title', content = '$content', preview_text = '$preview_text' 
+    $sql = "UPDATE documents SET title = '$title_escaped', content = '$content_escaped', preview_text = '$preview_text_escaped' 
             WHERE document_id = $document_id";
     
     return mysqli_query($conn, $sql); // Returns true if the document was updated, false if it was not updated
@@ -189,11 +194,11 @@ function analyzeGrammar($document_id, $content) {
     // Check API status
     if ($ai_suggestions === false) {
         // API failed - check if it's because API key is missing
-        $api_key = getenv('OPENAI_API_KEY');
+        $api_key = getenv('GROQ_API_KEY');
         if (!$api_key) {
-            return ['suggestions' => [], 'api_status' => 'no_key', 'error' => 'OpenAI API key not configured'];
+            return ['suggestions' => [], 'api_status' => 'no_key', 'error' => 'GROQ_API_KEY not configured in .env'];
         }
-        return ['suggestions' => [], 'api_status' => 'failed', 'error' => 'OpenAI API call failed. Check error logs for details.'];
+        return ['suggestions' => [], 'api_status' => 'failed', 'error' => 'Groq API call failed. Check error logs for details.'];
     }
     
     // Only use AI-powered analysis; if none returned, stop here
@@ -217,7 +222,8 @@ function analyzeGrammar($document_id, $content) {
                          AND position_end = $position_end";
             $check_result = mysqli_query($conn, $check_sql);
             
-            if ($check_result && mysqli_num_rows($check_result) == 0) {
+            // Only insert if there's an actual change (original_text != suggested_text)
+            if ($original_text !== $suggested_text && $check_result && mysqli_num_rows($check_result) == 0) {
                 $sql = "INSERT INTO document_suggestions 
                         (document_id, suggestion_type, original_text, suggested_text, position_start, position_end, explanation) 
                         VALUES ($document_id, 'grammar', '" . mysqli_real_escape_string($conn, $original_text) . "', 
@@ -258,11 +264,11 @@ function analyzeVocabulary($document_id, $content) {
     // Check API status
     if ($ai_suggestions === false) {
         // API failed - check if it's because API key is missing
-        $api_key = getenv('OPENAI_API_KEY');
+        $api_key = getenv('GROQ_API_KEY');
         if (!$api_key) {
-            return ['suggestions' => [], 'api_status' => 'no_key', 'error' => 'OpenAI API key not configured'];
+            return ['suggestions' => [], 'api_status' => 'no_key', 'error' => 'GROQ_API_KEY not configured in .env'];
         }
-        return ['suggestions' => [], 'api_status' => 'failed', 'error' => 'OpenAI API call failed. Check error logs for details.'];
+        return ['suggestions' => [], 'api_status' => 'failed', 'error' => 'Groq API call failed. Check error logs for details.'];
     }
     
     // Only use AI-powered analysis; if none returned, stop here
@@ -317,19 +323,64 @@ function getSuggestions($document_id) {
         return false;
     }
     
+    // Get current document content
+    $doc_sql = "SELECT content FROM documents WHERE document_id = $document_id";
+    $doc_result = mysqli_query($conn, $doc_sql);
+    
+    if (!$doc_result || mysqli_num_rows($doc_result) === 0) {
+        return [];
+    }
+    
+    $document = mysqli_fetch_assoc($doc_result);
+    $content = $document['content'];
+    $content_length = strlen($content);
+    
+    // Get all suggestions
     $sql = "SELECT * FROM document_suggestions 
             WHERE document_id = $document_id 
             ORDER BY position_start ASC, created_at ASC";
     $result = mysqli_query($conn, $sql);
     
     $suggestions = [];
+    $invalid_suggestion_ids = [];
+    
     if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
+            $position_start = intval($row['position_start']);
+            $position_end = intval($row['position_end']);
+            $original_text = $row['original_text'];
+            
+            // Validate position bounds
+            if ($position_start < 0 || $position_start > $content_length ||
+                $position_end < $position_start || $position_end > $content_length) {
+                // Invalid positions - mark for deletion
+                $invalid_suggestion_ids[] = $row['suggestion_id'];
+                continue;
+            }
+            
+            // Validate text matches (only for non-insert suggestions)
+            if ($position_start != $position_end) {
+                $actual_text = substr($content, $position_start, $position_end - $position_start);
+                
+                if ($actual_text !== $original_text) {
+                    // Text doesn't match - try to find it nearby
+                    $search_start = max(0, $position_start - 50);
+                    $found_position = strpos($content, $original_text, $search_start);
+                    
+                    if ($found_position === false) {
+                        // Text not found - mark for deletion
+                        $invalid_suggestion_ids[] = $row['suggestion_id'];
+                        continue;
+                    }
+                }
+            }
+            
+            // Suggestion is valid
             $suggestions[] = $row;
         }
     }
     
-    return $suggestions; // Returns the suggestions data as an array of associative arrays (JUST LIKE A PYTHON LIST)
+    return $suggestions;
 }
 
 /**
@@ -365,10 +416,42 @@ function applySuggestion($suggestion_id) {
     $content = $document['content'];
     
     // Apply the suggestion
-    $position_start = $suggestion['position_start'];
-    $position_end = $suggestion['position_end'];
+    $position_start = intval($suggestion['position_start']);
+    $position_end = intval($suggestion['position_end']);
     $original_text = $suggestion['original_text'];
     $suggested_text = $suggestion['suggested_text'] ?? '';
+    
+    // Validate positions - ensure they're within content bounds
+    $content_length = strlen($content);
+    if ($position_start < 0 || $position_start > $content_length) {
+        error_log("Invalid position_start: $position_start for content length $content_length");
+        return false;
+    }
+    if ($position_end < $position_start || $position_end > $content_length) {
+        error_log("Invalid position_end: $position_end for content length $content_length (start: $position_start)");
+        return false;
+    }
+    
+    // Verify text matches - check if text at stored position matches original_text
+    if ($position_start != $position_end) {
+        $actual_text_at_position = substr($content, $position_start, $position_end - $position_start);
+        
+        if ($actual_text_at_position !== $original_text) {
+            // Find correct position - search for original_text near expected position
+            $search_start = max(0, $position_start - 50);
+            $found_position = strpos($content, $original_text, $search_start);
+            
+            if ($found_position !== false) {
+                // Found it! Update positions
+                $position_start = $found_position;
+                $position_end = $found_position + strlen($original_text);
+            } else {
+                // Safe replacement - only replace if text is found and matches
+                error_log("Original text '{$original_text}' not found at or near expected position {$suggestion['position_start']}");
+                return false;
+            }
+        }
+    }
     
     // If position_start equals position_end, it means we're inserting (not replacing)
     // This is used for punctuation suggestions where we just add "." at the end
@@ -377,7 +460,8 @@ function applySuggestion($suggestion_id) {
         $new_content = substr_replace($content, $suggested_text, $position_start, 0);
     } else {
         // Replace the original text with suggested text
-        $new_content = substr_replace($content, $suggested_text, $position_start, $position_end - $position_start);
+        $replacement_length = $position_end - $position_start;
+        $new_content = substr_replace($content, $suggested_text, $position_start, $replacement_length);
     }
     
     // Update preview text (first 120 characters)
@@ -395,6 +479,10 @@ function applySuggestion($suggestion_id) {
         // Delete the applied suggestion
         $delete_sql = "DELETE FROM document_suggestions WHERE suggestion_id = $suggestion_id";
         mysqli_query($conn, $delete_sql);
+        
+        // Delete all remaining suggestions - their positions are now invalid after content change
+        $delete_all_sql = "DELETE FROM document_suggestions WHERE document_id = " . $suggestion['document_id'];
+        mysqli_query($conn, $delete_all_sql);
         
         return true; // Returns true if the suggestion was applied successfully
     }

@@ -1,20 +1,20 @@
 <?php
 /**
  * AI Grammar Service
- * Uses OpenAI API to provide intelligent grammar and vocabulary suggestions
+ * Uses Groq API to provide intelligent grammar and vocabulary suggestions
  */
 
 require_once __DIR__ . '/../../config/load_env.php';
 
 class AIGrammarService {
     private $api_key;
-    private $api_url = "https://api.openai.com/v1/chat/completions";
-    private $model = "gpt-4o-mini"; // Use mini for cost efficiency
+    private $api_url = "https://api.groq.com/openai/v1/chat/completions";
+    private $model = "llama-3.1-8b-instant"; // Fast and free on Groq (updated from deprecated llama-3.1-70b-versatile)
     
     public function __construct() {
-        $this->api_key = getenv('OPENAI_API_KEY');
+        $this->api_key = getenv('GROQ_API_KEY');
         if (!$this->api_key) {
-            error_log("Warning: OPENAI_API_KEY not set in .env file");
+            error_log("Warning: GROQ_API_KEY not set in .env file");
         }
     }
     
@@ -34,21 +34,18 @@ class AIGrammarService {
         $prompt = $this->buildPrompt($content, $analyze_grammar, $analyze_vocabulary);
         
         try {
-            $response = $this->callOpenAI($prompt);
+            $response = $this->callGroqAPI($prompt);
             return $this->parseAIResponse($response, $content);
         } catch (Exception $e) {
-            error_log("AI Grammar Service Error: " . $e->getMessage());
+            error_log("AI Grammar Service Error (Groq): " . $e->getMessage());
             return false; // Return false to fallback to basic rules
         }
     }
     
     /**
-     * Build the prompt for OpenAI
+     * Build the prompt for Groq API
      */
-    /**
- * Build the prompt for OpenAI
- */
-private function buildPrompt($content, $analyze_grammar, $analyze_vocabulary) {
+    private function buildPrompt($content, $analyze_grammar, $analyze_vocabulary) {
     
     // --- START: MODIFIED INSTRUCTIONS ---
     $instructions = "You are a professional grammar and writing assistant. 
@@ -66,12 +63,14 @@ private function buildPrompt($content, $analyze_grammar, $analyze_vocabulary) {
     $prompt = $instructions . "\n\nText to analyze:\n" . $content . "\n\n";
     // --- END: MODIFIED INSTRUCTIONS ---
     
-    $prompt .= "Return a JSON array of suggestions. Each suggestion should have:
+    $prompt .= "**CRITICAL: suggested_text MUST be different from original_text. If you suggest a capitalization change, the suggested_text must reflect the actual change (e.g., 'hello' → 'Hello', not 'hello' → 'hello').**
+
+Return a JSON array of suggestions. Each suggestion should have:
 - type: 'grammar', 'vocabulary', 'spelling', or 'clarity'
 - position_start: character position where the issue starts (0-indexed)
 - position_end: character position where the issue ends
-- original_text: the text that has the issue
-- suggested_text: the corrected text (or null if just a suggestion)
+- original_text: the text that has the issue (exactly as it appears)
+- suggested_text: the corrected text with the actual change applied (MUST be different from original_text)
 - explanation: brief explanation of the issue
 
 Example format:
@@ -93,6 +92,14 @@ Example format:
     \"explanation\": \"Spelling error. 'Nome' should be 'name' in this context.\"
   },
   {
+    \"type\": \"grammar\",
+    \"position_start\": 0,
+    \"position_end\": 5,
+    \"original_text\": \"hello\",
+    \"suggested_text\": \"Hello\",
+    \"explanation\": \"Capitalize the first letter at the beginning of a sentence.\"
+  },
+  {
     \"type\": \"vocabulary\",
     \"position_start\": 100,
     \"position_end\": 109,
@@ -108,9 +115,9 @@ Return ONLY valid JSON, no other text.";
 }
     
     /**
-     * Call OpenAI API
+     * Call Groq API
      */
-    private function callOpenAI($prompt) {
+    private function callGroqAPI($prompt) {
         $data = [
             "model" => $this->model,
             "messages" => [
@@ -148,13 +155,13 @@ Return ONLY valid JSON, no other text.";
         if ($http_code !== 200) {
             $error_data = json_decode($response, true);
             $error_msg = $error_data['error']['message'] ?? "HTTP Error $http_code";
-            throw new Exception("OpenAI API Error: " . $error_msg);
+            throw new Exception("Groq API Error: " . $error_msg);
         }
         
         $result = json_decode($response, true);
         
         if (!isset($result['choices'][0]['message']['content'])) {
-            throw new Exception("Invalid response format from OpenAI");
+            throw new Exception("Invalid response format from Groq API");
         }
         
         return $result['choices'][0]['message']['content'];

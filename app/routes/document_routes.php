@@ -109,6 +109,12 @@ function handle_analyzeDocument($document_id) {
     $analyze_grammar = $input['analyze_grammar'] ?? true;
     $analyze_vocabulary = $input['analyze_vocabulary'] ?? true;
     
+    // Delete all existing suggestions for this document before analyzing
+    require_once __DIR__ . '/../../config/db_connect.php';
+    global $conn;
+    $delete_all_sql = "DELETE FROM document_suggestions WHERE document_id = $document_id";
+    mysqli_query($conn, $delete_all_sql);
+    
     $suggestions = [];
     $api_statuses = [];
     $errors = [];
