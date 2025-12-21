@@ -110,7 +110,7 @@ if (logoutBtn) {
   logoutBtn.addEventListener('click', () => {
     if (confirm('Are you sure you want to logout?')) {
       console.log('Logging out...');
-      window.location.href = '/login';
+      window.location.href = '/language-learning-chatbot-MIU/app/controllers/auth/logout.php';
     }
   });
 }
