@@ -24,17 +24,12 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Navigation handling
+// Navigation handling - Remove preventDefault to allow normal link navigation
 const navItems = document.querySelectorAll('.nav-item');
 navItems.forEach(item => {
-  item.addEventListener('click', (e) => {
-    e.preventDefault();
-
+  item.addEventListener('click', () => {
     navItems.forEach(nav => nav.classList.remove('active'));
     item.classList.add('active');
-
-    const section = item.getAttribute('href').substring(1);
-    console.log(`Navigating to: ${section}`);
   });
 });
 

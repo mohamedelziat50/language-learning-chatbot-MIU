@@ -65,8 +65,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // New wrapper format: { success:true, openai: { choices: [...] }, sent_prompt: "..." }
-      const aiResp = parsed.openai ? parsed.openai : parsed;
+      // Wrapper format: { success:true, groq: { choices: [...] }, sent_prompt: "..." }
+      const aiResp = parsed.groq || parsed;
 
       if (!aiResp.choices || !aiResp.choices[0] || !aiResp.choices[0].message) {
         console.error('Unexpected AI payload:', aiResp);
@@ -80,9 +80,9 @@ document.addEventListener("DOMContentLoaded", () => {
         quizJson = JSON.parse(quizContent);
       } catch (e) {
         console.error('Failed to parse quiz JSON from AI content:', e, quizContent);
-        // As fallback, if the AI already returned parsed object in 'openai' wrapper, try other locations
-        if (parsed.openai && parsed.openai.data) {
-          quizJson = parsed.openai.data;
+        // As fallback, if the AI already returned parsed object in wrapper, try other locations
+        if (parsed.groq && parsed.groq.data) {
+          quizJson = parsed.groq.data;
         } else {
           alert('Failed to parse quiz JSON from AI. Check console.');
           return;

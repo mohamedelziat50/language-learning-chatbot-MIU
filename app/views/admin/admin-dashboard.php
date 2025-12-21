@@ -94,7 +94,7 @@ $totalUsers = UserController::getTotalUsersCount();
             <p class="admin-role">Administrator</p>
           </div>
         </div>
-        <button class="logout-btn" onclick="window.location.href='/language-learning-chatbot-MIU/app/controllers/logout.php'">
+        <button class="logout-btn" onclick="window.location.href='/language-learning-chatbot-MIU/app/controllers/auth/logout.php'">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
             <polyline points="16 17 21 12 16 7"></polyline>
@@ -109,7 +109,11 @@ $totalUsers = UserController::getTotalUsersCount();
       <header class="dashboard-header">
         <div>
           <h1>Dashboard Overview</h1>
-          <p class="subtitle">Welcome back! Here's what's happening today.</p>
+          <p class="subtitle">Welcome back, <?php 
+            $fullName = $_SESSION['user_name'] ?? 'Admin'; 
+            $firstName = explode(' ', trim($fullName))[0];
+            echo htmlspecialchars($firstName); 
+          ?></p>
         </div>
       </header>
 
