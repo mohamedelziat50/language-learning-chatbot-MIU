@@ -169,13 +169,14 @@ function searchDocuments($user_id, $query) {
  * Analyze grammar in document content
  * Creates suggestions for grammar issues
  * Uses AI API if available, falls back to basic rules
+ * Returns array with 'suggestions' and 'api_status' keys
  */
 function analyzeGrammar($document_id, $content) {
     global $conn;
     
     // Validate inputs
     if (empty($document_id) || empty($content)) {
-        return false;
+        return ['suggestions' => [], 'api_status' => 'error', 'error' => 'Invalid input'];
     }
     
     $suggestions = [];
@@ -185,9 +186,19 @@ function analyzeGrammar($document_id, $content) {
     $ai_service = new AIGrammarService();
     $ai_suggestions = $ai_service->analyzeContent($content, true, false);
     
+    // Check API status
+    if ($ai_suggestions === false) {
+        // API failed - check if it's because API key is missing
+        $api_key = getenv('OPENAI_API_KEY');
+        if (!$api_key) {
+            return ['suggestions' => [], 'api_status' => 'no_key', 'error' => 'OpenAI API key not configured'];
+        }
+        return ['suggestions' => [], 'api_status' => 'failed', 'error' => 'OpenAI API call failed. Check error logs for details.'];
+    }
+    
     // Only use AI-powered analysis; if none returned, stop here
-    if ($ai_suggestions === false || !is_array($ai_suggestions) || count($ai_suggestions) === 0) {
-        return [];
+    if (!is_array($ai_suggestions) || count($ai_suggestions) === 0) {
+        return ['suggestions' => [], 'api_status' => 'success', 'error' => null];
     }
     
     foreach ($ai_suggestions as $ai_suggestion) {
@@ -220,20 +231,21 @@ function analyzeGrammar($document_id, $content) {
         }
     }
     
-    return $suggestions;
+    return ['suggestions' => $suggestions, 'api_status' => 'success', 'error' => null];
 }
 
 /**
  * Analyze vocabulary in document content
  * Creates suggestions for vocabulary improvements
  * Uses AI API if available, falls back to basic rules
+ * Returns array with 'suggestions' and 'api_status' keys
  */
 function analyzeVocabulary($document_id, $content) {
     global $conn;
     
     // Validate inputs
     if (empty($document_id) || empty($content)) {
-        return false;
+        return ['suggestions' => [], 'api_status' => 'error', 'error' => 'Invalid input'];
     }
     
     $suggestions = [];
@@ -243,9 +255,19 @@ function analyzeVocabulary($document_id, $content) {
     $ai_service = new AIGrammarService();
     $ai_suggestions = $ai_service->analyzeContent($content, false, true);
     
+    // Check API status
+    if ($ai_suggestions === false) {
+        // API failed - check if it's because API key is missing
+        $api_key = getenv('OPENAI_API_KEY');
+        if (!$api_key) {
+            return ['suggestions' => [], 'api_status' => 'no_key', 'error' => 'OpenAI API key not configured'];
+        }
+        return ['suggestions' => [], 'api_status' => 'failed', 'error' => 'OpenAI API call failed. Check error logs for details.'];
+    }
+    
     // Only use AI-powered analysis; if none returned, stop here
-    if ($ai_suggestions === false || !is_array($ai_suggestions) || count($ai_suggestions) === 0) {
-        return [];
+    if (!is_array($ai_suggestions) || count($ai_suggestions) === 0) {
+        return ['suggestions' => [], 'api_status' => 'success', 'error' => null];
     }
     
     foreach ($ai_suggestions as $ai_suggestion) {
@@ -281,7 +303,7 @@ function analyzeVocabulary($document_id, $content) {
         }
     }
     
-    return $suggestions;
+    return ['suggestions' => $suggestions, 'api_status' => 'success', 'error' => null];
 }
 
 /**

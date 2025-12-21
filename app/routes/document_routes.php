@@ -110,28 +110,52 @@ function handle_analyzeDocument($document_id) {
     $analyze_vocabulary = $input['analyze_vocabulary'] ?? true;
     
     $suggestions = [];
+    $api_statuses = [];
+    $errors = [];
     
     // Analyze grammar
     if ($analyze_grammar) {
-        $grammar_suggestions = analyzeGrammar($document_id, $content);
-        if ($grammar_suggestions !== false) {
-            $suggestions = array_merge($suggestions, $grammar_suggestions);
+        $grammar_result = analyzeGrammar($document_id, $content);
+        if (is_array($grammar_result) && isset($grammar_result['suggestions'])) {
+            $suggestions = array_merge($suggestions, $grammar_result['suggestions']);
+            $api_statuses['grammar'] = $grammar_result['api_status'] ?? 'unknown';
+            if (!empty($grammar_result['error'])) {
+                $errors['grammar'] = $grammar_result['error'];
+            }
         }
     }
     
     // Analyze vocabulary
     if ($analyze_vocabulary) {
-        $vocab_suggestions = analyzeVocabulary($document_id, $content);
-        if ($vocab_suggestions !== false) {
-            $suggestions = array_merge($suggestions, $vocab_suggestions);
+        $vocab_result = analyzeVocabulary($document_id, $content);
+        if (is_array($vocab_result) && isset($vocab_result['suggestions'])) {
+            $suggestions = array_merge($suggestions, $vocab_result['suggestions']);
+            $api_statuses['vocabulary'] = $vocab_result['api_status'] ?? 'unknown';
+            if (!empty($vocab_result['error'])) {
+                $errors['vocabulary'] = $vocab_result['error'];
+            }
         }
     }
     
+    // Determine overall status
+    $overall_status = 'success';
+    $message = "Analysis completed";
+    
+    if (in_array('failed', $api_statuses) || in_array('no_key', $api_statuses)) {
+        $overall_status = 'warning';
+        $message = "Analysis completed with API issues";
+    } elseif (in_array('error', $api_statuses)) {
+        $overall_status = 'error';
+        $message = "Analysis failed";
+    }
+    
     echo json_encode([
-        "status" => "success", 
-        "message" => "Analysis completed",
+        "status" => $overall_status, 
+        "message" => $message,
         "suggestions_count" => count($suggestions),
-        "suggestion_ids" => $suggestions
+        "suggestion_ids" => $suggestions,
+        "api_status" => $api_statuses,
+        "errors" => $errors
     ]);
 }
 
@@ -271,7 +295,50 @@ function registerDocumentRoutes($request, $method) {
         return true;
     }
     
+    // GET /documents/api-status (check if OpenAI API is working)
+    if ($request === '/documents/api-status' && $method === 'GET') {
+        handle_checkApiStatus();
+        return true;
+    }
+    
     return false;
+}
+
+function handle_checkApiStatus() {
+    require_once __DIR__ . '/../services/AIGrammarService.php';
+    require_once __DIR__ . '/../../config/load_env.php';
+    
+    $api_key = getenv('OPENAI_API_KEY');
+    
+    if (!$api_key) {
+        echo json_encode([
+            "status" => "error",
+            "api_configured" => false,
+            "message" => "OpenAI API key not configured. Please set OPENAI_API_KEY in your .env file."
+        ]);
+        return;
+    }
+    
+    // Test with a simple API call
+    $ai_service = new AIGrammarService();
+    $test_content = "This is a test sentence with a grammer error.";
+    $result = $ai_service->analyzeContent($test_content, true, false);
+    
+    if ($result === false) {
+        echo json_encode([
+            "status" => "error",
+            "api_configured" => true,
+            "api_working" => false,
+            "message" => "OpenAI API key is configured but API call failed. Check error logs for details."
+        ]);
+    } else {
+        echo json_encode([
+            "status" => "success",
+            "api_configured" => true,
+            "api_working" => true,
+            "message" => "OpenAI API is working correctly."
+        ]);
+    }
 }
 
 ?>
