@@ -54,7 +54,7 @@ class UserControllerTest extends TestCase
         
         $result = UserController::addUser();
         $this->assertEquals('success', $result['status']);
-        $this->assertEquals('User created', $result['message']);
+        $this->assertEquals('User created successfully', $result['message']);
     }
 
     public function testAddUserWithMissingFields()
