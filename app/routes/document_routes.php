@@ -66,10 +66,15 @@ function handle_updateDocument($document_id) {
         $success = updateDocument($document_id, $user_id, $title, $content);
         
         if ($success) {
+            http_response_code(200);
             echo json_encode(["status" => "success", "message" => "Document updated successfully"]);
         } else {
             http_response_code(500);
-            echo json_encode(["status" => "error", "message" => "Failed to update document. Please check error logs."]);
+            error_log("Update document failed - check previous error logs for details");
+            echo json_encode([
+                "status" => "error", 
+                "message" => "Failed to update document. Please check server error logs for details."
+            ]);
         }
     } catch (Exception $e) {
         error_log("Update document exception: " . $e->getMessage() . "\nStack trace: " . $e->getTraceAsString());

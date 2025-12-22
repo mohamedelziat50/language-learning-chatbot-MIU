@@ -270,22 +270,45 @@ if ($document_id && $user_id) {
     <script>
         // Calculate API base path dynamically using PHP (more reliable)
         <?php
-        // Get the script directory relative to document root
-        $scriptDir = dirname($_SERVER['SCRIPT_NAME']);
-        // Remove trailing slash
-        $scriptDir = rtrim($scriptDir, '/');
+        // Method 1: Use SCRIPT_NAME to get the path relative to document root
+        $scriptName = $_SERVER['SCRIPT_NAME']; // e.g., /app/views/document.php
+        $scriptDir = dirname($scriptName); // e.g., /app/views
         
-        // Extract path up to 'app' directory
-        $parts = explode('/', trim($scriptDir, '/'));
+        // Remove leading/trailing slashes and split
+        $parts = array_filter(explode('/', trim($scriptDir, '/')));
+        $parts = array_values($parts); // Re-index array
+        
+        // Find 'app' directory index
         $appIndex = array_search('app', $parts);
         
         if ($appIndex !== false) {
             // Build path from root to app directory
             $apiBase = '/' . implode('/', array_slice($parts, 0, $appIndex + 1));
         } else {
-            // Fallback: assume we're in app directory
-            $apiBase = '/app';
+            // Fallback: try using DOCUMENT_ROOT and actual file path
+            $realPath = str_replace('\\', '/', __DIR__); // Convert Windows paths
+            $docRoot = str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']);
+            
+            // Get relative path from document root
+            if (strpos($realPath, $docRoot) === 0) {
+                $relativePath = substr($realPath, strlen($docRoot));
+                $relativeParts = array_filter(explode('/', trim($relativePath, '/')));
+                $relativeParts = array_values($relativeParts);
+                
+                $appIndex = array_search('app', $relativeParts);
+                if ($appIndex !== false) {
+                    $apiBase = '/' . implode('/', array_slice($relativeParts, 0, $appIndex + 1));
+                } else {
+                    $apiBase = '/app'; // Final fallback
+                }
+            } else {
+                $apiBase = '/app'; // Final fallback
+            }
         }
+        
+        // Ensure we don't have double slashes or double 'app'
+        $apiBase = preg_replace('#/+#', '/', $apiBase); // Remove multiple slashes
+        $apiBase = preg_replace('#/app/app(/|$)#', '/app$1', $apiBase); // Remove double app
         ?>
         window.API_BASE = <?php echo json_encode($apiBase); ?>;
         console.log('API_BASE set to:', window.API_BASE);

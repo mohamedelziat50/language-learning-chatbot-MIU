@@ -322,6 +322,20 @@ class DocumentEditor {
                 body: formData
             });
 
+            // Check if response is OK before parsing JSON
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Update failed with status:', response.status, 'Response:', errorText);
+                let errorData;
+                try {
+                    errorData = JSON.parse(errorText);
+                } catch (e) {
+                    errorData = { status: 'error', message: 'Server error: ' + response.status };
+                }
+                window.NotificationManager?.showNotification(errorData.message || 'Failed to save document', 'error');
+                return false;
+            }
+
             const data = await response.json();
 
             if (data.status === 'success') {

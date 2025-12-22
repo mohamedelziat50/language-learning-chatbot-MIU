@@ -115,16 +115,31 @@ function updateDocument($document_id, $user_id, $title, $content) {
     $content_escaped = mysqli_real_escape_string($conn, $content);
     $preview_text_escaped = mysqli_real_escape_string($conn, $preview_text);
     
-    // Update the document (also update updated_at timestamp)
+    // Update the document (also update updated_at timestamp if column exists)
+    // Try to update with updated_at first, if that fails, try without it
     $sql = "UPDATE documents SET title = '$title_escaped', content = '$content_escaped', preview_text = '$preview_text_escaped', updated_at = NOW() 
             WHERE document_id = $document_id";
     
     $result = mysqli_query($conn, $sql);
     
     if (!$result) {
-        // Log the SQL error for debugging
-        error_log("Update document SQL error: " . mysqli_error($conn));
-        return false;
+        $error = mysqli_error($conn);
+        error_log("Update document SQL error (with updated_at): " . $error);
+        
+        // If error is about updated_at column, try without it
+        if (strpos($error, 'updated_at') !== false || strpos($error, 'Unknown column') !== false) {
+            error_log("Retrying update without updated_at column");
+            $sql = "UPDATE documents SET title = '$title_escaped', content = '$content_escaped', preview_text = '$preview_text_escaped' 
+                    WHERE document_id = $document_id";
+            $result = mysqli_query($conn, $sql);
+            
+            if (!$result) {
+                error_log("Update document SQL error (without updated_at): " . mysqli_error($conn));
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
     
     return true; // Returns true if the document was updated successfully
