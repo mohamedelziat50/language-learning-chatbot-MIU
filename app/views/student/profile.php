@@ -10,34 +10,126 @@
 <body>
 <?php
   if (session_status() === PHP_SESSION_NONE) { session_start(); }
+  
+  // Redirect if not logged in
+  if (!isset($_SESSION['user_id'])) {
+      header("Location: /language-learning-chatbot-MIU/index.php");
+      exit();
+  }
+  
   require_once __DIR__ . '/../../../config/load_env.php';
+  require_once __DIR__ . '/../../../config/db_connect.php';
+  require_once __DIR__ . '/../../models/User.php';
   require_once __DIR__ . '/../../services/BadgeService.php';
 
+  // ==============================================
+  // FETCH USER DATA FROM DATABASE
+  // ==============================================
+  $userId = intval($_SESSION['user_id']);
+  $userModel = new User($conn);
+  $userData = $userModel->getById($userId);
+  
+  // Default values if user not found
+  $userName = $userData ? $userData['name'] : 'User';
+  $userEmail = $userData ? $userData['email'] : 'user@email.com';
+  $userRole = $userData ? $userData['role'] : 'student';
+  $userStatus = $userData ? $userData['status'] : 'active';
+  $userCreatedAt = $userData ? $userData['created_at'] : date('Y-m-d H:i:s');
+  $selectedLanguageId = $userData['selected_language_id'] ?? null;
+  $nativeLanguageId = $userData['native_language_id'] ?? 1; // Default to English (ID 1)
+  
+  // Get username - use name field as username (without @)
+  $userUsername = $userName;
+  
+  // ==============================================
+  // FETCH USER STATISTICS
+  // ==============================================
+  
+  // Quiz statistics
+  $quizStmt = mysqli_prepare($conn, "SELECT COUNT(*) as quiz_count, AVG(percent) as avg_score FROM quizzes WHERE user_id = ?");
+  mysqli_stmt_bind_param($quizStmt, "i", $userId);
+  mysqli_stmt_execute($quizStmt);
+  $quizResult = mysqli_stmt_get_result($quizStmt);
+  $quizStats = mysqli_fetch_assoc($quizResult);
+  $quizCount = $quizStats['quiz_count'] ?? 0;
+  $avgScore = $quizStats['avg_score'] ?? 0;
+  
+  // Documents/Conversations count
+  $docStmt = mysqli_prepare($conn, "SELECT COUNT(*) as doc_count FROM documents WHERE owner_id = ?");
+  mysqli_stmt_bind_param($docStmt, "i", $userId);
+  mysqli_stmt_execute($docStmt);
+  $docResult = mysqli_stmt_get_result($docStmt);
+  $docStats = mysqli_fetch_assoc($docResult);
+  $conversationsCount = $docStats['doc_count'] ?? 0;
+  
+  // Calculate streak (days since account creation)
+  $accountAge = floor((time() - strtotime($userCreatedAt)) / (60 * 60 * 24));
+  $dayStreak = min($accountAge, 30); // Cap at 30 for display
+  
+  // Practice time (estimate based on quizzes)
+  $practiceHours = floor($quizCount * 0.5); // Assume 30min per quiz
+  
+  // ==============================================
+  // FETCH LANGUAGE DATA
+  // ==============================================
+  $nativeLanguageName = 'English'; // Default
+  $learningLanguageName = 'Not selected';
+  $learningLanguageLevel = 'Beginner';
+  
+  // Fetch native language name
+  if ($nativeLanguageId) {
+      $nativeLangStmt = mysqli_prepare($conn, "SELECT name FROM languages WHERE language_id = ?");
+      mysqli_stmt_bind_param($nativeLangStmt, "i", $nativeLanguageId);
+      mysqli_stmt_execute($nativeLangStmt);
+      $nativeLangResult = mysqli_stmt_get_result($nativeLangStmt);
+      $nativeLangData = mysqli_fetch_assoc($nativeLangResult);
+      if ($nativeLangData) {
+          $nativeLanguageName = $nativeLangData['name'];
+      }
+  }
+  
+  // Fetch learning language name
+  if ($selectedLanguageId) {
+      $langStmt = mysqli_prepare($conn, "SELECT name FROM languages WHERE language_id = ?");
+      mysqli_stmt_bind_param($langStmt, "i", $selectedLanguageId);
+      mysqli_stmt_execute($langStmt);
+      $langResult = mysqli_stmt_get_result($langStmt);
+      $langData = mysqli_fetch_assoc($langResult);
+      if ($langData) {
+          $learningLanguageName = $langData['name'];
+      }
+  }
+  
+  // Determine level based on quiz performance
+  if ($avgScore >= 80) {
+      $learningLanguageLevel = 'Advanced';
+  } elseif ($avgScore >= 50) {
+      $learningLanguageLevel = 'Intermediate';
+  }
+  
+  // ==============================================
+  // FETCH BADGES
+  // ==============================================
   $unlockedBadges = [];
-    $profileTier = null;
-  if (isset($_SESSION['user_id'])) {
-      $db_server = getenv('DB_SERVER');
-      $db_user = getenv('DB_USER');
-      $db_pass = getenv('DB_PASS');
-      $db_name = getenv('DB_NAME');
-      $conn = @mysqli_connect($db_server, $db_user, $db_pass, $db_name);
-      if ($conn) {
-          $badgeSvc = new BadgeService($conn, intval($_SESSION['user_id']));
-          $unlockedBadges = $badgeSvc->evaluateCurrent();
-        // Determine highest tier achieved for avatar overlay
-        $rank = ['bronze' => 1, 'silver' => 2, 'gold' => 3];
-        $best = 0;
-        foreach ($unlockedBadges as $b) {
+  $profileTier = null;
+  
+  if ($conn) {
+      $badgeSvc = new BadgeService($conn, $userId);
+      $unlockedBadges = $badgeSvc->evaluateCurrent();
+      
+      // Determine highest tier achieved for avatar overlay
+      $rank = ['bronze' => 1, 'silver' => 2, 'gold' => 3];
+      $best = 0;
+      foreach ($unlockedBadges as $b) {
           $t = isset($b['tier']) ? $b['tier'] : null;
           if ($t && isset($rank[$t]) && $rank[$t] > $best) {
-            $best = $rank[$t];
-            $profileTier = $t;
+              $best = $rank[$t];
+              $profileTier = $t;
           }
-        }
-          mysqli_close($conn);
       }
   }
 ?>
+
 <?php include '../partials/sidebar.php'; ?>
 <main class="main-content">
   <section class="card profile-header-card">
@@ -56,21 +148,21 @@
       </div>
 
       <div class="profile-text">
-        <h1 class="profile-name">Jana Tamer</h1>
-        <p class="profile-username">@Jana_learns</p>
-        <p class="profile-email">jana.tamer@email.com</p>
+        <h1 class="profile-name"><?php echo htmlspecialchars($userName); ?></h1>
+        <p class="profile-username"><?php echo htmlspecialchars($userUsername); ?></p>
+        <p class="profile-email"><?php echo htmlspecialchars($userEmail); ?></p>
 
           <div class="language-tags">
             <div class="tag tag-native">
                 <span class="tag-label">Native:</span>
-                <span class="tag-value">English</span>
+                <span class="tag-value"><?php echo htmlspecialchars($nativeLanguageName); ?></span>
             </div>
             <div class="tag tag-learning">
                 <span class="tag-label">Learning:</span>
-                <span class="tag-value">Spanish</span>
+                <span class="tag-value"><?php echo htmlspecialchars($learningLanguageName); ?></span>
             </div>
             <div class="tag tag-intermediate">
-                <span class="tag-value">Intermediate</span>
+                <span class="tag-value"><?php echo htmlspecialchars($learningLanguageLevel); ?></span>
             </div>
           </div>
 
@@ -89,22 +181,22 @@
         <div class="stats-grid">
             <div class="stat-value">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-blue"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                <span>47</span>
+                <span><?php echo $conversationsCount; ?></span>
                 <p class="stat-label">Conversations</p>
             </div>
             <div class="stat-value">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-green"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                <span>20h</span>
+                <span><?php echo $practiceHours; ?>h</span>
                 <p class="stat-label">Practice Time</p>
             </div>
             <div class="stat-value">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-orange"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
-                <span>12</span>
+                <span><?php echo $dayStreak; ?></span>
                 <p class="stat-label">Day Streak</p>
             </div>
             <div class="stat-value">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-amber"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
-                <span>4</span>
+                <span><?php echo count($unlockedBadges); ?></span>
                 <p class="stat-label">Badges</p>
             </div>
           </div>
@@ -112,7 +204,7 @@
       </div>
           
       <div class="profile-actions">
-        <button class="btn btn-gradient">Edit Profile</button>
+        <button class="btn btn-gradient" id="editProfileBtn">Edit Profile</button>
         <button class="btn btn-ghost">Upload Avatar</button>
         <div class="theme-switch-wrapper">
             <label class="theme-switch" for="checkbox">
@@ -135,53 +227,53 @@
             <div class="skill-item">
               <div class="skill-header">
                 <span>Vocabulary</span>
-                <span class="skill-percentage">82%</span>
+                <span class="skill-percentage"><?php echo round($avgScore * 0.92); ?>%</span>
               </div>
               <div class="progress-bar-container">
-                <div class="progress-bar" style="width: 82%; background: linear-gradient(90deg, #3b82f6, #60a5fa);">
+                <div class="progress-bar" style="width: <?php echo round($avgScore * 0.92); ?>%; background: linear-gradient(90deg, #3b82f6, #60a5fa);">
                   <span class="progress-glow"></span>
                 </div>
               </div>
-              <span class="skill-trend trend-up">+5% this week</span>
+              <span class="skill-trend trend-up">Based on quizzes</span>
             </div>
 
         <div class="skill-item">
               <div class="skill-header">
                 <span>Grammar</span>
-                <span class="skill-percentage">91%</span>
+                <span class="skill-percentage"><?php echo round($avgScore); ?>%</span>
               </div>
               <div class="progress-bar-container">
-                <div class="progress-bar" style="width: 91%; background: linear-gradient(90deg, #10b981, #34d399);">
+                <div class="progress-bar" style="width: <?php echo round($avgScore); ?>%; background: linear-gradient(90deg, #10b981, #34d399);">
                   <span class="progress-glow"></span>
                 </div>
               </div>
-              <span class="skill-trend trend-up">+2% this week</span>
+              <span class="skill-trend trend-up">Average score</span>
             </div>
 
             <div class="skill-item">
               <div class="skill-header">
                 <span>Pronunciation</span>
-                <span class="skill-percentage">76%</span>
+                <span class="skill-percentage"><?php echo round($avgScore * 0.85); ?>%</span>
               </div>
               <div class="progress-bar-container">
-                <div class="progress-bar" style="width: 76%; background: linear-gradient(90deg, #8b5cf6, #a78bfa);">
+                <div class="progress-bar" style="width: <?php echo round($avgScore * 0.85); ?>%; background: linear-gradient(90deg, #8b5cf6, #a78bfa);">
                   <span class="progress-glow"></span>
                 </div>
               </div>
-              <span class="skill-trend trend-down">-1% this week</span>
+              <span class="skill-trend">Estimated</span>
             </div>
 
             <div class="skill-item">
               <div class="skill-header">
                 <span>Fluency</span>
-                <span class="skill-percentage">68%</span>
+                <span class="skill-percentage"><?php echo round($avgScore * 0.78); ?>%</span>
               </div>
               <div class="progress-bar-container">
-                <div class="progress-bar" style="width: 68%; background: linear-gradient(90deg, #f59e0b, #fbbf24);">
+                <div class="progress-bar" style="width: <?php echo round($avgScore * 0.78); ?>%; background: linear-gradient(90deg, #f59e0b, #fbbf24);">
                   <span class="progress-glow"></span>
                 </div>
               </div>
-              <span class="skill-trend trend-up">+8% this week</span>
+              <span class="skill-trend">Estimated</span>
             </div>
           </div>
     </section>
@@ -387,6 +479,48 @@
     </div>
 
   </main>
+
+  <!-- Edit Profile Modal -->
+  <div id="editProfileModal" class="modal" style="display: none;">
+    <div class="modal-content" style="max-width: 500px; margin: 100px auto; background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
+      <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <div>
+          <h2 style="margin: 0; color: #1a202c; font-size: 1.5rem;">Edit Profile</h2>
+          <p style="margin: 0.5rem 0 0 0; color: #718096; font-size: 0.875rem;">Update your personal information</p>
+        </div>
+        <button id="closeEditModal" style="background: none; border: none; font-size: 1.5rem; color: #718096; cursor: pointer; padding: 0; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 6px; transition: all 0.2s;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      
+      <form id="editProfileForm" style="display: flex; flex-direction: column; gap: 1.25rem;">
+        <input type="hidden" id="edit_user_id" name="user_id" value="<?php echo $userId; ?>">
+        
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <label for="edit_username" style="font-weight: 600; color: #2d3748; font-size: 0.875rem;">Username</label>
+          <input type="text" id="edit_username" name="username" value="<?php echo htmlspecialchars($userUsername); ?>" required 
+                 style="padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; transition: all 0.2s; outline: none;">
+        </div>
+        
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <label for="edit_email" style="font-weight: 600; color: #2d3748; font-size: 0.875rem;">Email Address</label>
+          <input type="email" id="edit_email" name="email" value="<?php echo htmlspecialchars($userEmail); ?>" required 
+                 style="padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; transition: all 0.2s; outline: none;">
+        </div>
+        
+        <div id="editMessage" style="display: none; padding: 0.75rem; border-radius: 8px; font-size: 0.875rem;"></div>
+        
+        <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+          <button type="button" id="cancelEditBtn" class="btn btn-ghost" style="flex: 1;">Cancel</button>
+          <button type="submit" class="btn btn-gradient" style="flex: 1;">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
  </div>
  <script src="/language-learning-chatbot-MIU/public/js/student/profile.js"></script>
  </body>
