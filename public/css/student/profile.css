@@ -361,6 +361,43 @@ body.dark-mode .sidebar nav .bottom-links {
   object-fit: cover;
 }
 
+/* Avatar tier ribbon overlay */
+.tier-ribbon{
+  position: absolute;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+  height: 40px;
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 3px solid var(--color-card-bg);
+  border-bottom: 0;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+}
+.tier-ribbon svg{ color: #fff; }
+.tier-ribbon-label{
+  color: #fff;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: .2px;
+  text-transform: capitalize;
+}
+.tier-ribbon-gold{ background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+.tier-ribbon-silver{ background: linear-gradient(135deg, #9ca3af, #d1d5db); }
+.tier-ribbon-bronze{ background: linear-gradient(135deg, #b87333, #e0a96d); }
+
+/* Tier ring around avatar wrapper */
+.tier-ring-gold{ background: linear-gradient(45deg, #f59e0b, #fbbf24); }
+.tier-ring-silver{ background: linear-gradient(45deg, #9ca3af, #d1d5db); }
+.tier-ring-bronze{ background: linear-gradient(45deg, #b87333, #e0a96d); }
+
+/* Keep ribbon text readable in dark mode */
+body.dark-mode .tier-ribbon-label { color: #fff !important; }
+
 /* Profile text */
 .profile-text{
   display: flex;

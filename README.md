@@ -25,5 +25,24 @@ This platform is designed to facilitate language learning through interactive ch
 
 **Note:** All configuration (database, admin user) is in `.env` file. Schema is in `database/schema.sql`.
 
+## Testing
+
+**Setup:**
+1. Install Composer (PHP package manager): https://getcomposer.org/Composer-Setup.exe (restart terminal/IDE after installation)
+2. Enable PHP zip extension: Run PowerShell as Administrator, then: `(Get-Content C:\xampp\php\php.ini) -replace ';extension=zip', 'extension=zip' | Set-Content C:\xampp\php\php.ini`
+3. Install dependencies: `composer install` (creates `vendor/` directory)
+4. Create test database: Run `tests/setup_test_database.php` once
+
+**Run tests:**
+```bash
+vendor/bin/phpunit --verbose
+```
+
+**Add new test cases:**
+1. Create `tests/Unit/YourControllerTest.php`
+2. Copy structure from existing test files
+3. Override `DB_NAME` before loading controller: `putenv('DB_NAME=' . $db_name);`
+4. Tests automatically use `test_language_learning_chatbot` database (production safe)
+
 ## License
 This project is licensed under the MIT License.

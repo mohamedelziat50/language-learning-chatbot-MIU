@@ -78,6 +78,173 @@ function handle_searchDocuments() {
     echo json_encode(["status" => "success", "documents" => $documents]);
 }
 
+function handle_analyzeDocument($document_id) {
+    session_start();
+    $user_id = $_SESSION['user_id'] ?? null;
+    if (!$user_id) {
+        echo json_encode(["status" => "error", "message" => "Not logged in"]);
+        return;
+    }
+    
+    // Verify document ownership
+    $document = getDocumentById($document_id);
+    if (!$document) {
+        echo json_encode(["status" => "error", "message" => "Document not found"]);
+        return;
+    }
+    
+    if ($document['owner_id'] != $user_id) {
+        echo json_encode(["status" => "error", "message" => "Unauthorized access"]);
+        return;
+    }
+    
+    $content = $document['content'] ?? '';
+    if (empty($content)) {
+        echo json_encode(["status" => "error", "message" => "Document content is empty"]);
+        return;
+    }
+    
+    // Get analysis type from request body (default to both)
+    $input = json_decode(file_get_contents('php://input'), true);
+    $analyze_grammar = $input['analyze_grammar'] ?? true;
+    $analyze_vocabulary = $input['analyze_vocabulary'] ?? true;
+    
+    // Delete all existing suggestions for this document before analyzing
+    require_once __DIR__ . '/../../config/db_connect.php';
+    global $conn;
+    $delete_all_sql = "DELETE FROM document_suggestions WHERE document_id = $document_id";
+    mysqli_query($conn, $delete_all_sql);
+    
+    $suggestions = [];
+    $api_statuses = [];
+    $errors = [];
+    
+    // Analyze grammar
+    if ($analyze_grammar) {
+        $grammar_result = analyzeGrammar($document_id, $content);
+        if (is_array($grammar_result) && isset($grammar_result['suggestions'])) {
+            $suggestions = array_merge($suggestions, $grammar_result['suggestions']);
+            $api_statuses['grammar'] = $grammar_result['api_status'] ?? 'unknown';
+            if (!empty($grammar_result['error'])) {
+                $errors['grammar'] = $grammar_result['error'];
+            }
+        }
+    }
+    
+    // Analyze vocabulary
+    if ($analyze_vocabulary) {
+        $vocab_result = analyzeVocabulary($document_id, $content);
+        if (is_array($vocab_result) && isset($vocab_result['suggestions'])) {
+            $suggestions = array_merge($suggestions, $vocab_result['suggestions']);
+            $api_statuses['vocabulary'] = $vocab_result['api_status'] ?? 'unknown';
+            if (!empty($vocab_result['error'])) {
+                $errors['vocabulary'] = $vocab_result['error'];
+            }
+        }
+    }
+    
+    // Determine overall status
+    $overall_status = 'success';
+    $message = "Analysis completed";
+    
+    if (in_array('failed', $api_statuses) || in_array('no_key', $api_statuses)) {
+        $overall_status = 'warning';
+        $message = "Analysis completed with API issues";
+    } elseif (in_array('error', $api_statuses)) {
+        $overall_status = 'error';
+        $message = "Analysis failed";
+    }
+    
+    echo json_encode([
+        "status" => $overall_status, 
+        "message" => $message,
+        "suggestions_count" => count($suggestions),
+        "suggestion_ids" => $suggestions,
+        "api_status" => $api_statuses,
+        "errors" => $errors
+    ]);
+}
+
+function handle_getSuggestions($document_id) {
+    session_start();
+    $user_id = $_SESSION['user_id'] ?? null;
+    if (!$user_id) {
+        echo json_encode(["status" => "error", "message" => "Not logged in"]);
+        return;
+    }
+    
+    // Verify document ownership
+    $document = getDocumentById($document_id);
+    if (!$document) {
+        echo json_encode(["status" => "error", "message" => "Document not found"]);
+        return;
+    }
+    
+    if ($document['owner_id'] != $user_id) {
+        echo json_encode(["status" => "error", "message" => "Unauthorized access"]);
+        return;
+    }
+    
+    $suggestions = getSuggestions($document_id);
+    
+    if ($suggestions === false) {
+        echo json_encode(["status" => "error", "message" => "Failed to retrieve suggestions"]);
+        return;
+    }
+    
+    echo json_encode([
+        "status" => "success",
+        "suggestions" => $suggestions,
+        "count" => count($suggestions)
+    ]);
+}
+
+function handle_applySuggestion($suggestion_id) {
+    session_start();
+    $user_id = $_SESSION['user_id'] ?? null;
+    if (!$user_id) {
+        echo json_encode(["status" => "error", "message" => "Not logged in"]);
+        return;
+    }
+    
+    // Get the suggestion to verify document ownership
+    require_once __DIR__ . '/../../config/db_connect.php';
+    global $conn;
+    
+    $sql = "SELECT ds.*, d.owner_id FROM document_suggestions ds 
+            JOIN documents d ON ds.document_id = d.document_id 
+            WHERE ds.suggestion_id = " . intval($suggestion_id);
+    $result = mysqli_query($conn, $sql);
+    
+    if (!$result || mysqli_num_rows($result) === 0) {
+        echo json_encode(["status" => "error", "message" => "Suggestion not found"]);
+        return;
+    }
+    
+    $suggestion_data = mysqli_fetch_assoc($result);
+    
+    // Verify document ownership
+    if ($suggestion_data['owner_id'] != $user_id) {
+        echo json_encode(["status" => "error", "message" => "Unauthorized access"]);
+        return;
+    }
+    
+    // Apply the suggestion
+    $success = applySuggestion($suggestion_id);
+    
+    if ($success) {
+        echo json_encode([
+            "status" => "success",
+            "message" => "Suggestion applied successfully"
+        ]);
+    } else {
+        echo json_encode([
+            "status" => "error",
+            "message" => "Failed to apply suggestion"
+        ]);
+    }
+}
+
 // Register document routes ALL IN ONE FUNCTION
 function registerDocumentRoutes($request, $method) {
     // POST /documents/create
@@ -116,7 +283,125 @@ function registerDocumentRoutes($request, $method) {
         return true;
     }
     
+    // POST /documents/{id}/analyze
+    if (preg_match('/^\/documents\/(\d+)\/analyze$/', $request, $matches) && $method === 'POST') {
+        handle_analyzeDocument($matches[1]);
+        return true;
+    }
+    
+    // GET /documents/{id}/suggestions
+    if (preg_match('/^\/documents\/(\d+)\/suggestions$/', $request, $matches) && $method === 'GET') {
+        handle_getSuggestions($matches[1]);
+        return true;
+    }
+    
+    // POST /suggestions/{id}/applySuggestion
+    if (preg_match('/^\/suggestions\/(\d+)\/applySuggestion$/', $request, $matches) && $method === 'POST') {
+        handle_applySuggestion($matches[1]);
+        return true;
+    }
+    
+    // POST /documents/{id}/ai-assistant
+    if (preg_match('/^\/documents\/(\d+)\/ai-assistant$/', $request, $matches) && $method === 'POST') {
+        handle_aiAssistant($matches[1]);
+        return true;
+    }
+    
+    // GET /documents/api-status (check if OpenAI API is working)
+    if ($request === '/documents/api-status' && $method === 'GET') {
+        handle_checkApiStatus();
+        return true;
+    }
+    
     return false;
+}
+
+function handle_aiAssistant($document_id) {
+    session_start();
+    $user_id = $_SESSION['user_id'] ?? null;
+    if (!$user_id) {
+        echo json_encode(["status" => "error", "message" => "Not logged in"]);
+        return;
+    }
+    
+    // Verify document ownership
+    $document = getDocumentById($document_id);
+    if (!$document) {
+        echo json_encode(["status" => "error", "message" => "Document not found"]);
+        return;
+    }
+    
+    if ($document['owner_id'] != $user_id) {
+        echo json_encode(["status" => "error", "message" => "Unauthorized access"]);
+        return;
+    }
+    
+    // Get request data
+    $input = json_decode(file_get_contents('php://input'), true);
+    $userMessage = $input['message'] ?? '';
+    $conversationHistory = $input['conversation_history'] ?? [];
+    
+    if (empty($userMessage)) {
+        echo json_encode(["status" => "error", "message" => "Message is required"]);
+        return;
+    }
+    
+    // Get document content for context
+    $documentContent = $document['content'] ?? '';
+    
+    // Call Groq AI Assistant
+    require_once __DIR__ . '/../services/GroqAIAssistant.php';
+    $aiAssistant = new GroqAIAssistant();
+    $result = $aiAssistant->generateResponse($userMessage, $documentContent, $conversationHistory);
+    
+    if ($result['success']) {
+        echo json_encode([
+            "status" => "success",
+            "message" => $result['message']
+        ]);
+    } else {
+        echo json_encode([
+            "status" => "error",
+            "message" => $result['error'] ?? "Failed to generate AI response"
+        ]);
+    }
+}
+
+function handle_checkApiStatus() {
+    require_once __DIR__ . '/../services/AIGrammarService.php';
+    require_once __DIR__ . '/../../config/load_env.php';
+    
+    $api_key = getenv('GROQ_API_KEY');
+    
+    if (!$api_key) {
+        echo json_encode([
+            "status" => "error",
+            "api_configured" => false,
+            "message" => "Groq API key not configured. Please set GROQ_API_KEY in your .env file."
+        ]);
+        return;
+    }
+    
+    // Test with a simple API call
+    $ai_service = new AIGrammarService();
+    $test_content = "This is a test sentence with a grammer error.";
+    $result = $ai_service->analyzeContent($test_content, true, false);
+    
+    if ($result === false) {
+        echo json_encode([
+            "status" => "error",
+            "api_configured" => true,
+            "api_working" => false,
+            "message" => "Groq API key is configured but API call failed. Check error logs for details."
+        ]);
+    } else {
+        echo json_encode([
+            "status" => "success",
+            "api_configured" => true,
+            "api_working" => true,
+            "message" => "Groq API is working correctly."
+        ]);
+    }
 }
 
 ?>

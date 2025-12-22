@@ -1,36 +1,48 @@
 <?php
 include(__DIR__ . '/../../../config/db_connect.php');
+require_once(__DIR__ . '/../../models/User.php');
+require_once(__DIR__ . '/../../services/UserValidator.php');
+require_once(__DIR__ . '/../../services/ResponseHandler.php');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $name = trim($_POST['name']);
     $email = trim($_POST['email']);
     $password = $_POST['password'];
 
+    // Validate input
+    $validator = new UserValidator();
+    $validation = $validator->validateCreate([
+        'name' => $name,
+        'email' => $email,
+        'password' => $password
+    ]);
+    
+    if (!$validation['valid']) {
+        ResponseHandler::alertAndBack(implode(', ', $validation['errors']));
+    }
+
+    // Create user instance
+    $userModel = new User($conn);
+    
     // Check if email already exists
-    $check = mysqli_prepare($conn, "SELECT * FROM users WHERE email = ?");
-    mysqli_stmt_bind_param($check, "s", $email);
-    mysqli_stmt_execute($check);
-    $result = mysqli_stmt_get_result($check);
-
-    if (mysqli_num_rows($result) > 0) {
-        echo "<script>alert('Email already registered!'); window.history.back();</script>";
-        exit;
+    if ($userModel->emailExists($email)) {
+        ResponseHandler::alertAndBack('Email already registered!');
     }
 
-    // Hash the password
-    $hashed = password_hash($password, PASSWORD_DEFAULT);
+    // Set user properties
+    $userModel->name = $name;
+    $userModel->email = $email;
+    $userModel->password = password_hash($password, PASSWORD_DEFAULT); // Hash password here
+    $userModel->role = 'student';
+    $userModel->status = 'active';
 
-    // Insert into users table
-    $stmt = mysqli_prepare($conn, "INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
-    mysqli_stmt_bind_param($stmt, "sss", $name, $email, $hashed);
+    // Create user
+    $result = $userModel->create();
 
-    if (mysqli_stmt_execute($stmt)) {
-        echo "<script>alert('Sign-up successful! You can now log in.'); window.history.back();</script>";
-    } else {
-        echo "<script>alert('Error during sign-up.'); window.history.back();</script>";
+    if ($result['status'] === 'success') {
+        ResponseHandler::alertAndBack('Sign-up successful! You can now log in.');
     }
-
-    mysqli_stmt_close($stmt);
-    mysqli_close($conn);
+    
+    ResponseHandler::alertAndBack('Error during sign-up: ' . $result['message']);
 }
 ?>

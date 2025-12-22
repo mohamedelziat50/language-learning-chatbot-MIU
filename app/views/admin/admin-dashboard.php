@@ -24,7 +24,86 @@ $totalUsers = UserController::getTotalUsersCount();
 </head>
 <body>
   <div class="dashboard-container">
-    <?php include '../partials/admin_sidebar.php'; ?>
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="logo-icon">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        <h2>Admin Dashboard</h2>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="/language-learning-chatbot-MIU/app/views/admin/admin-dashboard.php" class="nav-item active">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          <span>Overview</span>
+        </a>
+        <a href="/language-learning-chatbot-MIU/app/views/admin/manage_users.php" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span>Manage Users</span>
+        </a>
+        <a href="#analytics" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="20" x2="12" y2="10"></line>
+            <line x1="18" y1="20" x2="18" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="16"></line>
+          </svg>
+          <span>Chat Analytics</span>
+        </a>
+        <a href="#forum" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <span>Manage Forum</span>
+        </a>
+        <a href="#reports" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          <span>Reports</span>
+        </a>
+        <a href="#settings" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M12 1v6m0 6v6m5.2-13.2l-4.2 4.2m0 4.2l4.2 4.2M1 12h6m6 0h6M5.8 5.8l4.2 4.2m0 4.2l-4.2 4.2"></path>
+          </svg>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-profile">
+          <img src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=100" alt="Admin" class="admin-avatar">
+          <div>
+            <p class="admin-name">Admin User</p>
+            <p class="admin-role">Administrator</p>
+          </div>
+        </div>
+        <button class="logout-btn" onclick="window.location.href='/language-learning-chatbot-MIU/app/controllers/auth/logout.php'">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          Logout
+        </button>
+      </div>
+    </aside>
 
     <main class="main-content">
       <header class="dashboard-header">
@@ -138,6 +217,36 @@ $totalUsers = UserController::getTotalUsersCount();
               <div class="bar" style="height: 70%"><span class="bar-label">Fri</span></div>
               <div class="bar" style="height: 45%"><span class="bar-label">Sat</span></div>
               <div class="bar" style="height: 40%"><span class="bar-label">Sun</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card chart-card">
+          <div class="card-header">
+            <h3>Average Quiz Grades (Users)</h3>
+            <select class="time-filter" id="userAvgFilter">
+              <option value="all">All time</option>
+              <option value="30">Last 30 days</option>
+              <option value="90">Last 90 days</option>
+            </select>
+          </div>
+          <div style="padding: 1rem;">
+            <canvas id="userAvgChart" height="160"></canvas>
+          </div>
+        </div>
+
+        <div class="card chart-card">
+          <div class="card-header">
+            <h3>Overall Quiz Performance</h3>
+          </div>
+          <div style="padding: 1rem; display:flex; gap:1rem; align-items:center;">
+            <div style="flex:1;">
+              <canvas id="globalAvgChart" height="140"></canvas>
+            </div>
+            <div style="width:220px;">
+              <div style="font-size:0.9rem;color:#4a5568">Summary</div>
+              <div style="font-size:1.6rem;font-weight:600; margin-top:0.5rem;" id="globalAvgValue">--%</div>
+              <div style="color:#718096; margin-top:0.4rem;" id="globalSummaryText">Users with quizzes: --</div>
             </div>
           </div>
         </div>
@@ -423,6 +532,7 @@ $totalUsers = UserController::getTotalUsersCount();
     </main>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="/language-learning-chatbot-MIU/public/js/admin/admin-dashboard.js"></script>
 </body>
 </html>
