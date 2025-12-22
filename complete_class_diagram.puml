@@ -167,9 +167,37 @@ class DummyModel {
     + setData(data: array): void
 }
 
+class ActivityLog {
+    - conn: mysqli
+    - table_name: string = "activity_logs"
+
+    + __construct(db: mysqli)
+    + logActivity(userId: int, activityType: string, description: string): array
+    + getByUser(userId: int, limit: int): array
+    + getRecent(limit: int): array
+    + getActivityStats(days: int): array
+}
+
+class Analytics {
+    - conn: mysqli
+
+    + __construct(db: mysqli)
+    + getOverviewStats(): array
+    + getGrowthStats(): array
+    + getUserActivityData(days: int): array
+    + getQuizPerformanceData(): array
+    + getLanguageUsageStats(): array
+    + getUserEngagementMetrics(): array
+}
+
 ' ===== SERVICE CLASSES =====
 class GroqQuizGenerator {
     + generate(mcqCount: int, shortCount: int, difficulty: int, language: string): array
+}
+
+class DocumentAnalysisService {
+    - document: List
+    + analyzeContent(document: Document): List
 }
 
 class MySQLQuizRepository {
@@ -216,6 +244,55 @@ class AIGrammarService {
     + buildPrompt(content: string, analyze_grammar: bool, analyze_vocabulary: bool): string
     + callGroqAPI(prompt: string): string
     + parseAIResponse(response: string, content: string): array
+}
+
+class GroqAIAssistant {
+    - api_key: string
+    - api_url: string
+    - model: string
+
+    + __construct()
+    + generateResponse(userMessage: string, documentContent: string, conversationHistory: array): array
+    + buildMessagesArray(userMessage: string, documentContent: string, conversationHistory: array): array
+    + callGroqAPI(messages: array): string
+    + parseResponse(response: string): array
+}
+
+class Document {
+    - documentId: int
+    - owner: User
+    - title: string
+    - content: string 
+    - previewText: string
+    -language: string 
+
+    + openDocument(): void
+    + updateDocument(title: string, content: string): void
+    + deleteDocument(): bool 
+    + generatePreview(): string 
+}
+
+class DocumentSuggestion {
+    - suggestionId: int
+    - document: Document
+    - suggestionType: string 
+    - originalText: string 
+    - suggestedText: string
+    - explaination: string 
+
+    + acceptSuggestion(): void
+    + dismissSuggestion(): void
+    + generatedExplaination(): string
+}
+
+class VocabularyItem {
+    - itemId: int 
+    - user: User
+    - definition: string
+    - createdTimestamp: date 
+
+    + tracklearning(word: string): void
+    + getDefinition(): string 
 }
 
 ' ===== CONTROLLER CLASSES =====
@@ -279,6 +356,49 @@ class QuizController {
     + getResults(): void
 }
 
+abstract class AdminController {
+    - conn: mysqli
+
+    + __construct(db: mysqli)
+    + checkAuthentication(): void
+    + jsonResponse(data: array, statusCode: int): void
+    + success(data: mixed, message: string): void
+    + error(message: string, statusCode: int): void
+    + validateRequired(data: array, required: array): bool
+}
+
+class AdminUserController {
+    + getUsers(): array
+    + getTotalUsersCount(): int
+    + getUsersQuizAverages(): array
+    + getGlobalQuizPerformanceSummary(): array
+    + addUser(): array
+    + updateUser(id: int): array
+    + deleteUser(id: int): array
+    + getUserById(id: int): array
+}
+
+class AdminAnalyticsController {
+    - analyticsModel: Analytics
+    - userModel: User
+
+    + __construct(db: mysqli)
+    + getOverviewStats(): void
+    + getUserActivity(): void
+    + getQuizPerformance(): void
+    + getLanguageUsage(): void
+    + getUserEngagement(): void
+}
+
+class DocumentAnalysisController {
+    + processDocumentAnalysis(document:Document): List
+}
+
+class DocumentsController {
+    + handelCreateDocument(request: DocumentRequest): Response
+    + handelDeleteDocument(documentId: int): Response
+    + handelSearchDocuments(query:string): List
+}
 ' ===== RELATIONSHIPS =====
 
 ' Interface Implementations
@@ -291,10 +411,16 @@ MySQLQuizRepository ..|> QuizRepositoryInterface : implements
 Quiz *-- AIQuizGeneratorInterface : aiGenerator
 Quiz *-- QuizRepositoryInterface : repository
 BadgeService *-- MySQLQuizRepository : repo
+AdminAnalyticsController *-- Analytics : analyticsModel
+AdminAnalyticsController *-- User : userModel
+DocumentAnalysisService *-- Document : document 
+DocumentSuggestion *-- VocabularyItem : vocab 
 
 ' Aggregation (weak "has-a"): Models can exist independently
 Language o-- "*" Topic : has many
 Topic o-- "*" Lesson : has many
+User o-- "*" DocumentAnalysisService : has one 
+Document o-- "*" DocumentSuggestion : has many
 
 ' Dependency (uses): Controllers use models and services
 DictionaryController ..> DictionaryModel : uses
@@ -306,16 +432,29 @@ TopicController ..> Topic : uses
 LessonController ..> Lesson : uses
 QuizController ..> Quiz : uses
 Quiz ..> BadgeService : uses
+AdminUserController ..> User : uses
+AdminUserController ..> UserValidator : uses
+AdminUserController ..> Analytics : uses
+AdminAnalyticsController ..> Analytics : uses
+AdminAnalyticsController ..> User : uses
+DocumentAnalysisController ..> DocumentAnalysisService : uses
+DocumentsController ..> Document : uses 
 
 ' Dependency: Services use other services
 AIGrammarService ..> ResponseHandler : uses
+GroqAIAssistant ..> ResponseHandler : uses
+
+' Inheritance
+AdminAnalyticsController --|> AdminController : extends
 
 ' Database Dependencies
 User ..> mysqli : uses
-UserModel ..> mysqli : uses
 Quiz ..> mysqli : uses
 MySQLQuizRepository ..> mysqli : uses
 BadgeService ..> mysqli : uses
+ActivityLog ..> mysqli : uses
+Analytics ..> mysqli : uses
+AdminController ..> mysqli : uses
 
 @enduml</content>
 <parameter name="filePath">g:\Programs\Xampp\htdocs\language-learning-chatbot-MIU\complete_class_diagram.puml
