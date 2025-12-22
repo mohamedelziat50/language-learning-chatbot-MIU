@@ -311,9 +311,9 @@ class DocumentEditor {
         try {
             let url;
             if (documentId) {
-                url = `../../app/index.php/documents/${documentId}/update`;
+                url = `/app/index.php/documents/${documentId}/update`;
             } else {
-                url = `../../app/index.php/documents/create`;
+                url = `/app/index.php/documents/create`;
             }
 
             const response = await fetch(url, {
