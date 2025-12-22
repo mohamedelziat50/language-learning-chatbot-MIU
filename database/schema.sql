@@ -73,13 +73,13 @@ ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- Insert some common languages
-INSERT INTO languages (name, code, flag) VALUES
+INSERT IGNORE INTO languages (name, code, flag) VALUES
 ('French', 'fr', '🇫🇷'),
 ('Spanish', 'es', '🇪🇸'),
 ('German', 'de', '🇩🇪'),
 ('English', 'en', '🇺🇸'),
 ('Italian', 'it', '🇮🇹'),
-('Arabic', 'ar', 'EG'),
+('Arabic', 'ar', '🇪🇬'),
 ('Japanese', 'ja', '🇯🇵'),
 ('Chinese', 'zh', '🇨🇳'),
 ('Portuguese', 'pt', '🇵🇹'),
@@ -89,4 +89,4 @@ INSERT INTO languages (name, code, flag) VALUES
 ('Turkish', 'tr', '🇹🇷'),
 ('Dutch', 'nl', '🇳🇱'),
 ('Swedish', 'sv', '🇸🇪');
-('Portuguese', 'pt', '🇵🇹');
+
