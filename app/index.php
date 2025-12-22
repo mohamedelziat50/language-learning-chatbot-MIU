@@ -27,19 +27,10 @@ $request = $_SERVER['PATH_INFO'] ?? '';
 // If PATH_INFO is empty, try to extract from REQUEST_URI
 if (empty($request)) {
     $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $scriptPath = $_SERVER['SCRIPT_NAME'];
     
-    // Get the script directory (e.g., /app or /language-learning-chatbot-MIU/app)
-    $scriptDir = dirname($_SERVER['SCRIPT_NAME']);
-    
-    // Remove the script directory from the URI
-    $request = str_replace($scriptDir, '', $uri);
-    
-    // Also handle cases where the path might be duplicated (e.g., /app/app/index.php)
-    // Remove any duplicate /app/ patterns
-    $request = preg_replace('#/app/app/#', '/app/', $request);
-    
-    // Remove the script filename (index.php) if present
-    $request = str_replace('/index.php', '', $request);
+    // Remove the script path from the URI to get the route
+    $request = str_replace($scriptPath, '', $uri);
 }
 
 // Clean up the request path - ensure it starts with /

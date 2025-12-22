@@ -309,12 +309,12 @@ class DocumentEditor {
         formData.append('content', content);
 
         try {
-            const apiBase = window.API_BASE || '../../app';
+            const apiBase = window.API_BASE || '/app';
             let url;
             if (documentId) {
-                url = apiBase + `/index.php/documents/${documentId}/update`;
+                url = `${apiBase}/index.php/documents/${documentId}/update`;
             } else {
-                url = apiBase + `/index.php/documents/create`;
+                url = `${apiBase}/index.php/documents/create`;
             }
 
             const response = await fetch(url, {
@@ -426,8 +426,8 @@ class DocumentEditor {
             }
 
             // Call the analyze API
-            const apiBase = window.API_BASE || '../../app';
-            const response = await fetch(apiBase + `/index.php/documents/${documentId}/analyze`, {
+            const apiBase = window.API_BASE || '/app';
+            const response = await fetch(`${apiBase}/index.php/documents/${documentId}/analyze`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -505,8 +505,8 @@ class DocumentEditor {
         }
 
         try {
-            const apiBase = window.API_BASE || '../../app';
-            const response = await fetch(apiBase + `/index.php/documents/${documentId}/suggestions`);
+            const apiBase = window.API_BASE || '/app';
+            const response = await fetch(`${apiBase}/index.php/documents/${documentId}/suggestions`);
             const data = await response.json();
 
             if (data.status === 'success') {
@@ -612,8 +612,8 @@ class DocumentEditor {
         button.textContent = 'Applying...';
 
         try {
-            const apiBase = window.API_BASE || '../../app';
-            const response = await fetch(apiBase + `/index.php/suggestions/${suggestionId}/applySuggestion`, {
+            const apiBase = window.API_BASE || '/app';
+            const response = await fetch(`${apiBase}/index.php/suggestions/${suggestionId}/applySuggestion`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -677,8 +677,8 @@ class DocumentEditor {
         if (!documentId) return;
 
         try {
-            const apiBase = window.API_BASE || '../../app';
-            const response = await fetch(apiBase + `/index.php/documents/${documentId}`);
+            const apiBase = window.API_BASE || '/app';
+            const response = await fetch(`${apiBase}/index.php/documents/${documentId}`);
             const data = await response.json();
 
             if (data.status === 'success' && data.document) {

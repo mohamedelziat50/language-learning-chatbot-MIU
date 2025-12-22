@@ -112,6 +112,29 @@
     <div class="spinner"></div>
   </div>
 
+  <script>
+    // Calculate API base path dynamically using PHP (more reliable)
+    <?php
+    // Get the script directory relative to document root
+    $scriptDir = dirname($_SERVER['SCRIPT_NAME']);
+    // Remove trailing slash
+    $scriptDir = rtrim($scriptDir, '/');
+    
+    // Extract path up to 'app' directory
+    $parts = explode('/', trim($scriptDir, '/'));
+    $appIndex = array_search('app', $parts);
+    
+    if ($appIndex !== false) {
+      // Build path from root to app directory
+      $apiBase = '/' . implode('/', array_slice($parts, 0, $appIndex + 1));
+    } else {
+      // Fallback: assume we're in app directory
+      $apiBase = '/app';
+    }
+    ?>
+    window.API_BASE = <?php echo json_encode($apiBase); ?>;
+    console.log('API_BASE set to:', window.API_BASE);
+  </script>
   <script src="../../../public/js/student/quiz.js"></script>
 </div>
 </body>

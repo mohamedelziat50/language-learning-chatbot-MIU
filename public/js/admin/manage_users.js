@@ -69,8 +69,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
       const formData = new FormData(this);
 
-      const apiBase = window.API_BASE || '../../app';
-      fetch(apiBase + '/index.php/addUser', {
+      const apiBase = window.API_BASE || '/app';
+      fetch(`${apiBase}/index.php/addUser`, {
         method: 'POST',
         headers: {
           'X-Requested-With': 'XMLHttpRequest'
@@ -137,8 +137,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const formData = new FormData();
         formData.append('user_id', userId);
 
-        const apiBase = window.API_BASE || '../../app';
-        fetch(apiBase + '/index.php/deleteUser', {
+        const apiBase = window.API_BASE || '/app';
+        fetch(`${apiBase}/index.php/deleteUser`, {
           method: 'POST',
           body: formData
         })
@@ -166,8 +166,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const formData = new FormData(this);
 
-    const apiBase = window.API_BASE || '../../app';
-    fetch(apiBase + '/index.php/updateUser', {
+    const apiBase = window.API_BASE || '/app';
+    fetch(`${apiBase}/index.php/updateUser`, {
       method: 'POST',
       headers: {
         'X-Requested-With': 'XMLHttpRequest'

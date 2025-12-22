@@ -38,7 +38,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Show loading spinner
     document.getElementById("loadingSpinner").classList.remove("hidden");
 
-    fetch("../../app/controllers/quiz/generate_quiz.php", {
+    const apiBase = window.API_BASE || '/app';
+    fetch(`${apiBase}/controllers/quiz/generate_quiz.php`, {
       method: "POST",
       body: formData
     })
@@ -263,7 +264,8 @@ document.getElementById("submitQuiz").addEventListener("click", function () {
       percent: percent
     };
 
-    fetch('../../app/controllers/quiz/save_quiz.php', {
+    const apiBase = window.API_BASE || '/app';
+    fetch(`${apiBase}/controllers/quiz/save_quiz.php`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'same-origin',
@@ -307,7 +309,8 @@ document.getElementById("backToSettings").addEventListener("click", function () 
 
 // Fetch and render previous quizzes
 function loadPreviousQuizzes() {
-  fetch('../../app/controllers/quiz/get_quizzes.php', {
+  const apiBase = window.API_BASE || '/app';
+  fetch(`${apiBase}/controllers/quiz/get_quizzes.php`, {
     method: 'GET',
     credentials: 'same-origin'
   })

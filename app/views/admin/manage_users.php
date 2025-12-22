@@ -27,21 +27,6 @@ ob_end_clean();
   <title>Manage Users - Admin Dashboard</title>
   <link rel="stylesheet" href="../../../public/css/admin/admin-dashboard.css">
   <link rel="stylesheet" href="../../../public/css/admin/manage_users.css">
-  <?php
-  // Calculate base path for API calls
-  $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
-  // Get the directory of the current script
-  $scriptDir = dirname($scriptName);
-  // Remove the /app/views/admin part to get project root
-  $projectRoot = str_replace('/app/views/admin', '', $scriptDir);
-  $projectRoot = str_replace('\\app\\views\\admin', '', $projectRoot); // Windows
-  // Ensure we have a base path (could be empty if at root, or /project-name)
-  $apiBase = rtrim($projectRoot, '/') . '/app';
-  ?>
-  <script>
-      // Base path for API calls
-      window.API_BASE = '<?php echo htmlspecialchars($apiBase); ?>';
-  </script>
 </head>
 <body>
   <div class="dashboard-container">
@@ -492,6 +477,29 @@ ob_end_clean();
   </div>
 
   <script src="../../../public/js/admin/admin-dashboard.js"></script>
+  <script>
+    // Calculate API base path dynamically using PHP (more reliable)
+    <?php
+    // Get the script directory relative to document root
+    $scriptDir = dirname($_SERVER['SCRIPT_NAME']);
+    // Remove trailing slash
+    $scriptDir = rtrim($scriptDir, '/');
+    
+    // Extract path up to 'app' directory
+    $parts = explode('/', trim($scriptDir, '/'));
+    $appIndex = array_search('app', $parts);
+    
+    if ($appIndex !== false) {
+      // Build path from root to app directory
+      $apiBase = '/' . implode('/', array_slice($parts, 0, $appIndex + 1));
+    } else {
+      // Fallback: assume we're in app directory
+      $apiBase = '/app';
+    }
+    ?>
+    window.API_BASE = <?php echo json_encode($apiBase); ?>;
+    console.log('API_BASE set to:', window.API_BASE);
+  </script>
   <script src="../../../public/js/admin/manage_users.js"></script>
 </body>
 </html>
