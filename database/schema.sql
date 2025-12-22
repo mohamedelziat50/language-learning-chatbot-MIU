@@ -88,5 +88,5 @@ INSERT INTO languages (name, code, flag) VALUES
 ('Hindi', 'hi', '🇮🇳'),
 ('Turkish', 'tr', '🇹🇷'),
 ('Dutch', 'nl', '🇳🇱'),
-('Swedish', 'sv', '🇸🇪');
+('Swedish', 'sv', '🇸🇪'),
 ('Portuguese', 'pt', '🇵🇹');
