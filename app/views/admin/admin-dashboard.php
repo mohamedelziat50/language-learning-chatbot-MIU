@@ -7,11 +7,18 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
     exit();
 }
 
-// Load controller to fetch data
-require_once __DIR__ . '/../../controllers/admin/manage_users.php';
+// Load controller and model to fetch data
+require_once __DIR__ . '/../../controllers/admin/AdminUserController.php';
+require_once __DIR__ . '/../../../config/db_connect.php';
+require_once __DIR__ . '/../../models/Analytics.php';
 
-// Get total users count
-$totalUsers = UserController::getTotalUsersCount();
+// Get stats from Analytics model
+$analyticsModel = new Analytics($conn);
+$stats = $analyticsModel->getOverviewStats();
+$totalUsers = $stats['total_users'];
+$chatSessions = $stats['chat_sessions'];
+$activeToday = $stats['active_today'];
+$forumPosts = $stats['forum_posts'];
 ?>
 
 <!DOCTYPE html>
@@ -147,7 +154,7 @@ $totalUsers = UserController::getTotalUsersCount();
           </div>
           <div class="stat-content">
             <p class="stat-label">Chat Sessions</p>
-            <h3 class="stat-value">15,234</h3>
+            <h3 class="stat-value"><?php echo number_format($chatSessions); ?></h3>
             <p class="stat-change positive">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="18 15 12 9 6 15"></polyline>
@@ -168,7 +175,7 @@ $totalUsers = UserController::getTotalUsersCount();
           </div>
           <div class="stat-content">
             <p class="stat-label">Active Today</p>
-            <h3 class="stat-value">1,284</h3>
+            <h3 class="stat-value"><?php echo number_format($activeToday); ?></h3>
             <p class="stat-change positive">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="18 15 12 9 6 15"></polyline>
@@ -187,7 +194,7 @@ $totalUsers = UserController::getTotalUsersCount();
           </div>
           <div class="stat-content">
             <p class="stat-label">Forum Posts</p>
-            <h3 class="stat-value">3,482</h3>
+            <h3 class="stat-value"><?php echo number_format($forumPosts); ?></h3>
             <p class="stat-change negative">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
