@@ -1,12 +1,14 @@
 <?php
 require_once __DIR__ . '/load_env.php';
 
-$db_server = getenv('DB_SERVER');
-$db_user = getenv('DB_USER');
-$db_pass = getenv('DB_PASS');
-$db_name = getenv('DB_NAME');
+$host = getenv('DB_HOST');
+$user = getenv('DB_USER');
+$pass = getenv('DB_PASS');
+$dbname = getenv('DB_NAME');
+$port = getenv('DB_PORT');
 
-$conn = mysqli_connect($db_server, $db_user, $db_pass, $db_name);
+
+$conn = mysqli_connect($host, $user, $pass, $dbname, $port);
  
 // Check if connection is successful, otherwise it will show an error message in the browser
 if (!$conn) {

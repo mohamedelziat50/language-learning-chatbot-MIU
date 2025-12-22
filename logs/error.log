@@ -248,3 +248,282 @@ Stack trace:
 =======
   thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\config\db_connect.php on line 9
 >>>>>>> bcb2a28aa53ce641b7ca1a794a5defbb7e4e53a8
+[22-Dec-2025 15:41:42 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/create
+[22-Dec-2025 15:41:42 Europe/Berlin] PATH_INFO: /documents/create
+[22-Dec-2025 15:41:42 Europe/Berlin] Parsed request: /documents/create
+[22-Dec-2025 15:41:43 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/suggestions
+[22-Dec-2025 15:41:43 Europe/Berlin] PATH_INFO: /documents/1/suggestions
+[22-Dec-2025 15:41:43 Europe/Berlin] Parsed request: /documents/1/suggestions
+[22-Dec-2025 15:41:52 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/update
+[22-Dec-2025 15:41:52 Europe/Berlin] PATH_INFO: /documents/1/update
+[22-Dec-2025 15:41:52 Europe/Berlin] Parsed request: /documents/1/update
+[22-Dec-2025 15:41:54 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/update
+[22-Dec-2025 15:41:54 Europe/Berlin] PATH_INFO: /documents/1/update
+[22-Dec-2025 15:41:54 Europe/Berlin] Parsed request: /documents/1/update
+[22-Dec-2025 15:41:54 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/analyze
+[22-Dec-2025 15:41:54 Europe/Berlin] PATH_INFO: /documents/1/analyze
+[22-Dec-2025 15:41:54 Europe/Berlin] Parsed request: /documents/1/analyze
+[22-Dec-2025 15:41:56 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/suggestions
+[22-Dec-2025 15:41:56 Europe/Berlin] PATH_INFO: /documents/1/suggestions
+[22-Dec-2025 15:41:56 Europe/Berlin] Parsed request: /documents/1/suggestions
+[22-Dec-2025 15:41:58 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/suggestions/1/applySuggestion
+[22-Dec-2025 15:41:58 Europe/Berlin] PATH_INFO: /suggestions/1/applySuggestion
+[22-Dec-2025 15:41:58 Europe/Berlin] Parsed request: /suggestions/1/applySuggestion
+[22-Dec-2025 15:41:59 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1
+[22-Dec-2025 15:41:59 Europe/Berlin] PATH_INFO: /documents/1
+[22-Dec-2025 15:41:59 Europe/Berlin] Parsed request: /documents/1
+[22-Dec-2025 15:41:59 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/update
+[22-Dec-2025 15:41:59 Europe/Berlin] PATH_INFO: /documents/1/update
+[22-Dec-2025 15:41:59 Europe/Berlin] Parsed request: /documents/1/update
+[22-Dec-2025 15:41:59 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/analyze
+[22-Dec-2025 15:41:59 Europe/Berlin] PATH_INFO: /documents/1/analyze
+[22-Dec-2025 15:41:59 Europe/Berlin] Parsed request: /documents/1/analyze
+[22-Dec-2025 15:42:00 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/suggestions
+[22-Dec-2025 15:42:00 Europe/Berlin] PATH_INFO: /documents/1/suggestions
+[22-Dec-2025 15:42:00 Europe/Berlin] Parsed request: /documents/1/suggestions
+[22-Dec-2025 15:42:02 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/suggestions/6/applySuggestion
+[22-Dec-2025 15:42:02 Europe/Berlin] PATH_INFO: /suggestions/6/applySuggestion
+[22-Dec-2025 15:42:02 Europe/Berlin] Parsed request: /suggestions/6/applySuggestion
+[22-Dec-2025 15:42:03 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1
+[22-Dec-2025 15:42:03 Europe/Berlin] PATH_INFO: /documents/1
+[22-Dec-2025 15:42:03 Europe/Berlin] Parsed request: /documents/1
+[22-Dec-2025 15:42:03 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/update
+[22-Dec-2025 15:42:03 Europe/Berlin] PATH_INFO: /documents/1/update
+[22-Dec-2025 15:42:03 Europe/Berlin] Parsed request: /documents/1/update
+[22-Dec-2025 15:42:03 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/analyze
+[22-Dec-2025 15:42:03 Europe/Berlin] PATH_INFO: /documents/1/analyze
+[22-Dec-2025 15:42:03 Europe/Berlin] Parsed request: /documents/1/analyze
+[22-Dec-2025 15:42:05 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/suggestions
+[22-Dec-2025 15:42:05 Europe/Berlin] PATH_INFO: /documents/1/suggestions
+[22-Dec-2025 15:42:05 Europe/Berlin] Parsed request: /documents/1/suggestions
+[22-Dec-2025 15:42:13 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/update
+[22-Dec-2025 15:42:13 Europe/Berlin] PATH_INFO: /documents/1/update
+[22-Dec-2025 15:42:13 Europe/Berlin] Parsed request: /documents/1/update
+[22-Dec-2025 15:42:18 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/suggestions/12/applySuggestion
+[22-Dec-2025 15:42:18 Europe/Berlin] PATH_INFO: /suggestions/12/applySuggestion
+[22-Dec-2025 15:42:18 Europe/Berlin] Parsed request: /suggestions/12/applySuggestion
+[22-Dec-2025 15:42:18 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1
+[22-Dec-2025 15:42:18 Europe/Berlin] PATH_INFO: /documents/1
+[22-Dec-2025 15:42:18 Europe/Berlin] Parsed request: /documents/1
+[22-Dec-2025 15:42:18 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/update
+[22-Dec-2025 15:42:18 Europe/Berlin] PATH_INFO: /documents/1/update
+[22-Dec-2025 15:42:18 Europe/Berlin] Parsed request: /documents/1/update
+[22-Dec-2025 15:42:18 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/analyze
+[22-Dec-2025 15:42:18 Europe/Berlin] PATH_INFO: /documents/1/analyze
+[22-Dec-2025 15:42:18 Europe/Berlin] Parsed request: /documents/1/analyze
+[22-Dec-2025 15:42:20 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/suggestions
+[22-Dec-2025 15:42:20 Europe/Berlin] PATH_INFO: /documents/1/suggestions
+[22-Dec-2025 15:42:20 Europe/Berlin] Parsed request: /documents/1/suggestions
+[22-Dec-2025 15:42:22 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/suggestions/14/applySuggestion
+[22-Dec-2025 15:42:22 Europe/Berlin] PATH_INFO: /suggestions/14/applySuggestion
+[22-Dec-2025 15:42:22 Europe/Berlin] Parsed request: /suggestions/14/applySuggestion
+[22-Dec-2025 15:42:22 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1
+[22-Dec-2025 15:42:22 Europe/Berlin] PATH_INFO: /documents/1
+[22-Dec-2025 15:42:22 Europe/Berlin] Parsed request: /documents/1
+[22-Dec-2025 15:42:22 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/update
+[22-Dec-2025 15:42:22 Europe/Berlin] PATH_INFO: /documents/1/update
+[22-Dec-2025 15:42:22 Europe/Berlin] Parsed request: /documents/1/update
+[22-Dec-2025 15:42:22 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/analyze
+[22-Dec-2025 15:42:22 Europe/Berlin] PATH_INFO: /documents/1/analyze
+[22-Dec-2025 15:42:22 Europe/Berlin] Parsed request: /documents/1/analyze
+[22-Dec-2025 15:42:25 Europe/Berlin] AI Grammar Service Error (Groq): Groq API Error: Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kd0grjvse4pvhj00xmd1kd7r` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5960, Requested 547. Please try again in 5.07s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing
+[22-Dec-2025 15:42:25 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/suggestions
+[22-Dec-2025 15:42:25 Europe/Berlin] PATH_INFO: /documents/1/suggestions
+[22-Dec-2025 15:42:25 Europe/Berlin] Parsed request: /documents/1/suggestions
+[22-Dec-2025 15:42:43 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/update
+[22-Dec-2025 15:42:43 Europe/Berlin] PATH_INFO: /documents/1/update
+[22-Dec-2025 15:42:43 Europe/Berlin] Parsed request: /documents/1/update
+[22-Dec-2025 15:42:47 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/update
+[22-Dec-2025 15:42:47 Europe/Berlin] PATH_INFO: /documents/1/update
+[22-Dec-2025 15:42:47 Europe/Berlin] Parsed request: /documents/1/update
+[22-Dec-2025 15:42:47 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/analyze
+[22-Dec-2025 15:42:47 Europe/Berlin] PATH_INFO: /documents/1/analyze
+[22-Dec-2025 15:42:47 Europe/Berlin] Parsed request: /documents/1/analyze
+[22-Dec-2025 15:42:49 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/suggestions
+[22-Dec-2025 15:42:49 Europe/Berlin] PATH_INFO: /documents/1/suggestions
+[22-Dec-2025 15:42:49 Europe/Berlin] Parsed request: /documents/1/suggestions
+[22-Dec-2025 15:42:56 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/suggestions/18/applySuggestion
+[22-Dec-2025 15:42:56 Europe/Berlin] PATH_INFO: /suggestions/18/applySuggestion
+[22-Dec-2025 15:42:56 Europe/Berlin] Parsed request: /suggestions/18/applySuggestion
+[22-Dec-2025 15:42:56 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1
+[22-Dec-2025 15:42:56 Europe/Berlin] PATH_INFO: /documents/1
+[22-Dec-2025 15:42:56 Europe/Berlin] Parsed request: /documents/1
+[22-Dec-2025 15:42:56 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/update
+[22-Dec-2025 15:42:56 Europe/Berlin] PATH_INFO: /documents/1/update
+[22-Dec-2025 15:42:56 Europe/Berlin] Parsed request: /documents/1/update
+[22-Dec-2025 15:42:56 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/analyze
+[22-Dec-2025 15:42:56 Europe/Berlin] PATH_INFO: /documents/1/analyze
+[22-Dec-2025 15:42:56 Europe/Berlin] Parsed request: /documents/1/analyze
+[22-Dec-2025 15:42:58 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/suggestions
+[22-Dec-2025 15:42:58 Europe/Berlin] PATH_INFO: /documents/1/suggestions
+[22-Dec-2025 15:42:58 Europe/Berlin] Parsed request: /documents/1/suggestions
+[22-Dec-2025 15:43:07 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/update
+[22-Dec-2025 15:43:07 Europe/Berlin] PATH_INFO: /documents/1/update
+[22-Dec-2025 15:43:07 Europe/Berlin] Parsed request: /documents/1/update
+[22-Dec-2025 15:43:07 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/analyze
+[22-Dec-2025 15:43:07 Europe/Berlin] PATH_INFO: /documents/1/analyze
+[22-Dec-2025 15:43:07 Europe/Berlin] Parsed request: /documents/1/analyze
+[22-Dec-2025 15:43:09 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/update
+[22-Dec-2025 15:43:09 Europe/Berlin] PATH_INFO: /documents/1/update
+[22-Dec-2025 15:43:09 Europe/Berlin] Parsed request: /documents/1/update
+[22-Dec-2025 15:43:10 Europe/Berlin] AI Grammar Service Error (Groq): Groq API Error: Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kd0grjvse4pvhj00xmd1kd7r` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5962, Requested 548. Please try again in 5.1s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing
+[22-Dec-2025 15:43:10 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/suggestions
+[22-Dec-2025 15:43:10 Europe/Berlin] PATH_INFO: /documents/1/suggestions
+[22-Dec-2025 15:43:10 Europe/Berlin] Parsed request: /documents/1/suggestions
+[22-Dec-2025 15:43:13 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/update
+[22-Dec-2025 15:43:13 Europe/Berlin] PATH_INFO: /documents/1/update
+[22-Dec-2025 15:43:13 Europe/Berlin] Parsed request: /documents/1/update
+[22-Dec-2025 15:43:43 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/update
+[22-Dec-2025 15:43:43 Europe/Berlin] PATH_INFO: /documents/1/update
+[22-Dec-2025 15:43:43 Europe/Berlin] Parsed request: /documents/1/update
+[22-Dec-2025 15:44:13 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/update
+[22-Dec-2025 15:44:13 Europe/Berlin] PATH_INFO: /documents/1/update
+[22-Dec-2025 15:44:13 Europe/Berlin] Parsed request: /documents/1/update
+[22-Dec-2025 15:44:13 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/update
+[22-Dec-2025 15:44:13 Europe/Berlin] PATH_INFO: /documents/1/update
+[22-Dec-2025 15:44:13 Europe/Berlin] Parsed request: /documents/1/update
+[22-Dec-2025 15:44:13 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/analyze
+[22-Dec-2025 15:44:13 Europe/Berlin] PATH_INFO: /documents/1/analyze
+[22-Dec-2025 15:44:13 Europe/Berlin] Parsed request: /documents/1/analyze
+[22-Dec-2025 15:44:15 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/suggestions
+[22-Dec-2025 15:44:15 Europe/Berlin] PATH_INFO: /documents/1/suggestions
+[22-Dec-2025 15:44:15 Europe/Berlin] Parsed request: /documents/1/suggestions
+[22-Dec-2025 18:15:49 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/create
+[22-Dec-2025 18:15:49 Europe/Berlin] PATH_INFO: /documents/create
+[22-Dec-2025 18:15:49 Europe/Berlin] Parsed request: /documents/create
+[22-Dec-2025 18:15:50 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails ("language_learning"."documents", CONSTRAINT "documents_ibfk_1" FOREIGN KEY ("owner_id") REFERENCES "users" ("user_id") ON DELETE CASCADE) in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php:25
+Stack trace:
+#0 C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php(25): mysqli_query(Object(mysqli), 'INSERT INTO doc...')
+#1 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(14): createDocument(2, 'Untitled Docume...', '')
+#2 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(252): handle_createDocument()
+#3 C:\xampp\htdocs\language-learning-chatbot-MIU\app\index.php(44): registerDocumentRoutes('/documents/crea...', 'POST')
+#4 {main}
+  thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php on line 25
+[22-Dec-2025 18:15:56 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/create
+[22-Dec-2025 18:15:56 Europe/Berlin] PATH_INFO: /documents/create
+[22-Dec-2025 18:15:56 Europe/Berlin] Parsed request: /documents/create
+[22-Dec-2025 18:15:56 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails ("language_learning"."documents", CONSTRAINT "documents_ibfk_1" FOREIGN KEY ("owner_id") REFERENCES "users" ("user_id") ON DELETE CASCADE) in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php:25
+Stack trace:
+#0 C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php(25): mysqli_query(Object(mysqli), 'INSERT INTO doc...')
+#1 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(14): createDocument(2, 'Untitled Docume...', '')
+#2 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(252): handle_createDocument()
+#3 C:\xampp\htdocs\language-learning-chatbot-MIU\app\index.php(44): registerDocumentRoutes('/documents/crea...', 'POST')
+#4 {main}
+  thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php on line 25
+[22-Dec-2025 18:17:12 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/create
+[22-Dec-2025 18:17:12 Europe/Berlin] PATH_INFO: /documents/create
+[22-Dec-2025 18:17:12 Europe/Berlin] Parsed request: /documents/create
+[22-Dec-2025 18:17:13 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/suggestions
+[22-Dec-2025 18:17:13 Europe/Berlin] PATH_INFO: /documents/3/suggestions
+[22-Dec-2025 18:17:13 Europe/Berlin] Parsed request: /documents/3/suggestions
+[22-Dec-2025 18:17:22 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
+[22-Dec-2025 18:17:22 Europe/Berlin] PATH_INFO: /documents/3/update
+[22-Dec-2025 18:17:22 Europe/Berlin] Parsed request: /documents/3/update
+[22-Dec-2025 18:17:24 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
+[22-Dec-2025 18:17:24 Europe/Berlin] PATH_INFO: /documents/3/update
+[22-Dec-2025 18:17:24 Europe/Berlin] Parsed request: /documents/3/update
+[22-Dec-2025 18:17:24 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/analyze
+[22-Dec-2025 18:17:24 Europe/Berlin] PATH_INFO: /documents/3/analyze
+[22-Dec-2025 18:17:24 Europe/Berlin] Parsed request: /documents/3/analyze
+[22-Dec-2025 18:17:26 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/suggestions
+[22-Dec-2025 18:17:26 Europe/Berlin] PATH_INFO: /documents/3/suggestions
+[22-Dec-2025 18:17:26 Europe/Berlin] Parsed request: /documents/3/suggestions
+[22-Dec-2025 18:17:29 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/suggestions/1/applySuggestion
+[22-Dec-2025 18:17:29 Europe/Berlin] PATH_INFO: /suggestions/1/applySuggestion
+[22-Dec-2025 18:17:29 Europe/Berlin] Parsed request: /suggestions/1/applySuggestion
+[22-Dec-2025 18:17:30 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3
+[22-Dec-2025 18:17:30 Europe/Berlin] PATH_INFO: /documents/3
+[22-Dec-2025 18:17:30 Europe/Berlin] Parsed request: /documents/3
+[22-Dec-2025 18:17:30 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
+[22-Dec-2025 18:17:30 Europe/Berlin] PATH_INFO: /documents/3/update
+[22-Dec-2025 18:17:30 Europe/Berlin] Parsed request: /documents/3/update
+[22-Dec-2025 18:17:30 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/analyze
+[22-Dec-2025 18:17:30 Europe/Berlin] PATH_INFO: /documents/3/analyze
+[22-Dec-2025 18:17:30 Europe/Berlin] Parsed request: /documents/3/analyze
+[22-Dec-2025 18:17:32 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/suggestions
+[22-Dec-2025 18:17:32 Europe/Berlin] PATH_INFO: /documents/3/suggestions
+[22-Dec-2025 18:17:32 Europe/Berlin] Parsed request: /documents/3/suggestions
+[22-Dec-2025 18:17:43 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
+[22-Dec-2025 18:17:43 Europe/Berlin] PATH_INFO: /documents/3/update
+[22-Dec-2025 18:17:43 Europe/Berlin] Parsed request: /documents/3/update
+[22-Dec-2025 18:18:13 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
+[22-Dec-2025 18:18:13 Europe/Berlin] PATH_INFO: /documents/3/update
+[22-Dec-2025 18:18:13 Europe/Berlin] Parsed request: /documents/3/update
+[22-Dec-2025 18:18:43 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
+[22-Dec-2025 18:18:43 Europe/Berlin] PATH_INFO: /documents/3/update
+[22-Dec-2025 18:18:43 Europe/Berlin] Parsed request: /documents/3/update
+[22-Dec-2025 18:19:13 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
+[22-Dec-2025 18:19:13 Europe/Berlin] PATH_INFO: /documents/3/update
+[22-Dec-2025 18:19:13 Europe/Berlin] Parsed request: /documents/3/update
+[22-Dec-2025 18:19:43 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
+[22-Dec-2025 18:19:43 Europe/Berlin] PATH_INFO: /documents/3/update
+[22-Dec-2025 18:19:43 Europe/Berlin] Parsed request: /documents/3/update
+[22-Dec-2025 18:20:13 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
+[22-Dec-2025 18:20:13 Europe/Berlin] PATH_INFO: /documents/3/update
+[22-Dec-2025 18:20:13 Europe/Berlin] Parsed request: /documents/3/update
+[22-Dec-2025 18:21:36 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
+[22-Dec-2025 18:21:36 Europe/Berlin] PATH_INFO: /documents/3/update
+[22-Dec-2025 18:21:36 Europe/Berlin] Parsed request: /documents/3/update
+[22-Dec-2025 18:22:36 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
+[22-Dec-2025 18:22:36 Europe/Berlin] PATH_INFO: /documents/3/update
+[22-Dec-2025 18:22:36 Europe/Berlin] Parsed request: /documents/3/update
+[22-Dec-2025 18:23:36 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
+[22-Dec-2025 18:23:36 Europe/Berlin] PATH_INFO: /documents/3/update
+[22-Dec-2025 18:23:36 Europe/Berlin] Parsed request: /documents/3/update
+[22-Dec-2025 18:23:43 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
+[22-Dec-2025 18:23:43 Europe/Berlin] PATH_INFO: /documents/3/update
+[22-Dec-2025 18:23:43 Europe/Berlin] Parsed request: /documents/3/update
+[22-Dec-2025 18:24:13 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
+[22-Dec-2025 18:24:13 Europe/Berlin] PATH_INFO: /documents/3/update
+[22-Dec-2025 18:24:13 Europe/Berlin] Parsed request: /documents/3/update
+[22-Dec-2025 18:24:43 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
+[22-Dec-2025 18:24:43 Europe/Berlin] PATH_INFO: /documents/3/update
+[22-Dec-2025 18:24:43 Europe/Berlin] Parsed request: /documents/3/update
+[22-Dec-2025 18:25:13 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
+[22-Dec-2025 18:25:13 Europe/Berlin] PATH_INFO: /documents/3/update
+[22-Dec-2025 18:25:13 Europe/Berlin] Parsed request: /documents/3/update
+[22-Dec-2025 18:26:35 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
+[22-Dec-2025 18:26:35 Europe/Berlin] PATH_INFO: /documents/3/update
+[22-Dec-2025 18:26:35 Europe/Berlin] Parsed request: /documents/3/update
+[22-Dec-2025 18:28:30 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/suggestions
+[22-Dec-2025 18:28:30 Europe/Berlin] PATH_INFO: /documents/3/suggestions
+[22-Dec-2025 18:28:30 Europe/Berlin] Parsed request: /documents/3/suggestions
+[22-Dec-2025 18:28:31 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/suggestions
+[22-Dec-2025 18:28:31 Europe/Berlin] PATH_INFO: /documents/3/suggestions
+[22-Dec-2025 18:28:31 Europe/Berlin] Parsed request: /documents/3/suggestions
+[22-Dec-2025 18:28:35 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/suggestions
+[22-Dec-2025 18:28:35 Europe/Berlin] PATH_INFO: /documents/3/suggestions
+[22-Dec-2025 18:28:35 Europe/Berlin] Parsed request: /documents/3/suggestions
+[22-Dec-2025 18:28:36 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/suggestions
+[22-Dec-2025 18:28:36 Europe/Berlin] PATH_INFO: /documents/3/suggestions
+[22-Dec-2025 18:28:36 Europe/Berlin] Parsed request: /documents/3/suggestions
+[22-Dec-2025 18:28:39 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/suggestions
+[22-Dec-2025 18:28:39 Europe/Berlin] PATH_INFO: /documents/3/suggestions
+[22-Dec-2025 18:28:39 Europe/Berlin] Parsed request: /documents/3/suggestions
+[22-Dec-2025 18:28:44 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/suggestions
+[22-Dec-2025 18:28:44 Europe/Berlin] PATH_INFO: /documents/3/suggestions
+[22-Dec-2025 18:28:44 Europe/Berlin] Parsed request: /documents/3/suggestions
+[22-Dec-2025 18:28:45 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/suggestions
+[22-Dec-2025 18:28:45 Europe/Berlin] PATH_INFO: /documents/3/suggestions
+[22-Dec-2025 18:28:45 Europe/Berlin] Parsed request: /documents/3/suggestions
+[22-Dec-2025 18:28:45 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/suggestions
+[22-Dec-2025 18:28:45 Europe/Berlin] PATH_INFO: /documents/3/suggestions
+[22-Dec-2025 18:28:45 Europe/Berlin] Parsed request: /documents/3/suggestions
+[22-Dec-2025 18:28:56 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/suggestions
+[22-Dec-2025 18:28:56 Europe/Berlin] PATH_INFO: /documents/3/suggestions
+[22-Dec-2025 18:28:56 Europe/Berlin] Parsed request: /documents/3/suggestions
+[22-Dec-2025 18:29:26 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
+[22-Dec-2025 18:29:26 Europe/Berlin] PATH_INFO: /documents/3/update
+[22-Dec-2025 18:29:26 Europe/Berlin] Parsed request: /documents/3/update
+[22-Dec-2025 18:29:56 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
+[22-Dec-2025 18:29:56 Europe/Berlin] PATH_INFO: /documents/3/update
+[22-Dec-2025 18:29:56 Europe/Berlin] Parsed request: /documents/3/update
+[22-Dec-2025 18:30:26 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
+[22-Dec-2025 18:30:26 Europe/Berlin] PATH_INFO: /documents/3/update
+[22-Dec-2025 18:30:26 Europe/Berlin] Parsed request: /documents/3/update
+[22-Dec-2025 18:30:56 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
+[22-Dec-2025 18:30:56 Europe/Berlin] PATH_INFO: /documents/3/update
+[22-Dec-2025 18:30:56 Europe/Berlin] Parsed request: /documents/3/update
+[22-Dec-2025 18:31:26 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
+[22-Dec-2025 18:31:26 Europe/Berlin] PATH_INFO: /documents/3/update
+[22-Dec-2025 18:31:26 Europe/Berlin] Parsed request: /documents/3/update

@@ -67,9 +67,7 @@ CREATE TABLE IF NOT EXISTS quizzes (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     INDEX (user_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
-)
-ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
+);
 
 -- Insert some common languages
 INSERT INTO languages (name, code, flag) VALUES
