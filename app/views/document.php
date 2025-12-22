@@ -33,7 +33,21 @@ if ($document_id && $user_id) {
     <link rel="stylesheet" href="../../public/css/notifications.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <?php
+    // Calculate base path for API calls
+    $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+    // Get the directory of the current script
+    $scriptDir = dirname($scriptName);
+    // Remove the /app/views part to get project root
+    $projectRoot = str_replace('/app/views', '', $scriptDir);
+    $projectRoot = str_replace('\\app\\views', '', $projectRoot); // Windows
+    // Ensure we have a base path (could be empty if at root, or /project-name)
+    $apiBase = rtrim($projectRoot, '/') . '/app';
+    ?>
+    <script>
+        // Base path for API calls
+        window.API_BASE = '<?php echo htmlspecialchars($apiBase); ?>';
+    </script>
 </head>
 <body>
     <div class="document-container">
