@@ -36,7 +36,32 @@ if (!$conn) {
     exit;
 }
 
-$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0;
+$user_id = isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : 0;
+
+// If user is authenticated, derive language from their profile (users.selected_language or languages.name)
+if ($user_id > 0) {
+    $sql = "SELECT 
+                u.selected_language,
+                u.selected_language_id,
+                COALESCE(l_id.name, l_code.name, u.selected_language) AS resolved_language
+            FROM users u
+            LEFT JOIN languages l_id ON l_id.language_id = u.selected_language_id
+            LEFT JOIN languages l_code ON l_code.code = u.selected_language
+            WHERE u.user_id = ?
+            LIMIT 1";
+    if ($stmt = mysqli_prepare($conn, $sql)) {
+        mysqli_stmt_bind_param($stmt, 'i', $user_id);
+        mysqli_stmt_execute($stmt);
+        $res = mysqli_stmt_get_result($stmt);
+        if ($res && ($row = mysqli_fetch_assoc($res))) {
+            if (!empty($row['resolved_language'])) {
+                $language = $row['resolved_language'];
+            }
+        }
+        mysqli_stmt_close($stmt);
+    }
+}
+
 $quiz = new Quiz($conn, $user_id);
 
 $result = $quiz->generateQuiz($mcqCount, $shortCount, $difficulty, $language);

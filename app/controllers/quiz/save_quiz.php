@@ -45,11 +45,37 @@ $percent = isset($data['percent']) ? floatval($data['percent']) : null;
 // Create Quiz instance and save
 $quiz = new Quiz($conn, $user_id);
 
+// Override language with user's selected language if available
+$derivedLanguage = null;
+$sql = "SELECT 
+        u.selected_language,
+        u.selected_language_id,
+        COALESCE(l_id.name, l_code.name, u.selected_language) AS resolved_language
+    FROM users u
+    LEFT JOIN languages l_id ON l_id.language_id = u.selected_language_id
+    LEFT JOIN languages l_code ON l_code.code = u.selected_language
+    WHERE u.user_id = ?
+    LIMIT 1";
+if ($stmt = mysqli_prepare($conn, $sql)) {
+    mysqli_stmt_bind_param($stmt, 'i', $user_id);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+    if ($res && ($row = mysqli_fetch_assoc($res))) {
+        if (!empty($row['resolved_language'])) {
+            $derivedLanguage = $row['resolved_language'];
+        }
+    }
+    mysqli_stmt_close($stmt);
+}
+if (!empty($derivedLanguage)) {
+    $language = $derivedLanguage;
+}
+
 // Evaluate badges BEFORE saving (to compute newly unlocked after save)
 $badgeService = new BadgeService($conn, $user_id);
 $beforeBadges = $badgeService->evaluateCurrent();
 
-$result = $quiz->saveQuiz($language, $difficulty, $mcq_count, $short_count, $score, $total, $percent);
+$result = $quiz->saveQuiz($language ?? '', $difficulty ?? 0, $mcq_count ?? 0, $short_count ?? 0, $score ?? 0, $total ?? 0, $percent ?? 0.0);
 
 if (isset($result['success']) && $result['success'] === true) {
     $afterBadges = $badgeService->evaluateCurrent();
