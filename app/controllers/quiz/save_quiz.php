@@ -4,6 +4,7 @@ header('Content-Type: application/json');
 
 require_once __DIR__ . '/../../../config/load_env.php';
 require_once __DIR__ . '/../../models/Quiz.php';
+require_once __DIR__ . '/../../services/BadgeService.php';
 
 // Get database connection
 $db_server = getenv('DB_SERVER');
@@ -43,7 +44,21 @@ $percent = isset($data['percent']) ? floatval($data['percent']) : null;
 
 // Create Quiz instance and save
 $quiz = new Quiz($conn, $user_id);
+
+// Evaluate badges BEFORE saving (to compute newly unlocked after save)
+$badgeService = new BadgeService($conn, $user_id);
+$beforeBadges = $badgeService->evaluateCurrent();
+
 $result = $quiz->saveQuiz($language, $difficulty, $mcq_count, $short_count, $score, $total, $percent);
+
+if (isset($result['success']) && $result['success'] === true) {
+    $afterBadges = $badgeService->evaluateCurrent();
+    $beforeKeys = array_map(function($b){ return $b['key']; }, $beforeBadges);
+    $afterKeys = array_map(function($b){ return $b['key']; }, $afterBadges);
+    $newKeys = array_values(array_diff($afterKeys, $beforeKeys));
+    $newlyUnlocked = array_values(array_filter($afterBadges, function($b) use ($newKeys){ return in_array($b['key'], $newKeys, true); }));
+    $result['newlyUnlocked'] = $newlyUnlocked;
+}
 
 echo json_encode($result);
 

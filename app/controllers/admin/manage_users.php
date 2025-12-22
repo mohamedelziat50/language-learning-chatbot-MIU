@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../../../config/db_connect.php';
 require_once __DIR__ . '/../../models/User.php';
+require_once __DIR__ . '/../../services/UserValidator.php';
 
 class UserController {
 
@@ -17,20 +18,42 @@ class UserController {
         $userModel = new User($conn);
         return $userModel->getTotalCount();
     }
+        public static function getUsersQuizAverages() {
+        global $conn;
+
+        $userModel = new User($conn);
+        return $userModel->getUsersQuizAverages();
+    }
+
+    public static function getGlobalQuizPerformanceSummary() {
+        global $conn;
+
+        $userModel = new User($conn);
+        return $userModel->getGlobalQuizPerformanceSummary();
+    }
     
     public static function addUser() {
         global $conn;
 
         $data = $_POST;
-
-        if (!isset($data['name'], $data['email'], $data['password'], $data['role'], $data['status'])) {
-            return ["status" => "error", "message" => "Missing required fields"];
+        
+        // Validate input
+        $validator = new UserValidator();
+        $validation = $validator->validateCreate($data);
+        
+        if (!$validation['valid']) {
+            return ["status" => "error", "message" => implode(', ', $validation['errors'])];
+        }
+        
+        // Check if email exists
+        $userModel = new User($conn);
+        if ($userModel->emailExists($data['email'])) {
+            return ["status" => "error", "message" => "Email already exists"];
         }
 
-        $userModel = new User($conn);
         $userModel->name = $data['name'];
         $userModel->email = $data['email'];
-        $userModel->password = $data['password'];
+        $userModel->password = password_hash($data['password'], PASSWORD_DEFAULT);
         $userModel->role = $data['role'];
         $userModel->status = $data['status'];
 
@@ -41,9 +64,13 @@ class UserController {
         global $conn;
 
         $data = $_POST;
-
-        if (!isset($data['user_id'])) {
-            return ["status" => "error", "message" => "Missing user_id"];
+        
+        // Validate input
+        $validator = new UserValidator();
+        $validation = $validator->validateUpdate($data);
+        
+        if (!$validation['valid']) {
+            return ["status" => "error", "message" => implode(', ', $validation['errors'])];
         }
 
         $userModel = new User($conn);

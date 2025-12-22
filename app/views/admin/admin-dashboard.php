@@ -221,6 +221,36 @@ $totalUsers = UserController::getTotalUsersCount();
           </div>
         </div>
 
+        <div class="card chart-card">
+          <div class="card-header">
+            <h3>Average Quiz Grades (Users)</h3>
+            <select class="time-filter" id="userAvgFilter">
+              <option value="all">All time</option>
+              <option value="30">Last 30 days</option>
+              <option value="90">Last 90 days</option>
+            </select>
+          </div>
+          <div style="padding: 1rem;">
+            <canvas id="userAvgChart" height="160"></canvas>
+          </div>
+        </div>
+
+        <div class="card chart-card">
+          <div class="card-header">
+            <h3>Overall Quiz Performance</h3>
+          </div>
+          <div style="padding: 1rem; display:flex; gap:1rem; align-items:center;">
+            <div style="flex:1;">
+              <canvas id="globalAvgChart" height="140"></canvas>
+            </div>
+            <div style="width:220px;">
+              <div style="font-size:0.9rem;color:#4a5568">Summary</div>
+              <div style="font-size:1.6rem;font-weight:600; margin-top:0.5rem;" id="globalAvgValue">--%</div>
+              <div style="color:#718096; margin-top:0.4rem;" id="globalSummaryText">Users with quizzes: --</div>
+            </div>
+          </div>
+        </div>
+
         <div class="card">
           <div class="card-header">
             <h3>Recent Activity</h3>
@@ -502,6 +532,7 @@ $totalUsers = UserController::getTotalUsersCount();
     </main>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="/language-learning-chatbot-MIU/public/js/admin/admin-dashboard.js"></script>
 </body>
 </html>

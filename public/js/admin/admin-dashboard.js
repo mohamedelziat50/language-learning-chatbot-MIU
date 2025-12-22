@@ -104,16 +104,6 @@ if (exportBtn) {
   });
 }
 
-// Logout button
-const logoutBtn = document.querySelector('.logout-btn');
-if (logoutBtn) {
-  logoutBtn.addEventListener('click', () => {
-    if (confirm('Are you sure you want to logout?')) {
-      console.log('Logging out...');
-      window.location.href = '/login';
-    }
-  });
-}
 
 // Table row click
 const tableRows = document.querySelectorAll('.data-table tbody tr');
@@ -445,3 +435,99 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Initialize
 console.log('Admin Dashboard loaded successfully');
+
+// Fetch analytics and render charts
+async function loadAnalytics() {
+  try {
+    const resp = await fetch('/language-learning-chatbot-MIU/app/controllers/admin/analytics.php');
+    const data = await resp.json();
+    if (!data.success) {
+      console.error('Analytics fetch error', data);
+      return;
+    }
+
+    const users = data.users || [];
+    const summary = data.summary || {};
+
+    renderUserAvgChart(users);
+    renderGlobalAvgChart(summary);
+  } catch (err) {
+    console.error('Failed to load analytics', err);
+  }
+}
+
+// Render bar chart for user averages (top 10)
+function renderUserAvgChart(users) {
+  const ctx = document.getElementById('userAvgChart');
+  if (!ctx) return;
+
+  // Sort and take top 10
+  const sorted = users.sort((a,b) => parseFloat(b.avg_percent) - parseFloat(a.avg_percent));
+  const top = sorted.slice(0, 12);
+  const labels = top.map(u => u.name);
+  const values = top.map(u => parseFloat(u.avg_percent));
+
+  if (window._userAvgChart) {
+    window._userAvgChart.data.labels = labels;
+    window._userAvgChart.data.datasets[0].data = values;
+    window._userAvgChart.update();
+    return;
+  }
+
+  window._userAvgChart = new Chart(ctx.getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Avg %',
+        data: values,
+        backgroundColor: 'rgba(99,102,241,0.9)'
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: { beginAtZero: true, max: 100 }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+}
+
+// Render doughnut-like chart for global average
+function renderGlobalAvgChart(summary) {
+  const ctx = document.getElementById('globalAvgChart');
+  if (!ctx) return;
+
+  const avg = Math.round((summary.overall_avg_percent || 0) * 100) / 100;
+  const remaining = Math.max(0, 100 - avg);
+
+  if (window._globalAvgChart) {
+    window._globalAvgChart.data.datasets[0].data = [avg, remaining];
+    window._globalAvgChart.update();
+  } else {
+    window._globalAvgChart = new Chart(ctx.getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Average','Remaining'],
+        datasets: [{ data: [avg, remaining], backgroundColor: ['#10b981', '#e2e8f0'] }]
+      },
+      options: { responsive: true, plugins: { legend: { display: false } }, cutout: '70%' }
+    });
+  }
+
+  const avgEl = document.getElementById('globalAvgValue');
+  const summaryEl = document.getElementById('globalSummaryText');
+  if (avgEl) avgEl.textContent = (avg).toFixed(1) + '%';
+  if (summaryEl) summaryEl.textContent = `Users with quizzes: ${summary.user_count_with_quizzes || 0} · Total quizzes: ${summary.total_quizzes || 0}`;
+}
+
+// Load analytics on DOM ready (after Chart.js loaded)
+document.addEventListener('DOMContentLoaded', () => {
+  // Wait a tick to ensure Chart.js is available
+  if (typeof Chart === 'undefined') {
+    console.warn('Chart.js not loaded yet');
+    return;
+  }
+  loadAnalytics();
+});
