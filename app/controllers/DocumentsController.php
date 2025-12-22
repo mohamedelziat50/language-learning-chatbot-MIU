@@ -70,8 +70,15 @@ function getDocumentsByUser($user_id) {
 function updateDocument($document_id, $user_id, $title, $content) {
     global $conn;
     
+    // Check database connection
+    if (!$conn || mysqli_connect_errno()) {
+        error_log("Database connection error: " . mysqli_connect_error());
+        return false;
+    }
+    
     // Validate inputs
     if (empty($document_id) || empty($user_id) || empty($title)) {
+        error_log("Update document validation failed: document_id=$document_id, user_id=$user_id, title=" . (empty($title) ? 'empty' : 'set'));
         return false;
     }
     
@@ -79,7 +86,13 @@ function updateDocument($document_id, $user_id, $title, $content) {
     $check_sql = "SELECT owner_id FROM documents WHERE document_id = $document_id";
     $check_result = mysqli_query($conn, $check_sql);
     
-    if (!$check_result || mysqli_num_rows($check_result) === 0) {
+    if (!$check_result) {
+        error_log("Check document SQL error: " . mysqli_error($conn));
+        return false;
+    }
+    
+    if (mysqli_num_rows($check_result) === 0) {
+        error_log("Document not found: document_id=$document_id");
         return false; // Returns false if the document was not found
     }
     
@@ -87,6 +100,7 @@ function updateDocument($document_id, $user_id, $title, $content) {
     
     // Verify ownership
     if ($doc['owner_id'] != $user_id) {
+        error_log("Ownership verification failed: document_id=$document_id, owner_id={$doc['owner_id']}, user_id=$user_id");
         return false; // Returns false if the document does not belong to the user
     }
     
@@ -101,11 +115,19 @@ function updateDocument($document_id, $user_id, $title, $content) {
     $content_escaped = mysqli_real_escape_string($conn, $content);
     $preview_text_escaped = mysqli_real_escape_string($conn, $preview_text);
     
-    // Update the document
-    $sql = "UPDATE documents SET title = '$title_escaped', content = '$content_escaped', preview_text = '$preview_text_escaped' 
+    // Update the document (also update updated_at timestamp)
+    $sql = "UPDATE documents SET title = '$title_escaped', content = '$content_escaped', preview_text = '$preview_text_escaped', updated_at = NOW() 
             WHERE document_id = $document_id";
     
-    return mysqli_query($conn, $sql); // Returns true if the document was updated, false if it was not updated
+    $result = mysqli_query($conn, $sql);
+    
+    if (!$result) {
+        // Log the SQL error for debugging
+        error_log("Update document SQL error: " . mysqli_error($conn));
+        return false;
+    }
+    
+    return true; // Returns true if the document was updated successfully
 }
 
 /**

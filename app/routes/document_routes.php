@@ -40,17 +40,46 @@ function handle_getDocument($document_id) {
 }
 
 function handle_updateDocument($document_id) {
-    session_start();
-    $user_id = $_SESSION['user_id'] ?? null;
-    if (!$user_id) {
-        echo json_encode(["status" => "error", "message" => "Not logged in"]);
-        return;
+    try {
+        session_start();
+        $user_id = $_SESSION['user_id'] ?? null;
+        if (!$user_id) {
+            http_response_code(401);
+            echo json_encode(["status" => "error", "message" => "Not logged in"]);
+            return;
+        }
+        
+        $title = $_POST['title'] ?? '';
+        $content = $_POST['content'] ?? '';
+        
+        // Log request details for debugging (without logging full content if too long)
+        $content_length = strlen($content);
+        error_log("Update document request: document_id=$document_id, user_id=$user_id, title_length=" . strlen($title) . ", content_length=$content_length");
+        
+        // Validate inputs
+        if (empty($title)) {
+            http_response_code(400);
+            echo json_encode(["status" => "error", "message" => "Title is required"]);
+            return;
+        }
+        
+        $success = updateDocument($document_id, $user_id, $title, $content);
+        
+        if ($success) {
+            echo json_encode(["status" => "success", "message" => "Document updated successfully"]);
+        } else {
+            http_response_code(500);
+            echo json_encode(["status" => "error", "message" => "Failed to update document. Please check error logs."]);
+        }
+    } catch (Exception $e) {
+        error_log("Update document exception: " . $e->getMessage() . "\nStack trace: " . $e->getTraceAsString());
+        http_response_code(500);
+        echo json_encode(["status" => "error", "message" => "Server error occurred"]);
+    } catch (Error $e) {
+        error_log("Update document fatal error: " . $e->getMessage() . "\nStack trace: " . $e->getTraceAsString());
+        http_response_code(500);
+        echo json_encode(["status" => "error", "message" => "Server error occurred"]);
     }
-    
-    $title = $_POST['title'] ?? '';
-    $content = $_POST['content'] ?? '';
-    $success = updateDocument($document_id, $user_id, $title, $content);
-    echo json_encode(["status" => "success", "success" => $success]);
 }
 
 function handle_deleteDocument($document_id) {
