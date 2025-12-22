@@ -30,86 +30,7 @@ ob_end_clean();
 </head>
 <body>
   <div class="dashboard-container">
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="logo-icon">
-          <circle cx="12" cy="12" r="10"></circle>
-          <line x1="2" y1="12" x2="22" y2="12"></line>
-          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-        </svg>
-        <h2>Admin Panel</h2>
-      </div>
-
-      <nav class="sidebar-nav">
-        <a href="/language-learning-chatbot-MIU/app/views/admin/admin-dashboard.php" class="nav-item">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="7" height="7"></rect>
-            <rect x="14" y="3" width="7" height="7"></rect>
-            <rect x="14" y="14" width="7" height="7"></rect>
-            <rect x="3" y="14" width="7" height="7"></rect>
-          </svg>
-          <span>Overview</span>
-        </a>
-        <a href="/language-learning-chatbot-MIU/app/views/admin/manage_users.php" class="nav-item active">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-            <circle cx="9" cy="7" r="4"></circle>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-          </svg>
-          <span>Manage Users</span>
-        </a>
-        <a href="#analytics" class="nav-item">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="12" y1="20" x2="12" y2="10"></line>
-            <line x1="18" y1="20" x2="18" y2="4"></line>
-            <line x1="6" y1="20" x2="6" y2="16"></line>
-          </svg>
-          <span>Chat Analytics</span>
-        </a>
-        <a href="#forum" class="nav-item">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-          </svg>
-          <span>Manage Forum</span>
-        </a>
-        <a href="#reports" class="nav-item">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-            <line x1="16" y1="13" x2="8" y2="13"></line>
-            <line x1="16" y1="17" x2="8" y2="17"></line>
-            <polyline points="10 9 9 9 8 9"></polyline>
-          </svg>
-          <span>Reports</span>
-        </a>
-        <a href="#settings" class="nav-item">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M12 1v6m0 6v6m5.2-13.2l-4.2 4.2m0 4.2l4.2 4.2M1 12h6m6 0h6M5.8 5.8l4.2 4.2m0 4.2l-4.2 4.2"></path>
-          </svg>
-          <span>Settings</span>
-        </a>
-      </nav>
-
-      <div class="sidebar-footer">
-        <div class="admin-profile">
-          <img src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=100" alt="Admin" class="admin-avatar">
-          <div>
-            <p class="admin-name">Admin User</p>
-            <p class="admin-role">Administrator</p>
-          </div>
-        </div>
-        <button class="logout-btn" onclick="window.location.href='/language-learning-chatbot-MIU/app/controllers/auth/logout.php'">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-            <polyline points="16 17 21 12 16 7"></polyline>
-            <line x1="21" y1="12" x2="9" y2="12"></line>
-          </svg>
-          Logout
-        </button>
-      </div>
-    </aside>
+    <?php include '../partials/admin_sidebar.php'; ?>
 
     <main class="main-content">
       <?php if (isset($_SESSION['message'])): ?>
@@ -186,7 +107,7 @@ ob_end_clean();
             <h3 class="stat-value"><?php echo count(array_filter($users, fn($u) => $u['role'] === 'student')); ?></h3>
           </div>
         </div>
-        <div class="user-stat-card">
+        <div class="user-stat-card clickable" id="activeUsersCard" data-filter="active">
           <div class="stat-icon-wrapper active">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
@@ -194,7 +115,7 @@ ob_end_clean();
           </div>
           <div class="stat-content-wrapper">
             <p class="stat-label">Active Users</p>
-            <h3 class="stat-value"><?php echo count($users); ?></h3>
+            <h3 class="stat-value"><?php echo count(array_filter($users, fn($u) => ($u['status'] ?? 'active') === 'active')); ?></h3>
           </div>
         </div>
       </div>
@@ -217,6 +138,11 @@ ob_end_clean();
               <option value="all">All Roles</option>
               <option value="admin">Admin</option>
               <option value="student">Student</option>
+            </select>
+            <select id="filterStatus" class="role-filter">
+              <option value="all">All Status</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
             </select>
           </div>
         </div>
@@ -278,7 +204,7 @@ ob_end_clean();
                 </tr>
               <?php else: ?>
                 <?php foreach ($users as $user): ?>
-                  <tr class="user-row" data-role="<?php echo htmlspecialchars($user['role']); ?>" data-name="<?php echo htmlspecialchars(strtolower($user['name'])); ?>" data-email="<?php echo htmlspecialchars(strtolower($user['email'])); ?>">
+                  <tr class="user-row" data-role="<?php echo htmlspecialchars($user['role']); ?>" data-status="<?php echo htmlspecialchars($user['status'] ?? 'active'); ?>" data-name="<?php echo htmlspecialchars(strtolower($user['name'])); ?>" data-email="<?php echo htmlspecialchars(strtolower($user['email'])); ?>">
                     <td>
                       <div class="user-cell">
                         <div class="avatar-wrapper">
@@ -328,12 +254,6 @@ ob_end_clean();
                     </td>
                     <td>
                       <div class="action-buttons">
-                        <button class="action-btn view-btn" title="View details" data-user-id="<?php echo $user['user_id']; ?>" data-action="view">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                          </svg>
-                        </button>
                         <button class="action-btn edit-btn" title="Edit user" data-user-id="<?php echo $user['user_id']; ?>" data-action="edit" 
                                 data-user-name="<?php echo htmlspecialchars($user['name']); ?>"
                                 data-user-email="<?php echo htmlspecialchars($user['email']); ?>"

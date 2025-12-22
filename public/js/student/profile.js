@@ -1,4 +1,97 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- EDIT PROFILE MODAL ---
+    const editProfileBtn = document.getElementById('editProfileBtn');
+    const editProfileModal = document.getElementById('editProfileModal');
+    const closeEditModal = document.getElementById('closeEditModal');
+    const cancelEditBtn = document.getElementById('cancelEditBtn');
+    const editProfileForm = document.getElementById('editProfileForm');
+    const editMessage = document.getElementById('editMessage');
+
+    // Open modal
+    if (editProfileBtn) {
+        editProfileBtn.addEventListener('click', () => {
+            editProfileModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        });
+    }
+
+    // Close modal functions
+    function closeModal() {
+        editProfileModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        editMessage.style.display = 'none';
+    }
+
+    if (closeEditModal) {
+        closeEditModal.addEventListener('click', closeModal);
+    }
+
+    if (cancelEditBtn) {
+        cancelEditBtn.addEventListener('click', closeModal);
+    }
+
+    // Close modal when clicking outside
+    editProfileModal.addEventListener('click', (e) => {
+        if (e.target === editProfileModal) {
+            closeModal();
+        }
+    });
+
+    // Handle form submission
+    if (editProfileForm) {
+        editProfileForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(editProfileForm);
+            
+            try {
+                const response = await fetch('/language-learning-chatbot-MIU/app/controllers/student/student_profile.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                // Show message
+                editMessage.style.display = 'block';
+                if (result.status === 'success') {
+                    editMessage.style.backgroundColor = '#d4edda';
+                    editMessage.style.color = '#155724';
+                    editMessage.style.border = '1px solid #c3e6cb';
+                    editMessage.textContent = result.message;
+                    
+                    // Update UI with new data
+                    if (result.data) {
+                        const profileName = document.querySelector('.profile-name');
+                        const profileEmail = document.querySelector('.profile-email');
+                        const profileUsername = document.querySelector('.profile-username');
+                        
+                        if (profileName) profileName.textContent = result.data.username;
+                        if (profileEmail) profileEmail.textContent = result.data.email;
+                        if (profileUsername) profileUsername.textContent = result.data.username;
+                    }
+                    
+                    // Close modal after 1.5 seconds
+                    setTimeout(() => {
+                        closeModal();
+                    }, 1500);
+                } else {
+                    editMessage.style.backgroundColor = '#f8d7da';
+                    editMessage.style.color = '#721c24';
+                    editMessage.style.border = '1px solid #f5c6cb';
+                    editMessage.textContent = result.message || 'Failed to update profile';
+                }
+            } catch (error) {
+                editMessage.style.display = 'block';
+                editMessage.style.backgroundColor = '#f8d7da';
+                editMessage.style.color = '#721c24';
+                editMessage.style.border = '1px solid #f5c6cb';
+                editMessage.textContent = 'An error occurred while updating profile';
+                console.error('Error:', error);
+            }
+        });
+    }
+
     // --- 0. LOAD USER PROFILE DATA ---
     loadUserProfile();
 
