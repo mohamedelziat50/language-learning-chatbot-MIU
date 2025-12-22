@@ -51,4 +51,8 @@ INSERT INTO languages (name, code, flag) VALUES
 ('Chinese', 'zh', '🇨🇳'),
 ('Portuguese', 'pt', '🇵🇹'),
 ('Russian', 'ru', '🇷🇺'),
-('Portuguese', 'pt', '🇵🇹');
+('Korean', 'ko', '🇰🇷'),
+('Hindi', 'hi', '🇮🇳'),
+('Turkish', 'tr', '🇹🇷'),
+('Dutch', 'nl', '🇳🇱'),
+('Swedish', 'sv', '🇸🇪');
