@@ -8,13 +8,51 @@
   <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/student/student.css">
 </head>
 <body>
+<?php
+  if (session_status() === PHP_SESSION_NONE) { session_start(); }
+  require_once __DIR__ . '/../../../config/load_env.php';
+  require_once __DIR__ . '/../../services/BadgeService.php';
+
+  $unlockedBadges = [];
+    $profileTier = null;
+  if (isset($_SESSION['user_id'])) {
+      $db_server = getenv('DB_SERVER');
+      $db_user = getenv('DB_USER');
+      $db_pass = getenv('DB_PASS');
+      $db_name = getenv('DB_NAME');
+      $conn = @mysqli_connect($db_server, $db_user, $db_pass, $db_name);
+      if ($conn) {
+          $badgeSvc = new BadgeService($conn, intval($_SESSION['user_id']));
+          $unlockedBadges = $badgeSvc->evaluateCurrent();
+        // Determine highest tier achieved for avatar overlay
+        $rank = ['bronze' => 1, 'silver' => 2, 'gold' => 3];
+        $best = 0;
+        foreach ($unlockedBadges as $b) {
+          $t = isset($b['tier']) ? $b['tier'] : null;
+          if ($t && isset($rank[$t]) && $rank[$t] > $best) {
+            $best = $rank[$t];
+            $profileTier = $t;
+          }
+        }
+          mysqli_close($conn);
+      }
+  }
+?>
 <?php include '../partials/sidebar.php'; ?>
 <main class="main-content">
   <section class="card profile-header-card">
     <div class="animated-bg"></div>
     <div class="profile-info">
-      <div class="avatar-wrapper">
+      <div class="avatar-wrapper<?php echo $profileTier ? ' tier-ring-'.htmlspecialchars($profileTier) : '' ; ?>">
         <img src="/language-learning-chatbot-MIU/public/images/img1.webp" alt="User Avatar" class="avatar">
+        <?php if ($profileTier) { ?>
+          <div class="tier-ribbon tier-ribbon-<?php echo htmlspecialchars($profileTier); ?>" title="<?php echo ucfirst(htmlspecialchars($profileTier)); ?> tier achieved">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2l2.39 4.84L20 8l-4 3.9.94 5.48L12 15.77 7.06 17.38 8 13 4 9l5.61-.16L12 2z"></path>
+            </svg>
+            <span class="tier-ribbon-label"><?php echo ucfirst(htmlspecialchars($profileTier)); ?></span>
+          </div>
+        <?php } ?>
       </div>
 
       <div class="profile-text">
@@ -158,32 +196,29 @@
           </div>
 
           <div class="badges-grid">
-            <div class="badge-item badge-gold" title="Grammar Master">
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="8" r="7"></circle>
-                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
-              </svg>
-              <span class="badge-label">Grammar Master</span>
-            </div>
-            <div class="badge-item badge-silver" title="100 Messages">
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-              </svg>
-              <span class="badge-label">100 Messages</span>
-            </div>
-            <div class="badge-item badge-bronze" title="5 Tutor Reviews">
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-              </svg>
-              <span class="badge-label">5 Reviews</span>
-            </div>
-            <div class="badge-item badge-locked" title="Keep practicing!">
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-              </svg>
-              <span class="badge-label">Locked</span>
-            </div>
+            <?php if (!empty($unlockedBadges)) { ?>
+              <?php foreach ($unlockedBadges as $b) {
+                  $tierClass = 'badge-bronze';
+                  if ($b['tier'] === 'silver') $tierClass = 'badge-silver';
+                  if ($b['tier'] === 'gold') $tierClass = 'badge-gold';
+              ?>
+                <div class="badge-item <?php echo htmlspecialchars($tierClass); ?>" title="<?php echo htmlspecialchars($b['label']); ?>">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="8" r="7"></circle>
+                    <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                  </svg>
+                  <span class="badge-label"><?php echo htmlspecialchars($b['label']); ?></span>
+                </div>
+              <?php } ?>
+            <?php } else { ?>
+                <div class="badge-item badge-locked" title="Keep practicing!">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                  <span class="badge-label">No badges yet</span>
+                </div>
+            <?php } ?>
           </div>
         </section>
 
