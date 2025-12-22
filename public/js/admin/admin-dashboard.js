@@ -43,7 +43,175 @@ window.addEventListener('load', () => {
       bar.style.width = width;
     }, 100);
   });
+
+  // Initialize all charts
+  initializeAllCharts();
 });
+
+// ==============================================
+// ANALYTICS CHARTS INITIALIZATION
+// ==============================================
+let userActivityChart = null;
+let userAvgChart = null;
+let globalAvgChart = null;
+
+async function initializeAllCharts() {
+  try {
+    // 1. Fetch User Activity Data
+    fetchUserActivity();
+
+    // 2. Fetch Quiz Analytics Data
+    fetchQuizAnalytics();
+
+  } catch (error) {
+    console.error('Error initializing charts:', error);
+  }
+}
+
+async function fetchUserActivity(days = 7) {
+  try {
+    const response = await fetch(`/language-learning-chatbot-MIU/app/controllers/admin/api.php/activity?days=${days}`);
+    const result = await response.json();
+    
+    if (result.status === 'success' && result.data.activity) {
+      createUserActivityChart(result.data.activity);
+    }
+  } catch (error) {
+    console.error('Failed to fetch user activity:', error);
+  }
+}
+
+async function fetchQuizAnalytics() {
+  try {
+    const response = await fetch('/language-learning-chatbot-MIU/app/controllers/admin/api.php/quiz');
+    const result = await response.json();
+    
+    if (result.status === 'success' && result.data) {
+      const { users, summary } = result.data;
+      
+      // Initialize User Average Chart (Top Performers)
+      createUserAvgChart(users || []);
+      
+      // Initialize Global Average Chart (Doughnut)
+      createGlobalAvgChart(summary || {});
+    }
+  } catch (error) {
+    console.error('Failed to fetch quiz analytics:', error);
+  }
+}
+
+function createUserActivityChart(activityData) {
+  // Check if we should replace the placeholder bar chart in HTML
+  const chartPlaceholder = document.querySelector('.chart-placeholder');
+  if (!chartPlaceholder) return;
+
+  // Clear placeholder and add canvas
+  chartPlaceholder.innerHTML = '<canvas id="userActivityChart" height="200"></canvas>';
+  const ctx = document.getElementById('userActivityChart');
+  
+  const labels = activityData.map(d => d.day_name);
+  const counts = activityData.map(d => d.activity_count);
+
+  userActivityChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Sessions',
+        data: counts,
+        borderColor: '#667eea',
+        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+        borderWidth: 3,
+        fill: true,
+        tension: 0.4,
+        pointBackgroundColor: '#667eea',
+        pointRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' } },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+}
+
+function createUserAvgChart(userData) {
+  const ctx = document.getElementById('userAvgChart');
+  if (!ctx) return;
+  
+  if (userAvgChart) userAvgChart.destroy();
+  
+  // Top 10 users
+  const topUsers = userData.slice(0, 10);
+  const labels = topUsers.map(u => u.name);
+  const data = topUsers.map(u => parseFloat(u.avg_percent));
+  
+  userAvgChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Avg Score %',
+        data: data,
+        backgroundColor: 'rgba(102, 126, 234, 0.6)',
+        borderColor: '#667eea',
+        borderWidth: 1,
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        y: { beginAtZero: true, max: 100, grid: { color: 'rgba(0,0,0,0.05)' } },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+}
+
+function createGlobalAvgChart(globalData) {
+  const ctx = document.getElementById('globalAvgChart');
+  if (!ctx) return;
+  
+  if (globalAvgChart) globalAvgChart.destroy();
+  
+  const avgPercent = parseFloat(globalData.overall_avg_percent) || 0;
+  
+  // Update UI values
+  document.getElementById('globalAvgValue').textContent = avgPercent.toFixed(1) + '%';
+  document.getElementById('globalSummaryText').textContent = `Users with quizzes: ${globalData.user_count_with_quizzes} | Total quizzes: ${globalData.total_quizzes}`;
+  
+  globalAvgChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Avg Score', 'Remaining'],
+      datasets: [{
+        data: [avgPercent, 100 - avgPercent],
+        backgroundColor: ['#48bb78', '#e2e8f0'],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '80%',
+      plugins: {
+        legend: { display: false }
+      }
+    }
+  });
+}
 
 // Chart bars hover effect
 const bars = document.querySelectorAll('.bar');
