@@ -423,3 +423,6 @@ Stack trace:
 [22-Dec-2025 17:10:10 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/7/update
 [22-Dec-2025 17:10:10 Europe/Berlin] PATH_INFO: /documents/7/update
 [22-Dec-2025 17:10:10 Europe/Berlin] Parsed request: /documents/7/update
+[22-Dec-2025 17:10:40 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/7/update
+[22-Dec-2025 17:10:40 Europe/Berlin] PATH_INFO: /documents/7/update
+[22-Dec-2025 17:10:40 Europe/Berlin] Parsed request: /documents/7/update
