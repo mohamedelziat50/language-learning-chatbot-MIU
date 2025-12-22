@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- 0. LOAD USER PROFILE DATA ---
+    loadUserProfile();
+
     // --- 1. DARK MODE TOGGLE LOGIC ---
     const themeToggle = document.getElementById('checkbox');
     const body = document.body;
@@ -61,3 +64,58 @@ document.addEventListener('DOMContentLoaded', () => {
     // For 3D graphs, you'd need Three.js or similar libraries.
     */
 });
+
+/**
+ * Load user profile data from backend and update UI
+ */
+async function loadUserProfile() {
+    try {
+        const response = await fetch('/language-learning-chatbot-MIU/app/controllers/languageController.php?action=profile');
+
+        if (!response.ok) {
+            console.error('Failed to load profile data');
+            return;
+        }
+
+        const result = await response.json();
+
+        if (result.success && result.data) {
+            updateProfileUI(result.data);
+        }
+    } catch (error) {
+        console.error('Error loading profile:', error);
+    }
+}
+
+/**
+ * Update profile UI with fetched user data
+ */
+function updateProfileUI(userData) {
+    // Update selected language in language tags
+    const learningTag = document.querySelector('.tag-learning .tag-value');
+    if (learningTag) {
+        // Get language name from the languages data
+        fetch('/language-learning-chatbot-MIU/app/controllers/languageController.php?action=all')
+            .then(response => response.json())
+            .then(result => {
+                if (result.success && result.data) {
+                    let language = null;
+                    
+                    // Try to find by ID first (more efficient)
+                    if (userData.selected_language_id) {
+                        language = result.data.find(lang => lang.id === parseInt(userData.selected_language_id));
+                    }
+                    
+                    // Fall back to finding by code
+                    if (!language && userData.selected_language) {
+                        language = result.data.find(lang => lang.code === userData.selected_language);
+                    }
+                    
+                    if (language) {
+                        learningTag.textContent = language.name;
+                    }
+                }
+            })
+            .catch(error => console.error('Error loading languages:', error));
+    }
+}

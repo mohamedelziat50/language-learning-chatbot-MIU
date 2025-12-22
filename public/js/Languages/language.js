@@ -23,28 +23,69 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Language selection with smooth transition
     languageCards.forEach(card => {
-        card.addEventListener('click', function() {
+        card.addEventListener('click', async function() {
             const languageName = this.querySelector('.language-name').textContent;
-            
+
             // Add click animation
             this.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 this.style.transform = '';
             }, 150);
-            
+
             // Show selection confirmation
             const selectBtn = this.querySelector('.select-btn');
             const originalText = selectBtn.textContent;
-            selectBtn.textContent = 'Selected!';
-            selectBtn.style.background = '#0d8a42';
-            
-            setTimeout(() => {
-                selectBtn.textContent = originalText;
-                selectBtn.style.background = '';
+            selectBtn.textContent = 'Saving...';
+            selectBtn.style.background = '#ffa500';
 
-                // Redirect to topics page
-                window.location.href = `../Topics/Topics.php?lang=${encodeURIComponent(languageName)}`;
-            }, 800);
+            try {
+                // Get language code from the API
+                const languagesResponse = await fetch('/language-learning-chatbot-MIU/app/controllers/languageController.php?action=all');
+                const languagesResult = await languagesResponse.json();
+
+                if (languagesResult.success) {
+                    const selectedLang = languagesResult.data.find(lang => lang.name === languageName);
+                    if (selectedLang) {
+                        // Save selected language to database
+                        const saveResponse = await fetch('/language-learning-chatbot-MIU/app/controllers/languageController.php?action=select', {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                code: selectedLang.code
+                            })
+                        });
+
+                        const saveResult = await saveResponse.json();
+
+                        if (saveResult.success) {
+                            selectBtn.textContent = 'Selected!';
+                            selectBtn.style.background = '#0d8a42';
+
+                            setTimeout(() => {
+                                // Redirect to topics page
+                                window.location.href = `../Topics/Topics.php?lang=${encodeURIComponent(languageName)}`;
+                            }, 800);
+                        } else {
+                            throw new Error(saveResult.message || 'Failed to save language');
+                        }
+                    } else {
+                        throw new Error('Language not found');
+                    }
+                } else {
+                    throw new Error('Failed to load languages');
+                }
+            } catch (error) {
+                console.error('Error saving language:', error);
+                selectBtn.textContent = 'Error!';
+                selectBtn.style.background = '#dc3545';
+
+                setTimeout(() => {
+                    selectBtn.textContent = originalText;
+                    selectBtn.style.background = '';
+                }, 2000);
+            }
         });
     });
 
