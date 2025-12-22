@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
     password VARCHAR(255) NOT NULL,
     role ENUM('student','tutor','admin') DEFAULT 'student',
     selected_language_id INT UNSIGNED DEFAULT '1', -- Foreign key to languages.language_id
+    selected_language VARCHAR(50) NULL,
     status ENUM('active','inactive') DEFAULT 'active',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -40,13 +41,14 @@ CREATE TABLE IF NOT EXISTS languages (
 
 -- Insert some common languages
 INSERT INTO languages (name, code, flag) VALUES
-('English', 'en', '🇺🇸'),
-('Spanish', 'es', '🇪🇸'),
 ('French', 'fr', '🇫🇷'),
+('Spanish', 'es', '🇪🇸'),
 ('German', 'de', '🇩🇪'),
+('English', 'en', '🇺🇸'),
 ('Italian', 'it', '🇮🇹'),
+('Arabic', 'ar', 'EG'),
 ('Japanese', 'ja', '🇯🇵'),
 ('Chinese', 'zh', '🇨🇳'),
-('Arabic', 'ar', '🇸🇦'),
+('Portuguese', 'pt', '🇵🇹'),
 ('Russian', 'ru', '🇷🇺'),
 ('Portuguese', 'pt', '🇵🇹');

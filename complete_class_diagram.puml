@@ -1,0 +1,321 @@
+@startuml Language Learning Chatbot - Complete Class Diagram
+
+' ===== INTERFACES =====
+interface AuthenticationInterface {
+    + verifyLogin(email: string, password: string): array|null
+    + updatePassword(userId: int, newPassword: string): array
+}
+
+interface UserRepositoryInterface {
+    + getAll(): array
+    + getById(id: int): array|null
+    + getByEmail(email: string): array|null
+    + create(): array
+    + update(): array
+    + delete(id: int): array
+    + getTotalCount(): int
+}
+
+interface AIQuizGeneratorInterface {
+    + generate(mcqCount: int, shortCount: int, difficulty: int, language: string): array
+}
+
+interface QuizRepositoryInterface {
+    + save(language: string, difficulty: int, mcq_count: int, short_count: int, score: int, total: int, percent: float): array
+    + getByUserId(user_id: int, limit: int): array
+}
+
+' ===== MODEL CLASSES =====
+class User {
+    - conn: mysqli
+    - table_name: string = "users"
+    - user_id: int
+    - name: string
+    - email: string
+    - password: string
+    - role: string
+    - status: string
+    - created_at: string
+    - updated_at: string
+
+    + __construct(db: mysqli)
+    + getAll(): array
+    + getById(id: int): array|null
+    + getByEmail(email: string): array|null
+    + emailExists(email: string): bool
+    + create(): array
+    + update(): array
+    + updatePassword(userId: int, newPassword: string): array
+    + delete(id: int): array
+    + getTotalCount(): int
+    + verifyLogin(email: string, password: string): array|null
+    + getByRole(role: string): array
+    + getByStatus(status: string): array
+}
+
+class Language {
+    - id: int
+    - name: string
+    - code: string
+    - flag: string
+    - dataFile: string
+
+    + __construct(id: int, name: string, code: string, flag: string)
+    + getId(): int
+    + getName(): string
+    + getCode(): string
+    + getFlag(): string
+    + setName(name: string): void
+    + setCode(code: string): void
+    + setFlag(flag: string): void
+    + getAll(): array<Language>
+    + getAllAsArray(): array
+    + getById(id: int): Language|null
+    + getByCode(code: string): Language|null
+    + exists(code: string): bool
+    + save(): bool
+    + delete(): bool
+    + create(name: string, code: string, flag: string): Language|null
+    + update(id: int, name: string, code: string, flag: string): bool
+    + remove(id: int): bool
+}
+
+class Topic {
+    - id: int
+    - title: string
+    - language_id: int
+    - description: string
+    - icon: string
+    - dataFile: string
+
+    + __construct(id: int, title: string, language_id: int, description: string, icon: string)
+    + getId(): int
+    + getTitle(): string
+    + getLanguageId(): int
+    + getDescription(): string
+    + getIcon(): string
+    + setTitle(title: string): void
+    + setDescription(description: string): void
+    + setIcon(icon: string): void
+    + setLanguageId(language_id: int): void
+    + getAll(): array<Topic>
+    + getById(id: int): Topic|null
+    + getByLanguage(language_id: int): array<Topic>
+    + save(): bool
+    + delete(): bool
+}
+
+class Lesson {
+    - id: int
+    - language_id: int
+    - topic_id: int
+    - type: string
+    - title: string
+    - icon: string
+    - description: string
+    - difficulty: string
+    - content: array
+
+    + __construct(id: int, language_id: int, topic_id: int, type: string, title: string, icon: string, description: string, difficulty: string, content: array)
+    + getId(): int
+    + getLanguageId(): int
+    + getTopicId(): int
+    + getType(): string
+    + getTitle(): string
+    + getIcon(): string
+    + getDescription(): string
+    + getDifficulty(): string
+    + getContent(): array
+    + getAll(): array<Lesson>
+    + getById(id: int): Lesson|null
+    + getByTopic(topic_id: int): array<Lesson>
+    + getByLanguage(language_id: int): array<Lesson>
+    + save(): bool
+    + delete(): bool
+}
+
+class DictionaryModel {
+    - dictionary: array
+
+    + __construct(filePath: string)
+    + getAll(): array
+    + getTotalTopics(): int
+    + getTotalWords(): int
+    + getLanguages(): array
+    + getCategories(language: string): array
+    + getWords(language: string, category: string): array
+    + search(term: string): array
+}
+
+class Quiz {
+    - conn: mysqli
+    - user_id: int
+    - aiGenerator: AIQuizGeneratorInterface
+    - repository: QuizRepositoryInterface
+
+    + __construct(conn: mysqli, user_id: int, aiGenerator: AIQuizGeneratorInterface, repository: QuizRepositoryInterface)
+    + generateQuiz(mcqCount: int, shortCount: int, difficulty: int, language: string): array
+    + saveQuiz(language: string, difficulty: int, mcq_count: int, short_count: int, score: int, total: int, percent: float): array
+    + getQuizzes(limit: int): array
+}
+
+class DummyModel {
+    - data: array
+
+    + __construct()
+    + getData(): array
+    + setData(data: array): void
+}
+
+' ===== SERVICE CLASSES =====
+class GroqQuizGenerator {
+    + generate(mcqCount: int, shortCount: int, difficulty: int, language: string): array
+}
+
+class MySQLQuizRepository {
+    - conn: mysqli
+    - user_id: int
+
+    + __construct(conn: mysqli, user_id: int)
+    + save(language: string, difficulty: int, mcq_count: int, short_count: int, score: int, total: int, percent: float): array
+    + getByUserId(user_id: int, limit: int): array
+}
+
+class BadgeService {
+    - conn: mysqli
+    - user_id: int
+    - repo: MySQLQuizRepository
+
+    + __construct(conn: mysqli, user_id: int)
+    + evaluateCurrent(): array
+    + evaluateFromList(quizzes: array): array
+}
+
+class UserValidator {
+    + validateCreate(data: array): array
+    + validateUpdate(data: array): array
+    + validatePassword(password: string): array
+}
+
+class ResponseHandler {
+    + json(data: array, statusCode: int): void
+    + redirect(url: string, statusCode: int): void
+    + alertAndBack(message: string): void
+    + alertAndRedirect(message: string, url: string): void
+    + setSessionMessage(message: string, type: string): void
+    + redirectWithMessage(url: string, message: string, type: string): void
+}
+
+class AIGrammarService {
+    - api_key: string
+    - api_url: string
+    - model: string
+
+    + __construct()
+    + analyzeContent(content: string, analyze_grammar: bool, analyze_vocabulary: bool): array|bool
+    + buildPrompt(content: string, analyze_grammar: bool, analyze_vocabulary: bool): string
+    + callGroqAPI(prompt: string): string
+    + parseAIResponse(response: string, content: string): array
+}
+
+' ===== CONTROLLER CLASSES =====
+class DictionaryController {
+    + __construct()
+    + index(): void
+    + getLanguages(): void
+    + getCategories(language: string): void
+    + getWords(language: string, category: string): void
+    + search(term: string): void
+}
+
+class UserController {
+    - model: User
+
+    + __construct()
+    + getUsers(): array
+    + getTotalUsersCount(): int
+    + createUser(data: array): array
+    + updateUser(id: int, data: array): array
+    + deleteUser(id: int): array
+    + getUserById(id: int): array
+}
+
+class LanguageController {
+    + __construct()
+    + index(): void
+    + show(id: int): void
+    + store(): void
+    + update(id: int): void
+    + destroy(id: int): void
+    + select(): void
+}
+
+class TopicController {
+    + __construct()
+    + index(): void
+    + show(id: int): void
+    + store(): void
+    + update(id: int): void
+    + destroy(id: int): void
+}
+
+class LessonController {
+    + __construct()
+    + index(): void
+    + show(id: int): void
+    + store(): void
+    + update(id: int): void
+    + destroy(id: int): void
+    + getProgress(lesson_id: int, user_id: int): void
+    + updateProgress(lesson_id: int, user_id: int): void
+}
+
+class QuizController {
+    - quiz: Quiz
+
+    + __construct()
+    + generate(): void
+    + save(): void
+    + getResults(): void
+}
+
+' ===== RELATIONSHIPS =====
+
+' Interface Implementations
+User ..|> AuthenticationInterface : implements
+User ..|> UserRepositoryInterface : implements
+GroqQuizGenerator ..|> AIQuizGeneratorInterface : implements
+MySQLQuizRepository ..|> QuizRepositoryInterface : implements
+
+' Composition/Aggregation (strong "has-a")
+Quiz *-- AIQuizGeneratorInterface : aiGenerator
+Quiz *-- QuizRepositoryInterface : repository
+BadgeService *-- MySQLQuizRepository : repo
+
+' Aggregation (weak "has-a"): Models can exist independently
+Language o-- "*" Topic : has many
+Topic o-- "*" Lesson : has many
+
+' Dependency (uses): Controllers use models and services
+DictionaryController ..> DictionaryModel : uses
+UserController ..> User : uses
+UserController ..> UserValidator : uses
+UserController ..> ResponseHandler : uses
+LanguageController ..> Language : uses
+TopicController ..> Topic : uses
+LessonController ..> Lesson : uses
+QuizController ..> Quiz : uses
+Quiz ..> BadgeService : uses
+
+' Dependency: Services use other services
+AIGrammarService ..> ResponseHandler : uses
+
+' Database Dependencies
+User ..> mysqli : uses
+UserModel ..> mysqli : uses
+Quiz ..> mysqli : uses
+MySQLQuizRepository ..> mysqli : uses
+BadgeService ..> mysqli : uses
+
+@enduml</content>
+<parameter name="filePath">g:\Programs\Xampp\htdocs\language-learning-chatbot-MIU\complete_class_diagram.puml
