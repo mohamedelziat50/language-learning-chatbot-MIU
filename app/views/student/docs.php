@@ -72,9 +72,9 @@ $groupedDocs = groupDocumentsByDate($documents);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Docs - Language Learning Platform</title>
-    <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/student/student.css">
-    <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/student/docs.css">
-    <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/notifications.css">
+    <link rel="stylesheet" href="../../../public/css/student/student.css">
+    <link rel="stylesheet" href="../../../public/css/student/docs.css">
+    <link rel="stylesheet" href="../../../public/css/notifications.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -169,7 +169,7 @@ $groupedDocs = groupDocumentsByDate($documents);
         </div>
     </div>
 
-    <script src="/language-learning-chatbot-MIU/public/js/notifications.js"></script>
-    <script src="/language-learning-chatbot-MIU/public/js/student/docs.js"></script>
+    <script src="../../../public/js/notifications.js"></script>
+    <script src="../../../public/js/student/docs.js"></script>
 </body>
 </html>

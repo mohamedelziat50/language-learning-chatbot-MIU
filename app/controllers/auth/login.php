@@ -33,8 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['status'] = $user['status'];
 
         $redirectUrl = ($user['role'] === 'admin') 
-            ? '/language-learning-chatbot-MIU/app/views/admin/admin-dashboard.php'
-            : '/language-learning-chatbot-MIU/app/views/student/dashboard.php';
+            ? '../../views/admin/admin-dashboard.php'
+            : '../../views/student/dashboard.php';
             
         ResponseHandler::redirect($redirectUrl);
     }

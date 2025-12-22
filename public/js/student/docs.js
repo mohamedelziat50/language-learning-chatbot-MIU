@@ -235,7 +235,7 @@ class DocsManager {
         formData.append('content', '');
         
         try {
-            const response = await fetch('/language-learning-chatbot-MIU/app/index.php/documents/create', {
+            const response = await fetch('../../app/index.php/documents/create', {
                 method: 'POST',
                 body: formData
             });
@@ -243,7 +243,7 @@ class DocsManager {
             const data = await response.json();
             
             if (data.status === 'success' && data.document_id) {
-                window.location.href = `/language-learning-chatbot-MIU/app/views/document.php?id=${data.document_id}`;
+                window.location.href = '../../app/views/document.php?id=' + data.document_id;
             } else {
                 window.NotificationManager.showNotification(data.message || 'Failed to create document', 'error');
             }
@@ -275,7 +275,7 @@ class DocsManager {
     openDocument(card) {
         const docId = card.dataset.docId;
         if (docId) {
-            window.location.href = `/language-learning-chatbot-MIU/app/views/document.php?id=${docId}`;
+            window.location.href = '../../app/views/document.php?id=' + docId;
         }
     }
 
@@ -399,7 +399,7 @@ class DocsManager {
         const formData = new FormData();
         
         try {
-            const response = await fetch(`/language-learning-chatbot-MIU/app/index.php/documents/${docId}/delete`, {
+            const response = await fetch(`../../app/index.php/documents/${docId}/delete`, {
                 method: 'POST',
                 body: formData
             });

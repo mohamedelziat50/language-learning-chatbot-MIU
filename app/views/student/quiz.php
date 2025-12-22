@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Create Quiz</title>
-  <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/student/student.css">
-  <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/student/quiz.css">
+  <link rel="stylesheet" href="../../../public/css/student/student.css">
+  <link rel="stylesheet" href="../../../public/css/student/quiz.css">
 </head>
 <body>
 <?php include '../partials/sidebar.php'; ?>
@@ -112,7 +112,7 @@
     <div class="spinner"></div>
   </div>
 
-  <script src="/language-learning-chatbot-MIU/public/js/student/quiz.js"></script>
+  <script src="../../../public/js/student/quiz.js"></script>
 </div>
 </body>
 </html>

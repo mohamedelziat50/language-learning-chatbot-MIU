@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       const formData = new FormData(this);
 
-      fetch('/language-learning-chatbot-MIU/app/index.php/addUser', {
+      fetch('../../app/index.php/addUser', {
         method: 'POST',
         headers: {
           'X-Requested-With': 'XMLHttpRequest'
@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const formData = new FormData();
         formData.append('user_id', userId);
 
-        fetch('/language-learning-chatbot-MIU/app/index.php/deleteUser', {
+        fetch('../../app/index.php/deleteUser', {
           method: 'POST',
           body: formData
         })
@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const formData = new FormData(this);
 
-    fetch('/language-learning-chatbot-MIU/app/index.php/updateUser', {
+    fetch('../../app/index.php/updateUser', {
       method: 'POST',
       headers: {
         'X-Requested-With': 'XMLHttpRequest'

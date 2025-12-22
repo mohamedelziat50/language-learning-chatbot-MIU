@@ -71,9 +71,9 @@ $_SESSION['user_role'] = $role;
 
 // Step 5 — redirect
 if ($role === 'admin') {
-    header("Location: /language-learning-chatbot-MIU/app/views/admin/admin-dashboard.php");
+    header("Location: ../../views/admin/admin-dashboard.php");
 } else {
-    header("Location: /language-learning-chatbot-MIU/app/views/student/dashboard.php");
+    header("Location: ../../views/student/dashboard.php");
 }
 exit;
 ?>

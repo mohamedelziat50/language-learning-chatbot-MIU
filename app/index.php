@@ -27,11 +27,14 @@ $request = $_SERVER['PATH_INFO'] ?? '';
 // If PATH_INFO is empty, try to extract from REQUEST_URI
 if (empty($request)) {
     $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-    $request = str_replace('/language-learning-chatbot-MIU/app/index.php', '', $uri);
+    // Remove the base path - now using relative paths
+    $basePath = dirname($_SERVER['SCRIPT_NAME']);
+    $request = str_replace($basePath, '', $uri);
 }
 
 // Clean up the request path
-$request = str_replace('/language-learning-chatbot-MIU/app', '', $request);
+// Clean up the request path - remove any remaining base path references
+$request = ltrim($request, '/');
 
 // Log for debugging
 error_log("Request URI: " . $_SERVER['REQUEST_URI']);

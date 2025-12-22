@@ -271,7 +271,7 @@ $currentLessonIndex = isset($_GET['lesson']) ? max(0, min((int)$_GET['lesson'], 
 $currentLesson = $lessons[$currentLessonIndex] ?? null;
 
 if (!$currentLesson) {
-    header("Location: /language-learning-chatbot-MIU/app/views/student/Topics/Topics.php?lang=" . urlencode($lang));
+    header("Location: ../Topics/Topics.php?lang=" . urlencode($lang));
     exit;
 }
 
@@ -412,19 +412,19 @@ function renderDefaultContent() {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars("$topic - $lang | LinguaLearn"); ?></title>
-    <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/Lessons/lesson.css">
+    <link rel="stylesheet" href="../../../public/css/Lessons/lesson.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
-            <a href="/language-learning-chatbot-MIU/app/views/student/Languages/language.php" class="logo">
+            <a href="../Languages/language.php" class="logo">
                 <i class="fas fa-globe-americas"></i> LinguaLearn
             </a>
             <ul class="nav-menu">
-                <li><a href="/language-learning-chatbot-MIU/app/views/student/dashboard.php" class="nav-link"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="/language-learning-chatbot-MIU/app/views/student/Topics/Topics.php?lang=<?php echo urlencode($lang); ?>" class="nav-link"><i class="fas fa-arrow-left"></i> Back to Topics</a></li>
+                <li><a href="../dashboard.php" class="nav-link"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="../Topics/Topics.php?lang=<?php echo urlencode($lang); ?>" class="nav-link"><i class="fas fa-arrow-left"></i> Back to Topics</a></li>
             </ul>
         </div>
     </nav>
@@ -471,7 +471,7 @@ function renderDefaultContent() {
                         Next Lesson <i class="fas fa-arrow-right"></i>
                     </a>
                 <?php else: ?>
-                    <a href="/language-learning-chatbot-MIU/app/views/student/Topics/Topics.php?lang=<?php echo urlencode($lang); ?>" class="nav-btn success">
+                    <a href="../Topics/Topics.php?lang=<?php echo urlencode($lang); ?>" class="nav-btn success">
                         Complete Topic <i class="fas fa-check"></i>
                     </a>
                 <?php endif; ?>
@@ -488,6 +488,6 @@ function renderDefaultContent() {
             csrfToken: "<?php echo $_SESSION['csrf_token']; ?>"
         };
     </script>
-    <script src="/language-learning-chatbot-MIU/public/js/Lessons/lesson.js"></script>
+    <script src="../../../public/js/Lessons/lesson.js"></script>
 </body>
 </html>

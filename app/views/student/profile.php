@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Profile & Dashboard</title>
-  <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/student/profile.css">
-  <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/student/student.css">
+  <link rel="stylesheet" href="../../../public/css/student/profile.css">
+  <link rel="stylesheet" href="../../../public/css/student/student.css">
 </head>
 <body>
 <?php
@@ -44,7 +44,7 @@
     <div class="animated-bg"></div>
     <div class="profile-info">
       <div class="avatar-wrapper<?php echo $profileTier ? ' tier-ring-'.htmlspecialchars($profileTier) : '' ; ?>">
-        <img src="/language-learning-chatbot-MIU/public/images/img1.webp" alt="User Avatar" class="avatar">
+        <img src="../../../public/images/img1.webp" alt="User Avatar" class="avatar">
         <?php if ($profileTier) { ?>
           <div class="tier-ribbon tier-ribbon-<?php echo htmlspecialchars($profileTier); ?>" title="<?php echo ucfirst(htmlspecialchars($profileTier)); ?> tier achieved">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -388,6 +388,6 @@
 
   </main>
  </div>
- <script src="/language-learning-chatbot-MIU/public/js/student/profile.js"></script>
+ <script src="../../../public/js/student/profile.js"></script>
  </body>
 </html>

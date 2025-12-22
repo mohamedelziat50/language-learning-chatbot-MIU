@@ -19,7 +19,7 @@ if ($document_id && $user_id) {
         exit();
     }
 } else if (!$user_id) {
-    header("Location: /language-learning-chatbot-MIU/app/views/login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
 ?>

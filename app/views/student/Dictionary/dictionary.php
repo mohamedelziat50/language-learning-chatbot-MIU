@@ -18,7 +18,7 @@ $referrerLanguage = $_GET['lang'] ?? $_GET['language'] ?? '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Complete Dictionary - Language Learning Bot</title>
-    <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/Dictionary/dictionary.css">
+    <link rel="stylesheet" href="../../../public/css/Dictionary/dictionary.css">
 </head>
 <body>
 <div class="container">
@@ -111,6 +111,6 @@ $referrerLanguage = $_GET['lang'] ?? $_GET['language'] ?? '';
     </div>
 </div>
 
-<script src="/language-learning-chatbot-MIU/public/js/Dictionary/dictionary.js"></script>
+<script src="../../../public/js/Dictionary/dictionary.js"></script>
 </body>
 </html>

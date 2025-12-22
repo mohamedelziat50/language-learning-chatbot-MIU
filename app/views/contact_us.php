@@ -6,9 +6,9 @@
   <title>Contact Us</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/home_page/home_page.css">
-  <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/home_page/contact_us.css">
-  <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/popup/popup.css">
+  <link rel="stylesheet" href="../../public/css/home_page/home_page.css">
+  <link rel="stylesheet" href="../../public/css/home_page/contact_us.css">
+  <link rel="stylesheet" href="../../public/css/popup/popup.css">
 
 </head>
 <body>
@@ -53,7 +53,7 @@
       
       <!-- Newsletter -->
       <div class="newsletter">
-      <img src="/language-learning-chatbot-MIU/public/images/learning.png" alt="Newsletter Background">
+      <img src="../../public/images/learning.png" alt="Newsletter Background">
       <h2>Subscribe to our Newsletter</h2>
       <p>Stay updated with our latest news and updates.</p>
       <form class="newsletter-form">
@@ -113,7 +113,7 @@
 <?php include __DIR__ . '/partials/auth_popup.php'; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="/language-learning-chatbot-MIU/public/js/home_page/home_page.js"></script>
+<script src="../../public/js/home_page/home_page.js"></script>
 
 </body>
 </html>

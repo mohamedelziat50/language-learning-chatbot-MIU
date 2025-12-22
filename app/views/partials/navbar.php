@@ -21,7 +21,7 @@
         </div>
 
         <div class="cta-group">
-            <a href="/language-learning-chatbot-MIU/app/views/contact_us.php" class="text-link support">Contact Support</a>
+            <a href="./app/views/contact_us.php" class="text-link support">Contact Support</a>
             <a href="#" class="text-link login" data-bs-toggle="modal" data-bs-target="#authModal">Log In</a>
             <a href="#" class="cta-nav-button" data-bs-toggle="modal" data-bs-target="#authModal">Get LinguaBot Free</a>
             <button class="mobile-menu-button">

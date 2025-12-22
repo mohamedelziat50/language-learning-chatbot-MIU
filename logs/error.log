@@ -542,3 +542,6 @@ Stack trace:
 [22-Dec-2025 18:34:35 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/3/update
 [22-Dec-2025 18:34:35 Europe/Berlin] PATH_INFO: /documents/3/update
 [22-Dec-2025 18:34:35 Europe/Berlin] Parsed request: /documents/3/update
+[22-Dec-2025 18:48:27 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/create
+[22-Dec-2025 18:48:27 Europe/Berlin] PATH_INFO: /documents/create
+[22-Dec-2025 18:48:27 Europe/Berlin] Parsed request: documents/create

@@ -46,7 +46,7 @@
                     <!-- Video wrapper with floating badge -->
                     <div class="video-wrapper">
                         <video
-                        src="/language-learning-chatbot-MIU/public/videos/home_page_video.mp4"
+                        src="./public/videos/home_page_video.mp4"
                         type="video/mp4"
                             autoplay
                             loop

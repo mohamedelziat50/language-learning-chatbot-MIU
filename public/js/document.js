@@ -311,9 +311,9 @@ class DocumentEditor {
         try {
             let url;
             if (documentId) {
-                url = `/language-learning-chatbot-MIU/app/index.php/documents/${documentId}/update`;
+                url = `../../app/index.php/documents/${documentId}/update`;
             } else {
-                url = `/language-learning-chatbot-MIU/app/index.php/documents/create`;
+                url = `../../app/index.php/documents/create`;
             }
 
             const response = await fetch(url, {
@@ -425,7 +425,7 @@ class DocumentEditor {
             }
 
             // Call the analyze API
-            const response = await fetch(`/language-learning-chatbot-MIU/app/index.php/documents/${documentId}/analyze`, {
+            const response = await fetch(`../../app/index.php/documents/${documentId}/analyze`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -503,7 +503,7 @@ class DocumentEditor {
         }
 
         try {
-            const response = await fetch(`/language-learning-chatbot-MIU/app/index.php/documents/${documentId}/suggestions`);
+            const response = await fetch(`../../app/index.php/documents/${documentId}/suggestions`);
             const data = await response.json();
 
             if (data.status === 'success') {
@@ -609,7 +609,7 @@ class DocumentEditor {
         button.textContent = 'Applying...';
 
         try {
-            const response = await fetch(`/language-learning-chatbot-MIU/app/index.php/suggestions/${suggestionId}/applySuggestion`, {
+            const response = await fetch(`../../app/index.php/suggestions/${suggestionId}/applySuggestion`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -673,7 +673,7 @@ class DocumentEditor {
         if (!documentId) return;
 
         try {
-            const response = await fetch(`/language-learning-chatbot-MIU/app/index.php/documents/${documentId}`);
+            const response = await fetch(`../../app/index.php/documents/${documentId}`);
             const data = await response.json();
 
             if (data.status === 'success' && data.document) {

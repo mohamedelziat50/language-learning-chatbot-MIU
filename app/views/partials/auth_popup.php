@@ -1,3 +1,9 @@
+<?php
+// Calculate base path for forms - relative to where the including page is located
+// When included in index.php (root), paths should be relative to root
+$scriptDir = dirname($_SERVER['SCRIPT_NAME'] ?? '/');
+$basePath = ($scriptDir === '/' || $scriptDir === '\\') ? '' : $scriptDir . '/';
+?>
 <!-- Authentication Modal -->
 <div class="modal fade" id="authModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -31,7 +37,7 @@
           <div class="tab-content">
             <!-- Login Form -->
             <div class="tab-pane fade show active" id="loginTab" role="tabpanel">
-              <form id="loginForm" action="/language-learning-chatbot-MIU/app/controllers/auth/login.php" method="POST">
+              <form id="loginForm" action="<?php echo htmlspecialchars($basePath . 'app/controllers/auth/login.php'); ?>" method="POST">
                 <div class="mb-3 text-start">
                   <label for="loginEmail" class="form-label">Email address</label>
                   <input type="text" class="form-control" id="loginEmail" name="email" required
@@ -52,7 +58,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary w-100 mb-3">Login</button>
 
-                <a href="/language-learning-chatbot-MIU/app/controllers/auth/google_login.php" 
+                <a href="<?php echo htmlspecialchars($basePath . 'app/controllers/auth/google_login.php'); ?>" 
                 class="btn google-btn w-100 mb-3">
                   <img src="https://developers.google.com/identity/images/g-logo.png" width="20">
                   Continue with Google
@@ -63,7 +69,7 @@
 
             <!-- Sign Up Form -->
             <div class="tab-pane fade" id="signupTab" role="tabpanel">
-              <form id="signupForm" action="/language-learning-chatbot-MIU/app/controllers/auth/signup.php" method="POST">
+              <form id="signupForm" action="<?php echo htmlspecialchars($basePath . 'app/controllers/auth/signup.php'); ?>" method="POST">
                 <div class="mb-3 text-start">
                   <label for="signupName" class="form-label">Full Name</label>
                   <input type="text" class="form-control" id="signupName" name="name" required>
@@ -88,7 +94,7 @@
                 </div>
                 <button type="submit" class="btn btn-success w-100 mb-3">Sign Up</button>
                 <!-- Google Sign-Up / Login Button -->
-                <a href="/language-learning-chatbot-MIU/app/controllers/auth/google_login.php" 
+                <a href="<?php echo htmlspecialchars($basePath . 'app/controllers/auth/google_login.php'); ?>" 
                 class="btn google-btn w-100 mb-3">
                   <img src="https://developers.google.com/identity/images/g-logo.png" width="20">
                   Continue with Google
@@ -102,7 +108,7 @@
         <!-- Right Side Image -->
         <div class="col-md-6 position-relative d-flex align-items-center justify-content-center half-circles-bg">
           <span></span>
-          <img src="/language-learning-chatbot-MIU/public/images/computer.png" alt="Decorative" class="center-image">
+          <img src="../../../public/images/computer.png" alt="Decorative" class="center-image">
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@ session_start();
 
 // Check if user is admin
 if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
-    header("Location: /language-learning-chatbot-MIU/index.php");
+    header("Location: ../../../index.php");
     exit();
 }
 
@@ -20,7 +20,7 @@ $totalUsers = UserController::getTotalUsersCount();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard - Language Learning Platform</title>
-  <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/admin/admin-dashboard.css">
+  <link rel="stylesheet" href="../../../public/css/admin/admin-dashboard.css">
 </head>
 <body>
   <div class="dashboard-container">
@@ -35,7 +35,7 @@ $totalUsers = UserController::getTotalUsersCount();
       </div>
 
       <nav class="sidebar-nav">
-        <a href="/language-learning-chatbot-MIU/app/views/admin/admin-dashboard.php" class="nav-item active">
+        <a href="admin-dashboard.php" class="nav-item active">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="3" width="7" height="7"></rect>
             <rect x="14" y="3" width="7" height="7"></rect>
@@ -44,7 +44,7 @@ $totalUsers = UserController::getTotalUsersCount();
           </svg>
           <span>Overview</span>
         </a>
-        <a href="/language-learning-chatbot-MIU/app/views/admin/manage_users.php" class="nav-item">
+        <a href="manage_users.php" class="nav-item">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
             <circle cx="9" cy="7" r="4"></circle>
@@ -94,7 +94,7 @@ $totalUsers = UserController::getTotalUsersCount();
             <p class="admin-role">Administrator</p>
           </div>
         </div>
-        <button class="logout-btn" onclick="window.location.href='/language-learning-chatbot-MIU/app/controllers/auth/logout.php'">
+        <button class="logout-btn" onclick="window.location.href='../../controllers/auth/logout.php'">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
             <polyline points="16 17 21 12 16 7"></polyline>
@@ -224,7 +224,7 @@ $totalUsers = UserController::getTotalUsersCount();
         <div class="card">
           <div class="card-header">
             <h3>Recent Activity</h3>
-            <a href="/language-learning-chatbot-MIU/app/views/admin/manage_users.php" class="view-all">View All Users</a>
+            <a href="manage_users.php" class="view-all">View All Users</a>
           </div>
           <div style="padding: 1.5rem;">
             <!-- Activity Item -->
@@ -502,6 +502,6 @@ $totalUsers = UserController::getTotalUsersCount();
     </main>
   </div>
 
-  <script src="/language-learning-chatbot-MIU/public/js/admin/admin-dashboard.js"></script>
+  <script src="../../../public/js/admin/admin-dashboard.js"></script>
 </body>
 </html>

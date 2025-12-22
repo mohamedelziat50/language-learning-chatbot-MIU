@@ -10,9 +10,9 @@ $languages = Language::getAll();
     <title>Select Language - LinguaLearn</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/Languages/language.css">
-    <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/student/student.css">
-    <link rel="stylesheet" href="/language-learning-chatbot-MIU/public/css/student/sidebar.css">
+    <link rel="stylesheet" href="../../../public/css/Languages/language.css">
+    <link rel="stylesheet" href="../../../public/css/student/student.css">
+    <link rel="stylesheet" href="../../../public/css/student/sidebar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -56,7 +56,7 @@ $languages = Language::getAll();
     </div>
 </div>
 
-<script src="/language-learning-chatbot-MIU/public/js/Languages/language.js"></script>
+<script src="../../../public/js/Languages/language.js"></script>
 
 </body>
 </html>
