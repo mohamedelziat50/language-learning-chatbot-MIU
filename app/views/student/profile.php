@@ -35,11 +35,9 @@
   $userRole = $userData ? $userData['role'] : 'student';
   $userStatus = $userData ? $userData['status'] : 'active';
   $userCreatedAt = $userData ? $userData['created_at'] : date('Y-m-d H:i:s');
-  $selectedLanguageId = $userData['selected_language_id'] ?? null;
-  $nativeLanguageId = $userData['native_language_id'] ?? 1; // Default to English (ID 1)
   
-  // Get username - use name field as username (without @)
-  $userUsername = $userName;
+  // Generate username from name
+  $userUsername = '@' . str_replace(' ', '_', strtolower($userName));
   
   // ==============================================
   // FETCH USER STATISTICS
@@ -68,44 +66,6 @@
   
   // Practice time (estimate based on quizzes)
   $practiceHours = floor($quizCount * 0.5); // Assume 30min per quiz
-  
-  // ==============================================
-  // FETCH LANGUAGE DATA
-  // ==============================================
-  $nativeLanguageName = 'English'; // Default
-  $learningLanguageName = 'Not selected';
-  $learningLanguageLevel = 'Beginner';
-  
-  // Fetch native language name
-  if ($nativeLanguageId) {
-      $nativeLangStmt = mysqli_prepare($conn, "SELECT name FROM languages WHERE language_id = ?");
-      mysqli_stmt_bind_param($nativeLangStmt, "i", $nativeLanguageId);
-      mysqli_stmt_execute($nativeLangStmt);
-      $nativeLangResult = mysqli_stmt_get_result($nativeLangStmt);
-      $nativeLangData = mysqli_fetch_assoc($nativeLangResult);
-      if ($nativeLangData) {
-          $nativeLanguageName = $nativeLangData['name'];
-      }
-  }
-  
-  // Fetch learning language name
-  if ($selectedLanguageId) {
-      $langStmt = mysqli_prepare($conn, "SELECT name FROM languages WHERE language_id = ?");
-      mysqli_stmt_bind_param($langStmt, "i", $selectedLanguageId);
-      mysqli_stmt_execute($langStmt);
-      $langResult = mysqli_stmt_get_result($langStmt);
-      $langData = mysqli_fetch_assoc($langResult);
-      if ($langData) {
-          $learningLanguageName = $langData['name'];
-      }
-  }
-  
-  // Determine level based on quiz performance
-  if ($avgScore >= 80) {
-      $learningLanguageLevel = 'Advanced';
-  } elseif ($avgScore >= 50) {
-      $learningLanguageLevel = 'Intermediate';
-  }
   
   // ==============================================
   // FETCH BADGES
