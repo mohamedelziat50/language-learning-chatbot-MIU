@@ -301,6 +301,12 @@ function registerDocumentRoutes($request, $method) {
         return true;
     }
     
+    // POST /documents/{id}/ai-assistant
+    if (preg_match('/^\/documents\/(\d+)\/ai-assistant$/', $request, $matches) && $method === 'POST') {
+        handle_aiAssistant($matches[1]);
+        return true;
+    }
+    
     // GET /documents/api-status (check if OpenAI API is working)
     if ($request === '/documents/api-status' && $method === 'GET') {
         handle_checkApiStatus();
@@ -310,17 +316,68 @@ function registerDocumentRoutes($request, $method) {
     return false;
 }
 
+function handle_aiAssistant($document_id) {
+    session_start();
+    $user_id = $_SESSION['user_id'] ?? null;
+    if (!$user_id) {
+        echo json_encode(["status" => "error", "message" => "Not logged in"]);
+        return;
+    }
+    
+    // Verify document ownership
+    $document = getDocumentById($document_id);
+    if (!$document) {
+        echo json_encode(["status" => "error", "message" => "Document not found"]);
+        return;
+    }
+    
+    if ($document['owner_id'] != $user_id) {
+        echo json_encode(["status" => "error", "message" => "Unauthorized access"]);
+        return;
+    }
+    
+    // Get request data
+    $input = json_decode(file_get_contents('php://input'), true);
+    $userMessage = $input['message'] ?? '';
+    $conversationHistory = $input['conversation_history'] ?? [];
+    
+    if (empty($userMessage)) {
+        echo json_encode(["status" => "error", "message" => "Message is required"]);
+        return;
+    }
+    
+    // Get document content for context
+    $documentContent = $document['content'] ?? '';
+    
+    // Call Groq AI Assistant
+    require_once __DIR__ . '/../services/GroqAIAssistant.php';
+    $aiAssistant = new GroqAIAssistant();
+    $result = $aiAssistant->generateResponse($userMessage, $documentContent, $conversationHistory);
+    
+    if ($result['success']) {
+        echo json_encode([
+            "status" => "success",
+            "message" => $result['message']
+        ]);
+    } else {
+        echo json_encode([
+            "status" => "error",
+            "message" => $result['error'] ?? "Failed to generate AI response"
+        ]);
+    }
+}
+
 function handle_checkApiStatus() {
     require_once __DIR__ . '/../services/AIGrammarService.php';
     require_once __DIR__ . '/../../config/load_env.php';
     
-    $api_key = getenv('OPENAI_API_KEY');
+    $api_key = getenv('GROQ_API_KEY');
     
     if (!$api_key) {
         echo json_encode([
             "status" => "error",
             "api_configured" => false,
-            "message" => "OpenAI API key not configured. Please set OPENAI_API_KEY in your .env file."
+            "message" => "Groq API key not configured. Please set GROQ_API_KEY in your .env file."
         ]);
         return;
     }
@@ -335,14 +392,14 @@ function handle_checkApiStatus() {
             "status" => "error",
             "api_configured" => true,
             "api_working" => false,
-            "message" => "OpenAI API key is configured but API call failed. Check error logs for details."
+            "message" => "Groq API key is configured but API call failed. Check error logs for details."
         ]);
     } else {
         echo json_encode([
             "status" => "success",
             "api_configured" => true,
             "api_working" => true,
-            "message" => "OpenAI API is working correctly."
+            "message" => "Groq API is working correctly."
         ]);
     }
 }

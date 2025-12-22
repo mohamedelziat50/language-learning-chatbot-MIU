@@ -739,7 +739,7 @@ class DocumentEditor {
         if (countElement) countElement.textContent = `${count}`;
     }
 
-    sendAIMessage() {
+    async sendAIMessage() {
         const message = this.aiInput.value.trim();
         if (!message) return;
 
@@ -752,11 +752,60 @@ class DocumentEditor {
         // Show typing indicator
         this.showTypingIndicator();
 
-        // Simulate AI response
-        setTimeout(() => {
+        try {
+            // Get document ID
+            const documentId = document.getElementById('document-id')?.value;
+            
+            if (!documentId) {
+                this.hideTypingIndicator();
+                this.addAIMessage('Please save your document first before using the AI assistant.', 'ai');
+                window.NotificationManager?.showNotification('Document must be saved to use AI assistant', 'warning');
+                return;
+            }
+
+            // Build conversation history from existing messages
+            const conversationHistory = [];
+            const existingMessages = this.aiMessages.querySelectorAll('.ai-message:not(.typing-indicator)');
+            existingMessages.forEach(msg => {
+                const isUser = msg.classList.contains('user');
+                const content = msg.querySelector('.ai-content p')?.textContent || '';
+                if (content) {
+                    conversationHistory.push({
+                        role: isUser ? 'user' : 'assistant',
+                        content: content
+                    });
+                }
+            });
+
+            // Call AI Assistant API
+            const response = await fetch(`/language-learning-chatbot-MIU/app/index.php/documents/${documentId}/ai-assistant`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: message,
+                    conversation_history: conversationHistory
+                })
+            });
+
+            const data = await response.json();
+
             this.hideTypingIndicator();
-            this.addAIMessage(this.generateAIResponse(message), 'ai');
-        }, 1500);
+
+            if (data.status === 'success') {
+                this.addAIMessage(data.message, 'ai');
+            } else {
+                const errorMsg = data.message || 'Failed to get AI response. Please try again.';
+                this.addAIMessage('Error: ' + errorMsg, 'ai');
+                window.NotificationManager?.showNotification('AI Assistant error: ' + errorMsg, 'error');
+            }
+        } catch (error) {
+            this.hideTypingIndicator();
+            console.error('Error calling AI assistant:', error);
+            this.addAIMessage('Sorry, I encountered an error. Please try again later.', 'ai');
+            window.NotificationManager?.showNotification('Error connecting to AI assistant', 'error');
+        }
     }
 
     addAIMessage(message, sender) {
@@ -818,18 +867,6 @@ class DocumentEditor {
         }
     }
 
-    generateAIResponse(userMessage) {
-        const responses = [
-            "I can help you improve that sentence. Try using more specific words to make it clearer.",
-            "Consider breaking this into shorter sentences for better readability.",
-            "This is a good start! You might want to add more details to support your main point.",
-            "Your writing is clear, but you could make it more engaging by asking a question.",
-            "I notice you're using passive voice here. Active voice would make this stronger.",
-            "This paragraph flows well! Consider adding a transition to connect it to the next one."
-        ];
-
-        return responses[Math.floor(Math.random() * responses.length)];
-    }
 
     clearAIChat() {
         // Clear all messages but keep the header and empty state

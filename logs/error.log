@@ -248,3 +248,181 @@ Stack trace:
 =======
   thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\config\db_connect.php on line 9
 >>>>>>> bcb2a28aa53ce641b7ca1a794a5defbb7e4e53a8
+[22-Dec-2025 17:00:55 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/create
+[22-Dec-2025 17:00:55 Europe/Berlin] PATH_INFO: /documents/create
+[22-Dec-2025 17:00:55 Europe/Berlin] Parsed request: /documents/create
+[22-Dec-2025 17:00:55 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/suggestions
+[22-Dec-2025 17:00:55 Europe/Berlin] PATH_INFO: /documents/1/suggestions
+[22-Dec-2025 17:00:55 Europe/Berlin] Parsed request: /documents/1/suggestions
+[22-Dec-2025 17:00:55 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'language_learning.document_suggestions' doesn't exist in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php:342
+Stack trace:
+#0 C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php(342): mysqli_query(Object(mysqli), 'SELECT * FROM d...')
+#1 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(188): getSuggestions('1')
+#2 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(294): handle_getSuggestions('1')
+#3 C:\xampp\htdocs\language-learning-chatbot-MIU\app\index.php(44): registerDocumentRoutes('/documents/1/su...', 'GET')
+#4 {main}
+  thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php on line 342
+[22-Dec-2025 17:04:10 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/suggestions
+[22-Dec-2025 17:04:10 Europe/Berlin] PATH_INFO: /documents/1/suggestions
+[22-Dec-2025 17:04:10 Europe/Berlin] Parsed request: /documents/1/suggestions
+[22-Dec-2025 17:04:10 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'language_learning.document_suggestions' doesn't exist in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php:342
+Stack trace:
+#0 C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php(342): mysqli_query(Object(mysqli), 'SELECT * FROM d...')
+#1 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(188): getSuggestions('1')
+#2 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(294): handle_getSuggestions('1')
+#3 C:\xampp\htdocs\language-learning-chatbot-MIU\app\index.php(44): registerDocumentRoutes('/documents/1/su...', 'GET')
+#4 {main}
+  thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php on line 342
+[22-Dec-2025 17:04:14 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/suggestions
+[22-Dec-2025 17:04:14 Europe/Berlin] PATH_INFO: /documents/1/suggestions
+[22-Dec-2025 17:04:14 Europe/Berlin] Parsed request: /documents/1/suggestions
+[22-Dec-2025 17:04:14 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'language_learning.document_suggestions' doesn't exist in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php:342
+Stack trace:
+#0 C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php(342): mysqli_query(Object(mysqli), 'SELECT * FROM d...')
+#1 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(188): getSuggestions('1')
+#2 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(294): handle_getSuggestions('1')
+#3 C:\xampp\htdocs\language-learning-chatbot-MIU\app\index.php(44): registerDocumentRoutes('/documents/1/su...', 'GET')
+#4 {main}
+  thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php on line 342
+[22-Dec-2025 17:04:39 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/1/ai-assistant
+[22-Dec-2025 17:04:39 Europe/Berlin] PATH_INFO: /documents/1/ai-assistant
+[22-Dec-2025 17:04:39 Europe/Berlin] Parsed request: /documents/1/ai-assistant
+[22-Dec-2025 17:04:39 Europe/Berlin] Groq AI Assistant cURL Error: Could not resolve host: api.groq.com
+[22-Dec-2025 17:06:42 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/create
+[22-Dec-2025 17:06:42 Europe/Berlin] PATH_INFO: /documents/create
+[22-Dec-2025 17:06:42 Europe/Berlin] Parsed request: /documents/create
+[22-Dec-2025 17:06:43 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails (`language_learning`.`documents`, CONSTRAINT `documents_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE) in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php:25
+Stack trace:
+#0 C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php(25): mysqli_query(Object(mysqli), 'INSERT INTO doc...')
+#1 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(14): createDocument(2, 'Untitled Docume...', '')
+#2 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(252): handle_createDocument()
+#3 C:\xampp\htdocs\language-learning-chatbot-MIU\app\index.php(44): registerDocumentRoutes('/documents/crea...', 'POST')
+#4 {main}
+  thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php on line 25
+[22-Dec-2025 17:06:46 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/create
+[22-Dec-2025 17:06:46 Europe/Berlin] PATH_INFO: /documents/create
+[22-Dec-2025 17:06:46 Europe/Berlin] Parsed request: /documents/create
+[22-Dec-2025 17:06:46 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails (`language_learning`.`documents`, CONSTRAINT `documents_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE) in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php:25
+Stack trace:
+#0 C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php(25): mysqli_query(Object(mysqli), 'INSERT INTO doc...')
+#1 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(14): createDocument(2, 'Untitled Docume...', '')
+#2 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(252): handle_createDocument()
+#3 C:\xampp\htdocs\language-learning-chatbot-MIU\app\index.php(44): registerDocumentRoutes('/documents/crea...', 'POST')
+#4 {main}
+  thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php on line 25
+[22-Dec-2025 17:06:48 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/create
+[22-Dec-2025 17:06:48 Europe/Berlin] PATH_INFO: /documents/create
+[22-Dec-2025 17:06:48 Europe/Berlin] Parsed request: /documents/create
+[22-Dec-2025 17:06:48 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails (`language_learning`.`documents`, CONSTRAINT `documents_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE) in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php:25
+Stack trace:
+#0 C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php(25): mysqli_query(Object(mysqli), 'INSERT INTO doc...')
+#1 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(14): createDocument(2, 'Untitled Docume...', '')
+#2 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(252): handle_createDocument()
+#3 C:\xampp\htdocs\language-learning-chatbot-MIU\app\index.php(44): registerDocumentRoutes('/documents/crea...', 'POST')
+#4 {main}
+  thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php on line 25
+[22-Dec-2025 17:06:50 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/create
+[22-Dec-2025 17:06:50 Europe/Berlin] PATH_INFO: /documents/create
+[22-Dec-2025 17:06:50 Europe/Berlin] Parsed request: /documents/create
+[22-Dec-2025 17:06:50 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails (`language_learning`.`documents`, CONSTRAINT `documents_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE) in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php:25
+Stack trace:
+#0 C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php(25): mysqli_query(Object(mysqli), 'INSERT INTO doc...')
+#1 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(14): createDocument(2, 'Untitled Docume...', '')
+#2 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(252): handle_createDocument()
+#3 C:\xampp\htdocs\language-learning-chatbot-MIU\app\index.php(44): registerDocumentRoutes('/documents/crea...', 'POST')
+#4 {main}
+  thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php on line 25
+[22-Dec-2025 17:06:52 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/create
+[22-Dec-2025 17:06:52 Europe/Berlin] PATH_INFO: /documents/create
+[22-Dec-2025 17:06:52 Europe/Berlin] Parsed request: /documents/create
+[22-Dec-2025 17:06:52 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails (`language_learning`.`documents`, CONSTRAINT `documents_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE) in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php:25
+Stack trace:
+#0 C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php(25): mysqli_query(Object(mysqli), 'INSERT INTO doc...')
+#1 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(14): createDocument(2, 'Untitled Docume...', '')
+#2 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(252): handle_createDocument()
+#3 C:\xampp\htdocs\language-learning-chatbot-MIU\app\index.php(44): registerDocumentRoutes('/documents/crea...', 'POST')
+#4 {main}
+  thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php on line 25
+[22-Dec-2025 17:06:59 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/create
+[22-Dec-2025 17:06:59 Europe/Berlin] PATH_INFO: /documents/create
+[22-Dec-2025 17:06:59 Europe/Berlin] Parsed request: /documents/create
+[22-Dec-2025 17:06:59 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Cannot add or update a child row: a foreign key constraint fails (`language_learning`.`documents`, CONSTRAINT `documents_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE) in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php:25
+Stack trace:
+#0 C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php(25): mysqli_query(Object(mysqli), 'INSERT INTO doc...')
+#1 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(14): createDocument(2, 'Untitled Docume...', '')
+#2 C:\xampp\htdocs\language-learning-chatbot-MIU\app\routes\document_routes.php(252): handle_createDocument()
+#3 C:\xampp\htdocs\language-learning-chatbot-MIU\app\index.php(44): registerDocumentRoutes('/documents/crea...', 'POST')
+#4 {main}
+  thrown in C:\xampp\htdocs\language-learning-chatbot-MIU\app\controllers\DocumentsController.php on line 25
+[22-Dec-2025 17:07:40 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/create
+[22-Dec-2025 17:07:40 Europe/Berlin] PATH_INFO: /documents/create
+[22-Dec-2025 17:07:40 Europe/Berlin] Parsed request: /documents/create
+[22-Dec-2025 17:07:40 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/7/suggestions
+[22-Dec-2025 17:07:40 Europe/Berlin] PATH_INFO: /documents/7/suggestions
+[22-Dec-2025 17:07:40 Europe/Berlin] Parsed request: /documents/7/suggestions
+[22-Dec-2025 17:07:53 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/7/ai-assistant
+[22-Dec-2025 17:07:53 Europe/Berlin] PATH_INFO: /documents/7/ai-assistant
+[22-Dec-2025 17:07:53 Europe/Berlin] Parsed request: /documents/7/ai-assistant
+[22-Dec-2025 17:08:05 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/7/ai-assistant
+[22-Dec-2025 17:08:05 Europe/Berlin] PATH_INFO: /documents/7/ai-assistant
+[22-Dec-2025 17:08:05 Europe/Berlin] Parsed request: /documents/7/ai-assistant
+[22-Dec-2025 17:08:25 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/7/ai-assistant
+[22-Dec-2025 17:08:25 Europe/Berlin] PATH_INFO: /documents/7/ai-assistant
+[22-Dec-2025 17:08:25 Europe/Berlin] Parsed request: /documents/7/ai-assistant
+[22-Dec-2025 17:08:38 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/7/ai-assistant
+[22-Dec-2025 17:08:39 Europe/Berlin] PATH_INFO: /documents/7/ai-assistant
+[22-Dec-2025 17:08:39 Europe/Berlin] Parsed request: /documents/7/ai-assistant
+[22-Dec-2025 17:09:09 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/7/update
+[22-Dec-2025 17:09:09 Europe/Berlin] PATH_INFO: /documents/7/update
+[22-Dec-2025 17:09:09 Europe/Berlin] Parsed request: /documents/7/update
+[22-Dec-2025 17:09:10 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/7/update
+[22-Dec-2025 17:09:10 Europe/Berlin] PATH_INFO: /documents/7/update
+[22-Dec-2025 17:09:10 Europe/Berlin] Parsed request: /documents/7/update
+[22-Dec-2025 17:09:11 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/7/update
+[22-Dec-2025 17:09:11 Europe/Berlin] PATH_INFO: /documents/7/update
+[22-Dec-2025 17:09:11 Europe/Berlin] Parsed request: /documents/7/update
+[22-Dec-2025 17:09:11 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/7/analyze
+[22-Dec-2025 17:09:11 Europe/Berlin] PATH_INFO: /documents/7/analyze
+[22-Dec-2025 17:09:11 Europe/Berlin] Parsed request: /documents/7/analyze
+[22-Dec-2025 17:09:13 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/7/suggestions
+[22-Dec-2025 17:09:13 Europe/Berlin] PATH_INFO: /documents/7/suggestions
+[22-Dec-2025 17:09:13 Europe/Berlin] Parsed request: /documents/7/suggestions
+[22-Dec-2025 17:09:16 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/suggestions/1/applySuggestion
+[22-Dec-2025 17:09:16 Europe/Berlin] PATH_INFO: /suggestions/1/applySuggestion
+[22-Dec-2025 17:09:16 Europe/Berlin] Parsed request: /suggestions/1/applySuggestion
+[22-Dec-2025 17:09:16 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/7
+[22-Dec-2025 17:09:16 Europe/Berlin] PATH_INFO: /documents/7
+[22-Dec-2025 17:09:16 Europe/Berlin] Parsed request: /documents/7
+[22-Dec-2025 17:09:16 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/7/update
+[22-Dec-2025 17:09:16 Europe/Berlin] PATH_INFO: /documents/7/update
+[22-Dec-2025 17:09:16 Europe/Berlin] Parsed request: /documents/7/update
+[22-Dec-2025 17:09:16 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/7/analyze
+[22-Dec-2025 17:09:16 Europe/Berlin] PATH_INFO: /documents/7/analyze
+[22-Dec-2025 17:09:16 Europe/Berlin] Parsed request: /documents/7/analyze
+[22-Dec-2025 17:09:19 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/7/suggestions
+[22-Dec-2025 17:09:19 Europe/Berlin] PATH_INFO: /documents/7/suggestions
+[22-Dec-2025 17:09:19 Europe/Berlin] Parsed request: /documents/7/suggestions
+[22-Dec-2025 17:09:22 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/suggestions/3/applySuggestion
+[22-Dec-2025 17:09:22 Europe/Berlin] PATH_INFO: /suggestions/3/applySuggestion
+[22-Dec-2025 17:09:22 Europe/Berlin] Parsed request: /suggestions/3/applySuggestion
+[22-Dec-2025 17:09:22 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/7
+[22-Dec-2025 17:09:22 Europe/Berlin] PATH_INFO: /documents/7
+[22-Dec-2025 17:09:22 Europe/Berlin] Parsed request: /documents/7
+[22-Dec-2025 17:09:23 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/7/update
+[22-Dec-2025 17:09:23 Europe/Berlin] PATH_INFO: /documents/7/update
+[22-Dec-2025 17:09:23 Europe/Berlin] Parsed request: /documents/7/update
+[22-Dec-2025 17:09:23 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/7/analyze
+[22-Dec-2025 17:09:23 Europe/Berlin] PATH_INFO: /documents/7/analyze
+[22-Dec-2025 17:09:23 Europe/Berlin] Parsed request: /documents/7/analyze
+[22-Dec-2025 17:09:25 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/7/suggestions
+[22-Dec-2025 17:09:25 Europe/Berlin] PATH_INFO: /documents/7/suggestions
+[22-Dec-2025 17:09:25 Europe/Berlin] Parsed request: /documents/7/suggestions
+[22-Dec-2025 17:09:40 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/7/update
+[22-Dec-2025 17:09:40 Europe/Berlin] PATH_INFO: /documents/7/update
+[22-Dec-2025 17:09:40 Europe/Berlin] Parsed request: /documents/7/update
+[22-Dec-2025 17:10:10 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/7/update
+[22-Dec-2025 17:10:10 Europe/Berlin] PATH_INFO: /documents/7/update
+[22-Dec-2025 17:10:10 Europe/Berlin] Parsed request: /documents/7/update
+[22-Dec-2025 17:10:40 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/7/update
+[22-Dec-2025 17:10:40 Europe/Berlin] PATH_INFO: /documents/7/update
+[22-Dec-2025 17:10:40 Europe/Berlin] Parsed request: /documents/7/update
