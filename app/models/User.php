@@ -19,6 +19,60 @@ class User implements AuthenticationInterface, UserRepositoryInterface {
     public function __construct($db) {
         $this->conn = $db;
     }
+    public function getUsersQuizAverages(): array {
+        $query = "
+            SELECT 
+                u.user_id,
+                u.name,
+                COUNT(q.id) AS quiz_count,
+                COALESCE(AVG(q.percent), 0) AS avg_percent
+            FROM " . $this->table_name . " u
+            LEFT JOIN quizzes q ON q.user_id = u.user_id
+            GROUP BY u.user_id, u.name
+            HAVING quiz_count > 0
+            ORDER BY avg_percent DESC
+        ";
+
+        $result = mysqli_query($this->conn, $query);
+
+        if ($result) {
+            return mysqli_fetch_all($result, MYSQLI_ASSOC);
+        }
+
+        return [];
+    }
+
+    /**
+     * Get overall quiz performance summary across all users.
+     * - overall_avg_percent: average of all quiz percentages
+     * - user_count_with_quizzes: number of users who took at least one quiz
+     */
+    public function getGlobalQuizPerformanceSummary(): array {
+        $summary = [
+            'overall_avg_percent' => 0,
+            'user_count_with_quizzes' => 0,
+            'total_quizzes' => 0
+        ];
+
+        // Overall average across all quizzes
+        $overallQuery = "SELECT COUNT(*) AS total_quizzes, COALESCE(AVG(percent), 0) AS avg_percent FROM quizzes";
+        $overallRes = mysqli_query($this->conn, $overallQuery);
+        if ($overallRes) {
+            $row = mysqli_fetch_assoc($overallRes);
+            $summary['overall_avg_percent'] = (float)$row['avg_percent'];
+            $summary['total_quizzes'] = (int)$row['total_quizzes'];
+        }
+
+        // Count distinct users with at least one quiz
+        $usersQuery = "SELECT COUNT(DISTINCT user_id) AS user_count FROM quizzes";
+        $usersRes = mysqli_query($this->conn, $usersQuery);
+        if ($usersRes) {
+            $row = mysqli_fetch_assoc($usersRes);
+            $summary['user_count_with_quizzes'] = (int)$row['user_count'];
+        }
+
+        return $summary;
+    }
     
     public function getAll(): array {
         $query = "SELECT user_id, name, email, role, status, created_at, updated_at 

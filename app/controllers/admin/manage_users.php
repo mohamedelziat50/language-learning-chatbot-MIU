@@ -18,6 +18,19 @@ class UserController {
         $userModel = new User($conn);
         return $userModel->getTotalCount();
     }
+        public static function getUsersQuizAverages() {
+        global $conn;
+
+        $userModel = new User($conn);
+        return $userModel->getUsersQuizAverages();
+    }
+
+    public static function getGlobalQuizPerformanceSummary() {
+        global $conn;
+
+        $userModel = new User($conn);
+        return $userModel->getGlobalQuizPerformanceSummary();
+    }
     
     public static function addUser() {
         global $conn;
