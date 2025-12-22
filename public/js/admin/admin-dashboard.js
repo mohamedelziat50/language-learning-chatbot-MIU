@@ -200,79 +200,33 @@ if (window.innerWidth <= 768) {
   });
 }
 
-// Common Queries functionality
-let queriesData = [
-  {
-    id: 1,
-    query: "How do I use 'there is' vs 'there are'?",
-    category: "Grammar",
-    timesAsked: 123,
-    trend: "increasing",
-    trendValue: 15,
-    suggestedAction: "Add to vocabulary quiz",
-    actionType: "vocabulary"
-  },
-  {
-    id: 2,
-    query: "Present perfect vs past simple confusion",
-    category: "Grammar",
-    timesAsked: 110,
-    trend: "decreasing",
-    trendValue: -8,
-    suggestedAction: "Add grammar exercise",
-    actionType: "grammar"
-  },
-  {
-    id: 3,
-    query: "Pronunciation of 'th' sounds",
-    category: "Pronunciation",
-    timesAsked: 89,
-    trend: "stable",
-    trendValue: 2,
-    suggestedAction: "Add pronunciation clip",
-    actionType: "pronunciation"
-  },
-  {
-    id: 4,
-    query: "Common mistakes with articles (a, an, the)",
-    category: "Grammar",
-    timesAsked: 76,
-    trend: "increasing",
-    trendValue: 12,
-    suggestedAction: "Create 'Common Mistakes' lesson",
-    actionType: "lesson"
-  },
-  {
-    id: 5,
-    query: "Speaking confidence and fluency",
-    category: "Speaking",
-    timesAsked: 65,
-    trend: "increasing",
-    trendValue: 18,
-    suggestedAction: "Add daily speaking challenge",
-    actionType: "challenge"
-  },
-  {
-    id: 6,
-    query: "Difference between 'much' and 'many'",
-    category: "Grammar",
-    timesAsked: 54,
-    trend: "stable",
-    trendValue: -1,
-    suggestedAction: "Add to vocabulary quiz",
-    actionType: "vocabulary"
-  },
-  {
-    id: 7,
-    query: "Past continuous tense usage",
-    category: "Grammar",
-    timesAsked: 48,
-    trend: "decreasing",
-    trendValue: -6,
-    suggestedAction: "Add grammar exercise",
-    actionType: "grammar"
+// Common Queries functionality - now fetched from database
+let queriesData = [];
+
+// Fetch queries from database
+async function fetchQueries(days = 30) {
+  try {
+    const resp = await fetch(`/language-learning-chatbot-MIU/app/controllers/admin/api.php/queries?limit=10`);
+    const data = await resp.json();
+    
+    if (data.status === 'success' && data.data.queries) {
+      queriesData = data.data.queries.map(q => ({
+        id: q.query_id,
+        query: q.query_text,
+        category: q.category,
+        timesAsked: parseInt(q.times_asked),
+        trend: q.trend_direction,
+        trendValue: parseFloat(q.trend_percentage),
+        suggestedAction: q.suggested_action,
+        actionType: q.action_type
+      }));
+      renderQueries(queriesData);
+    }
+  } catch (err) {
+    console.error('Failed to fetch queries', err);
   }
-];
+}
+
 
 function renderQueries(queries) {
   const queriesBody = document.getElementById('queriesList');
@@ -361,16 +315,16 @@ function sortQueries(column, direction = 'desc') {
 }
 
 function filterQueriesByTime(days) {
-  // Simulate filtering based on time period
-  // In a real app, this would make an API call
+  // Fetch fresh data from database based on time period
   console.log(`Filtering queries for last ${days} days`);
-  renderQueries(queriesData);
+  fetchQueries(days);
 }
+
 
 // Initialize Common Queries functionality
 document.addEventListener('DOMContentLoaded', () => {
-  // Render initial queries
-  renderQueries(queriesData);
+  // Fetch and render initial queries from database
+  fetchQueries();
 
   // Time filter functionality
   const timeFilter = document.getElementById('queriesTimeFilter');
@@ -387,9 +341,9 @@ document.addEventListener('DOMContentLoaded', () => {
       refreshBtn.style.transform = 'rotate(360deg)';
       setTimeout(() => {
         refreshBtn.style.transform = 'rotate(0deg)';
-        // Simulate data refresh
-        renderQueries(queriesData);
-        console.log('Queries refreshed');
+        // Fetch fresh data from database
+        fetchQueries();
+        console.log('Queries refreshed from database');
       }, 300);
     });
   }
