@@ -115,14 +115,14 @@
           <div class="language-tags">
             <div class="tag tag-native">
                 <span class="tag-label">Native:</span>
-                <span class="tag-value">English</span>
+                <span class="tag-value"><?php echo htmlspecialchars($nativeLanguageName); ?></span>
             </div>
             <div class="tag tag-learning">
                 <span class="tag-label">Learning:</span>
-                <span class="tag-value">Spanish</span>
+                <span class="tag-value"><?php echo htmlspecialchars($learningLanguageName); ?></span>
             </div>
             <div class="tag tag-intermediate">
-                <span class="tag-value">Intermediate</span>
+                <span class="tag-value"><?php echo htmlspecialchars($learningLanguageLevel); ?></span>
             </div>
           </div>
 
@@ -164,7 +164,7 @@
       </div>
           
       <div class="profile-actions">
-        <button class="btn btn-gradient">Edit Profile</button>
+        <button class="btn btn-gradient" id="editProfileBtn">Edit Profile</button>
         <button class="btn btn-ghost">Upload Avatar</button>
         <div class="theme-switch-wrapper">
             <label class="theme-switch" for="checkbox">
@@ -439,6 +439,48 @@
     </div>
 
   </main>
+
+  <!-- Edit Profile Modal -->
+  <div id="editProfileModal" class="modal" style="display: none;">
+    <div class="modal-content" style="max-width: 500px; margin: 100px auto; background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
+      <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <div>
+          <h2 style="margin: 0; color: #1a202c; font-size: 1.5rem;">Edit Profile</h2>
+          <p style="margin: 0.5rem 0 0 0; color: #718096; font-size: 0.875rem;">Update your personal information</p>
+        </div>
+        <button id="closeEditModal" style="background: none; border: none; font-size: 1.5rem; color: #718096; cursor: pointer; padding: 0; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 6px; transition: all 0.2s;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      
+      <form id="editProfileForm" style="display: flex; flex-direction: column; gap: 1.25rem;">
+        <input type="hidden" id="edit_user_id" name="user_id" value="<?php echo $userId; ?>">
+        
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <label for="edit_username" style="font-weight: 600; color: #2d3748; font-size: 0.875rem;">Username</label>
+          <input type="text" id="edit_username" name="username" value="<?php echo htmlspecialchars($userUsername); ?>" required 
+                 style="padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; transition: all 0.2s; outline: none;">
+        </div>
+        
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <label for="edit_email" style="font-weight: 600; color: #2d3748; font-size: 0.875rem;">Email Address</label>
+          <input type="email" id="edit_email" name="email" value="<?php echo htmlspecialchars($userEmail); ?>" required 
+                 style="padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; transition: all 0.2s; outline: none;">
+        </div>
+        
+        <div id="editMessage" style="display: none; padding: 0.75rem; border-radius: 8px; font-size: 0.875rem;"></div>
+        
+        <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+          <button type="button" id="cancelEditBtn" class="btn btn-ghost" style="flex: 1;">Cancel</button>
+          <button type="submit" class="btn btn-gradient" style="flex: 1;">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
  </div>
  <script src="/language-learning-chatbot-MIU/public/js/student/profile.js"></script>
  </body>
