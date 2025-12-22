@@ -13,23 +13,28 @@ document.addEventListener('DOMContentLoaded', function () {
   const addUserBtn = document.getElementById('addUserBtn');
   const searchInput = document.getElementById('searchUsers');
   const filterRole = document.getElementById('filterRole');
+  const filterStatus = document.getElementById('filterStatus');
   const usersTableBody = document.getElementById('usersTableBody');
   const userRows = document.querySelectorAll('.user-row');
+  const activeUsersCard = document.getElementById('activeUsersCard');
 
   // Search and Filter Functionality
   function filterUsers() {
     const searchTerm = searchInput.value.toLowerCase().trim();
     const roleFilter = filterRole.value;
+    const statusFilter = filterStatus.value;
 
     userRows.forEach(row => {
       const name = row.getAttribute('data-name') || '';
       const email = row.getAttribute('data-email') || '';
       const role = row.getAttribute('data-role') || '';
+      const status = row.getAttribute('data-status') || 'active';
 
       const matchesSearch = !searchTerm || name.includes(searchTerm) || email.includes(searchTerm);
       const matchesRole = roleFilter === 'all' || role === roleFilter;
+      const matchesStatus = statusFilter === 'all' || status === statusFilter;
 
-      if (matchesSearch && matchesRole) {
+      if (matchesSearch && matchesRole && matchesStatus) {
         row.classList.remove('hidden');
       } else {
         row.classList.add('hidden');
@@ -39,6 +44,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
   searchInput.addEventListener('input', filterUsers);
   filterRole.addEventListener('change', filterUsers);
+  filterStatus.addEventListener('change', filterUsers);
+
+  // Active Users Card Click Handler
+  if (activeUsersCard) {
+    activeUsersCard.addEventListener('click', function() {
+      // Set status filter to 'active'
+      filterStatus.value = 'active';
+      // Trigger filtering
+      filterUsers();
+      // Scroll to table
+      document.querySelector('.users-table-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
 
   // Add User Button
   if (addUserBtn) {
@@ -76,12 +94,25 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         body: formData
       })
-        .then(response => response.json())
-        .then(data => {
-          if (data.status === 'success') {
-            window.location.reload();
-          } else {
-            alert(data.message || 'Failed to create user. Please try again.');
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.text();
+        })
+        .then(text => {
+          console.log('Raw response:', text);
+          try {
+            const data = JSON.parse(text);
+            if (data.status === 'success') {
+              window.location.reload();
+            } else {
+              alert(data.message || 'Failed to create user. Please try again.');
+            }
+          } catch (e) {
+            console.error('JSON parse error:', e);
+            console.error('Response text:', text);
+            alert('Server response error. Please check console for details.');
           }
         })
         .catch(error => {
@@ -171,12 +202,25 @@ document.addEventListener('DOMContentLoaded', function () {
       },
       body: formData
     })
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === 'success' || data.success === true) {
-          window.location.reload();
-        } else {
-          alert(data.message || data.error || 'Failed to update user. Please try again.');
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text();
+      })
+      .then(text => {
+        console.log('Raw response:', text);
+        try {
+          const data = JSON.parse(text);
+          if (data.status === 'success' || data.success === true) {
+            window.location.reload();
+          } else {
+            alert(data.message || data.error || 'Failed to update user. Please try again.');
+          }
+        } catch (e) {
+          console.error('JSON parse error:', e);
+          console.error('Response text:', text);
+          alert('Server response error. Please check console for details.');
         }
       })
       .catch(error => {
