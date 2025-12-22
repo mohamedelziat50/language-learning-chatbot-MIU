@@ -107,7 +107,7 @@ ob_end_clean();
             <h3 class="stat-value"><?php echo count(array_filter($users, fn($u) => $u['role'] === 'student')); ?></h3>
           </div>
         </div>
-        <div class="user-stat-card">
+        <div class="user-stat-card clickable" id="activeUsersCard" data-filter="active">
           <div class="stat-icon-wrapper active">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
@@ -115,7 +115,7 @@ ob_end_clean();
           </div>
           <div class="stat-content-wrapper">
             <p class="stat-label">Active Users</p>
-            <h3 class="stat-value"><?php echo count($users); ?></h3>
+            <h3 class="stat-value"><?php echo count(array_filter($users, fn($u) => ($u['status'] ?? 'active') === 'active')); ?></h3>
           </div>
         </div>
       </div>
@@ -138,6 +138,11 @@ ob_end_clean();
               <option value="all">All Roles</option>
               <option value="admin">Admin</option>
               <option value="student">Student</option>
+            </select>
+            <select id="filterStatus" class="role-filter">
+              <option value="all">All Status</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
             </select>
           </div>
         </div>
@@ -199,7 +204,7 @@ ob_end_clean();
                 </tr>
               <?php else: ?>
                 <?php foreach ($users as $user): ?>
-                  <tr class="user-row" data-role="<?php echo htmlspecialchars($user['role']); ?>" data-name="<?php echo htmlspecialchars(strtolower($user['name'])); ?>" data-email="<?php echo htmlspecialchars(strtolower($user['email'])); ?>">
+                  <tr class="user-row" data-role="<?php echo htmlspecialchars($user['role']); ?>" data-status="<?php echo htmlspecialchars($user['status'] ?? 'active'); ?>" data-name="<?php echo htmlspecialchars(strtolower($user['name'])); ?>" data-email="<?php echo htmlspecialchars(strtolower($user['email'])); ?>">
                     <td>
                       <div class="user-cell">
                         <div class="avatar-wrapper">
@@ -249,12 +254,6 @@ ob_end_clean();
                     </td>
                     <td>
                       <div class="action-buttons">
-                        <button class="action-btn view-btn" title="View details" data-user-id="<?php echo $user['user_id']; ?>" data-action="view">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                          </svg>
-                        </button>
                         <button class="action-btn edit-btn" title="Edit user" data-user-id="<?php echo $user['user_id']; ?>" data-action="edit" 
                                 data-user-name="<?php echo htmlspecialchars($user['name']); ?>"
                                 data-user-email="<?php echo htmlspecialchars($user['email']); ?>"

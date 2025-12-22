@@ -15,13 +15,21 @@
   align-items: center;
   gap: 1rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .user-stat-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   border-color: var(--color-primary);
+}
+
+.user-stat-card.clickable {
+  cursor: pointer;
+}
+
+.user-stat-card.clickable:active {
+  transform: translateY(-2px);
 }
 
 .stat-icon-wrapper {
@@ -378,8 +386,13 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
@@ -387,6 +400,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -543,4 +557,3 @@
     margin: 1rem;
   }
 }
-
