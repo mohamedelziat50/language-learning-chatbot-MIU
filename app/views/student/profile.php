@@ -10,17 +10,13 @@
 <body>
 <?php
   if (session_status() === PHP_SESSION_NONE) { session_start(); }
-  require_once __DIR__ . '/../../../config/load_env.php';
+  require_once __DIR__ . '/../../../config/db_connect.php';
   require_once __DIR__ . '/../../services/BadgeService.php';
 
   $unlockedBadges = [];
     $profileTier = null;
   if (isset($_SESSION['user_id'])) {
-      $db_server = getenv('DB_SERVER');
-      $db_user = getenv('DB_USER');
-      $db_pass = getenv('DB_PASS');
-      $db_name = getenv('DB_NAME');
-      $conn = @mysqli_connect($db_server, $db_user, $db_pass, $db_name);
+      // Database connection is available via $conn from db_connect.php
       if ($conn) {
           $badgeSvc = new BadgeService($conn, intval($_SESSION['user_id']));
           $unlockedBadges = $badgeSvc->evaluateCurrent();
