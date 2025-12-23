@@ -56,10 +56,11 @@
       <img src="/language-learning-chatbot-MIU/public/images/learning.png" alt="Newsletter Background">
       <h2>Subscribe to our Newsletter</h2>
       <p>Stay updated with our latest news and updates.</p>
-      <form class="newsletter-form">
-        <input type="email" placeholder="Enter your email" required>
+      <form id="newsletterForm" class="newsletter-form">
+        <input type="email" id="newsletterEmail" placeholder="Enter your email" required>
         <button type="submit">Subscribe</button>
       </form>
+      <div id="newsletterMsg"></div>
     </div>
 
 
