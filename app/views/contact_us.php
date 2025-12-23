@@ -30,7 +30,7 @@
       <!-- Contact Form -->
       <div class="contact-form">
         <h2>Get in Touch</h2>
-        <form>
+        <form id="contact-form">
           <div class="form-group">
             <label for="name">Full Name</label>
             <input type="text" id="name" name="name" placeholder="Your Name" required>
@@ -46,7 +46,7 @@
             <textarea id="message" name="message" rows="5" placeholder="Write your message here..." required></textarea>
           </div>
 
-          <button type="submit" class="submit-btn">Send Message</button>
+          <button type="submit" id="submit-btn" class="submit-btn">Send Message</button>
         </form>
       </div>
 
@@ -109,11 +109,13 @@
     </div>
   </section>
   
-<?php include __DIR__ . '/partials/footer.php'; ?>
+  <?php include __DIR__ . '/partials/footer.php'; ?>
 <?php include __DIR__ . '/partials/auth_popup.php'; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="/language-learning-chatbot-MIU/public/js/home_page/home_page.js"></script>
+<script src="/language-learning-chatbot-MIU/public/js/home_page/contact_us.js"></script>
 
 </body>
 </html>
