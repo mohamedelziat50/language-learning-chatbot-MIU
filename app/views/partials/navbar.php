@@ -17,9 +17,7 @@
 
             <div class="nav-links">
                 <a href="#features" class="transition">Features</a>
-                <a href="#" class="transition">Pricing</a>
-                <a href="#" class="transition" style="display: flex; align-items: center;">Resources
-                    <svg style="width: 1rem; height: 1rem; margin-left: 0.25rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            
                 </a>
             </div>
         </div>
