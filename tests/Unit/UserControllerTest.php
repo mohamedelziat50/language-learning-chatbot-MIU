@@ -62,6 +62,8 @@ class UserControllerTest extends TestCase
         $_POST = ['name' => 'Test'];
         $result = UserController::addUser();
         $this->assertEquals('error', $result['status']);
-        $this->assertEquals('Missing required fields', $result['message']);
+        // The validator returns specific error messages for each missing field
+        $this->assertStringContainsString('Email is required', $result['message']);
+        $this->assertStringContainsString('Password is required', $result['message']);
     }
 }

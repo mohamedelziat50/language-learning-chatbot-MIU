@@ -453,3 +453,12 @@ Stack trace:
 [22-Dec-2025 18:09:28 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/addUser
 [22-Dec-2025 18:09:28 Europe/Berlin] PATH_INFO: /addUser
 [22-Dec-2025 18:09:28 Europe/Berlin] Parsed request: /addUser
+[23-Dec-2025 11:45:53 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/create
+[23-Dec-2025 11:45:53 Europe/Berlin] PATH_INFO: /documents/create
+[23-Dec-2025 11:45:53 Europe/Berlin] Parsed request: /documents/create
+[23-Dec-2025 11:45:54 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/2/suggestions
+[23-Dec-2025 11:45:54 Europe/Berlin] PATH_INFO: /documents/2/suggestions
+[23-Dec-2025 11:45:54 Europe/Berlin] Parsed request: /documents/2/suggestions
+[23-Dec-2025 11:45:59 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/documents/2/update
+[23-Dec-2025 11:45:59 Europe/Berlin] PATH_INFO: /documents/2/update
+[23-Dec-2025 11:45:59 Europe/Berlin] Parsed request: /documents/2/update

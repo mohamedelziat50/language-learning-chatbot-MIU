@@ -16,8 +16,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             <a href="/language-learning-chatbot-MIU/app/views/student/docs.php"<?php if ($currentPage == 'docs.php') echo ' class="active"'; ?>><i class="fas fa-file-alt"></i> Documents</a>
             <a href="/language-learning-chatbot-MIU/app/views/student/quiz.php"<?php if ($currentPage == 'quiz.php') echo ' class="active"'; ?>><i class="fas fa-question-circle"></i> Quiz</a>
             <a href="/language-learning-chatbot-MIU/app/views/student/Languages/language.php" <?php if ($currentPage == 'language.php') echo 'class="active"'; ?>><i class="fas fa-book"></i> Languages</a>
-            <a href="#"<?php if ($currentPage == 'chatbot.php') echo ' class="active"'; ?>><i class="fas fa-robot"></i> Chatbot</a>
-            <a href="#"<?php if ($currentPage == 'discussion.php') echo ' class="active"'; ?>><i class="fas fa-comments"></i> Discussion</a>
+           
         </div>
         <div class="bottom-links">
             <a href="/language-learning-chatbot-MIU/app/views/student/profile.php"<?php if ($currentPage == 'profile.php') echo ' class="active"'; ?>><i class="fas fa-user"></i> Profile</a>
