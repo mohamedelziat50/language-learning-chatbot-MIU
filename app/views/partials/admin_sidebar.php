@@ -5,7 +5,9 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
 <div class="sidebar">
     <div class="logo">
-        <span class="logo-text">Admin<span class="bot-text">Dashboard</span></span>
+        <a href="/language-learning-chatbot-MIU/index.php" class="logo-text" style="text-decoration:none;color:inherit;">
+            Admin<span class="bot-text">Dashboard</span>
+        </a>
     </div>
     <nav id="sidebar-nav">
         <div class="top-links">

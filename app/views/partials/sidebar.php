@@ -8,7 +8,9 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         <svg class="logo-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h4l4 4 4-4h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
         </svg>
-        <span class="logo-text">Lingua<span class="bot-text">Bot</span></span>
+            <a href="/language-learning-chatbot-MIU/index.php" class="logo-text" style="text-decoration:none;color:inherit;">
+                Lingua<span class="bot-text">Bot</span>
+            </a>
     </div>
     <nav id="sidebar-nav">
         <div class="top-links">
@@ -16,8 +18,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             <a href="/language-learning-chatbot-MIU/app/views/student/docs.php"<?php if ($currentPage == 'docs.php') echo ' class="active"'; ?>><i class="fas fa-file-alt"></i> Documents</a>
             <a href="/language-learning-chatbot-MIU/app/views/student/quiz.php"<?php if ($currentPage == 'quiz.php') echo ' class="active"'; ?>><i class="fas fa-question-circle"></i> Quiz</a>
             <a href="/language-learning-chatbot-MIU/app/views/student/Languages/language.php" <?php if ($currentPage == 'language.php') echo 'class="active"'; ?>><i class="fas fa-book"></i> Languages</a>
-            <a href="#"<?php if ($currentPage == 'chatbot.php') echo ' class="active"'; ?>><i class="fas fa-robot"></i> Chatbot</a>
-            <a href="#"<?php if ($currentPage == 'discussion.php') echo ' class="active"'; ?>><i class="fas fa-comments"></i> Discussion</a>
+        
         </div>
         <div class="bottom-links">
             <a href="/language-learning-chatbot-MIU/app/views/student/profile.php"<?php if ($currentPage == 'profile.php') echo ' class="active"'; ?>><i class="fas fa-user"></i> Profile</a>

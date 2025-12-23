@@ -4,10 +4,14 @@
         <div style="display: flex; align-items: center; gap: 2.5rem;">
             <div class="logo-container">
                 <div class="logo-text">
+                  
+                    </svg>
+                    <a href="/language-learning-chatbot-MIU/index.php" class="logo-text" style="display:flex;align-items:center;gap:0.5rem;text-decoration:none;color:inherit;">
                     <svg class="logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h10m-7 4h7a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                     </svg>
-                    Lingua<span>Bot</span>
+                    <span>Lingua</span><span style="font-weight:700;">Bot</span>
+                </a>
                 </div>
             </div>
 
