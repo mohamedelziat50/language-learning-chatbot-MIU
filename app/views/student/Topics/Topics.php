@@ -62,8 +62,10 @@ $langUrl = urlencode($lang);
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                <i class="fas fa-globe-americas"></i>
-                <span>LinguaLearn</span>
+                <a href="/language-learning-chatbot-MIU/index.php" class="logo-link" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.5rem;">
+                    <i class="fas fa-globe-americas"></i>
+                    <span>Lingua<span style="font-weight:700;">Bot</span></span>
+                </a>
             </div>
 
             <ul class="nav-menu">
@@ -83,7 +85,6 @@ $langUrl = urlencode($lang);
                 </li>
                 <li><a href="/language-learning-chatbot-MIU/app/views/student/dashboard.php" class="nav-link"><i class="fas fa-home"></i> Dashboard</a></li>
                 <li><a href="/language-learning-chatbot-MIU/app/views/student/Dictionary/dictionary.php" class="nav-link"><i class="fas fa-book"></i> Dictionary</a></li>
-                <li><a href="/language-learning-chatbot-MIU/app/views/student/progress.php" class="nav-link"><i class="fas fa-chart-line"></i> My Progress</a></li>
                 <li><a href="/language-learning-chatbot-MIU/app/views/student/profile.php" class="nav-link"><i class="fas fa-user"></i> Profile</a></li>
             </ul>
         </div>
