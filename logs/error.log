@@ -453,3 +453,24 @@ Stack trace:
 [22-Dec-2025 18:09:28 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/addUser
 [22-Dec-2025 18:09:28 Europe/Berlin] PATH_INFO: /addUser
 [22-Dec-2025 18:09:28 Europe/Berlin] Parsed request: /addUser
+[22-Dec-2025 20:17:13 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/addUser
+[22-Dec-2025 20:17:13 Europe/Berlin] PATH_INFO: /addUser
+[22-Dec-2025 20:17:13 Europe/Berlin] Parsed request: /addUser
+[22-Dec-2025 20:17:24 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/updateUser
+[22-Dec-2025 20:17:24 Europe/Berlin] PATH_INFO: /updateUser
+[22-Dec-2025 20:17:24 Europe/Berlin] Parsed request: /updateUser
+[22-Dec-2025 20:17:28 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/deleteUser
+[22-Dec-2025 20:17:28 Europe/Berlin] PATH_INFO: /deleteUser
+[22-Dec-2025 20:17:28 Europe/Berlin] Parsed request: /deleteUser
+[22-Dec-2025 20:33:02 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/addUser
+[22-Dec-2025 20:33:02 Europe/Berlin] PATH_INFO: /addUser
+[22-Dec-2025 20:33:02 Europe/Berlin] Parsed request: /addUser
+[22-Dec-2025 20:33:11 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/updateUser
+[22-Dec-2025 20:33:11 Europe/Berlin] PATH_INFO: /updateUser
+[22-Dec-2025 20:33:11 Europe/Berlin] Parsed request: /updateUser
+[22-Dec-2025 20:33:58 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/addUser
+[22-Dec-2025 20:33:58 Europe/Berlin] PATH_INFO: /addUser
+[22-Dec-2025 20:33:58 Europe/Berlin] Parsed request: /addUser
+[22-Dec-2025 21:59:18 Europe/Berlin] Request URI: /language-learning-chatbot-MIU/app/index.php/addUser
+[22-Dec-2025 21:59:18 Europe/Berlin] PATH_INFO: /addUser
+[22-Dec-2025 21:59:18 Europe/Berlin] Parsed request: /addUser
